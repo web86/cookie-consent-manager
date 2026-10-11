@@ -10,6 +10,9 @@
   const version = root.dataset.ccPolicyVersion || '1';
   const ttlDays = Math.max(1, Number(root.dataset.ccTtlDays) || 90);
   const mode = root.dataset.ccMode === 'mock' ? 'mock' : 'live';
+  const auditUrl = root.dataset.ccAuditUrl || '';
+  // Avoid sending event data to a third-party endpoint, even if HTML is misconfigured.
+  const auditEnabled = /^\/(?!\/)/.test(auditUrl);
   const main = root.querySelector('[data-cc-panel="main"]');
   const settings = root.querySelector('[data-cc-panel="settings"]');
   const analyticsInput = root.querySelector('[data-cc-category="analytics"]');
@@ -17,6 +20,47 @@
   const settingsHeading = root.querySelector('#cookie-settings-title');
   let consent = null;
   let hideTimer = null;
+  let consentId = null;
+  let auditQueue = Promise.resolve();
+
+  function newUuid() {
+    if (!window.crypto || !window.crypto.getRandomValues) return null;
+    const bytes = new Uint8Array(16);
+    window.crypto.getRandomValues(bytes);
+    bytes[6] = (bytes[6] & 0x0f) | 0x40;
+    bytes[8] = (bytes[8] & 0x3f) | 0x80;
+    const hex = Array.from(bytes, b => b.toString(16).padStart(2, '0')).join('');
+    return [hex.slice(0,8),hex.slice(8,12),hex.slice(12,16),hex.slice(16,20),hex.slice(20)].join('-');
+  }
+
+  const isUuid = value => typeof value === 'string' &&
+    /^[a-f0-9]{8}-[a-f0-9]{4}-4[a-f0-9]{3}-[89ab][a-f0-9]{3}-[a-f0-9]{12}$/.test(value);
+
+  function deliverAudit(details) {
+    if (!auditEnabled || typeof fetch !== 'function') return Promise.resolve(false);
+    return fetch(auditUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(details),
+      credentials: 'same-origin',
+      mode: 'same-origin',
+      cache: 'no-store',
+      keepalive: true
+    }).then(response => {
+      if (!response.ok) throw new Error('HTTP ' + response.status);
+      window.dispatchEvent(new CustomEvent('web86:consent-audit-delivery', {
+        detail: { event_id: details.event_id, ok: true }
+      }));
+      return true;
+    }).catch(error => {
+      console.warn('[Cookie Consent] audit delivery failed:', error.message);
+      window.dispatchEvent(new CustomEvent('web86:consent-audit-delivery', {
+        detail: { event_id: details.event_id, ok: false }
+      }));
+      return false;
+    });
+  }
+
 
   function getStorage() {
     try { return window.localStorage; }
@@ -54,6 +98,8 @@
 
   function emitAudit(event, extra = {}) {
     const details = {
+      event_id: newUuid(),
+      consent_id: consentId,
       event,
       stage: extra.stage || 'draft',
       analytics: typeof extra.analytics === 'boolean' ? extra.analytics : analyticsInput.checked,
@@ -64,8 +110,14 @@
     };
     window.dispatchEvent(new CustomEvent('web86:consent-audit', { detail: details }));
     if (mode === 'mock') console.info('[MOCK consent audit]', details);
-    // TODO: connect a same-origin PHP receiver backed by ConsentAuditLogger.
-    // UI events (draft) and final saved choices must be logged distinctly.
+    if (!details.event_id || !details.consent_id) {
+      console.warn('[Cookie Consent] secure random ID unavailable; audit not sent');
+      return Promise.resolve(false);
+    }
+    // Preserve order of draft checkbox clicks and the final Save/Accept action.
+    // A failed delivery never blocks subsequent events.
+    auditQueue = auditQueue.then(() => deliverAudit(details), () => deliverAudit(details));
+    return auditQueue;
   }
 
   function applyConsent(value) {
@@ -104,11 +156,12 @@
       necessary: true,
       analytics: Boolean(analytics),
       marketing: Boolean(marketing),
-      savedAt: Date.now()
+      savedAt: Date.now(),
+      consentId
     };
     const persisted = saveConsent(value);
     consent = value;
-    emitAudit(action, { stage: 'committed', analytics: value.analytics, marketing: value.marketing });
+    const auditDelivery = emitAudit(action, { stage: 'committed', analytics: value.analytics, marketing: value.marketing });
     hideBanner();
 
     const revoked = previous &&
@@ -120,7 +173,9 @@
       if (!persisted) {
         console.warn('[Cookie Consent] preference not persisted; reload may re-show the banner');
       }
-      location.reload();
+      // Allow server acknowledgement before page reload; never block revocation indefinitely.
+      Promise.race([auditDelivery, new Promise(resolve => setTimeout(resolve, 900))])
+        .finally(() => location.reload());
       return;
     }
     applyConsent(value);
@@ -188,6 +243,7 @@
     });
 
     consent = readConsent();
+    consentId = consent && isUuid(consent.consentId) ? consent.consentId : newUuid();
     if (consent) applyConsent(consent);
     else showBanner();
   }
