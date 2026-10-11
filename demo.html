@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Cookie Consent Manager — MOCK sandbox</title>
+  <link rel="stylesheet" href="assets/css/cookie-consent.css">
+  <style>
+    body{font-family:system-ui,Arial,sans-serif;margin:0;background:#f5f6f9;color:#1d2836}
+    main{max-width:860px;margin:56px auto;padding:0 20px 230px}
+    .test-card{background:#fff;border:1px solid #e1e5eb;border-radius:12px;padding:22px;margin:16px 0}
+    button.demo{padding:10px 14px;border-radius:6px;border:1px solid #bac2ca;background:#fff;cursor:pointer}
+    #audit-output{white-space:pre-wrap;font-family:ui-monospace,monospace;font-size:12px;max-height:290px;overflow:auto}
+    .status{font-family:ui-monospace,monospace;font-size:13px}
+  </style>
+  <script>
+    window.addEventListener('web86:consent-audit', function (e) {
+      const output = document.getElementById('audit-output');
+      if (output) output.textContent = JSON.stringify(e.detail) + '\n' + output.textContent;
+    });
+    window.addEventListener('web86:mock-script-loaded', function (e) {
+      const output = document.getElementById('scripts-output');
+      if (output) output.insertAdjacentHTML('beforeend', '<li>' + e.detail.service + ' loaded</li>');
+    });
+    window.addEventListener('web86:mock-clientid-ready', function (e) {
+      const output = document.getElementById('clientid-output');
+      if (output) output.textContent = e.detail.clientID;
+    });
+  </script>
+  <!-- Порядок важен: сами адаптеры не загружают статистику! -->
+  <script src="assets/js/cookie-consent/analytics.js" defer></script>
+  <script src="assets/js/cookie-consent/marketing.js" defer></script>
+  <script src="assets/js/cookie-consent/consent-manager.js" defer></script>
+</head>
+<body>
+  <main>
+    <h1>Тестовый стенд Cookie Consent Manager</h1>
+    <p>Безопасный режим <code>mock</code>: никаких запросов к Yandex, Mail.Ru, Bitrix24 и рекламным платформам. Фейковые скрипты должны появиться в Network <strong>только после согласия</strong>.</p>
+    <div class="test-card">
+      <h2>Управление тестом</h2>
+      <p><button class="demo" type="button" data-cookie-settings-open>Открыть настройки cookie</button> <button class="demo" id="reset-consent" type="button">Сбросить тестовый выбор и обновить страницу</button></p>
+      <p><strong>Тестовый ClientID:</strong> <span id="clientid-output" class="status">—</span></p>
+      <input type="hidden" id="clientid" data-clientid="">
+      <p>В настоящем сайте в DOM остаётся ваш обычный элемент <code>#clientid</code>.</p>
+    </div>
+    <div class="test-card">
+      <h2>Загруженные MOCK-скрипты</h2>
+      <ul id="scripts-output"></ul>
+      <p>Подсказка: открой DevTools → Network → JS, включи Disable cache и перезагрузи страницу.</p>
+    </div>
+    <div class="test-card">
+      <h2>Аудит событий в браузере</h2>
+      <div id="audit-output">Событий пока нет.</div>
+      <p><small>Пока только браузерные события. Серверный PHP-аудит подключается отдельно.</small></p>
+    </div>
+  </main>
+  <script>
+    document.getElementById('reset-consent').addEventListener('click', function () {
+      window.web86CookieConsent.resetForTesting();
+    });
+  </script>
+<!-- На тестовом сайте используйте data-cc-mode="mock"; на рабочем — "live". -->
+<div id="cookie-block"
+     class="cookie-warning closed done"
+     role="region"
+     aria-label="Управление файлами cookie"
+     data-cc-mode="mock"
+     data-cc-policy-version="1"
+     data-cc-ttl-days="90"
+     data-cc-show-configure="1"
+     data-cc-show-reject="1"
+     data-cc-show-accept-all="1"
+     data-cc-show-accept="0">
+  <div class="cookie-warning-content">
+    <div class="cookie-warning-2" data-cc-panel="main">
+      <div class="cookie-warning-text">
+        Мы используем необходимые cookie для работы сайта. Аналитические и маркетинговые
+        cookie используются только с вашего согласия. Подробнее — в
+        <a href="/soglasie" target="_blank" rel="noopener noreferrer">согласии</a>
+        и <a href="/pkd" target="_blank" rel="noopener noreferrer">политике обработки данных</a>.
+      </div>
+      <div class="cookie-warning-buttons">
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="reject">Отклонить</button>
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="configure">Настроить</button>
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept-all">Принять все</button>
+        <!-- Совместимость с прежним сценарием: отдельная включаемая кнопка. -->
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept" hidden>Принять</button>
+      </div>
+    </div>
+
+    <section class="cookie-warning-settings" data-cc-panel="settings" aria-labelledby="cookie-settings-title" hidden>
+      <h2 id="cookie-settings-title" tabindex="-1">Настройки файлов cookie</h2>
+      <p>Выберите, для каких целей сайт может использовать необязательные cookie.</p>
+
+      <label class="cookie-option">
+        <span class="cookie-option__text">
+          <strong>Необходимые файлы cookie</strong>
+          <small>Нужны для работы сайта. Всегда включены.</small>
+        </span>
+        <input type="checkbox" checked disabled aria-label="Необходимые файлы cookie, всегда включены">
+      </label>
+
+      <label class="cookie-option">
+        <span class="cookie-option__text">
+          <strong>Аналитические файлы cookie</strong>
+          <small>Яндекс.Метрика, ClientID для Bitrix24, Top.Mail.Ru.</small>
+        </span>
+        <input type="checkbox" data-cc-category="analytics">
+      </label>
+
+      <label class="cookie-option">
+        <span class="cookie-option__text">
+          <strong>Маркетинговые файлы cookie</strong>
+          <small>Сейчас маркетинговые пиксели не подключены.</small>
+        </span>
+        <input type="checkbox" data-cc-category="marketing">
+      </label>
+
+      <div class="cookie-warning-settings__buttons">
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="back">Назад</button>
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="save">Сохранить настройки</button>
+      </div>
+    </section>
+  </div>
+</div>
+
+</body>
+</html>
