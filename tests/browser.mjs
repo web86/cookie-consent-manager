@@ -179,7 +179,10 @@ try {
   });
 } finally { setting('cookie_consent.services', JSON.stringify(registry)); }
 // Exhaustive allow/deny powerset of all eight enabled service permissions.
-for (let mask = 0; mask < 256; mask++) await suite(`providers-${mask.toString().padStart(3, '0')}`, async ({ page, requests }) => {
+// Independent browser contexts/permissions/events: bounded concurrency, no setting mutations.
+for(let start=0;start<256;start+=4)await Promise.all(Array.from({length:Math.min(4,256-start)},(_,offset)=>{
+  const mask=start+offset;
+  return suite(`providers-${mask.toString().padStart(3, '0')}`, async ({ page, requests }) => {
   await page.locator('[data-cc-action="configure"]').click();
   const selected = registry.services.filter((service, i) => mask & (1 << i));
   await page.evaluate(keys=>{const ss=web86Providers.services;const selected=ss.filter(s=>keys.includes(s.key));localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:selected.some(s=>s.category==='analytics'),marketing:selected.some(s=>s.category==='marketing'),external_content:selected.some(s=>s.category==='external_content'),providers:Object.fromEntries(selected.map(s=>[s.key,s.fingerprint])),savedAt:Date.now(),consentId:crypto.randomUUID()}));},selected.map(s=>s.key));requests.length=0;await page.reload({waitUntil:'networkidle'});await page.locator('[data-cc-action=configure]').click();equal(await page.locator('[data-cc-provider]').count(),0);
@@ -196,6 +199,7 @@ for (let mask = 0; mask < 256; mask++) await suite(`providers-${mask.toString().
   equal(loads(requests), expected.sort(), 'Exact provider powerset network');
   equal(Object.keys(await page.evaluate(() => window.web86CookieConsent.getConsent().providers)).sort(), selected.map(s => s.key).sort(), 'Only selected permission keys');
 });
+}));
 await browser.close();
 const failed = results.filter(r => r.result === 'FAIL');
 evidence('browser-results', { suite: 'Playwright Chromium / real MODX 2.8.8', assertions, tests: results.length, failed: failed.length, results });

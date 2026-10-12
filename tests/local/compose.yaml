@@ -24,7 +24,7 @@ services:
       - ../../.local/private:/opt/cc-private
       - ../../:/opt/cc-source:ro
     environment:
-      COOKIE_CONSENT_LOCAL_PROBE: '1'
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?Run prepare first}
       COOKIE_CONSENT_AUDIT_CONFIG: /opt/cc-private/config.php
 volumes:

@@ -70,8 +70,11 @@ try {
     check(php('echo file_get_contents("/opt/cc-private/logs/2020-01-cookie-consent.log");'), 'archive-sentinel\n');
     check(php('echo is_file("/opt/cc-private/logs-new/".gmdate("Y-m")."-cookie-consent.log")?"yes":"no";'), 'yes');
   });
+  await test('webroot-path-without-HTTP-protection',async()=>{
+    const path='/var/www/html/logs/http-acceptance';php('if(!is_dir($argv[1]))mkdir($argv[1],0755,true);chown($argv[1],"www-data");',path);setting('cookie_consent.log_dir',path);check((await request()).status,200);check(php('echo is_file($argv[1]."/".gmdate("Y-m")."-cookie-consent.log")&&!file_exists($argv[1]."/.htaccess")?"yes":"no";',path),'yes');
+  });
   for (const [name, path] of [
-    ['relative-path', 'relative/logs'], ['public-path', '/var/www/html/assets'], ['missing-path', '/opt/cc-private/does-not-exist'],
+    ['relative-path', 'relative/logs'], ['document-root', '/var/www/html'], ['missing-path', '/opt/cc-private/does-not-exist'],
     ['traversal-path', '/opt/cc-private/logs/../logs'], ['empty-path', ''],
   ]) await test(name, async () => { setting('cookie_consent.log_dir', path); check((await request()).status, 503); });
   await test('symlink-directory', async () => {

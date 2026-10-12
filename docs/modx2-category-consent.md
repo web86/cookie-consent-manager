@@ -1,20 +1,26 @@
-# Beta13: журнал и согласие по категориям
+# Beta15: журнал и согласие по категориям
 
 Основа: 80f30ac, отдельная feature/modx2-category-consent-audit. Beta7 не перезаписывается. Native install/upgrade/uninstall без Setup Options, собственного lifecycle ledger или полного rollback.
 
 ## Обновление
 
-Backup DB (включая private queue options), core/assets, canonical elements, private config и все JSONL. Проверить SHA нового beta13 ZIP и установить через MODX Package Manager. Settings/элементы/props/переводы/consent IDs/журналы сохраняются; native file vehicles заменяют runtime. Canonical пользовательские чанки/сниппеты не перезаписываются. Новые stock *_package_0_1_0_beta13 сравнивать и применять явно, только если требуется. Техническая инструкция убрана из обычной формы. Шаблоны installer не изменяет, основной API остаётся [[!CookieConsent]], карты — CookieConsentMap.
+Backup DB (включая private queue options), core/assets, canonical elements, private config и все JSONL. Проверить SHA нового beta15 ZIP и установить через MODX Package Manager. Settings/элементы/props/переводы/consent IDs/журналы сохраняются; native file vehicles заменяют runtime. Canonical пользовательские чанки/сниппеты не перезаписываются. Новые stock *_package_0_1_0_beta15 сравнивать и применять явно, только если требуется. Техническая инструкция убрана из обычной формы. Шаблоны installer не изменяет, основной API остаётся [[!CookieConsent]], карты — CookieConsentMap.
 
 ## Журнал
 
 Вся конфигурация — вкладка «Журнал». Выбрать **внутри сайта** и ввести /logs/cookies/ (либо logs/cookies), либо **абсолютный приватный путь**. Внутренний путь разрешается относительно настоящего DOCUMENT_ROOT, хранится канонический filesystem path. Каталог должен существовать и быть PHP-writable. Нет автоматического выбора между filesystem path и URL: mode выбирается явно; старые абсолютные значения совместимы.
 
-«Проверить и включить журнал» проверяет revision/path → сохраняет существующие administrator .htaccess rules или создаёт deny rule, если файла нет → проверяет реальный HTTP 403 → setup HMAC/origin/rate → сохраняет только каталог → реальный POST/проверка JSONL. Другие черновики формы не сохраняются этой операцией. Проверочная запись остаётся. При POST failure previous directory восстанавливается с revision guard; при concurrent conflict сообщается отдельная причина. Ключ и записанные события не удаляются. Это не обещание атомарности между DB, HTTP и FS.
+«Проверить и включить журнал» проверяет revision/path → setup HMAC/origin/rate → сохраняет только каталог → выполняет реальный POST в существующий audit endpoint и ищет event_id в JSONL. Проверочная запись остаётся. При POST failure previous directory восстанавливается с revision guard; при concurrent conflict сообщается отдельная причина. Ключ и записанные события не удаляются. Это не обещание атомарности между DB, HTTP и FS.
 
-Обычная Save работает без журнала и с защищённым каталогом даже до setup. При отсутствии config status=not_configured и receiver fail-closed. Guard больше не сравнивается с единственным шаблоном: существующие правила, parent/server denial допустимы **только при реальном 403** для безопасных probes, existing JSONL/monthly logs и .rate/state.json. Symlink/hardlink/traversal/canonical checks сохраняются. Apache direct only: nginx, unknown server, известные proxy/CDN headers и cache headers не получают public fallback. Приватный каталог рекомендуется.
+HTTP-доступ к журналам обеспечивает владелец сайта. Компонент не проверяет тип сервера, proxy/CDN, HTTP 403 и не создаёт/изменяет .htaccess в каталоге журналов. Существующие правила остаются без изменений. ZIP также больше не содержит file vehicle для core/components/cookieconsent/.htaccess: существующий файл остаётся untracked и сохраняется. Защиту публичного MODX core настраивает владелец сайта; рекомендуется core вне webroot. Работают Apache (включая reverse proxy), nginx/PHP-FPM и другие серверы при подходящих правах PHP. HTTP клиент используется только для явного POST-теста, не для проверки защиты.
 
-HTTP 200 + success=false — ошибка. UI локализует missing/not-directory/permissions/traversal/symlink/root/http-protection/post/write/revision causes и сохраняет draft. Безопасный request_id/action/status помогают найти соответствующий MODX log без вывода secret/draft. HMAC остаётся в серверных native private queue options; system setting содержит только origin/rate. ENV/private JSON priority совместим с beta7.
+**Журналы могут содержать IP-адреса и технические сведения о посетителях. Ограничение HTTP-доступа к каталогу обеспечивает администратор сайта**
+
+Обычная «Сохранить» применяет options/services/texts независимо от несохранённого поля каталога; каталог применяется только кнопкой включения журнала. Неизменённый недоступный log_dir или legacy config не блокирует остальные настройки. При изменении пути через API выполняется проверка; endpoint всегда проверяет путь при записи. Каталог должен существовать, быть каноническим, доступным PHP на запись, отличаться от самого DOCUMENT_ROOT. Traversal, symlink, hardlink и неregular audit/state файлы отклоняются. Администратор должен владеть каталогом и не допускать его конкурентной подмены непривилегированными пользователями.
+
+JSONL, server IP/User-Agent, consent_id, месячная ротация, подавление повторных event_id и rate limiting сохранены. Старые журналы не удаляются. HMAC остаётся в серверных native private queue options; system setting содержит только origin/rate. ENV/private JSON priority совместим с beta7. Legacy action audit_protect оставлен как совместимый валидатор пути с ответом valid=true: он не создаёт правил и не подтверждает HTTP-защиту.
+
+HTTP 200 + success=false — ошибка. UI локализует missing/not-directory/permissions/traversal/symlink/root/post/write/revision causes и сохраняет draft. Безопасный request_id/action/status помогают найти MODX log без вывода secret/draft. Back up DB/registry, runtime, настройки и журналы перед обновлением; native filesystem rollback не атомарен. Ограничения lifecycle остаются прежними.
 
 ## Category-only consent
 

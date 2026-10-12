@@ -1,3 +1,6 @@
+0.1.0 beta15
+Server-independent journal paths and real POST/JSONL check. Removed HTTP protection probes and automatic journal guards. Site administrators own HTTP access policy. Ordinary settings Save ignores the unsaved journal draft and tolerates unchanged unavailable audit paths. Filesystem safety/replay/rate limiting retained.
+
 0.1.0 beta13
 Fix website-relative journal paths, custom Apache guards and unconfigured Save. Unified journal check/enable with precise diagnostics. Public preferences/preview/text editor show categories only; provider fingerprints/audit remain internal, legacy partial permissions never expand automatically.
 

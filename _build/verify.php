@@ -34,6 +34,6 @@ for($i=0;$i<$zip->numFiles;$i++){
 foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
 if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!==''||$found['cookie_consent.audit']!=='')throw new RuntimeException('Customer paths in ZIP');
 if(count($found)!==6)throw new RuntimeException('Only canonical product settings allowed');
-foreach($spec['files'] as $entry){$object=$fileVehicles[$entry['target']]??null;if(!$object||hash('sha256',$zip->getFromName($object['source'].$object['name']))!==$entry['sha256'])throw new RuntimeException('Native file inventory mismatch');}
+foreach($spec['files'] as $entry){if(basename($entry['target'])==='.htaccess')throw new RuntimeException('Package must not manage administrator .htaccess');$object=$fileVehicles[$entry['target']]??null;if(!$object||hash('sha256',$zip->getFromName($object['source'].$object['name']))!==$entry['sha256'])throw new RuntimeException('Native file inventory mismatch');}
 $expected=trim(explode(' ',file_get_contents($file.'.sha256'))[0]);if(!hash_equals($expected,hash_file('sha256',$file)))throw new RuntimeException('Archive SHA256 mismatch');
 echo json_encode(['signature'=>$spec['signature'],'native_vehicles'=>$vehicles,'vehicle_classes'=>$classes,'runtime_files'=>count($spec['files']),'zip_entries'=>$zip->numFiles,'sha256'=>$expected,'result'=>'PASS'])."\n";

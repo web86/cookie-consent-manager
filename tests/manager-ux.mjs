@@ -66,30 +66,29 @@ try{
   for(const action of ['read','send']){const r=await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'system/registry/register/'+action,HTTP_MODAUTH:token,register:'cookieconsent-audit-private',register_class:'registry.modDbRegister',topic:'/configuration/',message:'probe',poll_limit:'1',time_limit:'1',remove_read:'0'}});eq((await r.json()).success,false);}
   eq(JSON.parse(fixture('clean','managed-check')).key_hash,before.key_hash);
  });
- await test('public-log-directory-HTTP403-JSONL-rate-and-real-POST',async()=>{
+ await test('public-log-directory-JSONL-rate-and-real-POST',async()=>{
   cli('clean',['sh','-c','mkdir -p /var/www/html/logs/cookies; chown -R www-data:www-data /var/www/html/logs; printf "historical safe sentinel\\n" > /var/www/html/logs/cookies/2020-01-cookie-consent.log; chown www-data:www-data /var/www/html/logs/cookies/2020-01-cookie-consent.log']);
   eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,true);const get=await c.api('get');const draft=Object.fromEntries(['options','registry','texts','log_dir','audit_config_file'].map(k=>[k,get.object[k]]));draft.log_dir='/var/www/html/logs/cookies';eq((await c.api('save',{draft:JSON.stringify(draft),revision:get.object.revision})).success,true);eq((await c.api('audit_test')).success,true);
-  for(const path of ['/logs/cookies/2020-01-cookie-consent.log','/logs/cookies/'+new Date().toISOString().slice(0,7)+'-cookie-consent.log','/logs/cookies/.rate/state.json'])eq((await c.ctx.request.get(c.origin+path)).status(),403);
   eq(cli('clean',['php','-r','echo file_get_contents("/var/www/html/logs/cookies/2020-01-cookie-consent.log");']),'historical safe sentinel');
   await c.p.reload();await c.p.locator('#ccm-save').waitFor();await c.p.locator('#ccm-tab-logs').click();await c.p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await c.p.screenshot({path:dir+'/managed-audit-ready.png'});
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);
-  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta14',preexisting_mode:'0'}})).json();
+  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta'+(JSON.parse(readFileSync('_build/package.json')).release_index+1)+'',preexisting_mode:'0'}})).json();
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('uninstall')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);eq((await c.api('get')).object.auditStatus.state,'ready');
  });
- await test('disabled-AllowOverride-real-probe-and-receiver-fail-closed',async()=>{
+ await test('disabled-AllowOverride-no-block-real-POST',async()=>{
   cli('clean',['sh','-c','printf "<Directory /var/www/html/logs/cookies>\\nAllowOverride None\\n</Directory>\\n" > /etc/apache2/conf-enabled/cc-ux-unsafe.conf; apachectl -k graceful']);
-  try{await c.p.waitForTimeout(750);const exposed=await fetch(c.origin+'/logs/cookies/2020-01-cookie-consent.log',{headers:{Connection:'close'}});eq(exposed.status,200);eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,false);const r=await c.ctx.request.post(c.origin+'/assets/components/cookieconsent/audit.php',{headers:{Origin:c.origin},data:event()});eq(r.status(),503);eq((await c.api('get')).object.auditStatus.state,'invalid');}
+  try{await c.p.waitForTimeout(750);const exposed=await fetch(c.origin+'/logs/cookies/2020-01-cookie-consent.log',{headers:{Connection:'close'}});eq(exposed.status,200);eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,true);const r=await c.ctx.request.post(c.origin+'/assets/components/cookieconsent/audit.php',{headers:{Origin:c.origin},data:event()});eq(r.status(),200);eq((await c.api('get')).object.auditStatus.state,'ready');}
   finally{cli('clean',['sh','-c','rm /etc/apache2/conf-enabled/cc-ux-unsafe.conf; apachectl -k graceful']);await c.p.waitForTimeout(750);}
   eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,true);
  });
- await test('public-log-symlink-traversal-and-proxy-refused-old-logs-retained',async()=>{
+ await test('public-log-symlink-traversal-refused-proxy-allowed-old-logs-retained',async()=>{
   cli('clean',['sh','-c','ln -sfn /var/www/html/logs/cookies /var/www/html/logs/cookie-alias']);
   for(const log_dir of ['/var/www/html/logs/cookie-alias','/var/www/html/logs/../logs/cookies','/var/www/html'])eq((await c.api('audit_protect',{log_dir})).success,false);
-  const token=await c.p.evaluate(()=>window.CookieConsentManagerBootstrap.auth);const proxied=await c.ctx.request.post(c.origin+'/assets/components/cookieconsent/connector.php',{headers:{modAuth:token,'X-Forwarded-Proto':'https'},form:{action:'audit_protect',HTTP_MODAUTH:token,log_dir:'/var/www/html/logs/cookies'}});eq((await proxied.json()).success,false);
+  const token=await c.p.evaluate(()=>window.CookieConsentManagerBootstrap.auth);const proxied=await c.ctx.request.post(c.origin+'/assets/components/cookieconsent/connector.php',{headers:{modAuth:token,'X-Forwarded-Proto':'https'},form:{action:'audit_protect',HTTP_MODAUTH:token,log_dir:'/var/www/html/logs/cookies'}});eq((await proxied.json()).success,true);
   eq(cli('clean',['php','-r','echo file_get_contents("/var/www/html/logs/cookies/2020-01-cookie-consent.log");']),'historical safe sentinel');
  });
  await test('runtime-no-errors-or-unexpected-Manager-external-hosts',async()=>{eq(errors,[]);eq(external.filter(h=>h!=='www.gravatar.com'),[]);});

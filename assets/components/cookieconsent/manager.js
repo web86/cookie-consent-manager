@@ -65,6 +65,7 @@
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
     for(const mode of ['site','absolute'])logMode.append(el('option',t('log_'+mode),{value:mode}));
+    let storedLogDir=data.log_dir;
     const publicRoot=data.documentRoot;
     draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';
     if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);
@@ -72,9 +73,9 @@
     logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
     field(panels.logs,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
     const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});panels.logs.append(auditState);
-    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});panels.logs.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}));
+    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});panels.logs.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
     enableAudit.onclick=async()=>{enableAudit.disabled=true;try{
-      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision});revision=result.revision;
+      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision});revision=result.revision;storedLogDir=result.log_dir;
       auditState.textContent=t('audit_ready');status.textContent=t('audit_enable_success');status.dataset.state=dirty?'dirty':'saved';
       // Only journal selection is persisted by this operation; other form drafts stay local.
       const current={options:draft.options,registry:draft.registry,texts:draft.texts};
@@ -184,12 +185,13 @@
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
-      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || (draft.log_dir !== '' && draft.log_dir_mode !== 'site' && !draft.log_dir.startsWith('/')) || draft.registry.services.some(s => (idPatterns[s.loader] && ((s.enabled && !s.config.id) || (s.config.id && !idPatterns[s.loader].test(s.config.id)))) || (s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id)))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
+      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => (idPatterns[s.loader] && ((s.enabled && !s.config.id) || (s.config.id && !idPatterns[s.loader].test(s.config.id)))) || (s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id)))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);
       try {
-        const saved = await api('save', { draft: snapshot, revision }); revision = saved.revision; auditState.textContent = t('audit_' + (saved.auditStatus?.state || 'not_configured'));
-        if (JSON.stringify(draft) === snapshot) { draft = { options: saved.options, registry: saved.registry, texts: saved.texts, log_dir: saved.log_dir, audit_config_file: saved.audit_config_file || '' }; draft.log_dir_mode=logMode.value;if(draft.log_dir_mode==='site'&&draft.log_dir.startsWith(publicRoot+'/'))draft.log_dir=draft.log_dir.slice(publicRoot.length);document.getElementById('ccm-log-dir').value=draft.log_dir;draft.texts.locales[editLanguage] ||= {}; dirty = false;savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts}); renderServices(); renderTexts(); }
+        const payload={...draft,log_dir:storedLogDir,log_dir_mode:'absolute'};
+        const saved = await api('save', { draft: JSON.stringify(payload), revision }); revision = saved.revision; auditState.textContent = t('audit_' + (saved.auditStatus?.state || 'not_configured'));
+        if (JSON.stringify(draft) === snapshot) { draft.options=saved.options;draft.registry=saved.registry;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};dirty=false;savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});renderServices();renderTexts(); }
         status.textContent = dirty ? t('unsaved') : t('saved'); status.dataset.state = dirty ? 'dirty' : 'saved'; schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }

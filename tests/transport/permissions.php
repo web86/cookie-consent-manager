@@ -5,6 +5,7 @@ function writableTree($path){foreach(new RecursiveIteratorIterator(new Recursive
 writableTree('/var/www/html');if($kind==='clean')writableTree('/opt/cc-clean/core');
 foreach(['logs','package-state','configs'] as $dir){$path=$private.'/'.$dir;if(!is_dir($path))mkdir($path,0700);chown($path,'www-data');chmod($path,0700);}
 if(is_dir('/var/www/html/setup')){exec('cp -a /var/www/html/setup '.$private.'/completed-setup && rm -rf /var/www/html/setup',$out,$code);if($code)throw new RuntimeException('Cannot remove public setup');}
-// Public-core fixture must allow its shipped per-directory deny rules on Apache.
+// Site-owner fixture policy, independent of component/package installation.
+if($kind==='publiccore')file_put_contents('/var/www/html/core/.htaccess',"Require all denied\n");
 file_put_contents('/etc/apache2/conf-enabled/cc-core-protection.conf',"<Directory /var/www/html/core>\nAllowOverride All\n</Directory>\n");
 echo "Fixture PHP-worker ownership prepared\n";

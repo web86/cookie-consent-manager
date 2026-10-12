@@ -36,12 +36,6 @@ final class CookieConsentAuditConfiguration
         $root=$_SERVER['DOCUMENT_ROOT']??'';if($root==='')$root=MODX_BASE_PATH;
         $real=realpath($root);if(!$real||$real==='/')throw new RuntimeException('document_root_required');return $real;
     }
-    public static function protectionOrigin($modx): string {
-        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$managed=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit']);
-        // An unconfigured journal can be saved without generating or weakening a key.
-        if(!$env&&(!$legacy||$legacy->get('value')==='')&&(!$managed||$managed->get('value')===''))return self::origin($modx);
-        return self::forModx($modx)['site_origin'];
-    }
     public static function origin($modx): string {
         $url=(string)$modx->getOption('site_url');$parts=parse_url($url);$origin=($parts['scheme']??'http').'://'.($parts['host']??'').(isset($parts['port'])?':'.$parts['port']:'');
         return self::validate(['site_origin'=>$origin,'rate_limit_key'=>str_repeat('x',32)])['site_origin'];
@@ -90,7 +84,7 @@ final class CookieConsentAuditConfiguration
         $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$source=$env?'environment':($legacy&&$legacy->get('value')!==''?'setting':'managed');
         $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);$dir=$s?(string)$s->get('value'):'';
         if($dir==='')return ['state'=>'not_configured','source'=>$source];
-        try {$config=self::forModx($modx);require_once __DIR__.'/CookieConsentLogDirectory.php';CookieConsentLogDirectory::validate($dir,self::webroot(),$config['site_origin']);return ['state'=>'ready','source'=>$source];}
+        try {$config=self::forModx($modx);require_once __DIR__.'/CookieConsentLogDirectory.php';CookieConsentLogDirectory::validate($dir,self::webroot());return ['state'=>'ready','source'=>$source];}
         catch(Throwable $e){return ['state'=>$e->getMessage()==='audit_not_configured'?'not_configured':'invalid','source'=>$source];}
     }
 }

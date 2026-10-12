@@ -43,7 +43,7 @@ try {
     require_once dirname(__DIR__).'/src/CookieConsentPrivatePath.php';
     if (!is_string($dir)) throw new RuntimeException('Missing MODX setting');
     require_once dirname(__DIR__).'/src/CookieConsentLogDirectory.php';
-    $logDir=CookieConsentLogDirectory::validate($dir,$webroot,$origin);
+    $logDir=CookieConsentLogDirectory::validate($dir,$webroot);
     $key=$config['rate_limit_key'] ?? null;
     if (!is_string($key)) throw new RuntimeException('Missing rate key');
     $raw=file_get_contents('php://input',false,null,0,8193);

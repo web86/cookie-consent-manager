@@ -1,0 +1,30 @@
+services:
+  clean:
+    environment:
+      COOKIE_CONSENT_LOCAL_HTTP_TARGET: http://proxy:80
+  fpm:
+    build: ../servers
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html
+      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../:/opt/cc-source:ro
+    environment:
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
+      COOKIE_CONSENT_LOCAL_HTTP_TARGET: http://nginx:80
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+    depends_on:
+      db:
+        condition: service_healthy
+  nginx:
+    image: nginx:1.28-alpine
+    ports: ['127.0.0.1:8891:80']
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html:ro
+      - ../servers/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [fpm]
+  proxy:
+    image: nginx:1.28-alpine
+    ports: ['127.0.0.1:8892:80']
+    volumes:
+      - ../servers/proxy.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on: [clean]

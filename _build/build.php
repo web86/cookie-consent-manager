@@ -31,9 +31,7 @@ addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/c
 foreach(['consent-manager.js','provider-registry.js','i18n.js','lexicons.json'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);
 $paths=[];foreach(new DirectoryIterator($root.'/assets/js/cookie-consent/mock') as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);foreach($paths as $source)addSource($source,'assets/js/cookie-consent/mock/'.basename($source),$files,$payload,$root);
 addSource($root.'/assets/css/cookie-consent.css','assets/css/cookie-consent.css',$files,$payload,$root);
-// Deny direct HTTP access to code/staged payload on Apache; nginx must protect core separately.
-$guard=$work.'/guard.htaccess';file_put_contents($guard,"<IfModule mod_authz_core.c>\nRequire all denied\n</IfModule>\n<IfModule !mod_authz_core.c>\nDeny from all\n</IfModule>\n");
-$guardTarget='core/components/cookieconsent/.htaccess';if(!is_dir($payload.'/core/components/cookieconsent'))mkdir($payload.'/core/components/cookieconsent',0700,true);copy($guard,$payload.'/'.$guardTarget);$files[]=['source'=>$guardTarget,'target'=>$guardTarget,'sha256'=>hash_file('sha256',$guard)];
+// HTTP access policy, including existing .htaccess files, belongs to the site owner.
 usort($files,static fn($a,$b)=>strcmp($a['target'],$b['target']));
 define('MODX_API_MODE',true);ob_start();require $site.'/index.php';while(ob_get_level())ob_end_clean();
 $modx->setLogLevel(modX::LOG_LEVEL_ERROR);$modx->setLogTarget('ECHO');

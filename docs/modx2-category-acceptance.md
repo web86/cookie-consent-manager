@@ -1,3 +1,5 @@
+> Историческая приёмка beta13. HTTP protection/probe политика заменена в beta15; см. [новый отчёт](modx2-log-policy-acceptance.md).
+
 # Приёмка beta13 — сохраняемость и category-only consent
 
 Дата: 12 октября 2026. Baseline: feature/modx2-manager-ux / 80f30ac. Ветка: feature/modx2-category-consent-audit. Первый коммит реализации: de093a4; финальные stock texts/поставка и evidence — следующий коммит.
