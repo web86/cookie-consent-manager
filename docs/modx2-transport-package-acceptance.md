@@ -1,3 +1,7 @@
+# Историческая приёмка beta1 — superseded
+
+Этот отчёт описывает прежний ledger-based transport. Актуальная упрощённая архитектура и результаты: [native beta5 acceptance](modx2-native-minimal-acceptance.md). Его rollback/private-state гарантии не относятся к beta5.
+
 # Issue #1 — приёмка MODX 2 transport package
 
 **Итог: PASS локальной приёмки; готово к code review и контролируемому staging после review. Production и реальные SDK не аттестованы.** Работа выполнена в `feature/modx2-transport-package`, база `10acb4e62d2a6f59e058fe356feef23bf4497c27`. Сначала опубликована `feature/modx2-manager-i18n` с исходной историей; main не объединялся и production не изменялся.

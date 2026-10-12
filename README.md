@@ -18,7 +18,7 @@
 
 ## Нативный transport для MODX 2
 
-Предпочтительная установка/обновление — через настоящий Package Manager: [инструкция transport](docs/modx2-transport-package.md), [архитектура](docs/modx2-transport-architecture.md), [приёмка Issue #1](docs/modx2-transport-package-acceptance.md). Private beta сохраняет пользовательские settings/elements и JSONL; fresh install выключает все необязательные сервисы. Аудит нужно явно настроить приватно, включая JSON-вариант для shared hosting без environment variables.
+Предпочтительная установка/обновление — через настоящий Package Manager: [инструкция transport](docs/modx2-transport-package.md), [архитектура](docs/modx2-transport-architecture.md), [актуальная native приёмка](docs/modx2-native-minimal-acceptance.md). Private beta сохраняет пользовательские settings/elements и JSONL; fresh install выключает все необязательные сервисы. Аудит нужно явно настроить приватно, включая JSON-вариант для shared hosting без environment variables.
 
 ## Ручная установка на тестовый MODX 2 (прежний workflow)
 

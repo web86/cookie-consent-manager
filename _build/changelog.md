@@ -1,2 +1,2 @@
-0.1.0 beta
-Native MODX 2 transport with preserved user configuration, versioned stock elements, transactional database installation, private ownership/rollback state, safe uninstall and an explicit private audit setup checklist.
+0.1.0 beta5
+Simplified native object/file/script vehicles. Removed custom lifecycle storage, package-state settings, Setup Options and filesystem rollback. Preserved active user elements with separately named versioned stock samples; audit setup is performed in the CMP. Backup/restore limitations are explicit.

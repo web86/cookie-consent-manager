@@ -130,3 +130,5 @@ $_lang = [
     'm.integration_title' => 'Safe staging integration',
     'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];
+
+$_lang['cookie_consent.upgrade_elements'] = 'Updates preserve active chunks and snippets. Compare the *_package_VERSION stock copies in Elements and apply changes explicitly; installation never edits templates.';

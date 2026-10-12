@@ -52,6 +52,7 @@
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
     field(panels.main, t('log_dir'), draft.log_dir, v => { draft.log_dir = v; logPath.textContent = v; }, 'text', 'ccm-log-dir', t('log_safe'));
     field(panels.main, t('audit_config_file'), draft.audit_config_file, v => draft.audit_config_file = v, 'text', 'ccm-audit-config', t('audit_help'));
+    panels.main.append(el('p', t('upgrade_elements'), { id: 'ccm-upgrade-elements' }));
     const auditState = el('p', t('audit_' + (data.auditStatus?.state || 'not_configured')), { id: 'ccm-audit-status', role: 'status' }); panels.main.append(auditState);
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
     integration.append(el('pre', '[[!CookieConsentRegistry]]\n<link rel="stylesheet" href="/assets/css/cookie-consent.css">\n<script src="/assets/js/cookie-consent/i18n.js" defer></script>\n<script src="/assets/js/cookie-consent/provider-registry.js" defer></script>\n<script src="/assets/js/cookie-consent/consent-manager.js" defer></script>\n[[$CookiesPopup]]\n<div data-cc-map-provider="google_maps" data-cc-map-src="APPROVED_HTTPS_EMBED_URL"></div>')); panels.main.append(integration);

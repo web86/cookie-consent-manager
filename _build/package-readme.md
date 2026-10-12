@@ -1,28 +1,9 @@
-# Cookie Consent Manager — private MODX 2 beta
+Cookie Consent Manager — native MODX 2 package
 
-This transport installs the CMP and files. It NEVER edits templates, connects trackers,
-changes forms, creates tracking pixels or enables optional services.
+No Setup Options or package-state directory is required. After Install, open Extras → Cookie Consent Manager and configure the existing private audit log directory and private audit JSON path. Audit stays unconfigured until an actual same-origin POST is verified. No secrets or private audit configuration are created by installation.
 
-First installation leaves every optional provider disabled. Existing system settings,
-translations, customized elements, purpose IDs and private JSONL stay intact on upgrade.
+Settings, translations, notice HTML, service parameters and consent logs are preserved. Active CookieConsentRegistry/CookiesPopup elements are NEVER overwritten. New *_package_VERSION stock copies are available for an explicit comparison/application by the administrator. Templates/forms/maps are not edited; optional services start disabled on a fresh install.
 
-After install open Extras → Cookie Consent Manager. Grant cookie_consent_manage to
-only the intended mgr Access Policies. Connect the uncached CookieConsentRegistry,
-i18n.js, provider-registry.js, consent-manager.js, CSS and CookiesPopup manually in a
-staging template. Remove obsolete direct trackers/noscript and use inert map markup.
+Back up DB/elements/templates, customized runtime, private config and JSONL before upgrading. Native file vehicles replace package-managed runtime files; direct edits to these files require backup/merge. MODX stores native preserved objects/files in core/packages, which must be protected as part of MODX. A partial file/ORM failure may leave a partial installation. There is no custom DB/FS atomic rollback or private lifecycle ledger.
 
-Audit is NOT configured until BOTH the private log directory and private audit config
-are valid. A webserver env variable is optional, not assumed on shared hosting.
-Use a private JSON config and cookie_consent.audit_config_file if env is unavailable.
-Never paste the HMAC key or actual config into Manager texts, public files or Git.
-The configure-audit.php CLI helper creates a private JSON file without printing secrets.
-
-Uninstall preserves settings/translations/logs and namespace/element/permission data.
-It removes only unmodified package-owned runtime files/menu, or restores pre-existing
-manual files. Edited/untracked files are retained. Remove integration markup manually.
-Any destructive purge of retained user data is a separate manual operator task.
-
-Real SDK/GTM and production templates are NOT certified by this beta. Review first,
-then staging with test accounts, then a separate production release decision.
-
-This beta requires MySQL/MariaDB with transactional InnoDB MODX object tables. Other database engines are refused before changes. Published beta signatures are immutable: verify SHA256 and use a new release index for changed code. Reset PHP OPcache only through your hosting operator when required by its configuration.
+Uninstall removes only the exact shipped runtime files. Settings, namespace/menu, elements, permission definitions, private config/JSONL and browser consent remain. Remove template connections first; retained menu/elements may refer to removed code. Full purge is a separate administrator decision. Do not run a superseded ledger-based beta uninstall over a newer native installation.

@@ -7,17 +7,22 @@ if(!class_exists('ZipArchive')) {
     class ZipArchive { public $numFiles=0;private $files=[];function open($f){$z=new PclZip($f);$this->files=$z->extract(PCLZIP_OPT_EXTRACT_AS_STRING);if(!is_array($this->files))return false;$this->numFiles=count($this->files);return true;}function getNameIndex($i){return $this->files[$i]['filename'];}function getFromIndex($i){return $this->files[$i]['content'];}function getFromName($n){foreach($this->files as $f)if($f['filename']===$n)return $f['content'];return false;} }
 }
 $zip=new ZipArchive();if($zip->open($file)!==true)throw new RuntimeException('ZIP');
-$prefix=$spec['signature'].'/';$vehicles=0;$found=[];
+$prefix=$spec['signature'].'/';$vehicles=0;$found=[];$fileVehicles=[];$classes=[];
 for($i=0;$i<$zip->numFiles;$i++){
     $name=$zip->getNameIndex($i);if(strpos($name,$prefix)!==0||strpos($name,'../')!==false||$name[0]==='/')throw new RuntimeException('ZIP path');
     if(preg_match('~/(?:\.git|\.local|node_modules|tests|logs)/|\.(?:har|log|pem|env)$|(?:config\.php|audit-config\.json)$~',$name))throw new RuntimeException('Excluded content');
     $body=$zip->getFromIndex($i);
     if(preg_match('/gh[opusr]_[A-Za-z0-9]{20,}|-----BEGIN (?:RSA |EC )?PRIVATE KEY-----|"rate_limit_key"\s*:\s*"[^"]+"/',$body))throw new RuntimeException('Secret content');
+    if(substr($name,-12)==='manifest.php'&&strpos($body,'setup-options')!==false)throw new RuntimeException('Unexpected Setup Options');
+    if(strpos($body,'CookieConsentPackageLifecycle')!==false||strpos($body,'cc_package_state_dir')!==false)throw new RuntimeException('Custom lifecycle infrastructure in ZIP');
     if(substr($name,-8)==='.vehicle'){
         $payload=(static function($bytes){return eval(substr($bytes,5));})($body);
-        if(!is_array($payload)||($payload['vehicle_class']??'')!=='xPDOObjectVehicle')throw new RuntimeException('Native vehicle');
+        if(!is_array($payload)||!in_array($payload['vehicle_class']??'',['xPDOObjectVehicle','xPDOFileVehicle','xPDOScriptVehicle'],true))throw new RuntimeException('Native vehicle');
+        $vehicles++;$classes[$payload['vehicle_class']]=($classes[$payload['vehicle_class']]??0)+1;
+        if($payload['vehicle_class']==='xPDOFileVehicle'){$fileVehicles[$payload['relative_target']]=$payload['object'];if(empty($payload['uninstall_files']))throw new RuntimeException('Native file uninstall missing');continue;}
+        if($payload['vehicle_class']==='xPDOScriptVehicle')continue;
         if(($payload['update_object']??true)!==false||($payload['uninstall_object']??true)!==false)throw new RuntimeException('Unsafe object retention');
-        $obj=json_decode($payload['object'],true,16,JSON_THROW_ON_ERROR);$vehicles++;
+        $obj=json_decode($payload['object'],true,16,JSON_THROW_ON_ERROR);
         if($payload['class']==='modSystemSetting'){
             $found[$obj['key']]=$obj['value'];
             if($obj['key']==='cookie_consent.services'){
@@ -26,11 +31,9 @@ for($i=0;$i<$zip->numFiles;$i++){
         }
     }
 }
-foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.package_state_dir','cookie_consent.package_version'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
-if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!==''||$found['cookie_consent.package_state_dir']!=='')throw new RuntimeException('Customer paths in ZIP');
-foreach($spec['files'] as $entry){
-    $matches=[];for($i=0;$i<$zip->numFiles;$i++){ $name=$zip->getNameIndex($i);if(substr($name,-strlen('/payload/'.$entry['source']))==='/payload/'.$entry['source'])$matches[]=$name; }
-    if(count($matches)!==1||hash('sha256',$zip->getFromName($matches[0]))!==$entry['sha256'])throw new RuntimeException('Inventory/checksum mismatch');
-}
+foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
+if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!=='')throw new RuntimeException('Customer paths in ZIP');
+if(count($found)!==5)throw new RuntimeException('Only canonical product settings allowed');
+foreach($spec['files'] as $entry){$object=$fileVehicles[$entry['target']]??null;if(!$object||hash('sha256',$zip->getFromName($object['source'].$object['name']))!==$entry['sha256'])throw new RuntimeException('Native file inventory mismatch');}
 $expected=trim(explode(' ',file_get_contents($file.'.sha256'))[0]);if(!hash_equals($expected,hash_file('sha256',$file)))throw new RuntimeException('Archive SHA256 mismatch');
-echo json_encode(['signature'=>$spec['signature'],'native_vehicles'=>$vehicles,'runtime_files'=>count($spec['files']),'zip_entries'=>$zip->numFiles,'sha256'=>$expected,'result'=>'PASS'])."\n";
+echo json_encode(['signature'=>$spec['signature'],'native_vehicles'=>$vehicles,'vehicle_classes'=>$classes,'runtime_files'=>count($spec['files']),'zip_entries'=>$zip->numFiles,'sha256'=>$expected,'result'=>'PASS'])."\n";
