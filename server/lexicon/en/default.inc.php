@@ -180,3 +180,5 @@ $_lang['m.reason_audit_post_failed_restore_conflict'] = 'POST not verified; anot
 $_lang['external_content_name'] = 'External data and maps';
 
 $_lang['m.log_dir'] = 'Journal directory';
+
+$_lang['settings_intro'] = 'Choose optional cookie categories.';

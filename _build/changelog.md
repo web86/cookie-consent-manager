@@ -1,4 +1,4 @@
-0.1.0 beta11
+0.1.0 beta13
 Fix website-relative journal paths, custom Apache guards and unconfigured Save. Unified journal check/enable with precise diagnostics. Public preferences/preview/text editor show categories only; provider fingerprints/audit remain internal, legacy partial permissions never expand automatically.
 
 0.1.0 beta7

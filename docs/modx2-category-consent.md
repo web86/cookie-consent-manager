@@ -1,10 +1,10 @@
-# Beta11: журнал и согласие по категориям
+# Beta13: журнал и согласие по категориям
 
 Основа: 80f30ac, отдельная feature/modx2-category-consent-audit. Beta7 не перезаписывается. Native install/upgrade/uninstall без Setup Options, собственного lifecycle ledger или полного rollback.
 
 ## Обновление
 
-Backup DB (включая private queue options), core/assets, canonical elements, private config и все JSONL. Проверить SHA нового beta11 ZIP и установить через MODX Package Manager. Settings/элементы/props/переводы/consent IDs/журналы сохраняются; native file vehicles заменяют runtime. Canonical пользовательские чанки/сниппеты не перезаписываются. Новые stock *_package_0_1_0_beta11 сравнивать и применять явно, только если требуется. Техническая инструкция убрана из обычной формы. Шаблоны installer не изменяет, основной API остаётся [[!CookieConsent]], карты — CookieConsentMap.
+Backup DB (включая private queue options), core/assets, canonical elements, private config и все JSONL. Проверить SHA нового beta13 ZIP и установить через MODX Package Manager. Settings/элементы/props/переводы/consent IDs/журналы сохраняются; native file vehicles заменяют runtime. Canonical пользовательские чанки/сниппеты не перезаписываются. Новые stock *_package_0_1_0_beta13 сравнивать и применять явно, только если требуется. Техническая инструкция убрана из обычной формы. Шаблоны installer не изменяет, основной API остаётся [[!CookieConsent]], карты — CookieConsentMap.
 
 ## Журнал
 

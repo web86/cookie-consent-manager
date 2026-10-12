@@ -75,7 +75,7 @@ try{
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);
-  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta12',preexisting_mode:'0'}})).json();
+  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta14',preexisting_mode:'0'}})).json();
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('uninstall')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);eq((await c.api('get')).object.auditStatus.state,'ready');

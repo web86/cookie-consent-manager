@@ -1,4 +1,4 @@
-Cookie Consent Manager — native MODX 2 package (beta11)
+Cookie Consent Manager — native MODX 2 package (beta13)
 
 No Setup Options or package-state directory. Open Extras → Cookie Consent Manager. On Log choose website-relative storage (e.g. /logs/cookies/) or an absolute private directory, then Check and enable journal. Other form edits use Save. A private directory outside DOCUMENT_ROOT is recommended. A public Apache directory requires real HTTP 403 protection proof; existing administrator .htaccess is preserved; nginx, proxies/CDN and unknown servers require private storage. Legacy environment/private JSON configuration remains supported and takes precedence.
 

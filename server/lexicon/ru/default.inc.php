@@ -185,3 +185,5 @@ $_lang['m.reason_audit_post_failed_restore_conflict'] = 'POST не провер�
 $_lang['external_content_name'] = 'Внешние данные и карты';
 
 $_lang['m.log_dir'] = 'Каталог журнала';
+
+$_lang['settings_intro'] = 'Выберите необязательные категории файлов cookie.';
