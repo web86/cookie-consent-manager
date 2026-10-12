@@ -2,7 +2,9 @@
 (() => {
   'use strict';
   const base = new URL('./', document.currentScript.src);
-  const categories = { analytics: 'Аналитика', marketing: 'Маркетинг', external_content: 'Внешний контент и карты' };
+  const t = (...args) => window.web86I18n?.t(...args) || args[0];
+  const categories = { analytics: 'analytics_name', marketing: 'marketing_name', external_content: 'external_content_name' };
+  const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, clientId: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
     google_gtm: 'marketing', google_ads: 'marketing', mock_marketing: 'marketing',
@@ -19,32 +21,34 @@
   const scripts = new Map();
   const started = new Set();
   const defaults = { schema: 1, services: [
-    ['yandex', 'Яндекс.Метрика', 'Статистика посещений', { id: '23643118', clientId: true }],
-    ['mailru', 'Top.Mail.Ru', 'Статистика посещений', { id: '3265404' }],
-    ['mock_marketing', 'Тестовый маркетинг', 'Локальная имитация рекламного сервиса', {}],
-    ['google_maps', 'Google Maps', 'Внешние интерактивные карты', {}],
-    ['yandex_maps', 'Яндекс.Карты', 'Внешние интерактивные карты', {}]
+    ['yandex', 'Yandex Metrica', 'Visitor statistics', { id: '23643118', clientId: true }],
+    ['mailru', 'Top.Mail.Ru', 'Visitor statistics', { id: '3265404' }],
+    ['mock_marketing', 'Mock marketing', 'Local advertising simulation', {}],
+    ['google_maps', 'Google Maps', 'External interactive maps', {}],
+    ['yandex_maps', 'Yandex Maps', 'External interactive maps', {}]
   ].map(([loader, name, purpose, config]) => ({ key: loader, loader, name, purpose, config, category: catalog[loader], enabled: true })) };
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
     return data.services.map(s => {
-      if (!s || Object.keys(s).sort().join() !== 'category,config,enabled,key,loader,name,purpose' ||
+      if (!s || Object.keys(s).filter(k => k !== 'purpose_id').sort().join() !== 'category,config,enabled,key,loader,name,purpose' ||
           typeof s.key !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(s.key) || keys.has(s.key) ||
           !Object.hasOwn(catalog, s.loader) || s.category !== catalog[s.loader] || typeof s.enabled !== 'boolean') throw Error('Invalid service');
       keys.add(s.key);
+      if (Object.hasOwn(s, 'purpose_id') && (typeof s.purpose_id !== 'string' || !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) throw Error('Stable purpose');
       for (const [k, max] of [['name', 100], ['purpose', 500]]) {
         if (typeof s[k] !== 'string' || !s[k] || new TextEncoder().encode(s[k]).length > max || /[\x00-\x1f\x7f<>]/.test(s[k])) throw Error('Invalid text');
       }
-      const allowed = s.loader === 'yandex' ? ['id', 'clientId'] : ['mailru', 'google_ga4', 'google_gtm', 'google_ads'].includes(s.loader) ? ['id'] : [];
+      const allowed = [...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
       if (!s.config || typeof s.config !== 'object' || Array.isArray(s.config) || Object.keys(s.config).some(k => !allowed.includes(k))) throw Error('Invalid config');
       const pattern = { google_ga4: /^G-[A-Z0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/ }[s.loader] || /^[0-9]{1,20}$/;
       if ((s.enabled && allowed.includes('id') && !Object.hasOwn(s.config, 'id')) ||
           (Object.hasOwn(s.config, 'id') && (typeof s.config.id !== 'string' || !pattern.test(s.config.id))) ||
-          (Object.hasOwn(s.config, 'clientId') && typeof s.config.clientId !== 'boolean')) throw Error('Invalid ID/ClientID');
-      const config = Object.fromEntries(Object.entries(s.config).sort(([a], [b]) => a.localeCompare(b)));
+          Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid ID/ClientID');
+      const config = Object.fromEntries(Object.entries({ ...(booleanOptions[s.loader] || {}), ...s.config }).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
       // Permission binds to the exact disclosure and reviewed adapter configuration.
-      const fingerprint = JSON.stringify([s.loader, s.category, s.name, s.purpose, config]);
+      const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
+      const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);
       return Object.freeze({ ...s, config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
     }).filter(s => s.enabled);
   }
@@ -54,13 +58,13 @@
     // Only standalone MOCK demo may use defaults. Live missing config fails closed.
     const mock = document.getElementById('cookie-block')?.dataset.ccMode === 'mock';
     services = validate(node ? JSON.parse(node.textContent) : mock ? defaults : { schema: 1, services: [] });
-  } catch (e) { console.warn('[Cookie Consent] registry rejected', e.message); }
+  } catch (e) { console.warn(t('error_registry'), e.message); }
   function script(url) {
     const href = String(url);
     if (!scripts.has(href)) scripts.set(href, new Promise((resolve, reject) => {
       const el = document.createElement('script');
       el.src = href; el.async = true;
-      el.onload = resolve; el.onerror = () => reject(Error('Provider load failed'));
+      el.onload = resolve; el.onerror = () => reject(Error(t('error_provider')));
       document.head.appendChild(el);
     }));
     return scripts.get(href);
@@ -92,7 +96,7 @@
       case 'yandex':
         window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
         window.ym.l = Date.now();
-        window.ym(Number(s.config.id), 'init', { clickmap: true, trackLinks: true, accurateTrackBounce: true });
+        window.ym(Number(s.config.id), 'init', { webvisor: s.config.webvisor, clickmap: s.config.clickmap, trackLinks: s.config.trackLinks, accurateTrackBounce: s.config.accurateTrackBounce });
         if (s.config.clientId) window.ym(Number(s.config.id), 'getClientID', id => {
           const el = document.getElementById('clientid'); if (el && id) el.setAttribute('data-clientid', String(id));
         });
@@ -103,7 +107,7 @@
       case 'google_ga4': case 'google_ads':
         googleConsent(value);
         window.gtag('js', new Date());
-        window.gtag('config', s.config.id, { allow_google_signals: false, allow_ad_personalization_signals: s.loader === 'google_ads' });
+        window.gtag('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && value.marketing === true, allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && value.marketing === true } : {}) });
         // One shared library; separate consent/config for each selected service.
         if (!started.has('gtag-library')) { started.add('gtag-library'); await script(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(s.config.id)}`); }
         break;
@@ -133,7 +137,7 @@
   }
   window.web86Providers = Object.freeze({ services: Object.freeze(services), categories: Object.freeze(categories),
     validate, safeMapUrl, apply(value, mode) {
-      for (const s of services) if (value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn('[Cookie Consent]', e.message));
+      for (const s of services) if (value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
     }
   });
 })();

@@ -66,6 +66,7 @@
    ```html
    <link rel="stylesheet" href="/assets/css/cookie-consent.css">
    [[!CookieConsentRegistry]]
+   <script src="/assets/js/cookie-consent/i18n.js" defer></script>
    <script src="/assets/js/cookie-consent/provider-registry.js" defer></script>
    <script src="/assets/js/cookie-consent/consent-manager.js" defer></script>
    ```
@@ -130,3 +131,42 @@ docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml
 ```
 
 Рабочий сайт этим проектом/приёмкой не разворачивается автоматически.
+
+## Административная страница MODX 2 и переводы
+
+Новый milestone добавляет **Пакеты/Extras → Cookie Consent Manager** с вкладками «Основные», «Сервисы», «Тексты», «Журнал» и правым sandbox-предпросмотром. Подробная модель настроек, миграция fingerprint, безопасность и fallback: [архитектура Manager/i18n](docs/modx2-manager-architecture.md). Результаты: [новая приёмка](docs/modx2-manager-i18n-acceptance.md). Предыдущий отчёт выше сохранён как baseline, его числа не следует приписывать новому коду без повторного прогона.
+
+Установка/обновление дополняет шаги предыдущей инструкции:
+
+1. Скопировать `server/{src,public,controllers,templates,processors,lexicon}` в соответствующие каталоги `MODX_CORE_PATH/components/cookieconsent/`. Копировать `.class.php` processors, не создавать flat-file proxy. Код core по-прежнему приватный.
+2. Скопировать `assets/components/cookieconsent/{manager.js,manager.css}` и `server/modx2-manager-connector.php` (как `connector.php`) в `/assets/components/cookieconsent/`; публичный `audit.php` оставить на прежнем пути.
+3. Обновить `assets/js/cookie-consent/`, CSS/SCSS и сниппет CookieConsentRegistry из текущих исходников. Перед provider-registry подключить **i18n.js**, в таком порядке:
+
+   ```html
+   [[!CookieConsentRegistry]]
+   <script src="/assets/js/cookie-consent/i18n.js" defer></script>
+   <script src="/assets/js/cookie-consent/provider-registry.js" defer></script>
+   <script src="/assets/js/cookie-consent/consent-manager.js" defer></script>
+   ```
+
+4. Повторить `php server/bin/install-modx2.php /absolute/public/root /absolute/private/logs`. Существующие services/log_dir сохраняются; создаются только отсутствующие options/texts, namespace/menu/permission. Новый компонент по умолчанию выключает **все** необязательные сервисы, включая Yandex/Mail/Maps. Это правило не сбрасывает существующие enabled значения при upgrade.
+5. Очистить cache MODX и войти заново. Super User доступен автоматически; для обычного администратора добавить `cookie_consent_manage` в его назначенную mgr Access Policy. Это право не раздаётся всем пользователям. Публичным пользователям connector недоступен; MODAUTH/session проверки не отключать.
+6. Сохранять форму по кнопке Save. Перед сохранением поля остаются local draft; preview получает очищенную копию. При ошибке формы draft не пропадает; при конфликте revision обновить страницу, предварительно сохранив необходимые введённые значения.
+
+Журнал — справочная вкладка с безопасным path и объяснением. Viewer/search/export в этот milestone не входят. JSONL schema 1/2, consent_id, rate/replay и запрет auto-prune сохранены.
+
+Язык посетителя определяется `cultureKey` текущего MODX context. Язык страницы Manager берётся из системного `manager_language`; переключатель языка preview не меняет язык сайта. Доступные языки берутся из MODX lexicon directories; безопасные custom culture codes также поддерживаются. Пользовательские переводы в `cookie_consent.texts`, не в PHP lexicon файлах, поэтому обновление их не перезаписывает. RU notice_html содержит исходный HTML клиента целиком. Для основного поля используется source textarea или уже загруженный совместимый CodeMirror, без WYSIWYG.
+
+Legacy Accept отключает Configure/Accept all в effective configuration, сохраняя их прежние preferences. Reject независим. Постоянная settings ссылка остаётся; если шаблон не содержит opener, клиент добавляет кнопку. Включение сервиса в Manager не является согласием посетителя.
+
+Fingerprint теперь независим от переводов: purpose_id + canonical effective privacy parameters. Название/описание можно переводить без нового согласия; Webvisor/ID/Google privacy flags требуют нового разрешения. Cosmetic show_title карты не влияет на согласие. Переход с fingerprint предыдущей ветки требует одного нового выбора per-provider, сохраняет consent_id и не меняет исторические журналы. При устаревшем разрешении баннер снова появляется, изменённый сервис остаётся заблокирован.
+
+После установки повторить прежние тесты и новые:
+
+```sh
+node tests/manager-i18n.mjs
+node tests/provider-parameters.mjs
+docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml exec -T -u www-data web php /opt/cc-source/tests/manager-i18n-php.php
+```
+
+Запускать последовательно на disposable fixture: интеграционный CMP-тест временно проверяет отсутствие/создание component settings, языки и draft values, затем восстанавливает snapshot. Screenshots и новые результаты находятся в `.local/manager-i18n-evidence/`; secrets и raw logs туда не публикуются. Native MODX chrome может использовать отдельные session/user language preferences; компонент по требованию использует именно системный manager_language.

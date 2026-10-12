@@ -11,10 +11,22 @@ define('MODX_API_MODE',true);
 ob_start();
 require $root.'/index.php';
 while (ob_get_level()) ob_end_clean();
-require_once dirname(__DIR__).'/src/CookieConsentServiceRegistry.php';
+require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
 $namespace=$modx->getObject('modNamespace',['name'=>'cookie_consent']);
 if (!$namespace) { $namespace=$modx->newObject('modNamespace'); $namespace->set('name','cookie_consent'); $namespace->save(); }
+if (!$namespace->get('path')) $namespace->set('path',MODX_CORE_PATH.'components/cookieconsent/');
+if (!$namespace->get('assets_path')) $namespace->set('assets_path',MODX_ASSETS_PATH.'components/cookieconsent/');
+if (!$namespace->save()) throw new RuntimeException('Namespace');
+$menu=$modx->getObject('modMenu',['text'=>'Cookie Consent Manager']);
+if (!$menu) {$menu=$modx->newObject('modMenu');$menu->set('text','Cookie Consent Manager');$menu->fromArray(['text'=>'Cookie Consent Manager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings']);if(!$menu->save())throw new RuntimeException('Menu');}
+foreach ($modx->getCollection('modAccessPolicyTemplate') as $template) {
+    if (!$modx->getObject('modAccessPermission',['template'=>$template->get('id'),'name'=>'cookie_consent_manage'])) {
+        $permission=$modx->newObject('modAccessPermission');$permission->fromArray(['template'=>$template->get('id'),'name'=>'cookie_consent_manage','description'=>'Manage Cookie Consent Manager','value'=>true]);if(!$permission->save())throw new RuntimeException('Permission');
+    }
+}
 $values=[
+    'cookie_consent.options'=>[json_encode(CookieConsentSettings::defaults(),JSON_THROW_ON_ERROR),'textarea'],
+    'cookie_consent.texts'=>[json_encode(CookieConsentTexts::defaults(),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),'textarea'],
     'cookie_consent.log_dir'=>[$logDir,'textfield'],
     'cookie_consent.services'=>[json_encode(CookieConsentServiceRegistry::defaults(),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),'textarea'],
 ];
@@ -25,4 +37,4 @@ foreach ($values as $key=>[$value,$xtype]) {
     if (!$setting->save()) throw new RuntimeException('Cannot save '.$key);
     echo "Created $key\n";
 }
-$modx->cacheManager->refresh(['system_settings'=>[]]);
+$modx->cacheManager->refresh();

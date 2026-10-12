@@ -7,6 +7,11 @@
   // Script can be safely loaded on pages without the banner.
   if (!root) return;
 
+  const i18n = window.web86I18n;
+  const t = (...args) => i18n?.t(...args) || args[0];
+  const publicConfig = i18n?.config || {};
+  if (publicConfig.settings) { root.dataset.ccPolicyVersion = publicConfig.settings.policy_version; root.dataset.ccTtlDays = String(publicConfig.settings.ttl_days); }
+  if (publicConfig.buttons) for (const [key, value] of Object.entries(publicConfig.buttons)) root.setAttribute('data-cc-show-' + key.replace('_', '-'), value ? '1' : '0');
   const version = root.dataset.ccPolicyVersion || '1';
   const configuredTtl = Number(root.dataset.ccTtlDays);
   const ttlDays = Number.isFinite(configuredTtl) ? Math.min(3650, Math.max(1, configuredTtl || 90)) : 90;
@@ -29,7 +34,8 @@
   let externalInput = root.querySelector('[data-cc-category="external_content"]');
   if (!externalInput) {
     const label = document.createElement('label'); label.className = 'cookie-option';
-    label.textContent = 'Внешний контент и карты';
+    label.textContent = '';
+    const text = document.createElement('span'); text.className = 'cookie-option__text'; text.innerHTML = '<strong></strong><small></small>'; label.append(text);
     externalInput = document.createElement('input'); externalInput.type = 'checkbox';
     externalInput.dataset.ccCategory = 'external_content'; label.append(externalInput);
     settings.insertBefore(label, settings.querySelector('.cookie-warning-settings__buttons'));
@@ -40,14 +46,15 @@
   for (const service of services) {
     const label = document.createElement('label'); label.className = 'cookie-option cc-provider';
     const text = document.createElement('span'); text.className = 'cookie-option__text';
-    const title = document.createElement('strong'); title.textContent = service.name;
-    const purpose = document.createElement('small'); purpose.textContent = service.purpose;
+    const title = document.createElement('strong'); title.dataset.ccText = 'service.' + service.key + '.name'; title.textContent = service.name;
+    const purpose = document.createElement('small'); purpose.dataset.ccText = 'service.' + service.key + '.description'; purpose.textContent = service.purpose;
     text.append(title, purpose);
     const input = document.createElement('input'); input.type = 'checkbox'; input.dataset.ccProvider = service.key;
     label.append(text, input); providerInputs.set(service.key, input);
     inputs[service.category].closest('label').after(label);
   }
   let consent = null;
+  let needsChoice = false;
   let hideTimer = null;
   let consentId = null;
   let auditQueue = Promise.resolve();
@@ -78,13 +85,13 @@
     }).then(async response => {
       if (response.status !== 200) throw new Error('HTTP ' + response.status);
       const body = await response.json();
-      if (body.ok !== true || body.event_id !== details.event_id || typeof body.server_time !== 'string') throw new Error('Invalid audit acknowledgement');
+      if (body.ok !== true || body.event_id !== details.event_id || typeof body.server_time !== 'string') throw new Error(t('error_ack'));
       window.dispatchEvent(new CustomEvent('web86:consent-audit-delivery', {
         detail: { event_id: details.event_id, ok: true }
       }));
       return true;
     }).catch(error => {
-      console.warn('[Cookie Consent] audit delivery failed:', error.message);
+      console.warn(t('error_audit'), error.message);
       window.dispatchEvent(new CustomEvent('web86:consent-audit-delivery', {
         detail: { event_id: details.event_id, ok: false }
       }));
@@ -95,7 +102,7 @@
 
   function getStorage() {
     try { return window.localStorage; }
-    catch (error) { console.warn('[Cookie Consent] localStorage unavailable', error); return null; }
+    catch (error) { console.warn(t('error_storage'), error); return null; }
   }
 
   function readConsent() {
@@ -109,11 +116,12 @@
         return null;
       }
       // M2 preference retains its ID, but cannot authorize newly disclosed providers.
+      needsChoice = services.some(service => typeof data.providers?.[service.key] === 'string' && data.providers[service.key] !== service.fingerprint);
       const providers = Object.create(null);
       for (const service of services) if (data.providers?.[service.key] === service.fingerprint && data[service.category] === true) providers[service.key] = service.fingerprint;
       return { ...data, external_content: data.external_content === true, providers };
     } catch (error) {
-      console.warn('[Cookie Consent] invalid saved preference', error);
+      console.warn(t('error_preference'), error);
       return null;
     }
   }
@@ -125,7 +133,7 @@
       storage.setItem(STORAGE_KEY, JSON.stringify(data));
       return true;
     } catch (error) {
-      console.warn('[Cookie Consent] cannot store preference', error);
+      console.warn(t('error_storage'), error);
       return false;
     }
   }
@@ -149,7 +157,7 @@
     window.dispatchEvent(new CustomEvent('web86:consent-audit', { detail: details }));
     if (mode === 'mock') console.info('[MOCK consent audit]', details);
     if (!details.event_id || !details.consent_id) {
-      console.warn('[Cookie Consent] secure random ID unavailable; audit not sent');
+      console.warn(t('error_random'));
       return Promise.resolve(false);
     }
     // Preserve order of draft checkbox clicks and the final Save/Accept action.
@@ -215,7 +223,7 @@
     // Remove frames synchronously on revocation before waiting for an audit response.
     if (revoked) {
       for (const map of maps) if (!value.providers[map.service.key] && map.frame) { map.frame.remove(); map.frame = null; }
-      if (!persisted) console.warn('[Cookie Consent] preference not persisted');
+      if (!persisted) console.warn(t('error_storage'));
       Promise.race([auditDelivery, new Promise(resolve => setTimeout(resolve, 900))]).finally(() => location.reload());
       return;
     }
@@ -232,22 +240,23 @@
   function setupMaps() {
     for (const node of document.querySelectorAll('[data-cc-map-provider]')) {
       const service = services.find(s => s.key === node.dataset.ccMapProvider && s.category === 'external_content');
-      const title = node.dataset.ccMapTitle || 'Карта';
+      const title = node.dataset.ccMapTitle || t('map_title');
       // Markup MUST be inert div data-cc-map-src, never an iframe src or remote image.
       node.replaceChildren();
-      if (!service) { node.textContent = title + ': сервис отключён'; continue; }
+      if (!service) { node.textContent = t('map_disabled', { title }); continue; }
       let url;
       try { url = registry.safeMapUrl(service, node.dataset.ccMapSrc || '', mode); }
-      catch (_) { node.textContent = title + ': адрес карты отклонён'; continue; }
+      catch (_) { node.textContent = t('map_rejected', { title }); continue; }
       const placeholder = document.createElement('section'); placeholder.className = 'cc-map-placeholder';
-      const heading = document.createElement('h3'); heading.textContent = title;
+      const heading = document.createElement('h3'); heading.textContent = title; heading.hidden = service.config.show_title === false;
       const description = document.createElement('p');
-      description.textContent = service.name + ': загрузка передаст провайдеру IP и данные браузера. Разрешение относится к этому сервису карт. Его можно отозвать здесь или в настройках cookie.';
-      const load = document.createElement('button'); load.type = 'button'; load.textContent = 'Загрузить карту — ' + service.name;
+      const provider = t('service.' + service.key + '.name', {}, service.name);
+      description.textContent = t('service.' + service.key + '.map_notice', { provider }, t('map_notice', { provider }));
+      const load = document.createElement('button'); load.type = 'button'; load.textContent = t('map_load', { provider });
       load.dataset.ccMapLoad = service.key; load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
       placeholder.append(heading, description, load);
       const revoke = document.createElement('button'); revoke.type = 'button'; revoke.hidden = true;
-      revoke.textContent = 'Отозвать разрешение — ' + service.name; revoke.dataset.ccMapRevoke = service.key;
+      revoke.textContent = t('map_revoke', { provider }); revoke.dataset.ccMapRevoke = service.key;
       revoke.addEventListener('click', () => mapChoice(service, false));
       node.append(placeholder, revoke); maps.push({ node, placeholder, revoke, service, title, url, frame: null });
     }
@@ -260,8 +269,9 @@
       'accept-all': root.dataset.ccShowAcceptAll !== '0',
       accept: root.dataset.ccShowAccept === '1'
     };
+    if (options.accept) { options.configure = false; options['accept-all'] = false; }
     if (!Object.values(options).some(Boolean)) {
-      console.warn('[Cookie Consent] all actions disabled. Showing Configure as fail-safe.');
+      console.warn(t('error_buttons'));
       options.configure = true;
     }
     for (const [action, enabled] of Object.entries(options)) {
@@ -300,6 +310,22 @@
   }
 
   function initialize() {
+    if (!document.querySelector('[data-cookie-settings-open]')) { const reopen = document.createElement('button'); reopen.type = 'button'; reopen.dataset.cookieSettingsOpen = ''; reopen.className = 'cc-settings-launcher'; document.body.append(reopen); }
+    root.setAttribute('aria-label', t('region_label'));
+    root.querySelector('.cookie-warning-text').innerHTML = t('notice_html');
+    settingsHeading.textContent = t('settings_title');
+    settings.querySelector('p').textContent = t('settings_intro');
+    const necessary = root.querySelector('input:disabled');
+    necessary.setAttribute('aria-label', t('necessary_aria'));
+    necessary.closest('label').querySelector('strong').textContent = t('necessary_name');
+    necessary.closest('label').querySelector('small').textContent = t('necessary_description');
+    for (const [key,input] of Object.entries(inputs)) {
+      input.closest('label').querySelector('strong').textContent = t(key + '_name');
+      input.closest('label').querySelector('small').textContent = t(key + '_description');
+    }
+    for (const button of root.querySelectorAll('[data-cc-action]')) button.textContent = t(button.dataset.ccAction === 'save' ? 'save' : button.dataset.ccAction.replace('-', '_'));
+    for (const button of document.querySelectorAll('[data-cookie-settings-open]')) button.textContent = t('reopen');
+    for (const element of root.querySelectorAll('[data-cc-text]')) element.textContent = t(element.dataset.ccText, {}, element.textContent);
     setupButtonVisibility();
     root.addEventListener('click', onClick);
     for (const [category, input] of Object.entries(inputs)) input.addEventListener('change', () => {
@@ -330,7 +356,7 @@
     try { if (consentId) getStorage()?.setItem(STORAGE_KEY + '_id', consentId); } catch (_) { /* unavailable */ }
     setupMaps();
     if (consent) applyConsent(consent);
-    else showBanner();
+    if (!consent || needsChoice) showBanner();
   }
 
   window.web86CookieConsent = Object.freeze({
@@ -344,6 +370,7 @@
     } } : {})
   });
 
-  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initialize, { once: true });
-  else initialize();
+  const ready = () => (i18n?.ready || Promise.resolve()).then(initialize);
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
+  else ready();
 })();

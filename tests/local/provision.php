@@ -5,6 +5,7 @@ ob_start(); require '/var/www/html/index.php'; while (ob_get_level()) ob_end_cle
 require_once '/opt/cc-source/server/src/CookieConsentServiceRegistry.php';
 $registry=CookieConsentServiceRegistry::defaults();
 foreach ($registry['services'] as &$service) {
+    $service['enabled']=true;
     if (in_array($service['loader'],['google_ga4','google_gtm','google_ads'],true)) {
         $service['enabled']=true;
         $service['config']=['id'=>match($service['loader']){'google_ga4'=>'G-MOCK1234','google_gtm'=>'GTM-MOCK1234','google_ads'=>'AW-12345678'}];

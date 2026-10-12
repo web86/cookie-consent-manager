@@ -16,7 +16,8 @@ check(CookieConsentPrivatePath::directory($logs,$webroot)===$logs,'Private path'
 foreach ([$webroot,$webroot.'/nested','relative',$logs.'/../logs',$root.'/missing','/'] as $path) throws(fn()=>CookieConsentPrivatePath::directory($path,$webroot),RuntimeException::class);
 symlink($logs,$root.'/alias');throws(fn()=>CookieConsentPrivatePath::directory($root.'/alias',$webroot),RuntimeException::class);
 mkdir($root.'/locked',0500);if (posix_geteuid()!==0) throws(fn()=>CookieConsentPrivatePath::directory($root.'/locked',$webroot),RuntimeException::class);
-$registry=CookieConsentServiceRegistry::validateJson(json_encode(CookieConsentServiceRegistry::defaults()));
+$fixture=CookieConsentServiceRegistry::defaults();foreach($fixture['services'] as &$s)if(in_array($s['loader'],['google_maps','yandex_maps'],true))$s['enabled']=true;unset($s);
+$registry=CookieConsentServiceRegistry::validateJson(json_encode($fixture));
 check(count($registry['services'])===7,'Default services');
 $bad=$registry;$bad['services'][0]['loader']='javascript:alert(1)';throws(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)),InvalidArgumentException::class);
 $bad=$registry;$bad['services'][0]['config']['script']='https://evil.test/x.js';throws(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)),InvalidArgumentException::class);

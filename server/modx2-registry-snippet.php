@@ -1,12 +1,14 @@
 <?php
-// MODX snippet CookieConsentRegistry. Install without the opening PHP tag.
-// Run uncached: [[!CookieConsentRegistry]]. No public configuration writer.
+// Install uncached [[!CookieConsentRegistry]]. Translations are JSON, never parsed HTML.
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
-    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
-    $json=CookieConsentServiceRegistry::publicJson($setting ? (string)$setting->get('value') : '');
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    $data=CookieConsentSettings::read($modx);
+    $language=CookieConsentTexts::language((string)$modx->getOption('cultureKey',null,'en'));
+    $json=CookieConsentTexts::safeJson($data['registry']);
+    $public=CookieConsentTexts::safeJson(['locale'=>$language,'strings'=>CookieConsentTexts::resolve($data['texts'],$language,$data['registry']['services']),
+        'settings'=>$data['options'],'buttons'=>CookieConsentSettings::effectiveButtons($data['options'])]);
 } catch (Throwable $e) {
-    $modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Invalid service registry');
-    $json='{"schema":1,"services":[]}'; // Fail closed; do not fall back to live defaults.
+    $modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Invalid public configuration');
+    $json='{"schema":1,"services":[]}';$public='{}';
 }
-return '<script type="application/json" id="cc-service-registry">'.$json.'</script>';
+return '<script type="application/json" id="cc-service-registry">'.$json.'</script><script type="application/json" id="cc-public-config">'.$public.'</script>';

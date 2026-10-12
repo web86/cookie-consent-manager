@@ -81,3 +81,8 @@ Google allowlist: HTTPS, ровно `www.google.com`, `/maps/embed` или `/map
 Старые девять полей M2 без `schema` остаются допустимы и пишутся как JSONL `schema:1`. Новые события содержат дополнительно `schema:2`, `external_content`, `providers` (объект boolean по включённым ключам), `provider` (ключ целевого сервиса либо null). События `map_allow/map_deny` — committed; `provider_allow/provider_deny`, `external_content_allow/external_content_deny` — draft. Сервер проверяет соответствие провайдера текущему реестру и категории; draft не загружает сервисы. При одновременном изменении реестра уже открытый клиент может получить 400: обновить страницу; успешный аудит не заявляется.
 
 Исторические файлы не переписываются. Читателю JSONL следует поддержать обе схемы; в schema 1 отсутствие external_content/providers означает «не записано», а не новое разрешение карт. Преференции M2 могут сохранять consent_id, но не дают разрешения новым провайдерам. `popup_yurist` полностью игнорируется.
+
+
+## Дополнение Manager/i18n
+
+При новой установке теперь все необязательные записи disabled. CLI upgrade сохраняет существующие значения. Контракт schema 1 расширен optional purpose_id и типизированными boolean-параметрами; актуальный перечень и схема переводов — [архитектура Manager](modx2-manager-architecture.md). Сведения выше описывают baseline M3, включая первоначальное связывание имени/описания с разрешением. Текущий fingerprint v2 исключает переводы/display text и cosmetic show_title, включает стабильное назначение и effective privacy config. Переход требует нового выбора старых per-provider permissions, сохраняет consent_id и JSONL. Отдельные серверные настройки texts/options читаются тем же публичным snippet; конкурирующего реестра нет.
