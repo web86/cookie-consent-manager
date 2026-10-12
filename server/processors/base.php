@@ -9,10 +9,17 @@ abstract class CookieConsentManagerProcessor extends modProcessor
         $value=json_decode($raw,true,32,JSON_THROW_ON_ERROR);if(!is_array($value))throw new InvalidArgumentException('Draft object');return $value;
     }
     public function process(){
-        try {return $this->success('', $this->execute());}
-        catch(DomainException $e){return $this->failure('conflict');}
-        catch(InvalidArgumentException|JsonException $e){return $this->failure($e->getMessage());}
-        catch(Throwable $e){$this->modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsentManager] '.get_class($e));return $this->failure('Settings unavailable');}
+        $requestId=bin2hex(random_bytes(8));
+        try {
+            if (($_SERVER['REQUEST_METHOD']??'')!=='POST') throw new InvalidArgumentException('POST required');
+            return $this->success('', $this->execute());
+        } catch(Throwable $e) {
+            $code=$e instanceof DomainException?'conflict':($e instanceof InvalidArgumentException||$e instanceof JsonException?'validation':'unavailable');
+            // Log only a bounded diagnostic, never draft/configuration/secret values.
+            $reason=preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():$code;
+            $this->modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsentManager] request='.$requestId.' processor='.get_class($this).' exception='.get_class($e).' reason='.$reason);
+            return $this->failure($code,['code'=>$code,'request_id'=>$requestId,'reason'=>$reason]);
+        }
     }
     abstract protected function execute(): array;
 }

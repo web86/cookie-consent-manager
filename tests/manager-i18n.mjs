@@ -51,7 +51,7 @@ try {
   });
   await test('service-display-edit-updates-unsaved-preview-and-public-text',async()=>{
     const name = 'Имя из настроек сервиса';
-    await page.locator('[data-settings=yandex] input[type=text]').first().fill(name);
+    await page.locator('#ccm-tab-texts').click();await page.locator('[data-text-key="service.yandex.name"]').fill(name);
     await state('preferences');equal(await frame().locator('[data-preview-service=yandex] strong').textContent(),name);
     await save();const p=await front('ru');equal(await p.locator('[data-cc-provider=yandex]').locator('..').locator('strong').textContent(),name);await p.close();
   });
@@ -63,12 +63,11 @@ try {
     const p=await front('ru');equal(await p.locator('[data-cc-action=configure]').isVisible(),false);equal(await p.locator('[data-cc-action=accept-all]').isVisible(),false);equal(await p.locator('[data-cookie-settings-open]').count(),1);await p.close();
     await page.locator('#ccm-show-accept').uncheck();equal(await page.locator('#ccm-show-configure').isChecked(),configure);equal(await page.locator('#ccm-show-configure').isDisabled(),false);await save();
   });
-  await test('languages-from-modx-and-extra-locale',async()=>{
-    await page.locator('#ccm-tab-texts').click();const languages=await page.locator('#ccm-stock-language option').evaluateAll(xs=>xs.map(x=>x.value));ok(languages.length>20,'MODX inventory');ok(languages.includes('tr')&&languages.includes('ja'));
-    await page.locator('#ccm-stock-language').selectOption('tr');await page.locator('#ccm-add-language').click();equal(await page.locator('#ccm-edit-language').inputValue(),'tr');
-    await page.locator('[data-text-key=reject]').fill('Reddet');
-    await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('#ccm-edit-language').selectOption('tr');equal(await page.locator('[data-text-key=reject]').inputValue(),'Reddet','Draft survives switch');
-    await page.locator('#ccm-custom-language').fill('pt-BR');await page.locator('#ccm-add-language').click();equal(await page.locator('#ccm-edit-language').inputValue(),'pt-br');await save();
+  await test('languages-from-modx-single-select-and-preserved-draft',async()=>{
+    await page.locator('#ccm-tab-texts').click();const languages=await page.locator('#ccm-edit-language option').evaluateAll(xs=>xs.map(x=>x.value));ok(languages.length>20,'MODX inventory');ok(languages.includes('tr')&&languages.includes('ja'));
+    equal(await page.locator('#ccm-stock-language,#ccm-custom-language,#ccm-base-language,[data-restore]').count(),0);
+    await page.locator('#ccm-edit-language').selectOption('tr');await page.locator('[data-text-key=analytics_name]').fill('Istatistik');
+    await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('#ccm-edit-language').selectOption('tr');equal(await page.locator('[data-text-key=analytics_name]').inputValue(),'Istatistik');await save();
   });
   await test('html-source-sanitization-preview-and-parser-tags',async()=>{
     await page.locator('#ccm-edit-language').selectOption('ru');
@@ -77,10 +76,10 @@ try {
     await page.screenshot({path:`${dir}/html-source-and-preview.png`});await save();
     const stored=JSON.parse(control(['setting','cookie_consent.texts','get']));ok(stored.locales.ru.notice_html.includes('<strong>целиком</strong>'));ok(!stored.locales.ru.notice_html.includes('<script>'));ok(!stored.locales.ru.notice_html.includes('onclick'));
     const p=await front('ru');ok((await p.locator('.cookie-warning-text').innerText()).includes('[[!CookieConsentRegistry]]'));ok((await p.locator('.cookie-warning-text').innerText()).includes('{php}evil{/php}'));equal(await p.locator('.cookie-warning-text a[href="/soglasie"]').count(),1);equal(await p.evaluate(()=>window.__XSS),undefined);await p.close();
-    await page.locator('[data-restore=notice_html]').click();await save();
+    await page.locator('#ccm-notice-html').fill(JSON.parse(control(['setting','cookie_consent.texts','get'])).locales.ru.notice_html.replace(/\[\[.*?\]\]|\{php\}.*?\{\/php\}/g,''));await save();
   });
   await test('context-culturekey-and-fallback',async()=>{
-    const p=await front('tr');equal(await p.locator('[data-cc-action=reject]').textContent(),'Reddet');equal(await p.locator('[data-cc-action=accept-all]').textContent(),'Принять все');await p.close();
+    const p=await front('tr');equal((await p.locator('#cc-public-config').textContent()).includes('Istatistik'),true);equal(await p.locator('[data-cc-action=accept-all]').textContent(),'Принять все');await p.close();
     const en=await front('en');equal(await en.locator('[data-cc-action=reject]').textContent(),'Reject');await en.close();
   });
   await test('translation-does-not-revoke-consent',async()=>{
@@ -95,9 +94,9 @@ try {
     requests.length=0;await p.reload({waitUntil:'networkidle'});ok(!requests.some(u=>u.endsWith('/mock/yandex.js')),'Changed service blocked');equal(Boolean((await p.evaluate(()=>window.web86CookieConsent.getConsent())).providers.yandex),false);await p.close();
   });
   await test('new-service-through-group-controls',async()=>{
-    await page.locator('[data-group=analytics] .ccm-add-service summary').click();await page.locator('[data-add-adapter=analytics]').selectOption('google_ga4');await page.locator('[data-add-key=analytics]').fill('extra_cmp');await page.locator('[data-add-service=analytics]').click();
-    await page.locator('[data-settings=extra_cmp] summary').click();await page.locator('#ccm-id-extra_cmp').fill('G-EXTRA123');await page.locator('#ccm-enable-extra_cmp').check();await save();
-    const p=await front('en');equal(await p.locator('[data-cc-provider=extra_cmp]').count(),1);equal(await p.locator('[data-cc-provider=extra_cmp]').isChecked(),false);await p.close();
+    await page.locator('#ccm-add-counter summary').click();await page.locator('#ccm-counter-adapter').selectOption('google_ga4');await page.locator('#ccm-counter-name').fill('Extra counter');await page.locator('#ccm-counter-id').fill('G-EXTRA123');await page.locator('#ccm-counter-add').click();
+    await page.locator('#ccm-enable-google_ga4_2').check();await save();
+    const p=await front('en');equal(await p.locator('[data-cc-provider=google_ga4_2]').count(),1);equal(await p.locator('[data-cc-provider=google_ga4_2]').isChecked(),false);await p.close();
   });
   await test('failed-save-keeps-draft',async()=>{
     await page.locator('#ccm-tab-main').click();await page.locator('#ccm-ttl').fill('120');

@@ -131,4 +131,24 @@ $_lang = [
     'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];
 
-$_lang['cookie_consent.upgrade_elements'] = 'Updates preserve active chunks and snippets. Compare the *_package_VERSION stock copies in Elements and apply changes explicitly; installation never edits templates.';
+$_lang['m.upgrade_elements'] = 'Updates preserve active chunks and snippets. Compare the *_package_VERSION stock copies in Elements and apply changes explicitly; installation never edits templates.';
+
+$_lang['m.audit_setup'] = 'Set up audit';
+$_lang['m.audit_protect'] = 'Check directory protection';
+$_lang['m.audit_test'] = 'Test POST → log';
+$_lang['m.audit_setup_success'] = 'Audit parameters ready. Choose a log directory and save.';
+$_lang['m.audit_protect_success'] = 'Directory protection confirmed by HTTP checks.';
+$_lang['m.audit_test_success'] = 'Test POST accepted and found in the log.';
+$_lang['m.audit_flow'] = '1. Set up audit. 2. Choose an existing PHP-writable directory; check protection if inside the website. 3. Save. 4. Test POST. The POST test appends a real test event. Existing logs are retained.';
+$_lang['m.advanced'] = 'Advanced actions';
+$_lang['m.reconsent'] = 'Request consent again from all visitors';
+$_lang['m.reconsent_confirm'] = 'All visitors will see the banner again on their next visit. Continue?';
+$_lang['m.reconsent_success'] = 'Consent will be requested again.';
+$_lang['m.save_first'] = 'Save or discard the form changes first.';
+$_lang['m.add_counter'] = 'Add another counter';
+$_lang['m.counter_invalid'] = 'Check the name and ID for the selected adapter.';
+$_lang['m.counter_added'] = 'Counter added to the form. Click Save to apply.';
+$_lang['m.log_safe'] = 'A directory outside DOCUMENT_ROOT is recommended. Inside the site only Apache with verified HTTP denial is supported; use a private directory with nginx/CDN. Symlinks and traversal are rejected.';
+$_lang['m.integration_help'] = 'Add this snippet once to the shared website template. Installation does not edit templates.';
+$_lang['m.remove_direct_scripts'] = 'Remove old direct analytics scripts and noscript pixels: they send requests independently of consent.';
+$_lang['m.map_api_help'] = 'For pages with maps use CookieConsentMap with provider and src parameters. See the component documentation for examples and allowed URLs.';

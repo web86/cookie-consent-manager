@@ -14,7 +14,7 @@ for name in names:
  path=root/('.local/transport-'+name)
  if path.exists():path.rename(path.with_name(path.name+'-archive-'+datetime.datetime.now().strftime('%Y%m%d%H%M%S')))
 runpy.run_path(str(root/'tests/transport/prepare.py'))
-run(compose+['up','-d']+names)
+run(compose+['up','-d','--force-recreate','--no-deps']+names)
 for name in names:
  private='/opt/cc-clean' if name=='clean' else '/opt/cc-publiccore'
  run(compose+['exec','-T',name,'php','/opt/cc-source/tests/transport/install-modx.php',name])

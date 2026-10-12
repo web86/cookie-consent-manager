@@ -14,6 +14,9 @@ try {
     $GLOBALS['cookieConsentModxLogDir']=$setting ? (string)$setting->get('value') : '';
     $configSetting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
     $GLOBALS['cookieConsentAuditConfigFile']=$configSetting ? (string)$configSetting->get('value') : '';
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditConfiguration.php';
+    if(($_SERVER['REQUEST_METHOD']??'')==='POST' && preg_match('~^application/json~i',$_SERVER['CONTENT_TYPE']??''))
+        $GLOBALS['cookieConsentAuditOptions']=CookieConsentAuditConfiguration::forModx($modx);
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
     $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
     $GLOBALS['cookieConsentServiceRegistry']=CookieConsentServiceRegistry::validateJson($setting ? (string)$setting->get('value') : '');

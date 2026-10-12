@@ -38,7 +38,7 @@ final class CookieConsentSettings
         $draft['options']=self::options($draft['options']);
         if (!is_string($draft['audit_config_file'])) throw new InvalidArgumentException('Private config path');
         if ($strict && $draft['audit_config_file']!=='') { require_once __DIR__.'/CookieConsentAuditConfiguration.php';CookieConsentAuditConfiguration::path($draft['audit_config_file'],$webroot,true); }
-        if ($strict && $draft['log_dir']!=='') $draft['log_dir']=CookieConsentPrivatePath::directory($draft['log_dir'],$webroot);
+        if ($strict && $draft['log_dir']!=='') $draft['log_dir']=self::logDirectory($draft['log_dir'],$webroot);
         $registry=$draft['registry'];
         if (!$strict) {
             if (!is_array($registry['services']??null)) throw new InvalidArgumentException('Services list');
@@ -55,6 +55,11 @@ final class CookieConsentSettings
         $draft['texts']=CookieConsentTexts::validate($draft['texts']);
         return $draft;
     }
+    private static function logDirectory(string $dir,string $root): string {
+        global $modx;require_once __DIR__.'/CookieConsentAuditConfiguration.php';require_once __DIR__.'/CookieConsentLogDirectory.php';
+        if(!CookieConsentLogDirectory::inside((string)realpath($dir),$root))return CookieConsentPrivatePath::directory($dir,$root);
+        return CookieConsentLogDirectory::validate($dir,$root,CookieConsentAuditConfiguration::forModx($modx)['site_origin']);
+    }
     public static function languages(string $core): array
     {
         $languages=[];foreach(new DirectoryIterator($core.'lexicon/') as $entry){if($entry->isDot()||!$entry->isDir()||$entry->isLink()||!is_file($entry->getPathname().'/default.inc.php'))continue;try{$languages[]=CookieConsentTexts::language($entry->getFilename());}catch(InvalidArgumentException $e){}}
@@ -63,7 +68,8 @@ final class CookieConsentSettings
     public static function save($modx,array $draft,string $revision): array
     {
         if (!array_key_exists('audit_config_file',$draft)) $draft['audit_config_file']=self::read($modx)['audit_config_file'];
-        $draft=self::validate($draft,MODX_BASE_PATH);
+        require_once __DIR__.'/CookieConsentAuditConfiguration.php';
+        $draft=self::validate($draft,CookieConsentAuditConfiguration::webroot());
         $modx->beginTransaction();
         try {
             $table=$modx->getTableName('modSystemSetting');

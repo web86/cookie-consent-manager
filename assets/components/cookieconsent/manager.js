@@ -6,21 +6,32 @@
     const boot = window.CookieConsentManagerBootstrap;
     let data, draft, revision, editLanguage, previewLanguage, previewState = 'banner', dirty = false, previewTimer, sequence = 0;
     const api = async (action, values = {}) => {
-      const response = await fetch(boot.connector, { method: 'POST', credentials: 'same-origin', mode: 'same-origin',
-        headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'modAuth': boot.auth },
-        body: new URLSearchParams({ action, HTTP_MODAUTH: boot.auth, ...values }) });
-      const json = await response.json();
-      if (!json.success) throw Error(json.message === 'conflict' ? (data?.managerStrings['m.conflict'] || 'Conflict') : (data?.managerStrings['m.error'] || 'Request failed'));
+      let response, json;
+      const fail = (code, requestId = '') => Error((data?.managerStrings['m.error'] || boot.errorMessage || 'Request failed; draft retained') + ` (${action}, HTTP ${response?.status || 0}, ${code}${requestId ? ', ' + requestId : ''})`);
+      try {
+        response = await fetch(boot.connector, { method: 'POST', credentials: 'same-origin', mode: 'same-origin',
+          headers: { 'Content-Type': 'application/x-www-form-urlencoded', 'modAuth': boot.auth },
+          body: new URLSearchParams({ action, HTTP_MODAUTH: boot.auth, ...values }) });
+      } catch (_) { throw fail('network'); }
+      try { json = await response.json(); } catch (_) { throw fail('invalid_response'); }
+      if (!response.ok || !json.success) {
+        if (json.message === 'conflict') throw Error(data?.managerStrings['m.conflict'] || 'Conflict');
+        const diagnostic = json.object || {};
+        const code = diagnostic.code || (/permission|access|auth/i.test(json.message || '') ? 'authorization' : 'processor');
+        throw fail(code + (diagnostic.reason && /^[a-z_]{1,40}$/.test(diagnostic.reason) ? ':' + diagnostic.reason : ''), diagnostic.request_id);
+      }
       return json.object;
     };
     try { data = await api('get'); } catch (e) { root.textContent = e.message; return; }
-    const t = key => data.managerStrings['m.' + key] || data.managerStrings[key] || key;
+    const t = key => data.managerStrings['m.' + key] || data.managerStrings[key] || data.lexicons.en['m.' + key] || '…';
     const el = (tag, text, attributes = {}) => { const node = document.createElement(tag); if (text != null) node.textContent = text; for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value); return node; };
     const idPatterns = { yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
     const clone = value => JSON.parse(JSON.stringify(value));
     draft = { options: clone(data.options), registry: clone(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' };
     revision = data.revision; editLanguage = data.managerLanguage; previewLanguage = editLanguage;
     draft.texts.locales[editLanguage] ||= {};
+    document.body.classList.add('ccm-manager');
+    const scrollHost = root.closest('.x-panel-body'); if (scrollHost) scrollHost.classList.add('ccm-scroll-host');
     root.removeAttribute('aria-busy'); root.className = 'ccm-page';
     const header = el('header'); header.append(el('h2', t('title')));
     const save = el('button', t('save'), { type: 'button', id: 'ccm-save', class: 'ccm-primary' });
@@ -32,7 +43,7 @@
     for (const key of ['main', 'services', 'texts', 'logs']) {
       const button = el('button', t(key), { type: 'button', role: 'tab', id: 'ccm-tab-' + key, 'aria-controls': 'ccm-panel-' + key, 'aria-selected': String(key === 'main') });
       const panel = el('section', null, { role: 'tabpanel', id: 'ccm-panel-' + key, 'aria-labelledby': button.id, class: 'ccm-panel' }); panel.hidden = key !== 'main'; panels[key] = panel;
-      button.onclick = () => { for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
+      button.onclick = () => { previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
@@ -45,17 +56,31 @@
     }
     field(panels.main, t('ttl_days'), draft.options.ttl_days, v => draft.options.ttl_days = v, 'number', 'ccm-ttl').setAttribute('min', '1');
     document.getElementById('ccm-ttl').setAttribute('max', '3650');
-    field(panels.main, t('policy_version'), draft.options.policy_version, v => draft.options.policy_version = v, 'text', 'ccm-policy');
+
     const buttons = {};
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
     field(panels.main, t('log_dir'), draft.log_dir, v => { draft.log_dir = v; logPath.textContent = v; }, 'text', 'ccm-log-dir', t('log_safe'));
-    field(panels.main, t('audit_config_file'), draft.audit_config_file, v => draft.audit_config_file = v, 'text', 'ccm-audit-config', t('audit_help'));
+
     panels.main.append(el('p', t('upgrade_elements'), { id: 'ccm-upgrade-elements' }));
     const auditState = el('p', t('audit_' + (data.auditStatus?.state || 'not_configured')), { id: 'ccm-audit-status', role: 'status' }); panels.main.append(auditState);
+    const auditActions = el('div', null, { class: 'ccm-actions' }); panels.main.append(auditActions);
+    for (const [action, label] of [['audit_setup','audit_setup'], ['audit_protect','audit_protect'], ['audit_test','audit_test']]) {
+      const button=el('button', t(label), {type:'button', id:'ccm-'+action.replaceAll('_','-')});
+      button.onclick=async()=>{button.disabled=true;try {const result=await api(action, {log_dir:draft.log_dir});
+        if(result.auditStatus)auditState.textContent=t('audit_'+result.auditStatus.state);
+        status.textContent=t(action+'_success');status.dataset.state=dirty?'dirty':'saved';
+      }catch(e){status.textContent=e.message;status.dataset.state='error';}finally{button.disabled=false;}};
+      auditActions.append(button);
+    }
+    panels.main.append(el('p',t('audit_flow'),{class:'ccm-help'}));
+    const advanced=el('details',null,{id:'ccm-advanced'});advanced.append(el('summary',t('advanced')));
+    const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
+    reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
+      reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('pre', '[[!CookieConsentRegistry]]\n<link rel="stylesheet" href="/assets/css/cookie-consent.css">\n<script src="/assets/js/cookie-consent/i18n.js" defer></script>\n<script src="/assets/js/cookie-consent/provider-registry.js" defer></script>\n<script src="/assets/js/cookie-consent/consent-manager.js" defer></script>\n[[$CookiesPopup]]\n<div data-cc-map-provider="google_maps" data-cc-map-src="APPROVED_HTTPS_EMBED_URL"></div>')); panels.main.append(integration);
+    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);
     panels.logs.append(el('h3', t('logs')), el('p', t('logs_help')));
     const logPath = el('code', draft.log_dir, { id: 'ccm-log-path' }); panels.logs.append(logPath);
     function textSource(language, key) {
@@ -74,14 +99,11 @@
         const group = el('section', null, { class: 'ccm-service-group', 'data-group': category }); group.append(el('h3', data.managerStrings[category + '_name']));
         for (const service of draft.registry.services.filter(s => s.category === category)) {
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
-          card.append(el('h4', textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name), el('p', textSource(data.managerLanguage, 'service.' + service.key + '.description') || service.purpose));
+          card.append(el('h4', textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name));
           const validity = el('span', null, { class: 'ccm-config-status' });
           const updateValidity = () => { validity.textContent = idPatterns[service.loader] && ((service.enabled && !service.config.id) || (service.config.id && !idPatterns[service.loader].test(service.config.id))) ? t('needs_id') : t('configured'); };
           field(card, t('enable'), service.enabled, v => { service.enabled = v; updateValidity(); }, 'checkbox', 'ccm-enable-' + service.key); card.append(validity); updateValidity();
           const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); card.append(details);
-          field(details, t('name'), textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name, v => { service.name = v; draft.texts.locales[data.managerLanguage] ||= {}; draft.texts.locales[data.managerLanguage]['service.' + service.key + '.name'] = v; });
-          field(details, t('purpose'), textSource(data.managerLanguage, 'service.' + service.key + '.description') || service.purpose, v => { service.purpose = v; draft.texts.locales[data.managerLanguage] ||= {}; draft.texts.locales[data.managerLanguage]['service.' + service.key + '.description'] = v; });
-          field(details, t('purpose_id'), service.purpose_id || service.key, v => service.purpose_id = v, 'text', 'ccm-purpose-' + service.key, t('purpose_help'));
           if (['yandex','mailru','google_ga4','google_ads','google_gtm'].includes(service.loader)) field(details, t({ google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
           for (const [key, fallback] of Object.entries(data.booleanOptions[service.loader] || {})) field(details, t(key), service.config[key] ?? fallback, v => service.config[key] = v, 'checkbox', 'ccm-' + service.key + '-' + key);
           const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help' }[service.loader];
@@ -89,51 +111,44 @@
           if (!Object.hasOwn(data.catalog, service.key)) { const remove = el('button', t('delete'), { type: 'button' }); remove.onclick = () => { draft.registry.services = draft.registry.services.filter(s => s !== service); changed(); renderServices(); renderTexts(); }; details.append(remove); }
           group.append(card);
         }
-        // Adapter selector applies only to a new entry INSIDE its category, not the service list.
-        const add = el('details', null, { class: 'ccm-add-service' }); add.append(el('summary', t('add_service')));
-        const adapterLabel = el('label', t('adapter')), adapter = el('select', null, { 'data-add-adapter': category });
-        for (const [name, meta] of Object.entries(data.catalog)) if (meta.category === category) adapter.append(el('option', data.managerStrings['service.' + name + '.name'] || name, { value: name })); adapterLabel.append(adapter); add.append(adapterLabel);
-        const key = el('input', null, { placeholder: t('key'), 'aria-label': t('key'), 'data-add-key': category }); add.append(key);
-        const button = el('button', t('add_service'), { type: 'button', 'data-add-service': category }); button.onclick = () => {
-          if (!/^[a-z][a-z0-9_]{0,31}$/.test(key.value) || draft.registry.services.some(s => s.key === key.value) || draft.registry.services.length >= 32) { status.textContent = t('error'); return; }
-          draft.registry.services.push({ key: key.value, purpose_id: key.value, loader: adapter.value, category, enabled: false, name: data.managerStrings['service.' + adapter.value + '.name'], purpose: data.managerStrings['service.' + adapter.value + '.description'], config: {} }); changed(); renderServices(); renderTexts();
-        }; add.append(button); group.append(add); panels.services.append(group);
+        panels.services.append(group);
       }
+      const add=el('details',null,{class:'ccm-add-service',id:'ccm-add-counter'});add.append(el('summary',t('add_counter')));
+      const adapter=el('select',null,{id:'ccm-counter-adapter','aria-label':t('adapter')});
+      for(const [key,meta] of Object.entries(data.catalog))if(idPatterns[key])adapter.append(el('option',textSource(data.managerLanguage,'service.'+key+'.name'),{value:key}));
+      add.append(el('label',t('adapter')),adapter);
+      const name=field(add,t('name'),'',()=>{},'text','ccm-counter-name');
+      const counterId=field(add,t('counter_id'),'',()=>{},'text','ccm-counter-id');
+      const button=el('button',t('add_counter'),{type:'button',id:'ccm-counter-add'});add.append(button);panels.services.append(add);
+      // Inputs in the add form are provisional, only a validated card changes the draft.
+      button.onclick=()=>{
+        if(!idPatterns[adapter.value]?.test(counterId.value)||!name.value.trim()||new TextEncoder().encode(name.value.trim()).length>100||/[<>\x00-\x1f]/.test(name.value)||draft.registry.services.length>=32){status.textContent=t('counter_invalid');return;}
+        let n=2,key;do{key=adapter.value+'_'+n++;}while(draft.registry.services.some(s=>s.key===key));
+        const meta=data.catalog[adapter.value];
+        draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:meta.category,enabled:false,name:name.value.trim(),purpose:data.lexicons.en['service.'+adapter.value+'.description'],config:{id:counterId.value}});
+        draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+key+'.name']=name.value.trim();
+        changed();renderServices();renderTexts();status.textContent=t('counter_added');
+        const card=panels.services.querySelector('[data-service="'+key+'"]');card.scrollIntoView({block:'center'});
+      };
     }
     const editorControls = el('div', null, { class: 'ccm-language-controls' }); panels.texts.append(editorControls);
     const editSelect = el('select', null, { id: 'ccm-edit-language', 'aria-label': t('language') }); editorControls.append(el('label', t('language')), editSelect);
-    const stockSelect = el('select', null, { id: 'ccm-stock-language', 'aria-label': t('add_language') }); languages(stockSelect, data.managerLanguage, true);
-    const custom = el('input', null, { id: 'ccm-custom-language', placeholder: t('custom_language'), 'aria-label': t('custom_language') });
-    const addLanguage = el('button', t('add_language'), { type: 'button', id: 'ccm-add-language' }); editorControls.append(stockSelect, custom, addLanguage);
-    const base = el('select', null, { id: 'ccm-base-language', 'aria-label': t('base_language') }); editorControls.append(el('label', t('base_language')), base);
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
-      languages(editSelect, editLanguage); languages(base, draft.texts.base_language);
-      textFields.replaceChildren();
-      const keys = new Set(Object.keys(data.lexicons.en).filter(k => !k.startsWith('m.')));
-      for (const s of draft.registry.services) { keys.add('service.' + s.key + '.name'); keys.add('service.' + s.key + '.description'); if (s.category === 'external_content') keys.add('service.' + s.key + '.map_notice'); }
-      for (const key of keys) {
-        const overrides = draft.texts.locales[editLanguage];
-        const row = el('div', null, { class: 'ccm-text-row', 'data-text-row': key });
-        const badge = el('span', Object.hasOwn(overrides, key) ? t('translated') : t('fallback'), { class: 'ccm-translation-status' });
-        const input = field(row, key === 'notice_html' ? t('banner') + ' — HTML' : (data.managerStrings[key] || key), textSource(editLanguage, key), v => { overrides[key] = v; badge.textContent = t('translated'); }, key === 'notice_html' ? 'textarea' : 'text', key === 'notice_html' ? 'ccm-notice-html' : undefined, key === 'notice_html' ? t('html_help') : undefined);
-        input.dataset.textKey = key;
-        const restore = el('button', t('restore'), { type: 'button', 'data-restore': key }); restore.onclick = () => { delete overrides[key]; changed(); renderTexts(); };
-        row.append(badge, restore); textFields.append(row);
+      languages(editSelect, editLanguage, true);textFields.replaceChildren();
+      const keys=['notice_html',...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description']),...draft.registry.services.map(s=>'service.'+s.key+'.name')];
+      for(const key of keys) {
+        const overrides=draft.texts.locales[editLanguage];
+        const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
+        const service=draft.registry.services.find(s=>key==='service.'+s.key+'.name');
+        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,key)+' — '+t('name'):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
+        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='notice_html'?t('html_help'):undefined);
+        input.dataset.textKey=key;textFields.append(row);
       }
-      // Use an already loaded compatible source editor, never fetch a WYSIWYG/editor bundle.
-      if (window.CodeMirror?.fromTextArea) { const cm = window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'), { mode: 'htmlmixed', lineNumbers: true }); cm.on('change', () => { draft.texts.locales[editLanguage].notice_html = cm.getValue(); changed(); }); }
+      if(window.CodeMirror?.fromTextArea){const cm=window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'),{mode:'htmlmixed',lineNumbers:true});cm.on('change',()=>{draft.texts.locales[editLanguage].notice_html=cm.getValue();changed();});}
     }
-    editSelect.onchange = () => { editLanguage = editSelect.value; draft.texts.locales[editLanguage] ||= {}; renderTexts(); };
-    base.onchange = () => { draft.texts.base_language = base.value; changed(); };
-    addLanguage.onclick = () => {
-      const code = (custom.value || stockSelect.value).toLowerCase().replaceAll('_', '-');
-      if (!/^(?:[a-z][a-z0-9]{1,15}|x)(?:-[a-z0-9]{1,8}){0,2}$/.test(code) || code.length > 32 || code.length < 2 || Object.keys(draft.texts.locales).length >= 64) { status.textContent = t('error'); return; }
-      draft.texts.locales[code] ||= {}; editLanguage = code; custom.value = ''; changed(); renderTexts(); languages(previewSelect, previewLanguage);
-    };
-    aside.append(el('h3', t('preview')), el('p', t('preview_help'), { class: 'ccm-help' }));
-    const previewSelect = el('select', null, { id: 'ccm-preview-language', 'aria-label': t('preview_language') }); aside.append(el('label', t('preview_language')), previewSelect); languages(previewSelect, previewLanguage);
-    previewSelect.onchange = () => { previewLanguage = previewSelect.value; schedulePreview(); };
+    editSelect.onchange=()=>{editLanguage=editSelect.value;draft.texts.locales[editLanguage] ||= {};previewLanguage=editLanguage;renderTexts();schedulePreview();};
+    aside.append(el('h3', t('preview')));
     const states = el('div', null, { class: 'ccm-preview-states' });
     for (const key of ['banner', 'preferences', 'map']) { const button = el('button', t(key), { type: 'button', 'data-preview-state': key }); button.onclick = () => { previewState = key; schedulePreview(); }; states.append(button); }
     aside.append(states);

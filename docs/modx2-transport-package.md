@@ -1,4 +1,6 @@
-# Установка native transport (beta5)
+# Установка native transport (beta7)
+
+Актуальная инструкция по UX, аудиту, обновлению beta5 и новым сниппетам: [Manager UX beta7](modx2-manager-ux.md). Описание ниже сохранено как историческая инструкция beta5; для beta7 настройки аудита и подключение изменились.
 
 MODX Revolution 2.8.8, PHP ≥8.1. Установка выполняется обычным MODX Package Manager без Setup Options и private package-state каталога. Анализ упрощения, native замены и потерянные гарантии: [архитектура](modx2-transport-architecture.md).
 

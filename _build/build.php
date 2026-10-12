@@ -46,14 +46,17 @@ $settings=[
  'cookie_consent.options'=>[json_encode(CookieConsentSettings::defaults()),'textarea'],
  'cookie_consent.services'=>[json_encode($defaults,JSON_UNESCAPED_UNICODE),'textarea'],
  'cookie_consent.texts'=>[json_encode(CookieConsentTexts::defaults(),JSON_UNESCAPED_UNICODE),'textarea'],
- 'cookie_consent.log_dir'=>['','textfield'],'cookie_consent.audit_config_file'=>['','textfield'],
+ 'cookie_consent.log_dir'=>['','textfield'],'cookie_consent.audit_config_file'=>['','textfield'],'cookie_consent.audit'=>['','textarea'],
 ];
 foreach($settings as $key=>[$value,$xtype])definition('modSystemSetting',['key'=>$key],['key'=>$key,'value'=>$value,'xtype'=>$xtype,'namespace'=>'cookie_consent','area'=>'consent'],$key,$definitions);
 definition('modMenu',['text'=>'Cookie Consent Manager'],['text'=>'Cookie Consent Manager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings','icon'=>'','menuindex'=>0,'params'=>'','handler'=>''],'menu',$definitions);
 $snippet=preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/modx2-registry-snippet.php'));
 definition('modSnippet',['name'=>'CookieConsentRegistry'],['snippet'=>trim($snippet)],'snippet',$definitions);
 definition('modChunk',['name'=>'CookiesPopup'],['snippet'=>file_get_contents($root.'/CookiesPopup.html')],'chunk',$definitions);
-foreach(['snippet','chunk'] as $name){$def=$definitions[$name];$def['criteria']['name'].='_package_'.str_replace(['.','-'],'_',$metadata['version'].'-'.$metadata['release'].$metadata['release_index']);$definitions[$name.'_stock']=$def;}
+foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2-map-snippet.php'] as $name=>$file) {
+ definition('modSnippet',['name'=>$name],['snippet'=>trim(preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/'.$file)))],$name,$definitions);
+}
+foreach(['snippet','chunk','CookieConsent','CookieConsentMap'] as $name){$def=$definitions[$name];$def['criteria']['name'].='_package_'.str_replace(['.','-'],'_',$metadata['version'].'-'.$metadata['release'].$metadata['release_index']);$definitions[$name.'_stock']=$def;}
 $spec=['schema'=>1,'signature'=>$signature,'version_release'=>$metadata['version'].'-'.$metadata['release'].$metadata['release_index'],'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
 file_put_contents($work.'/source-inventory.json',json_encode($spec,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 $prefix="<?php\n\$spec=".var_export($spec,true).";\n";

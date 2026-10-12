@@ -7,7 +7,7 @@ class Cookie_consentIndexManagerController extends modExtraManagerController
     public function loadCustomCssJs(){
         $assets=$this->modx->getOption('assets_url').'components/cookieconsent/';
         $this->addCss($assets.'manager.css');$this->addJavascript($assets.'manager.js');
-        $this->addHtml('<script>window.CookieConsentManagerBootstrap='.json_encode(['connector'=>$assets.'connector.php','auth'=>$this->modx->user->getUserToken('mgr')],JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).';</script>');
+        $this->addHtml('<script>window.CookieConsentManagerBootstrap='.json_encode(['connector'=>$assets.'connector.php','auth'=>$this->modx->user->getUserToken('mgr'),'errorMessage'=>$this->modx->lexicon('m.error')],JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT).';</script>');
     }
     public function getTemplateFile(){return dirname(__DIR__).'/templates/home.tpl';}
 }

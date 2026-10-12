@@ -29,7 +29,7 @@ try {
     if (!is_string($configFile)) throw new RuntimeException('Audit config missing');
     $webroot=realpath($_SERVER['DOCUMENT_ROOT']??'');
     if (!$webroot) throw new RuntimeException('Document root required');
-    $config=CookieConsentAuditConfiguration::load($configFile,$webroot,!$env);
+    $config=$GLOBALS['cookieConsentAuditOptions']??CookieConsentAuditConfiguration::load($configFile,$webroot,!$env);
 
     $origin = $config['site_origin'] ?? null;
     if (!is_string($origin) || !preg_match('~^https?://[a-z0-9.-]+(?::[0-9]{2,5})?$~iD',$origin) ||
@@ -42,7 +42,8 @@ try {
     $dir=$GLOBALS['cookieConsentModxLogDir'] ?? null;
     require_once dirname(__DIR__).'/src/CookieConsentPrivatePath.php';
     if (!is_string($dir)) throw new RuntimeException('Missing MODX setting');
-    $logDir=CookieConsentPrivatePath::directory($dir,$webroot);
+    require_once dirname(__DIR__).'/src/CookieConsentLogDirectory.php';
+    $logDir=CookieConsentLogDirectory::validate($dir,$webroot,$origin);
     $key=$config['rate_limit_key'] ?? null;
     if (!is_string($key)) throw new RuntimeException('Missing rate key');
     $raw=file_get_contents('php://input',false,null,0,8193);

@@ -8,6 +8,7 @@ services:
       - ../../:/opt/cc-source:ro
       - ../../.local/artifacts:/opt/cc-artifacts
     environment:
+      COOKIE_CONSENT_LOCAL_PROBE: '1'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
     depends_on:
       db:
@@ -21,6 +22,7 @@ services:
       - ../../:/opt/cc-source:ro
       - ../../.local/artifacts:/opt/cc-artifacts
     environment:
+      COOKIE_CONSENT_LOCAL_PROBE: '1'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
     depends_on:
       db:
