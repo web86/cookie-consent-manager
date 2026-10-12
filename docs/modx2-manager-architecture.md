@@ -9,9 +9,10 @@
 | `cookie_consent.services` | расширенная schema 1 JSON | базовые display data, стабильное назначение, approved loader и параметры |
 | `cookie_consent.options` | schema 1 JSON | TTL 1–3650, policy version, четыре boolean переключателя кнопок |
 | `cookie_consent.texts` | schema 1 JSON | base_language и локальные переводы по culture code |
-| `cookie_consent.log_dir` | absolute path | существующий canonical writable каталог вне DOCUMENT_ROOT |
+| `cookie_consent.log_dir` | absolute path или пусто | существующий canonical writable каталог вне DOCUMENT_ROOT; пусто — аудит не настроен |
+| `cookie_consent.audit_config_file` | absolute private JSON path или пусто | настройка аудита без webserver environment; только readable JSON вне webroot |
 
-Manager редактирует эти же настройки; параллельного реестра нет. CLI upgrade создаёт только отсутствующие настройки. Исторические ID и текущие enabled/config не перезаписываются. При новой установке все семь необязательных сервисов disabled; исторические IDs сохранены как неактивные значения. Значения Yandex Webvisor/clickmap/trackLinks/accurateTrackBounce/clientId defaults=true, но счётчик не запускается без enable и согласия.
+Manager редактирует эти же настройки; параллельного реестра нет. CLI upgrade создаёт только отсутствующие настройки. Исторические ID и текущие enabled/config не перезаписываются. При новой ручной установке все семь необязательных сервисов disabled; исторические IDs сохранены как неактивные значения. Transport fresh install оставляет IDs пустыми; его служебные package_state_dir/package_version не относятся к draft CMP. См. [архитектуру транспорта](modx2-transport-architecture.md). Значения Yandex Webvisor/clickmap/trackLinks/accurateTrackBounce/clientId defaults=true, но счётчик не запускается без enable и согласия.
 
 `options.buttons` хранит исходные предпочтения configure/accept_all даже при `accept=true`. Сервер `effectiveButtons()` принудительно выключает конфликтующие кнопки; публичный JS повторяет зависимость. После выключения legacy исходные предпочтения восстанавливаются. Reject независим. При всех false сервер показывает Configure как fail-safe. Постоянный settings opener можно разместить в шаблоне; если его нет, клиент создаёт first-party кнопку повторного открытия.
 
@@ -69,7 +70,7 @@ Iframe имеет sandbox без allowances и CSP default-src none, form-action
 
 ## Сохранение и права
 
-Save валидирует весь draft до записи, использует транзакцию и FOR UPDATE для строк cookie_consent.*, сравнивает SHA256 revision и сохраняет четыре источника атомарно. Конкурирующий draft получает conflict, его введённые данные остаются в форме. Все общие значения и типы валидируются на сервере; клиент дополнительно проверяет ranges/ID formats/purpose codes и показывает статус конфигурации.
+Save валидирует весь draft до записи, использует транзакцию и FOR UPDATE для строк cookie_consent.*, сравнивает SHA256 revision и сохраняет пять источников атомарно (старый draft без audit_config_file сохраняет существующий путь). Конкурирующий draft получает conflict, его введённые данные остаются в форме. Все общие значения и типы валидируются на сервере; клиент дополнительно проверяет ranges/ID formats/purpose codes и показывает статус конфигурации.
 
 Custom permission регистрируется в policy templates, но не раздаётся всем пользователям. Super User имеет доступ; для других администраторов включить cookie_consent_manage в назначенной mgr Access Policy. Доступ к стандартным System Settings всё равно позволяет авторизованному администратору сохранить некорректный JSON вручную: публичный reader fail closed. Страница CMP не должна заменять общую настройку прав MODX.
 

@@ -122,4 +122,11 @@ $_lang = [
     'm.measurement_id' => 'Measurement ID',
     'm.conversion_id' => 'Conversion ID',
     'm.container_id' => 'Container ID',
+    'm.audit_config_file' => 'Private audit JSON file (optional; env config takes precedence)',
+    'm.audit_help' => 'Leave blank to disable audit until configured. JSON must be outside DOCUMENT_ROOT and readable by PHP. Never put Origin/HMAC in translations or public files.',
+    'm.audit_ready' => 'Audit configuration ready — verify a same-origin POST',
+    'm.audit_not_configured' => 'Audit not configured',
+    'm.audit_invalid' => 'Audit configuration invalid or unavailable',
+    'm.integration_title' => 'Safe staging integration',
+    'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];

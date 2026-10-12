@@ -12,6 +12,8 @@ try {
     if (!isset($modx) || !($modx instanceof modX)) throw new RuntimeException('MODX unavailable');
     $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);
     $GLOBALS['cookieConsentModxLogDir']=$setting ? (string)$setting->get('value') : '';
+    $configSetting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
+    $GLOBALS['cookieConsentAuditConfigFile']=$configSetting ? (string)$configSetting->get('value') : '';
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
     $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
     $GLOBALS['cookieConsentServiceRegistry']=CookieConsentServiceRegistry::validateJson($setting ? (string)$setting->get('value') : '');

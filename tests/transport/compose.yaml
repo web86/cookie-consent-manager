@@ -1,0 +1,27 @@
+services:
+  clean:
+    image: cookie-consent-acceptance-web:latest
+    ports: ['127.0.0.1:8889:80']
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html
+      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../:/opt/cc-source:ro
+      - ../../.local/artifacts:/opt/cc-artifacts
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+    depends_on:
+      db:
+        condition: service_healthy
+  publiccore:
+    image: cookie-consent-acceptance-web:latest
+    ports: ['127.0.0.1:8890:80']
+    volumes:
+      - ../../.local/transport-publiccore/public:/var/www/html
+      - ../../.local/transport-publiccore/private:/opt/cc-publiccore
+      - ../../:/opt/cc-source:ro
+      - ../../.local/artifacts:/opt/cc-artifacts
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+    depends_on:
+      db:
+        condition: service_healthy

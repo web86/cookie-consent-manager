@@ -16,7 +16,11 @@
 
 Старые `analytics.js` и `marketing.js` оставлены для совместимости исходников M1. При установке нового реестра **подключайте только provider-registry.js и consent-manager.js**; одновременное подключение прежних адаптеров и прямых счётчиков нарушает контроль загрузки.
 
-## Точная установка на тестовый MODX 2
+## Нативный transport для MODX 2
+
+Предпочтительная установка/обновление — через настоящий Package Manager: [инструкция transport](docs/modx2-transport-package.md), [архитектура](docs/modx2-transport-architecture.md), [приёмка Issue #1](docs/modx2-transport-package-acceptance.md). Private beta сохраняет пользовательские settings/elements и JSONL; fresh install выключает все необязательные сервисы. Аудит нужно явно настроить приватно, включая JSON-вариант для shared hosting без environment variables.
+
+## Ручная установка на тестовый MODX 2 (прежний workflow)
 
 1. Сделать резервную копию шаблона, чанка CookiesPopup, старого JS и системных настроек. Для первой установки использовать отдельную тестовую копию сайта. Основной MODX core и код компонента разместить вне DOCUMENT_ROOT. Защитить также конфиг MODX/БД и доступ к Manager. Пример:
 
@@ -49,7 +53,7 @@
    | `cookie_consent.log_dir` | textfield | канонический приватный каталог |
    | `cookie_consent.services` | textarea | валидированный реестр JSON |
 
-   Повторная установка сохраняет оба существующих значения. Изменить каталог или состав сервисов можно в **MODX Manager → System Settings → namespace cookie_consent**. Реестр описан в [service-registry.md](docs/service-registry.md). Некорректный реестр блокируется целиком; после исправления обновить страницу.
+   Также создаются только отсутствующие `cookie_consent.options`, `cookie_consent.texts` и `cookie_consent.audit_config_file`. Повторная установка сохраняет существующие значения. Изменить каталог или состав сервисов можно в **MODX Manager → System Settings → namespace cookie_consent**. Реестр описан в [service-registry.md](docs/service-registry.md). Некорректный реестр блокируется целиком; после исправления обновить страницу.
 
 4. Создать приватный конфиг по `server/config.example.php`: точный origin, без завершающего `/`, случайный секрет минимум 32 символа (например, `php -r 'echo bin2hex(random_bytes(32));'`), стандартный лимит 60 событий/IP/мин. **log_dir в конфиг не добавлять**: источник только системная настройка. Ограничить права конфигурации; пользователю PHP нужен read. Настроить в окружении Apache/FPM:
 
@@ -57,7 +61,7 @@
    COOKIE_CONSENT_AUDIT_CONFIG=/srv/example/private/cookie-consent-config.php
    ```
 
-   Не передавать путь через URL/POST. FPM должен пропускать эту env-переменную в пул. После обновления приватного PHP-конфига учитывать OPcache/reload пула.
+   Публичный audit endpoint не принимает путь через URL/POST; настройка пути выполняется только оператором или через авторизованный CMP. FPM должен пропускать эту env-переменную в пул. После обновления приватного PHP-конфига учитывать OPcache/reload пула.
 
 5. Разместить `server/modx2-public-endpoint.example.php` как `/assets/components/cookieconsent/audit.php`. Относительный путь `dirname(__DIR__,3).'/index.php'` рассчитан именно на эту глубину. Wrapper включает MODX_API_MODE, читает **modSystemSetting** и удаляет bootstrap-output перед JSON. Если структура core отличается, адаптировать приватные include-пути.
 

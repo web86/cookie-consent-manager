@@ -1,0 +1,151 @@
+{
+  "schema": 1,
+  "refs": [
+    "10acb4e62d2a6f59e058fe356feef23bf4497c27",
+    "7f9d11e359e4ccc0e647c88ff9706fedf80233e5"
+  ],
+  "files": {
+    "CookiesPopup.html": [
+      "1cce108291cf031ecf23fd707cbc01913cff6b16aca4efe399379db2ce8598fd"
+    ],
+    "assets/components/cookieconsent/manager.css": [
+      "6979ef9eab9474056f124001bd778d4a4c0882a8592b87b9d791356810681d3f"
+    ],
+    "assets/components/cookieconsent/manager.js": [
+      "df41f4680a41c4978d2f0db9ec1b44960856a69d5359e9d9b26c3fce003f1cfc"
+    ],
+    "assets/css/cookie-consent.css": [
+      "da26f44279e4d39f7cbbd232c3ed430eda20182b96332ed7cf55c21bfd8549d2",
+      "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1"
+    ],
+    "assets/js/cookie-consent/analytics.js": [
+      "33ef5efb35f97242575b4f06c1e675ee1a06616ee89f5292be0e4e99f5b3b03d"
+    ],
+    "assets/js/cookie-consent/consent-manager.js": [
+      "78e21b5795c0aecf3c598cb299df33ba9d27f65f8849360c92b27e26a8f65497",
+      "b234ff501f030504fe13ab7c00d383c6a20d8557ccec1f1fb7cab3c4a8970885"
+    ],
+    "assets/js/cookie-consent/i18n.js": [
+      "ee423aece4b38e8dc04b9775e3f67364e756f6f645cabd119043e84d01adba25"
+    ],
+    "assets/js/cookie-consent/lexicons.json": [
+      "f8150008ca0bde8dabfd1bd1bf19471cc87709bbd050fa7c2efc4f4a44829c19"
+    ],
+    "assets/js/cookie-consent/marketing.js": [
+      "dfa6fee71e689a992491067cb1972dfa86c424d5c49d502bda6ed498ad779bb6"
+    ],
+    "assets/js/cookie-consent/mock/bitrix24-clientid.js": [
+      "01c87c39d44303ba014a31c0ab016a5666f5a3e3228ea387fb77a86cd32ea6b1"
+    ],
+    "assets/js/cookie-consent/mock/google_ads.js": [
+      "b0e48aad7e55a772915d694bb1c64853c89b8959119e09f11abe791d5e6aff55"
+    ],
+    "assets/js/cookie-consent/mock/google_ga4.js": [
+      "32f5ca27290252c8d898b1a6219725a79b181b511ebc9774d18ee41ebc9c2645"
+    ],
+    "assets/js/cookie-consent/mock/google_gtm.js": [
+      "01083558f43ebbb680f9e82dc1bde8485926a7a6a7c962f7c2ff10c267b543c5"
+    ],
+    "assets/js/cookie-consent/mock/google_maps.html": [
+      "a17cc7c519a7c2b6d5db6efe5358a42772f5adcc4e1fe01feffd4828bdd27340"
+    ],
+    "assets/js/cookie-consent/mock/mailru.js": [
+      "523ae74429be1d50008bc1b0d36af408feb0d8d18c8515a4826b8e12b36e2b65"
+    ],
+    "assets/js/cookie-consent/mock/marketing.js": [
+      "249fd02cceba450f575f0609f4d9effe7d57379d4c7085aeec7801916f976b58"
+    ],
+    "assets/js/cookie-consent/mock/yandex.js": [
+      "b27a5e87d1933604d29ed61cce5b6b72520868ba8f9cac35cca30308a1c0a7d3"
+    ],
+    "assets/js/cookie-consent/mock/yandex_maps.html": [
+      "32cf4292500b950f220e1d1e779ba99fa9b4629a246062b234f8e000fc08ae9b"
+    ],
+    "assets/js/cookie-consent/provider-registry.js": [
+      "954e5a6539761e8b650325a843b8f9a81316590676cd9569f7f1c2fef10ebe4a",
+      "e0f9f763ddf3a6bbaef6ac305a57833a360dc3414ba61ec6a1663747257d9de3"
+    ],
+    "assets/scss/cookie-consent.scss": [
+      "2ba189b76365942869050f0845f3dd74a99617b0e058c648c19c51e49173832c",
+      "b51d04c41958275b4c0306d210238aec8057689bd7789ffc8d9b7a5f28936718"
+    ],
+    "server/bin/install-modx2.php": [
+      "6339492be646d5ffc5a2d819d926de5178cda63ec99226e88ba56c6fb10e039e",
+      "66697dfda5dfb1e0afd80067146bcffd310f93a1c64c14a26c6a01bf4dbb684a"
+    ],
+    "server/config.example.php": [
+      "e4999bb8a688987c03d739ab338265d9db342f93f9ada801db227744add8c3b3"
+    ],
+    "server/controllers/index.class.php": [
+      "19cef3274bfbb6a40032be248ea35f3a1ff6504203bdddb089a4e0dbe3c9ba6c"
+    ],
+    "server/lexicon/en/default.inc.php": [
+      "76594b2b0b6b34f2364a4320a4a09ea6277572558e66f47693babab27c248559"
+    ],
+    "server/lexicon/ru/default.inc.php": [
+      "9756b13c3abfa497d643a9c6ee79652b7d9b3e8848b24ecf47b9ef518b96491f"
+    ],
+    "server/modx2-manager-connector.php": [
+      "c599a1720ee71a9a08222345da0321c1d36ec384ff546e774c477a3ff89dbf6a"
+    ],
+    "server/modx2-public-endpoint.example.php": [
+      "1f8ccb6484f3dc46f5b334a1f7b5a2cc30d649eb74e7ce387e84d4c9f2cc06dc"
+    ],
+    "server/modx2-registry-snippet.php": [
+      "2b31442c26f2ea3d66b974545b13431afe1ab653d78ecc1041d1d9b2f7699ac1",
+      "be455e18bb27c6b25c9f66618860a78bdf2b97c642cae7c818f18e32a602cd40"
+    ],
+    "server/processors/base.php": [
+      "4e0bb4dbee02b49a4e2e3ad0c697b7630dd370983dda663ad3211dca8a9bd551"
+    ],
+    "server/processors/get.class.php": [
+      "99a0080350a8260301c8d3e21ae9510a23ef9700890e6cd156ede4fd052074a2"
+    ],
+    "server/processors/preview.class.php": [
+      "c86ce72a25142c98c4f869e583bf159e29e910f2b192ca9ccd4456a6236768e2"
+    ],
+    "server/processors/save.class.php": [
+      "2dfcdbfc3b534f62ec076b20415ec24586915c5e4d962743f71201d536fd824f"
+    ],
+    "server/public/audit.php": [
+      "a286c5305ebbc27b60c9e9e7e274b24e77e2b14f30c63466eb32efa24443afdb"
+    ],
+    "server/src/CookieConsentAuditLogger.php": [
+      "7778c9a07fd77aab200f34b3ae35ea96aafd6efe47504a784a44af89410d1bf7"
+    ],
+    "server/src/CookieConsentEventValidator.php": [
+      "6d99512f20a405366ceba1dab6d279ad542b38ddae357f421579e96419a9ae86"
+    ],
+    "server/src/CookieConsentHtmlSanitizer.php": [
+      "9b6adbebe4504e3408beb41f0fc9c3333e58387490b9e8b5f38aea031b7aa370"
+    ],
+    "server/src/CookieConsentPrivatePath.php": [
+      "735b7a5bd3a334c7cd602afc58c818178004b913803e2c62c1fb85706878fa83"
+    ],
+    "server/src/CookieConsentRateLimiter.php": [
+      "526922cc07d587ba645fbbe47e0bb6e7b3b57ebbb4eb73a207f77e84793e8bfc"
+    ],
+    "server/src/CookieConsentServiceRegistry.php": [
+      "6df503d36045bf24c811578e2e331a1b15f23afe51b288d2a3acd9a1eb307916",
+      "3a3d68578259e936d22271c36aafa4aea0cacdb5bb54670f29c1237826529e65"
+    ],
+    "server/src/CookieConsentSettings.php": [
+      "eaa8b03068a5b6dbcf2af53208c33dde2e5042c33f4d10e73239e5ab130e7a35"
+    ],
+    "server/src/CookieConsentTexts.php": [
+      "fa8078fe3d51eb6d82b717df5b1750dffe783c6e52038ae9feb5b21164bac4b3"
+    ],
+    "server/templates/home.tpl": [
+      "202e903e47d318dded3cb6e638246a9bacf9d125931190b3d2fd11ad694d29e0"
+    ]
+  },
+  "elements": {
+    "snippet": [
+      "8b3977dea72e903243fc91a5dd076f48345669363aa907e33f60ea28e1c51163",
+      "4ea12bbddbbc3d7d45e6e719cd431b642b7316e89c53c8961899b657f094bfa4"
+    ],
+    "chunk": [
+      "d1861a76e795922656010d04235a3d7f4f401ddb55590fe643d4db67e4b90c64"
+    ]
+  }
+}

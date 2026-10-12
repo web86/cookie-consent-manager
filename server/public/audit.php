@@ -23,18 +23,13 @@ $length = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);
 if ($length > 8192 || $length < 0) respond(413,['ok'=>false,'error'=>'payload_too_large']);
 
 try {
-    $configFile = getenv('COOKIE_CONSENT_AUDIT_CONFIG');
-    if (!is_string($configFile) || $configFile === '' || !is_file($configFile)) {
-        throw new RuntimeException('Audit config missing');
-    }
-    $realConfig = realpath($configFile);
-    $webroot = realpath($_SERVER['DOCUMENT_ROOT'] ?? '');
-    if ($realConfig === false || $webroot === false ||
-        $realConfig === $webroot || strpos($realConfig,$webroot.DIRECTORY_SEPARATOR) === 0) {
-        throw new RuntimeException('Config must be outside webroot');
-    }
-    $config = require $realConfig;
-    if (!is_array($config)) throw new RuntimeException('Invalid config');
+    require_once dirname(__DIR__).'/src/CookieConsentAuditConfiguration.php';
+    $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');
+    $configFile=is_string($env)&&$env!==''?$env:($GLOBALS['cookieConsentAuditConfigFile']??'');
+    if (!is_string($configFile)) throw new RuntimeException('Audit config missing');
+    $webroot=realpath($_SERVER['DOCUMENT_ROOT']??'');
+    if (!$webroot) throw new RuntimeException('Document root required');
+    $config=CookieConsentAuditConfiguration::load($configFile,$webroot,!$env);
 
     $origin = $config['site_origin'] ?? null;
     if (!is_string($origin) || !preg_match('~^https?://[a-z0-9.-]+(?::[0-9]{2,5})?$~iD',$origin) ||

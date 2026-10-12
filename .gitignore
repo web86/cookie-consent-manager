@@ -8,3 +8,5 @@ server/config.php
 server/logs/
 *.log
 .DS_Store
+*.transport.zip
+*.transport.zip.sha256

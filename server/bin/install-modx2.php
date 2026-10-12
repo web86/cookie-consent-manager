@@ -25,6 +25,7 @@ foreach ($modx->getCollection('modAccessPolicyTemplate') as $template) {
     }
 }
 $values=[
+    'cookie_consent.audit_config_file'=>['','textfield'],
     'cookie_consent.options'=>[json_encode(CookieConsentSettings::defaults(),JSON_THROW_ON_ERROR),'textarea'],
     'cookie_consent.texts'=>[json_encode(CookieConsentTexts::defaults(),JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),'textarea'],
     'cookie_consent.log_dir'=>[$logDir,'textfield'],

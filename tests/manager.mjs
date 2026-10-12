@@ -26,7 +26,7 @@ try {
   await p.locator('#modx-login-username').fill(credentials.username); await p.locator('#modx-login-password').fill(credentials.password);
   await p.getByRole('button', { name: 'Login', exact: true }).click(); await p.waitForTimeout(800);
   await p.goto(origin + '/manager/?a=system/settings&ns=cookie_consent', { waitUntil: 'networkidle' });
-  equal(await p.locator('.x-grid3-row').count(), 4, 'Namespaced settings visible');
+  for (const key of ['options','services','texts','log_dir','audit_config_file']) equal(await p.locator('.x-grid3-row').filter({hasText:'cookie_consent.'+key}).count(), 1, 'Namespaced setting visible: '+key);
   await p.screenshot({ path: '.local/evidence/modx-manager-settings.png', fullPage: true });
   const changed = structuredClone(registry); changed.services.push({ key: 'manager_added', name: 'Сервис из MODX Manager', purpose: 'Проверка добавления через интерфейс', category: 'analytics', enabled: true, loader: 'google_ga4', config: { id: 'G-MANAGER1' } });
   await editRegistry(changed);

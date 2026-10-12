@@ -127,4 +127,11 @@ $_lang = [
     'm.measurement_id' => 'Идентификатор измерения GA4 (Measurement ID)',
     'm.conversion_id' => 'Идентификатор конверсии (Conversion ID)',
     'm.container_id' => 'ID контейнера (Container ID)',
+    'm.audit_config_file' => 'Приватный JSON-файл аудита (необязательно; env имеет приоритет)',
+    'm.audit_help' => 'Пустое значение отключает аудит до настройки. JSON должен быть вне DOCUMENT_ROOT и доступен PHP для чтения. Origin/HMAC не помещать в переводы и публичные файлы.',
+    'm.audit_ready' => 'Конфигурация аудита готова — проверьте same-origin POST',
+    'm.audit_not_configured' => 'Аудит не настроен',
+    'm.audit_invalid' => 'Конфигурация аудита некорректна или недоступна',
+    'm.integration_title' => 'Безопасное подключение на staging',
+    'm.integration_help' => 'Установка не меняет шаблоны и не включает сервисы. Подключите код вручную на staging, удалите прямые счётчики/noscript и используйте инертные карты до согласия.',
 ];
