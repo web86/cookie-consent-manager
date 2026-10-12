@@ -152,3 +152,31 @@ $_lang['m.log_safe'] = 'A directory outside DOCUMENT_ROOT is recommended. Inside
 $_lang['m.integration_help'] = 'Add this snippet once to the shared website template. Installation does not edit templates.';
 $_lang['m.remove_direct_scripts'] = 'Remove old direct analytics scripts and noscript pixels: they send requests independently of consent.';
 $_lang['m.map_api_help'] = 'For pages with maps use CookieConsentMap with provider and src parameters. See the component documentation for examples and allowed URLs.';
+
+$_lang['m.log_location'] = 'Directory location';
+$_lang['m.log_site'] = 'Inside website, relative to DOCUMENT_ROOT';
+$_lang['m.log_absolute'] = 'Absolute private filesystem path';
+$_lang['m.log_path_help'] = 'Select Inside website for /logs/cookies/. For private storage enter the absolute filesystem path. The directory must exist and be PHP-writable.';
+$_lang['m.audit_enable'] = 'Check and enable journal';
+$_lang['m.audit_enable_help'] = 'Checks the path and HTTP protection, sets up audit, saves only the journal directory and verifies a real POST/JSONL. The test record is retained. Save other form changes with the general Save button.';
+$_lang['m.audit_enable_success'] = 'Journal enabled: the test POST was found in JSONL.';
+$_lang['m.reason_log_path'] = 'Enter a valid directory path.';
+$_lang['m.reason_log_missing'] = 'The directory does not exist. Create it and grant PHP write access.';
+$_lang['m.reason_log_not_directory'] = 'The path is not a directory.';
+$_lang['m.reason_log_permissions'] = 'PHP cannot write to this directory.';
+$_lang['m.reason_log_traversal'] = 'Traversal, URLs and invalid path components are forbidden.';
+$_lang['m.reason_log_symlink'] = 'Symlinks in the path are forbidden.';
+$_lang['m.reason_log_root'] = 'The website root cannot be a journal directory.';
+$_lang['m.reason_http_protection_failed'] = 'HTTP protection failed: logs and state must all return 403.';
+$_lang['m.reason_apache_required'] = 'Inside-site storage requires Apache. Choose a private directory for this server.';
+$_lang['m.reason_direct_apache_required'] = 'Public storage behind proxy/CDN is unsupported. Choose a private directory.';
+$_lang['m.reason_audit_not_configured'] = 'Audit is not configured. Click Check and enable journal.';
+$_lang['m.reason_probe_create'] = 'Cannot write the probe file. Check permissions and disk space.';
+$_lang['m.reason_write_failed'] = 'Could not write settings to the database.';
+$_lang['m.reason_audit_post_failed'] = 'Test POST failed. Check origin, PHP receiver and write access; the previous directory is restored.';
+$_lang['m.reason_audit_record_missing'] = 'POST accepted, but the JSONL record was not found.';
+$_lang['m.reason_audit_post_failed_restore_conflict'] = 'POST not verified; another session changed the directory. Reload and check the journal.';
+
+$_lang['external_content_name'] = 'External data and maps';
+
+$_lang['m.log_dir'] = 'Journal directory';

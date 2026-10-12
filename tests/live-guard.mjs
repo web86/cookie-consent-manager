@@ -48,7 +48,7 @@ for (const [key, url] of [['google_maps', googleMap], ['yandex_maps', yandexMap]
   equal(await p.evaluate(() => window.web86CookieConsent.getConsent().analytics), false);
 });
 for (const [key, id] of [['google_ga4', 'G-MOCK1234'], ['google_ads', 'AW-12345678']]) await suite(key, async (p, external) => {
-  await p.locator('[data-cc-action="configure"]').click(); await p.locator(`[data-cc-provider="${key}"]`).check(); await p.locator('[data-cc-action="save"]').click(); await p.waitForTimeout(120);
+  await p.evaluate(key=>{const s=web86Providers.services.find(s=>s.key===key);localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:s.category==='analytics',marketing:s.category==='marketing',external_content:false,providers:{[key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));},key);await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(120);
   equal(external, [`https://www.googletagmanager.com/gtag/js?id=${id}`]);
   const queue = await p.evaluate(() => window.dataLayer.map(a => Array.from(a)));
   equal(queue.filter(a => a[0] === 'config').map(a => a[1]), [id], 'Only selected Google configuration');
@@ -57,7 +57,7 @@ for (const [key, id] of [['google_ga4', 'G-MOCK1234'], ['google_ads', 'AW-123456
   equal(update.ad_storage, key === 'google_ads' ? 'granted' : 'denied');
 });
 await suite('gtm-partial-block', async (p, external) => {
-  await p.locator('[data-cc-action="configure"]').click(); await p.locator('[data-cc-provider="google_gtm"]').check(); await p.locator('[data-cc-action="save"]').click(); await p.waitForTimeout(100); equal(external, []);
+  await p.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_gtm');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:false,marketing:true,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(100); equal(external, []);
 });
 await suite('all-google-shared-library', async (p, external) => {
   await p.locator('[data-cc-action="accept-all"]').click(); await p.waitForTimeout(200);

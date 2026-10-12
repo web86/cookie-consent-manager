@@ -49,11 +49,8 @@ try {
     await page.locator('[data-settings=yandex] summary').click();equal(await page.locator('#ccm-yandex-webvisor').isChecked(),true);
     await page.screenshot({path:`${dir}/services-yandex-settings.png`});
   });
-  await test('service-display-edit-updates-unsaved-preview-and-public-text',async()=>{
-    const name = 'Имя из настроек сервиса';
-    await page.locator('#ccm-tab-texts').click();await page.locator('[data-text-key="service.yandex.name"]').fill(name);
-    await state('preferences');equal(await frame().locator('[data-preview-service=yandex] strong').textContent(),name);
-    await save();const p=await front('ru');equal(await p.locator('[data-cc-provider=yandex]').locator('..').locator('strong').textContent(),name);await p.close();
+  await test('service-translations-retained-but-not-editable',async()=>{
+    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),0);equal(await page.locator('[data-text-key]').count(),9);
   });
   await test('legacy-mode-preview-and-preserved-values',async()=>{
     await page.locator('#ccm-tab-main').click();const configure=await page.locator('#ccm-show-configure').isChecked();
@@ -84,7 +81,7 @@ try {
   });
   await test('translation-does-not-revoke-consent',async()=>{
     const p=await front('ru');await p.locator('[data-cc-action=accept-all]').click();await p.waitForTimeout(150);const before=await p.evaluate(()=>window.web86CookieConsent.getConsent());
-    await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('[data-text-key="service.yandex.name"]').fill('Новое название Метрики');await save();
+    await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('[data-text-key=analytics_name]').fill('Новое название категории');await save();
     await p.reload({waitUntil:'networkidle'});const after=await p.evaluate(()=>window.web86CookieConsent.getConsent());equal(after.consentId,before.consentId);equal(after.providers,before.providers,'Translate does not change fingerprint');
     control(['context'],'en');await p.reload({waitUntil:'networkidle'});equal((await p.evaluate(()=>window.web86CookieConsent.getConsent())).providers,before.providers,'Language preserves fingerprint');await p.close();
   });
@@ -96,7 +93,7 @@ try {
   await test('new-service-through-group-controls',async()=>{
     await page.locator('#ccm-add-counter summary').click();await page.locator('#ccm-counter-adapter').selectOption('google_ga4');await page.locator('#ccm-counter-name').fill('Extra counter');await page.locator('#ccm-counter-id').fill('G-EXTRA123');await page.locator('#ccm-counter-add').click();
     await page.locator('#ccm-enable-google_ga4_2').check();await save();
-    const p=await front('en');equal(await p.locator('[data-cc-provider=google_ga4_2]').count(),1);equal(await p.locator('[data-cc-provider=google_ga4_2]').isChecked(),false);await p.close();
+    const p=await front('en');equal(await p.locator('[data-cc-provider]').count(),0);equal(await p.locator('[data-cc-category=analytics]').isChecked(),false);await p.close();
   });
   await test('failed-save-keeps-draft',async()=>{
     await page.locator('#ccm-tab-main').click();await page.locator('#ccm-ttl').fill('120');
@@ -105,7 +102,7 @@ try {
   });
   await test('preview-no-service-network-or-audit',async()=>{
     const forbidden=[];page.on('request',r=>{if(r.url().includes('/mock/')||r.url().includes('/audit.php'))forbidden.push(r.url());});
-    await state('preferences');equal(await frame().locator('[data-preview-service]').count(),9,'All enabled services in preview');await state('map');equal(await frame().locator('[data-preview-map]').count(),2,'Both enabled map placeholders');await page.screenshot({path:`${dir}/preview-map.png`});await frame().locator('body').screenshot({path:`${dir}/preview-map-canvas.png`});await state('banner');
+    await state('preferences');equal(await frame().locator('[data-preview-service]').count(),0,'No providers in preview');equal(await frame().locator('input[type=checkbox]').count(),4,'Four categories');await state('map');equal(await frame().locator('[data-preview-map]').count(),2,'Both enabled map placeholders');await page.screenshot({path:`${dir}/preview-map.png`});await frame().locator('body').screenshot({path:`${dir}/preview-map-canvas.png`});await state('banner');
     equal(forbidden,[]);equal(await page.locator('#ccm-preview-frame').getAttribute('sandbox'),'');await page.screenshot({path:`${dir}/preview-banner.png`});
   });
   await test('responsive-preview-stacks-below-main',async()=>{

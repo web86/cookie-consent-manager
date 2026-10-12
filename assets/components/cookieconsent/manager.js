@@ -18,6 +18,7 @@
         if (json.message === 'conflict') throw Error(data?.managerStrings['m.conflict'] || 'Conflict');
         const diagnostic = json.object || {};
         const code = diagnostic.code || (/permission|access|auth/i.test(json.message || '') ? 'authorization' : 'processor');
+        const reason=data?.managerStrings['m.reason_'+diagnostic.reason];if(reason)throw Error(reason+' ('+action+', HTTP '+response.status+', '+(diagnostic.request_id||code)+')');
         throw fail(code + (diagnostic.reason && /^[a-z_]{1,40}$/.test(diagnostic.reason) ? ':' + diagnostic.reason : ''), diagnostic.request_id);
       }
       return json.object;
@@ -32,6 +33,7 @@
     draft.texts.locales[editLanguage] ||= {};
     document.body.classList.add('ccm-manager');
     const scrollHost = root.closest('.x-panel-body'); if (scrollHost) scrollHost.classList.add('ccm-scroll-host');
+    let savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});
     root.removeAttribute('aria-busy'); root.className = 'ccm-page';
     const header = el('header'); header.append(el('h2', t('title')));
     const save = el('button', t('save'), { type: 'button', id: 'ccm-save', class: 'ccm-primary' });
@@ -61,28 +63,32 @@
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
-    field(panels.main, t('log_dir'), draft.log_dir, v => { draft.log_dir = v; logPath.textContent = v; }, 'text', 'ccm-log-dir', t('log_safe'));
-
-    panels.main.append(el('p', t('upgrade_elements'), { id: 'ccm-upgrade-elements' }));
-    const auditState = el('p', t('audit_' + (data.auditStatus?.state || 'not_configured')), { id: 'ccm-audit-status', role: 'status' }); panels.main.append(auditState);
-    const auditActions = el('div', null, { class: 'ccm-actions' }); panels.main.append(auditActions);
-    for (const [action, label] of [['audit_setup','audit_setup'], ['audit_protect','audit_protect'], ['audit_test','audit_test']]) {
-      const button=el('button', t(label), {type:'button', id:'ccm-'+action.replaceAll('_','-')});
-      button.onclick=async()=>{button.disabled=true;try {const result=await api(action, {log_dir:draft.log_dir});
-        if(result.auditStatus)auditState.textContent=t('audit_'+result.auditStatus.state);
-        status.textContent=t(action+'_success');status.dataset.state=dirty?'dirty':'saved';
-      }catch(e){status.textContent=e.message;status.dataset.state='error';}finally{button.disabled=false;}};
-      auditActions.append(button);
-    }
-    panels.main.append(el('p',t('audit_flow'),{class:'ccm-help'}));
+    const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
+    for(const mode of ['site','absolute'])logMode.append(el('option',t('log_'+mode),{value:mode}));
+    const publicRoot=data.documentRoot;
+    draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';
+    if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);
+    logMode.value=draft.log_dir_mode;panels.logs.append(el('label',t('log_location')),logMode);
+    logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
+    field(panels.logs,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
+    const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});panels.logs.append(auditState);
+    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});panels.logs.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}));
+    enableAudit.onclick=async()=>{enableAudit.disabled=true;try{
+      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision});revision=result.revision;
+      auditState.textContent=t('audit_ready');status.textContent=t('audit_enable_success');status.dataset.state=dirty?'dirty':'saved';
+      // Only journal selection is persisted by this operation; other form drafts stay local.
+      const current={options:draft.options,registry:draft.registry,texts:draft.texts};
+      dirty=JSON.stringify(current)!==savedForm;
+      status.dataset.state=dirty?'dirty':'saved';
+    }catch(e){status.textContent=e.message;status.dataset.state='error';}finally{enableAudit.disabled=false;}};
     const advanced=el('details',null,{id:'ccm-advanced'});advanced.append(el('summary',t('advanced')));
     const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);
+    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.logs.append(integration);
     panels.logs.append(el('h3', t('logs')), el('p', t('logs_help')));
-    const logPath = el('code', draft.log_dir, { id: 'ccm-log-path' }); panels.logs.append(logPath);
+
     function textSource(language, key) {
       const base = draft.texts.base_language;
       const service = draft.registry.services.find(s => key.startsWith('service.' + s.key + '.'));
@@ -136,7 +142,7 @@
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
       languages(editSelect, editLanguage, true);textFields.replaceChildren();
-      const keys=['notice_html',...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description']),...draft.registry.services.map(s=>'service.'+s.key+'.name')];
+      const keys=['notice_html',...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
       for(const key of keys) {
         const overrides=draft.texts.locales[editLanguage];
         const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
@@ -161,7 +167,7 @@
       if (previewState === 'banner') content = `<div class="cookie-warning-2"><div class="cookie-warning-text">${strings.notice_html}</div><div class="cookie-warning-buttons">${Object.entries(result.buttons).filter(([, v]) => v).map(([key]) => `<button class="cookie-btn cookie-btn--${['accept','accept_all'].includes(key)?'primary':'secondary'}" type="button">${escape(strings[key])}</button>`).join('')}</div></div>`;
       if (previewState === 'preferences') {
         const option = (name, description, disabled = false, attrs = '') => `<label class="cookie-option ${attrs ? 'cc-provider' : ''}" ${attrs}><span class="cookie-option__text"><strong>${escape(name)}</strong><small>${escape(description)}</small></span><input type="checkbox" ${disabled ? 'checked disabled' : ''}></label>`;
-        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].map(cat => option(strings[cat + '_name'], strings[cat + '_description']) + services.filter(s => s.category === cat).map(s => option(strings['service.' + s.key + '.name'] || s.name, strings['service.' + s.key + '.description'] || s.purpose, false, `data-preview-service="${escape(s.key)}"`)).join('')).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
+        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
       }
       if (previewState === 'map') content = services.filter(s => s.category === 'external_content').map(s => {
         const provider = strings['service.' + s.key + '.name'] || s.name;
@@ -178,12 +184,12 @@
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
-      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || (draft.log_dir !== '' && !draft.log_dir.startsWith('/')) || draft.registry.services.some(s => (idPatterns[s.loader] && ((s.enabled && !s.config.id) || (s.config.id && !idPatterns[s.loader].test(s.config.id)))) || (s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id)))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
+      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || (draft.log_dir !== '' && draft.log_dir_mode !== 'site' && !draft.log_dir.startsWith('/')) || draft.registry.services.some(s => (idPatterns[s.loader] && ((s.enabled && !s.config.id) || (s.config.id && !idPatterns[s.loader].test(s.config.id)))) || (s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id)))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);
       try {
         const saved = await api('save', { draft: snapshot, revision }); revision = saved.revision; auditState.textContent = t('audit_' + (saved.auditStatus?.state || 'not_configured'));
-        if (JSON.stringify(draft) === snapshot) { draft = { options: saved.options, registry: saved.registry, texts: saved.texts, log_dir: saved.log_dir, audit_config_file: saved.audit_config_file || '' }; draft.texts.locales[editLanguage] ||= {}; dirty = false; renderServices(); renderTexts(); }
+        if (JSON.stringify(draft) === snapshot) { draft = { options: saved.options, registry: saved.registry, texts: saved.texts, log_dir: saved.log_dir, audit_config_file: saved.audit_config_file || '' }; draft.log_dir_mode=logMode.value;if(draft.log_dir_mode==='site'&&draft.log_dir.startsWith(publicRoot+'/'))draft.log_dir=draft.log_dir.slice(publicRoot.length);document.getElementById('ccm-log-dir').value=draft.log_dir;draft.texts.locales[editLanguage] ||= {}; dirty = false;savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts}); renderServices(); renderTexts(); }
         status.textContent = dirty ? t('unsaved') : t('saved'); status.dataset.state = dirty ? 'dirty' : 'saved'; schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }

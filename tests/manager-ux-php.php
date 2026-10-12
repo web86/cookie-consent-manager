@@ -17,6 +17,6 @@ try {
  $_SERVER['SERVER_SOFTWARE']='unknown';reject(fn()=>CookieConsentLogDirectory::prepare($base.'/root/logs',$base.'/root'));
  $_SERVER['SERVER_SOFTWARE']='Apache/2.4';$_SERVER['HTTP_CF_RAY']='test';reject(fn()=>CookieConsentLogDirectory::prepare($base.'/root/logs',$base.'/root'));unset($_SERVER['HTTP_CF_RAY']);
  CookieConsentLogDirectory::prepare($base.'/root/logs',$base.'/root');check(file_get_contents($base.'/root/logs/.htaccess'),CookieConsentLogDirectory::DENY,'Explicit guard installed');
- file_put_contents($base.'/root/logs/.htaccess','Customer guard');reject(fn()=>CookieConsentLogDirectory::prepare($base.'/root/logs',$base.'/root'));check(file_get_contents($base.'/root/logs/.htaccess'),'Customer guard','Never overwrite customer guard');
+ file_put_contents($base.'/root/logs/.htaccess','Customer guard');CookieConsentLogDirectory::prepare($base.'/root/logs',$base.'/root');check(file_get_contents($base.'/root/logs/.htaccess'),'Customer guard','Never overwrite customer guard');
 }finally{foreach([$base.'/root/logs/.htaccess',$base.'/root/alias'] as $f)if(file_exists($f)||is_link($f))unlink($f);rmdir($base.'/root/logs');rmdir($base.'/root');rmdir($base.'/private');rmdir($base);}
 echo json_encode(['suite'=>'Manager UX security/lexicon PHP','assertions'=>$n,'result'=>'PASS'])."\n";

@@ -41,18 +41,10 @@
     settings.insertBefore(label, settings.querySelector('.cookie-warning-settings__buttons'));
   }
   const inputs = { analytics: analyticsInput, marketing: marketingInput, external_content: externalInput };
-  const providerInputs = new Map();
+  let draftPermissions = Object.create(null);
   let returnFocus = null;
-  for (const service of services) {
-    const label = document.createElement('label'); label.className = 'cookie-option cc-provider';
-    const text = document.createElement('span'); text.className = 'cookie-option__text';
-    const title = document.createElement('strong'); title.dataset.ccText = 'service.' + service.key + '.name'; title.textContent = service.name;
-    const purpose = document.createElement('small'); purpose.dataset.ccText = 'service.' + service.key + '.description'; purpose.textContent = service.purpose;
-    text.append(title, purpose);
-    const input = document.createElement('input'); input.type = 'checkbox'; input.dataset.ccProvider = service.key;
-    label.append(text, input); providerInputs.set(service.key, input);
-    inputs[service.category].closest('label').after(label);
-  }
+  // Remove legacy provider controls. Public preferences expose categories only.
+  for (const input of settings.querySelectorAll('[data-cc-provider]')) (input.closest('label') || input).remove();
   let consent = null;
   let needsChoice = false;
   let hideTimer = null;
@@ -116,7 +108,7 @@
         return null;
       }
       // M2 preference retains its ID, but cannot authorize newly disclosed providers.
-      needsChoice = services.some(service => typeof data.providers?.[service.key] === 'string' && data.providers[service.key] !== service.fingerprint);
+      needsChoice = data.model !== 'categories_v1' || services.some(service => data.disclosed?.[service.key] !== service.fingerprint);
       const providers = Object.create(null);
       for (const service of services) if (data.providers?.[service.key] === service.fingerprint && data[service.category] === true) providers[service.key] = service.fingerprint;
       return { ...data, external_content: data.external_content === true, providers };
@@ -148,7 +140,7 @@
       analytics: typeof extra.analytics === 'boolean' ? extra.analytics : analyticsInput.checked,
       marketing: typeof extra.marketing === 'boolean' ? extra.marketing : marketingInput.checked,
       external_content: typeof extra.external_content === 'boolean' ? extra.external_content : externalInput.checked,
-      providers: extra.providers || Object.fromEntries(services.map(s => [s.key, providerInputs.get(s.key).checked])),
+      providers: extra.providers || Object.fromEntries(services.map(s => [s.key, draftPermissions[s.key] === true])),
       provider: extra.provider || null,
       policy_version: version,
       timestamp: new Date().toISOString(),
@@ -199,7 +191,11 @@
     clearTimeout(hideTimer);
     returnFocus = document.activeElement;
     for (const [category, input] of Object.entries(inputs)) input.checked = consent?.[category] === true;
-    for (const s of services) providerInputs.get(s.key).checked = consent?.providers?.[s.key] === s.fingerprint;
+    draftPermissions = Object.fromEntries(services.map(s => [s.key, consent?.providers?.[s.key] === s.fingerprint]));
+    for (const [category,input] of Object.entries(inputs)) {
+      const members=services.filter(s=>s.category===category);
+      input.indeterminate=members.some(s=>draftPermissions[s.key])&&!members.every(s=>draftPermissions[s.key]);
+    }
     main.hidden = true;
     settings.hidden = false;
     root.classList.remove('closed', 'done');
@@ -208,7 +204,7 @@
 
   function commit(action, analytics, marketing, external = false, permissions = {}, provider = null) {
     const previous = consent;
-    const value = { version, necessary: true, analytics: Boolean(analytics), marketing: Boolean(marketing),
+    const value = { model:'categories_v1', disclosed: provider ? {...(previous?.disclosed || {}), [provider]:services.find(s=>s.key===provider).fingerprint} : Object.fromEntries(services.map(s=>[s.key,s.fingerprint])), version, necessary: true, analytics: Boolean(analytics), marketing: Boolean(marketing),
       external_content: Boolean(external), providers: Object.create(null), savedAt: Date.now(), consentId };
     for (const s of services) if (value[s.category] && permissions[s.key]) value.providers[s.key] = s.fingerprint;
     const persisted = saveConsent(value);
@@ -228,6 +224,7 @@
       return;
     }
     applyConsent(value);
+    needsChoice=services.some(s=>value.disclosed[s.key]!==s.fingerprint);if(needsChoice)showBanner();
   }
 
   function mapChoice(service, allowed) {
@@ -302,7 +299,7 @@
         commit('accept', true, true, true, Object.fromEntries(services.map(s => [s.key, true])));
         return;
       case 'save':
-        commit('save_settings', analyticsInput.checked, marketingInput.checked, externalInput.checked, Object.fromEntries([...providerInputs].map(([key, input]) => [key, input.checked])));
+        commit('save_settings', analyticsInput.checked, marketingInput.checked, externalInput.checked, draftPermissions);
         return;
       default:
         return;
@@ -329,12 +326,8 @@
     setupButtonVisibility();
     root.addEventListener('click', onClick);
     for (const [category, input] of Object.entries(inputs)) input.addEventListener('change', () => {
-      for (const s of services) if (s.category === category) providerInputs.get(s.key).checked = input.checked;
+      input.indeterminate=false;for (const s of services) if (s.category === category) draftPermissions[s.key] = input.checked;
       emitAudit(category + (input.checked ? '_allow' : '_deny'));
-    });
-    for (const s of services) providerInputs.get(s.key).addEventListener('change', () => {
-      inputs[s.category].checked = services.some(p => p.category === s.category && providerInputs.get(p.key).checked);
-      emitAudit(providerInputs.get(s.key).checked ? 'provider_allow' : 'provider_deny', { provider: s.key });
     });
     root.addEventListener('keydown', event => {
       if (event.key === 'Escape' && !settings.hidden) {

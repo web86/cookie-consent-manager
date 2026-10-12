@@ -29,8 +29,8 @@ try{
  });
  await test('technical-fields-hidden-one-language-select-short-integration',async()=>{
   eq(await m.p.locator('#ccm-policy,#ccm-audit-config,#ccm-preview-language,#ccm-base-language,#ccm-stock-language,#ccm-custom-language,[id^=ccm-purpose-],[data-restore]').count(),0);
-  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)||/^service\.[a-z0-9_]+\.name$/.test(k)));
-  await m.p.locator('#ccm-tab-main').click();eq(await m.p.locator('#ccm-integration-help pre').textContent(),'[[!CookieConsent]]');ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
+  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
+  await m.p.locator('#ccm-tab-logs').click();eq(await m.p.locator('#ccm-integration-help pre').textContent(),'[[!CookieConsent]]');ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
  });
  await test('two-counters-generated-keys-confirmation-save-only-and-auto-preview-locale',async()=>{
   await m.p.locator('#ccm-tab-services').click();const before=control('web','get','cookie_consent.services');
@@ -71,11 +71,11 @@ try{
   eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,true);const get=await c.api('get');const draft=Object.fromEntries(['options','registry','texts','log_dir','audit_config_file'].map(k=>[k,get.object[k]]));draft.log_dir='/var/www/html/logs/cookies';eq((await c.api('save',{draft:JSON.stringify(draft),revision:get.object.revision})).success,true);eq((await c.api('audit_test')).success,true);
   for(const path of ['/logs/cookies/2020-01-cookie-consent.log','/logs/cookies/'+new Date().toISOString().slice(0,7)+'-cookie-consent.log','/logs/cookies/.rate/state.json'])eq((await c.ctx.request.get(c.origin+path)).status(),403);
   eq(cli('clean',['php','-r','echo file_get_contents("/var/www/html/logs/cookies/2020-01-cookie-consent.log");']),'historical safe sentinel');
-  await c.p.reload();await c.p.locator('#ccm-save').waitFor();await c.p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await c.p.screenshot({path:dir+'/managed-audit-ready.png'});
+  await c.p.reload();await c.p.locator('#ccm-save').waitFor();await c.p.locator('#ccm-tab-logs').click();await c.p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await c.p.screenshot({path:dir+'/managed-audit-ready.png'});
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);
-  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta8',preexisting_mode:'0'}})).json();
+  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta12',preexisting_mode:'0'}})).json();
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('uninstall')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);eq((await c.api('get')).object.auditStatus.state,'ready');

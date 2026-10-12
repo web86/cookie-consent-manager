@@ -32,8 +32,8 @@ try {
   await editRegistry(changed);
   const front = await ctx.newPage(); await front.goto(origin, { waitUntil: 'networkidle' });
   await front.locator('[data-cc-action="configure"]').click();
-  equal(await front.locator('[data-cc-provider="manager_added"]').count(), 1, 'New service in preferences');
-  equal(await front.locator('[data-cc-provider="manager_added"]').isChecked(), false, 'Added service defaults off');
+  equal(await front.locator('[data-cc-provider="manager_added"]').count(), 0, 'No individual service control');
+  equal(await front.locator('[data-cc-category=analytics]').isChecked(),false,'Category defaults off');
   results.push({ name: 'native-manager-add', result: 'PASS' });
   changed.services.find(s => s.key === 'manager_added').enabled = false;
   await editRegistry(changed); await front.reload({ waitUntil: 'networkidle' });

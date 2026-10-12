@@ -33,6 +33,9 @@ final class CookieConsentSettings
     }
     public static function validate(array $draft,string $webroot,bool $strict=true): array
     {
+        $mode=$draft['log_dir_mode']??'absolute';unset($draft['log_dir_mode']);
+        if (!is_string($mode))throw new InvalidArgumentException('log_mode');
+        if ($strict && ($draft['log_dir']??'')!==''){require_once __DIR__.'/CookieConsentLogDirectory.php';$draft['log_dir']=CookieConsentLogDirectory::resolve($draft['log_dir'],$webroot,$mode);}
         if (!array_key_exists('audit_config_file',$draft)) $draft['audit_config_file']='';
         if (count($draft)!==5 || array_diff(array_keys($draft),['options','registry','texts','log_dir','audit_config_file']) || !is_array($draft['options']??null) || !is_array($draft['registry']??null) || !is_array($draft['texts']??null) || !is_string($draft['log_dir']??null)) throw new InvalidArgumentException('Settings schema');
         $draft['options']=self::options($draft['options']);
@@ -58,7 +61,7 @@ final class CookieConsentSettings
     private static function logDirectory(string $dir,string $root): string {
         global $modx;require_once __DIR__.'/CookieConsentAuditConfiguration.php';require_once __DIR__.'/CookieConsentLogDirectory.php';
         if(!CookieConsentLogDirectory::inside((string)realpath($dir),$root))return CookieConsentPrivatePath::directory($dir,$root);
-        return CookieConsentLogDirectory::validate($dir,$root,CookieConsentAuditConfiguration::forModx($modx)['site_origin']);
+        return CookieConsentLogDirectory::validate($dir,$root,CookieConsentAuditConfiguration::protectionOrigin($modx));
     }
     public static function languages(string $core): array
     {
@@ -78,7 +81,7 @@ final class CookieConsentSettings
             $current=self::read($modx);
             if (!hash_equals($current['revision'],$revision)) throw new DomainException('conflict');
             $values=[json_encode($draft['options'],JSON_THROW_ON_ERROR),json_encode($draft['registry'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),json_encode($draft['texts'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),$draft['log_dir'],$draft['audit_config_file']];
-            foreach(self::KEYS as $i=>$key){$s=$modx->getObject('modSystemSetting',['key'=>$key]);if(!$s)throw new RuntimeException('Setting missing');$s->set('value',$values[$i]);if(!$s->save())throw new RuntimeException('Save failed');}
+            foreach(self::KEYS as $i=>$key){$s=$modx->getObject('modSystemSetting',['key'=>$key]);if(!$s)throw new RuntimeException('Setting missing');$s->set('value',$values[$i]);if(!$s->save())throw new RuntimeException('write_failed');}
             $modx->commit();
         }catch(Throwable $e){$modx->rollBack();throw $e;}
         $modx->cacheManager->refresh(['system_settings'=>[]]);return self::read($modx);

@@ -5,10 +5,21 @@ require_once __DIR__.'/CookieConsentAuditConfiguration.php';
 final class CookieConsentLogDirectory
 {
     public const DENY="Require all denied\n";
+    public static function resolve(string $dir,string $root,string $mode='absolute'): string {
+        if(!in_array($mode,['site','absolute'],true))throw new InvalidArgumentException('log_mode');
+        if($mode==='site') {
+            if($dir===''||str_contains($dir,"\0")||strpbrk($dir,"\\?#")!==false||preg_match('~(?:^|/)\.\.?(/|$)~',$dir))throw new RuntimeException('log_traversal');
+            $dir=rtrim($root,'/').'/'.ltrim($dir,'/');
+        }
+        return self::canonical($dir,$root);
+    }
     public static function canonical(string $dir,string $root): string {
-        if($dir===''||$dir[0]!=='/'||str_contains($dir,"\0")||preg_match('~(?:^|/)\.\.?(/|$)~',$dir))throw new RuntimeException('log_path');
-        $real=realpath($dir);if(!$real||$real!==rtrim($dir,'/')||!is_dir($real)||!is_writable($real)||$real===realpath($root))throw new RuntimeException('log_path');
-        for($p=$real;$p!=='/';$p=dirname($p))if(is_link($p))throw new RuntimeException('log_symlink');return $real;
+        if($dir===''||$dir[0]!=='/'||str_contains($dir,"\0"))throw new RuntimeException('log_path');
+        if(preg_match('~(?:^|/)\.\.?(/|$)~',$dir))throw new RuntimeException('log_traversal');
+        for($p=rtrim($dir,'/');$p!==''&&$p!=='/';$p=dirname($p))if(is_link($p))throw new RuntimeException('log_symlink');
+        if(!file_exists($dir))throw new RuntimeException('log_missing');if(!is_dir($dir))throw new RuntimeException('log_not_directory');
+        $real=realpath($dir);if(!$real||$real!==rtrim($dir,'/'))throw new RuntimeException('log_path');
+        if($real===realpath($root))throw new RuntimeException('log_root');if(!is_writable($real))throw new RuntimeException('log_permissions');return $real;
     }
     public static function inside(string $dir,string $root): bool {return str_starts_with($dir,rtrim((string)realpath($root),'/').'/');}
     private static function apache(): void {
@@ -21,7 +32,7 @@ final class CookieConsentLogDirectory
         self::apache();
         $file=$dir.'/.htaccess';CookieConsentPrivatePath::file($file);
         if(!file_exists($file)){$h=fopen($file,'xb');if(!$h)throw new RuntimeException('guard_create');try{if(fwrite($h,self::DENY)!==strlen(self::DENY))throw new RuntimeException('guard_write');}finally{fclose($h);}chmod($file,0644);}
-        if(file_get_contents($file)!==self::DENY)throw new RuntimeException('guard_review');
+        // Existing administrator rules are preserved; only HTTP proof establishes protection.
     }
     public static function request(string $origin,string $path,array $headers=[],string $method='GET',string $content=''): array {
         CookieConsentAuditConfiguration::validate(['site_origin'=>$origin,'rate_limit_key'=>str_repeat('x',32)]);
@@ -34,7 +45,7 @@ final class CookieConsentLogDirectory
     public static function validate(string $dir,string $root,string $origin): string {
         $dir=self::canonical($dir,$root);if(!self::inside($dir,$root))return CookieConsentPrivatePath::directory($dir,$root);
         self::apache();
-        CookieConsentPrivatePath::file($dir.'/.htaccess');if(!is_file($dir.'/.htaccess')||file_get_contents($dir.'/.htaccess')!==self::DENY)throw new RuntimeException('guard_unverified');
+        CookieConsentPrivatePath::file($dir.'/.htaccess');
         $rate=$dir.'/.rate';if(is_link($rate))throw new RuntimeException('log_symlink');if(!is_dir($rate)&&!mkdir($rate,0700))throw new RuntimeException('rate_directory');if(realpath($rate)!==$rate)throw new RuntimeException('log_symlink');
         $nonce=bin2hex(random_bytes(16));$files=[$dir.'/cc-probe-'.$nonce.'.jsonl',$dir.'/cc-probe-'.$nonce.'.log',$rate.'/cc-probe-'.$nonce.'.json'];
         try {

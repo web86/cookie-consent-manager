@@ -9,7 +9,7 @@ class CookieConsentGetProcessor extends CookieConsentManagerProcessor
         $languageSetting=$this->modx->getObject('modSystemSetting',['key'=>'manager_language']);
         $lang=CookieConsentTexts::language($languageSetting ? (string)$languageSetting->get('value') : 'en');
         $lexicon=CookieConsentTexts::lexicon($lang) ?: CookieConsentTexts::lexicon('en');
-        return $data+['auditStatus'=>CookieConsentAuditConfiguration::status($this->modx),'managerLanguage'=>$lang,'managerStrings'=>$lexicon,'availableLanguages'=>CookieConsentSettings::languages(MODX_CORE_PATH),'lexicons'=>['ru'=>CookieConsentTexts::lexicon('ru'),'en'=>CookieConsentTexts::lexicon('en')],'catalog'=>CookieConsentServiceRegistry::CATALOG,'booleanOptions'=>CookieConsentServiceRegistry::BOOL_OPTIONS];
+        return $data+['documentRoot'=>CookieConsentAuditConfiguration::webroot(),'auditStatus'=>CookieConsentAuditConfiguration::status($this->modx),'managerLanguage'=>$lang,'managerStrings'=>$lexicon,'availableLanguages'=>CookieConsentSettings::languages(MODX_CORE_PATH),'lexicons'=>['ru'=>CookieConsentTexts::lexicon('ru'),'en'=>CookieConsentTexts::lexicon('en')],'catalog'=>CookieConsentServiceRegistry::CATALOG,'booleanOptions'=>CookieConsentServiceRegistry::BOOL_OPTIONS];
     }
 }
 return 'CookieConsentGetProcessor';

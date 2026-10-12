@@ -51,7 +51,7 @@ await suite('first-visit', async ({ page, requests }) => {
   equal(await page.locator('[data-cc-map-provider] iframe').count(), 0, 'No frames');
   ok(await page.locator('[data-cc-action="reject"]').isVisible(), 'Banner');
   await page.locator('[data-cc-action="configure"]').click();
-  equal(await page.locator('[data-cc-provider]').count(), 8, 'Providers listed');
+  equal(await page.locator('[data-cc-provider]').count(), 0, 'No provider controls');
   equal(await page.locator('input:disabled').isChecked(), true, 'Necessary locked');
   await page.keyboard.press('Escape');
   equal(await page.locator('[data-cc-panel="settings"]').isVisible(), false, 'Escape');
@@ -108,9 +108,8 @@ await suite('legacy-accept', async ({ page, requests }) => {
   equal(loads(requests), [...scriptsA, ...scriptsM, 'google_gtm.js', 'google_maps.html', 'yandex_maps.html'].sort());
 });
 await suite('provider-only', async ({ page, requests }) => {
-  await page.locator('[data-cc-action="configure"]').click(); await page.locator('[data-cc-provider="google_ga4"]').check();
-  await page.locator('[data-cc-action="save"]').click(); await page.waitForTimeout(200);
-  equal(loads(requests), ['google_ga4.js'], 'Per-provider consent');
+  await page.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_ga4');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:true,marketing:false,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});requests.length=0;await page.reload({waitUntil:'networkidle'});
+  equal(loads(requests),['google_ga4.js'],'Legacy partial remains exact');
 });
 for (const cause of ['ttl', 'policy', 'old-m2', 'popup-yurist']) await suite(`expiry-${cause}`, async ({ page, requests }) => {
   await page.locator('[data-cc-action="accept-all"]').click(); await page.waitForTimeout(200);
@@ -167,9 +166,7 @@ try {
     changed.services.push({ key: 'extra_ga', loader: 'google_ga4', category: 'analytics', name: 'Дополнительная аналитика', purpose: 'Новая явно раскрытая цель', enabled: true, config: { id: 'G-EXTRA123' } });
     setting('cookie_consent.services', JSON.stringify(changed));
     requests.length = 0; await page.reload({ waitUntil: 'networkidle' });
-    await page.locator('[data-cookie-settings-open]').click(); equal(await page.locator('[data-cc-provider="extra_ga"]').count(), 1);
-    equal(await page.locator('[data-cc-provider="extra_ga"]').isChecked(), false, 'New provider not inherited');
-    await page.locator('[data-cc-provider="extra_ga"]').check(); await page.locator('[data-cc-action="save"]').click();
+    equal(await page.locator('[data-cc-provider]').count(),0);equal(await page.evaluate(()=>Boolean(web86CookieConsent.getConsent().providers.extra_ga)),false,'New provider not inherited');ok(await page.locator('[data-cc-action=reject]').isVisible(),'Re-consent requested');await page.locator('[data-cookie-settings-open]').click();await page.locator('[data-cc-category=analytics]').uncheck();await page.locator('[data-cc-category=analytics]').check(); await page.locator('[data-cc-action="save"]').click();
     equal(await page.evaluate(() => Boolean(window.web86CookieConsent.getConsent().providers.extra_ga)), true, 'Explicit new permission');
     changed.services.find(s => s.key === 'yandex').enabled = false; setting('cookie_consent.services', JSON.stringify(changed));
     requests.length = 0; await page.reload({ waitUntil: 'networkidle' }); ok(!loads(requests).includes('yandex.js'), 'Disabled provider not loaded');
@@ -185,7 +182,7 @@ try {
 for (let mask = 0; mask < 256; mask++) await suite(`providers-${mask.toString().padStart(3, '0')}`, async ({ page, requests }) => {
   await page.locator('[data-cc-action="configure"]').click();
   const selected = registry.services.filter((service, i) => mask & (1 << i));
-  for (const service of selected) await page.locator(`[data-cc-provider="${service.key}"]`).check();
+  await page.evaluate(keys=>{const ss=web86Providers.services;const selected=ss.filter(s=>keys.includes(s.key));localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:selected.some(s=>s.category==='analytics'),marketing:selected.some(s=>s.category==='marketing'),external_content:selected.some(s=>s.category==='external_content'),providers:Object.fromEntries(selected.map(s=>[s.key,s.fingerprint])),savedAt:Date.now(),consentId:crypto.randomUUID()}));},selected.map(s=>s.key));requests.length=0;await page.reload({waitUntil:'networkidle'});await page.locator('[data-cc-action=configure]').click();equal(await page.locator('[data-cc-provider]').count(),0);
   await page.locator('[data-cc-action="save"]').click();
   await page.waitForFunction(() => window.__deliveries.some(e => e.ok));
   await page.waitForTimeout(100);
