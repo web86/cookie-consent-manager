@@ -42,7 +42,9 @@ try {
         !hash_equals(strtolower($origin),strtolower($_SERVER['HTTP_ORIGIN']))) {
         respond(403,['ok'=>false,'error'=>'origin_forbidden']);
     }
-    $dir=$config['log_dir'] ?? null;
+    // This value comes only from the initialized MODX 2 system setting.
+    // Do not accept the log path from the HTTP request or public config.
+    $dir=$GLOBALS['cookieConsentModxLogDir'] ?? null;
     if (!is_string($dir) || $dir === '' || $dir[0] !== '/') throw new RuntimeException('Absolute log directory required');
     if (!is_dir($dir) && !mkdir($dir,0700,true) && !is_dir($dir)) throw new RuntimeException('Cannot create log directory');
     $logDir = realpath($dir);
