@@ -1,108 +1,132 @@
-# Cookie Consent Manager — тестовый стенд для Юр-услуги.рф
+# Cookie Consent Manager для MODX Revolution 2
 
-Это **MVP для проверки поведения** на тестовом сайте MODX 2 / HTML. Включает отдельные адаптеры аналитики и маркетинга, имитации счетчиков, замену чанка CookiesPopup, CSS и SCSS. Не является завершённым production-релизом: **PHP-аудит реализован как отдельный устанавливаемый модуль; без настройки приватной конфигурации и endpoint он отключён** и ещё нужен аудит очистки существующих cookies при отзыве разрешений.
+Согласие по категориям и отдельным сервисам, безопасные заглушки карт, серверный PHP-аудит JSONL. Реализация и приёмка рассчитаны на **MODX 2.8.8, PHP ≥8.1**, same-origin endpoint и приватный каталог журналов. Основная проверенная конфигурация — локальный mock. Точные результаты и ограничения: [отчёт приёмки](docs/modx2-m2-maps-acceptance.md). Это не подтверждение безопасности произвольного GTM-контейнера или готовности любого существующего сайта к live-запуску.
 
-## Структура
+## Состав
 
-- `CookiesPopup.html` — содержимое чанка `CookiesPopup`.
-- `assets/scss/cookie-consent.scss` — обновлённые стили на базе текущего `.cookie-warning`.
-- `assets/css/cookie-consent.css` — обычный CSS для быстрого теста.
-- `assets/js/cookie-consent/consent-manager.js` — баннер, категории, кнопки, localStorage на 90 дней, browser audit events, отзыв через reload.
-- `assets/js/cookie-consent/analytics.js` — Yandex 23643118, Top.Mail.Ru 3265404, clientid для Bitrix24.
-- `assets/js/cookie-consent/marketing.js` — пока пустой в live, mock-пиксель в тесте.
-- `assets/js/cookie-consent/mock/*.js` — локальные имитации трёх аналитических интеграций и маркетингового пикселя.
-- `demo.html` — автономный демонстрационный стенд.
+- `CookiesPopup.html` — чанк баннера, четыре совместимых переключателя кнопок.
+- `assets/js/cookie-consent/provider-registry.js` — проверка реестра, адаптеры Yandex/Mail.Ru/GA4/GTM/Ads, карты, host patterns.
+- `assets/js/cookie-consent/consent-manager.js` — UI, отдельные разрешения, 90-дневное хранение, отзыв, аудит.
+- `assets/css/cookie-consent.css`, `assets/scss/cookie-consent.scss` — стили, прокрутка настроек на небольших экранах.
+- `assets/js/cookie-consent/mock/` — исключительно first-party имитации; `demo.html` — автономное демо без PHP-аудита.
+- `server/src/`, `server/public/audit.php` — приватный серверный код; `server/modx2-public-endpoint.example.php` — публичный wrapper.
+- `server/bin/install-modx2.php` — CLI установка/обновление системных настроек без перезаписи выбранных администратором значений.
+- `server/modx2-registry-snippet.php` — сниппет вывода проверенной публичной конфигурации.
+- `tests/local/` — отдельный настоящий MODX 2.8.8 + MariaDB + Apache/PHP, публикация только на loopback.
 
-## Автономный тест
+Старые `analytics.js` и `marketing.js` оставлены для совместимости исходников M1. При установке нового реестра **подключайте только provider-registry.js и consent-manager.js**; одновременное подключение прежних адаптеров и прямых счётчиков нарушает контроль загрузки.
 
-Загрузить всю папку на тестовый веб-сервер (или локально выполнить `python3 -m http.server 8000` из папки), открыть `demo.html` по HTTP. На стенде `data-cc-mode="mock"`: **в коде этого стенда нет загрузки удалённых счётчиков**. При этом JS-модули самого Consent Manager всегда грузятся, это ожидаемо.
+## Точная установка на тестовый MODX 2
 
-DevTools → Network → JS → Disable cache:
+1. Сделать резервную копию шаблона, чанка CookiesPopup, старого JS и системных настроек. Для первой установки использовать отдельную тестовую копию сайта. Основной MODX core и код компонента разместить вне DOCUMENT_ROOT. Защитить также конфиг MODX/БД и доступ к Manager. Пример:
 
-1. Первый визит: **нет запросов** к `/mock/`.
-2. «Отклонить» → нет запросов к `/mock/`.
-3. «Настроить» → «Сохранить настройки», ничего не отметив → нет запросов.
-4. Аналитика ✓ → появляются `mock/yandex.js`, `mock/bitrix24-clientid.js`, `mock/mailru.js`.
-5. Только маркетинг ✓ → появляется только `mock/marketing.js`.
-6. «Принять все» → загружаются все четыре файла.
-7. После «Принять все» открыть настройки в демо, снять аналитику, сохранить: страница перезагрузится; аналитические JS **не должны загружаться повторно**.
-8. Обновить страницу: предпочтения сохраняются, баннер скрыт; разрешённые скрипты могут загрузиться сразу при следующей навигации.
-9. Кнопка «Сбросить тестовый выбор» очищает **только** `web86_cookie_consent` и перезагружает стенд.
+   - DOCUMENT_ROOT: `/srv/example/public`
+   - MODX_CORE_PATH: `/srv/example/private/modx-core/`
+   - серверный код: `/srv/example/private/modx-core/components/cookieconsent/{src,public}`
+   - логи: `/srv/example/private/cookie-consent-logs`
+   - приватный конфиг: `/srv/example/private/cookie-consent-config.php`
 
-На самом сайте нужно убедиться через Network, что *никакие другие шаблоны, GTM, формы, пиксели, CSS/background или `noscript`* не грузят статистику напрямую.
+   Эти пути — примеры, не готовые значения для вашего сервера. Перенос core требует штатной настройки config.core.php у MODX; установка компонента сама core не переносит. В fixture это выполняется до установки MODX.
 
-## Как встроить в тестовый MODX
+2. Создать приватный **существующий канонический** каталог логов, доступный пользователю PHP. На Linux, например:
 
-1. Создать резервную копию чанка `CookiesPopup`, старого JS и шаблона `base`.
-2. В чанке `CookiesPopup` заменить HTML на `CookiesPopup.html`.
-3. Загрузить папку `assets/js/cookie-consent/` на сайт (включая `/mock/`).
-4. Добавить CSS `assets/css/cookie-consent.css` (или скомпилировать приложенный SCSS в общий CSS проекта).
-5. Удалить **старый** обработчик `popup_yurist` целиком. Старое сохранённое значение не считается согласием на аналитику.
-6. В **тестовой копии** шаблона `base` убрать прямые подключения Яндекс.Метрики, Top.Mail.Ru, `window.onload` с `yaCounter23643118` и оба `noscript`-пикселя.
-7. Подключить адаптеры и менеджер (после HTML чанка или с атрибутом `defer`):
+   ```sh
+   install -d -m 0700 -o www-data -g www-data /srv/example/private/cookie-consent-logs
+   ```
 
-```html
-<link rel="stylesheet" href="/assets/css/cookie-consent.css">
-<script src="/assets/js/cookie-consent/analytics.js" defer></script>
-<script src="/assets/js/cookie-consent/marketing.js" defer></script>
-<script src="/assets/js/cookie-consent/consent-manager.js" defer></script>
+   Настройка принимает абсолютный реальный путь без симлинков и `..`, вне webroot. Каталог не создаётся автоматически по HTTP. Небезопасное, пустое, относительное или недоступное значение вызывает HTTP 503; публичного fallback нет.
+
+3. Скопировать `server/src/*.php` в `MODX_CORE_PATH/components/cookieconsent/src/`, `server/public/audit.php` — в `components/cookieconsent/public/`. Запустить из checkout:
+
+   ```sh
+   php server/bin/install-modx2.php /srv/example/public /srv/example/private/cookie-consent-logs
+   ```
+
+   Будут созданы namespace `cookie_consent` и только отсутствующие настройки:
+
+   | Настройка | xtype | Значение |
+   |---|---|---|
+   | `cookie_consent.log_dir` | textfield | канонический приватный каталог |
+   | `cookie_consent.services` | textarea | валидированный реестр JSON |
+
+   Повторная установка сохраняет оба существующих значения. Изменить каталог или состав сервисов можно в **MODX Manager → System Settings → namespace cookie_consent**. Реестр описан в [service-registry.md](docs/service-registry.md). Некорректный реестр блокируется целиком; после исправления обновить страницу.
+
+4. Создать приватный конфиг по `server/config.example.php`: точный origin, без завершающего `/`, случайный секрет минимум 32 символа (например, `php -r 'echo bin2hex(random_bytes(32));'`), стандартный лимит 60 событий/IP/мин. **log_dir в конфиг не добавлять**: источник только системная настройка. Ограничить права конфигурации; пользователю PHP нужен read. Настроить в окружении Apache/FPM:
+
+   ```text
+   COOKIE_CONSENT_AUDIT_CONFIG=/srv/example/private/cookie-consent-config.php
+   ```
+
+   Не передавать путь через URL/POST. FPM должен пропускать эту env-переменную в пул. После обновления приватного PHP-конфига учитывать OPcache/reload пула.
+
+5. Разместить `server/modx2-public-endpoint.example.php` как `/assets/components/cookieconsent/audit.php`. Относительный путь `dirname(__DIR__,3).'/index.php'` рассчитан именно на эту глубину. Wrapper включает MODX_API_MODE, читает **modSystemSetting** и удаляет bootstrap-output перед JSON. Если структура core отличается, адаптировать приватные include-пути.
+
+6. Создать сниппет `CookieConsentRegistry` из `server/modx2-registry-snippet.php`, **без открывающего `<?php`**. Заменить чанк CookiesPopup на `CookiesPopup.html`. Подключить после чанка (или в head с defer), именно в этом порядке:
+
+   ```html
+   <link rel="stylesheet" href="/assets/css/cookie-consent.css">
+   [[!CookieConsentRegistry]]
+   <script src="/assets/js/cookie-consent/provider-registry.js" defer></script>
+   <script src="/assets/js/cookie-consent/consent-manager.js" defer></script>
+   ```
+
+   Не кэшировать HTML конфигурации/сниппет внешним page cache без инвалидирования при изменении настроек. В live отсутствие реестра запрещает сервисы. Standalone mock без сниппета использует локальные demo defaults.
+
+7. Удалить старые прямые скрипты счётчиков, GTM, `noscript`-пиксели, `window.onload` для ClientID и любые preconnect/prefetch внешних сервисов. В формах ClientID остаётся необязательным: отсутствие аналитики не мешает отправке. Установочные ID Yandex `23643118` и Mail.Ru `3265404` сохранены для совместимости; проверять принадлежность перед live. GA4/GTM/Ads изначально disabled.
+
+8. Оставить `data-cc-mode="mock"` и настроить аудит `/assets/components/cookieconsent/audit.php`. Map embeds заменить на инертные `div data-cc-map-provider/data-cc-map-src`; полные примеры и allowlist в [реестре](docs/service-registry.md). Для mock используются локальные HTML-карты. Не оставлять исходный iframe с src: браузер запрашивает его до выполнения consent JS.
+
+9. Добавить постоянный доступ к настройкам в футер:
+
+   ```html
+   <button type="button" data-cookie-settings-open>Настройки cookie</button>
+   ```
+
+   Кнопки «Отклонить», «Настроить», «Принять все» и «Принять» сохраняют настройки `data-cc-show-{reject,configure,accept-all,accept}`. `1` показывает, `0` скрывает; legacy accept включён только при `1`. Если все четыре скрыты, показывается «Настроить». «Принять все» и legacy accept разрешают также внешние карты, как явно описано в тексте баннера. Necessary locked.
+
+10. Проверить баннер → committed event → только выбранные mock-загрузки → POST 200 → JSONL в каталоге настройки. Затем все остальные проверки отчёта. Live-переключение выполнять только после проверки всех шаблонов, CSP, реальных адаптеров с тестовыми учётными записями и GTM-контейнера; рабочий deployment требует отдельного решения владельца сайта.
+
+## Состояние, миграция и отзыв
+
+`localStorage.web86_cookie_consent` хранит version, necessary, analytics, marketing, external_content, providers (разрешённые fingerprint), savedAt и случайный consentId. По умолчанию срок 90 дней, настраивается `data-cc-ttl-days` (1–3650); по истечении срока или при смене `data-cc-policy-version` новые загрузки при навигации блокируются до выбора. Служебный ключ `web86_cookie_consent_id` сохраняет identity между draft, reload и окончательным выбором. IP не используется как consent identity. Блокировка localStorage означает, что выбор может не пережить reload.
+
+Для миграции с `popup_yurist` удалить старый обработчик, прямые счётчики и пиксели. Его значение **не является согласием** и новым менеджером не читается. Старые предпочтения M2 без per-provider permissions не разрешают новые сервисы. Попросить новый выбор через ссылку настроек либо поднять policy version. Не превращать архивные события schema 1 в разрешения карт.
+
+Draft клики записываются отдельно от committed действий; загрузки запускаются только после committed. «Загрузить карту» даёт разрешение лишь одному провайдеру карт; analytic/marketing не меняются. Разрешение распространяется на все embeds этого провайдера. Отзыв карты удаляет iframe сразу, затем выполняется reload после ответа аудита или таймаута 900 мс. Для других SDK reload прекращает текущий документ; старые SDK могут работать во время этого короткого ожидания. Нельзя отменить ранее отправленные запросы или гарантированно удалить сторонние cookies; автоматическая очистка всех third-party cookies не реализована. В уже открытой вкладке изменение server settings/TTL само SDK не выгружает: применяется при следующей навигации/выборе.
+
+## PHP-аудит и приватность
+
+Каждый месяц UTC создаётся `YYYY-MM-cookie-consent.log`, файлы 0600, каталог 0700. **Автоудаления нет**, `prune.php` отсутствует, архивы не перемещаются/не переписываются при смене log_dir. Переход на другую настройку только направляет новые записи в новый каталог. Настройка лимитера хранится отдельно в `.rate/state.json`, старые записи временного replay-state удаляются из него через 5 минут; это не затрагивает аудит.
+
+PHP записывает server UTC, REMOTE_ADDR, очищенный и ограниченный 512 байт User-Agent, event_id, consent_id, stage, категории, policy version и pathname без query/fragment. Клиентские IP/UA и неожиданные поля не принимаются. Не доверяет X-Forwarded-For. За proxy REMOTE_ADDR обычно содержит IP proxy; отдельную доверенную настройку proxy делать на уровне webserver с точным allowlist адресов. Ротация секретного HMAC-ключа меняет rate bucket identity; журналы от неё не удаляются.
+
+Origin обязателен и должен совпасть с приватным site_origin; Fetch Metadata допускает same-origin либо отсутствие, но не same-site/cross-site. POST JSON максимум 8192 байта. Дубликат event_id по всем IP в 5-минутном окне получает 409; превышение лимита — 429/Retry-After:60; ошибки записи/пути — 503, **не 200**. JSONL append и limiter защищены файловыми flock, запись проверяется полностью. Частично записанная новая строка при обнаруженной ошибке откатывается к прежней длине файла. Событие резервируется до append: после 503 повторить действие с новым event_id; тот же ID может получить 409. При сбое питания между состоянием лимитера и логом нет гарантии транзакционной durability; для более строгого аудита нужен транзакционный backend.
+
+Формат schema 2 сохраняет совместимость чтения schema 1: старые строки не меняются. Аудит — утверждение недоверенного клиента, а не криптографическое доказательство личности/согласия. Сервер не проверяет подлинность пользовательского клика. IP/UA и даже путь страницы могут содержать персональные данные; ограничить доступ к журналам/бэкапам и отразить фактическую обработку в политике. Consent Audit Viewer для форм автоматически не интегрирован.
+
+## Локальная воспроизводимая приёмка
+
+Нужны Docker Compose, Python 3, curl, Node 22 и Playwright. Команды из корня checkout:
+
+```sh
+bash tests/local/setup.sh
+npm ci
+npx playwright install chromium
+npm run test:browser
+npm run test:http
+node tests/live-guard.mjs
+node tests/manager.mjs
+docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml exec -T -u www-data web php /opt/cc-source/tests/php.php
 ```
 
-8. Убедиться, что атрибут `data-cc-mode="mock"` на **тестовом** сайте. Для рабочего используется `data-cc-mode="live"` **после** проверки и доработки аудита.
-9. При желании добавить в подвал ссылку (это не зависит от наличия кнопки «Настроить» в баннере):
+Запускать наборы последовательно: часть тестов временно изменяет настройки **только fixture** и восстанавливает их. Стенд использует лимит 10000/мин для матрицы; тест лимитера отдельно проверяет 1/мин. Реальный default продукта остаётся 60/мин. При проблеме доверия npm TLS настроить корректное CA-хранилище Node или `NODE_EXTRA_CA_CERTS`; не отключать TLS-проверку. В среде приёмки использован проверенный SHA512 cache пакетов и `npm ci --offline --ignore-scripts --cache .local/npm-cache` из-за проблемы цепочки CA Node; lockfile переносимый, без путей локального runtime.
 
-```html
-<button type="button" data-cookie-settings-open>Настройки cookie</button>
+Результаты JSON/HAR/screenshots сохраняются в игнорируемом `.local/evidence/`; конфиги, БД и секреты — `.local/private/`/Docker volume и не коммитятся. Live-guard перехватывает каждый внешний запрос и отвечает локальным stub, не обращаясь к Google/Yandex/Mail.Ru. Он проверяет URL и consent gate, а не реальные SDK/контейнеры. Standalone демо без сервера: `php -S 127.0.0.1:8000`, затем `/demo.html`; там аудит отключён и никакого подтверждения серверной записи нет.
+
+Остановить локальный стенд, сохранив БД и журналы:
+
+```sh
+docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml stop
 ```
 
-## Управление кнопками
-
-Чанк имеет 4 атрибута:
-
-- `data-cc-show-configure="1"`
-- `data-cc-show-reject="1"`
-- `data-cc-show-accept-all="1"`
-- `data-cc-show-accept="0"` — старая «Принять»; после **клика** разрешает обе необязательные категории.
-
-`1` = показать, `0` = скрыть. Пока это HTML-конфигурация для теста; на production можно подключить ClientConfig или системные настройки MODX. Если выключить все кнопки, в целях безопасности менеджер покажет «Настроить».
-
-## Состояние и срок действия
-
-`localStorage.web86_cookie_consent` хранит JSON `{version,necessary,analytics,marketing,savedAt}`. По истечении 90 дней или смене `data-cc-policy-version` повторно появляется баннер. Если localStorage отключён, выбор может не пережить перезагрузку.
-
-## M2: серверный аудит
-
-Все клики по чекбоксам и финальным кнопкам генерируют `window`-событие `web86:consent-audit` (см. console и лог на `demo.html`), например:
-
-```javascript
-window.addEventListener('web86:consent-audit', e => console.log(e.detail));
-```
-
-События `analytics_allow`, `analytics_deny`, `marketing_allow`, `marketing_deny` имеют `stage: "draft"`; события `reject`, `accept_all`, `accept`, `save_settings` имеют `stage: "committed"`.
-
-**M2 реализован.** Для включения нужно отдельно развернуть `server/src/*.php`, `server/public/audit.php` вне webroot, создать конфигурацию по `server/config.example.php` с точным HTTPS origin, случайным секретом (минимум 32 символа), абсолютным путём логов вне webroot. Развернуть и отредактировать только публичный wrapper `server/modx2-public-endpoint.example.php` по пути `/assets/components/cookieconsent/audit.php`; пути в wrapper — примеры, их обязательно заменить. PHP >= 8.1. Никакие приватные конфиги и журналы в репозиторий не коммитить.
-
-События отправляются последовательно через same-origin fetch при наличии `data-cc-audit-url` на баннере; у автономного `demo.html` атрибут пустой. Отсутствие endpoint не препятствует управлению согласием; успешная запись серверного аудита **не гарантируется**, пока сервер не подтвердил HTTP 200. Проверяй статус запросов в Network и содержимое приватного `YYYY-MM-cookie-consent.log`. В JSONL пишется серверное UTC-время, IP из REMOTE_ADDR, UA, event_id, consent_id, стадия и категории, версия политики и путь. Ни IP, ни UA не берутся из тела запроса. За обратным прокси REMOTE_ADDR будет IP прокси: доверенную обработку заголовков прокси нужно настроить отдельно, не принимать произвольный X-Forwarded-For. Лимит 60 событий/IP/мин, повторы event_id в 5-минутном окне отклоняются. Это защита от случайных дубликатов и спама, **не криптографическое доказательство факта согласия**. Журнал не связан автоматически с действующим Consent Audit Viewer для форм; для Viewer потребуется отдельная адаптация.
-
-**Автоудаление журналов отключено полностью.** Каждый календарный месяц создаётся отдельный файл `YYYY-MM-cookie-consent.log`; старые файлы сохраняются без автоматической ротации с удалением и без cron-prune. Абсолютный путь к приватному каталогу журналов задаётся в MODX 2 **системной настройкой `cookie_consent.log_dir`** (например, `/home/account/private/cookie-consent-logs`). Путь должен находиться вне DOCUMENT_ROOT. `server/config.example.php` не содержит пути журналов; публичный endpoint получает его только из MODX. IP и UA могут быть персональными данными: ограничить доступ, описать обработку в политике; сроки хранения согласовываются с владельцем сайта и требованиями закона — механизм автоматического удаления не реализован.
-
-Текущая реализация M2 требует проверки на реальном PHP-хостинге и не должна считаться production-ready только по наличию кода.
-
-## Продакшен-ограничения
-
-- Проверить отсутствие любых скрытых сторонних трекеров и сетевых запросов до согласия на всех шаблонах.
-- После отзыва согласия новая страница не включает скрипты; **уже отправленные запросы невозможно отозвать**, а удаление существующих cookies требует аудита имён и доменов и доступно не для всех сторонних cookies.
-- `data-cc-mode="live"` запускает реальные Яндекс.Метрику и Mail.Ru только при analytics=true; маркетинговый адаптер пока ничего не включает.
-- Значение `ClientID` заполняется исключительно при разрешении аналитики; остальная Bitrix24-форма продолжает работать без него.
-- Этот MVP демонстрирует технический механизм, но не является гарантией полного соответствия всем правовым требованиям.
-
-
-## Установка M2 в MODX 2 (путь журнала из системной настройки)
-
-1. Создать настройку MODX `cookie_consent.log_dir` (тип textfield): **абсолютный** приватный путь вне публичного каталога, например `/home/account/private/cookie-consent-logs`. Убедиться, что PHP может создать/записать каталог.
-2. Создать приватный `cookie-consent-config.php` по `server/config.example.php`, настроить строгое `site_origin` и случайный секрет `rate_limit_key` (не меньше 32 символов); **не помещать конфиг в репозиторий**.
-3. Развернуть исходники `server/src`, `server/public/audit.php` в приватный каталог. Публично разместить только адаптированный `server/modx2-public-endpoint.example.php` по пути `/assets/components/cookieconsent/audit.php`.
-4. Заменить оба пути в этом адаптере на локальные и проверить, что MODX загружается с `MODX_API_MODE`, а `$modx->getOption('cookie_consent.log_dir')` возвращает ожидаемое значение.
-5. В чанке оставить `data-cc-audit-url="/assets/components/cookieconsent/audit.php"`. Провести тест: POST должен давать HTTP 200, а по указанному пути создастся `YYYY-MM-cookie-consent.log`; повтор и поддельный Origin отклоняются.
-
-**Замечание:** для самостоятельного `demo.html` без MODX этот M2 endpoint не рассчитан на запись — для проверки аудита разверни его внутри тестового MODX. Удаление `server/bin/prune.php` преднамеренное. Старые JSONL-журналы никогда не удаляются самим продуктом.
+Рабочий сайт этим проектом/приёмкой не разворачивается автоматически.

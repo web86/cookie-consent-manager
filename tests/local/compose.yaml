@@ -1,0 +1,30 @@
+name: cookie-consent-acceptance
+services:
+  db:
+    image: mariadb:10.6
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CC_DB_PASSWORD:?Run prepare first}
+      MARIADB_DATABASE: cookie_consent_test
+    volumes:
+      - cc-db:/var/lib/mysql
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  web:
+    build: .
+    ports:
+      - '127.0.0.1:8888:80'
+    depends_on:
+      db:
+        condition: service_healthy
+    volumes:
+      - ../../.local/site:/var/www/html
+      - ../../.local/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?Run prepare first}
+      COOKIE_CONSENT_AUDIT_CONFIG: /opt/cc-private/config.php
+volumes:
+  cc-db:

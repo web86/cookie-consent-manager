@@ -28,8 +28,7 @@
     });
   </script>
   <!-- Порядок важен: сами адаптеры не загружают статистику! -->
-  <script src="assets/js/cookie-consent/analytics.js" defer></script>
-  <script src="assets/js/cookie-consent/marketing.js" defer></script>
+  <script src="assets/js/cookie-consent/provider-registry.js" defer></script>
   <script src="assets/js/cookie-consent/consent-manager.js" defer></script>
 </head>
 <body>
@@ -53,6 +52,13 @@
       <div id="audit-output">Событий пока нет.</div>
       <p><small>Пока только браузерные события. Серверный PHP-аудит подключается отдельно.</small></p>
     </div>
+    <div class="test-card" data-cc-map-provider="google_maps" data-cc-map-title="Наш офис — Google" data-cc-map-src="/assets/js/cookie-consent/mock/google_maps.html"></div>
+    <div class="test-card" data-cc-map-provider="yandex_maps" data-cc-map-title="Наш офис — Яндекс" data-cc-map-src="/assets/js/cookie-consent/mock/yandex_maps.html"></div>
+    <dialog id="map-modal"><button type="button" onclick="this.closest('dialog').close()">Закрыть</button><div data-cc-map-provider="google_maps" data-cc-map-title="Карта в диалоге" data-cc-map-src="/assets/js/cookie-consent/mock/google_maps.html"></div></dialog>
+    <button type="button" id="open-map-modal" onclick="document.getElementById('map-modal').showModal()">Карта в диалоге</button>
+    <form id="optional-client-form" onsubmit="event.preventDefault();document.getElementById('form-result').textContent='Отправлено'">
+      <button type="submit">Отправить без ClientID</button><output id="form-result"></output>
+    </form>
   </main>
   <script>
     document.getElementById('reset-consent').addEventListener('click', function () {
@@ -75,8 +81,7 @@
   <div class="cookie-warning-content">
     <div class="cookie-warning-2" data-cc-panel="main">
       <div class="cookie-warning-text">
-        Мы используем необходимые cookie для работы сайта. Аналитические и маркетинговые
-        cookie используются только с вашего согласия. Подробнее — в
+        Мы используем необходимые cookie для работы сайта. Аналитические, маркетинговые cookie и внешние карты используются только с вашего согласия. Подробнее — в
         <a href="/soglasie" target="_blank" rel="noopener noreferrer">согласии</a>
         и <a href="/pkd" target="_blank" rel="noopener noreferrer">политике обработки данных</a>.
       </div>
@@ -104,7 +109,7 @@
       <label class="cookie-option">
         <span class="cookie-option__text">
           <strong>Аналитические файлы cookie</strong>
-          <small>Яндекс.Метрика, ClientID для Bitrix24, Top.Mail.Ru.</small>
+          <small>Включённые сервисы перечислены ниже. ClientID необязателен.</small>
         </span>
         <input type="checkbox" data-cc-category="analytics">
       </label>
@@ -112,7 +117,7 @@
       <label class="cookie-option">
         <span class="cookie-option__text">
           <strong>Маркетинговые файлы cookie</strong>
-          <small>Сейчас маркетинговые пиксели не подключены.</small>
+          <small>Включённые рекламные сервисы и контейнеры перечислены ниже.</small>
         </span>
         <input type="checkbox" data-cc-category="marketing">
       </label>

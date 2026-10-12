@@ -1,0 +1,11 @@
+{
+  "name": "cookie-consent-manager-acceptance",
+  "private": true,
+  "scripts": {
+    "test:browser": "node tests/browser.mjs",
+    "test:http": "node tests/http.mjs",
+    "test:live-guard": "node tests/live-guard.mjs",
+    "test:manager": "node tests/manager.mjs"
+  },
+  "devDependencies": { "playwright": "1.62.1" }
+}

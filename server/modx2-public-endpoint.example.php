@@ -1,21 +1,27 @@
 <?php
 declare(strict_types=1);
-/**
- * Install at /assets/components/cookieconsent/audit.php on a MODX 2 site.
- * Edit ONLY the private configuration and server code paths below.
- * Log location is read strictly from the MODX system setting:
- * cookie_consent.log_dir (absolute path OUTSIDE public webroot).
- *
- * This file lives in DOCUMENT_ROOT/assets/components/cookieconsent.
+/** Public wrapper at /assets/components/cookieconsent/audit.php.
+ * Private config path comes from webserver environment; code stays in private MODX core.
+ * Both settings are read from SYSTEM settings (never context/user/request overrides).
  */
-if (!defined('MODX_API_MODE')) define('MODX_API_MODE', true);
-require dirname(__DIR__, 3) . '/index.php';
-
-if (!isset($modx) || !($modx instanceof modX)) {
+$level=ob_get_level();
+ob_start();
+try {
+    if (!defined('MODX_API_MODE')) define('MODX_API_MODE',true);
+    require dirname(__DIR__,3).'/index.php';
+    if (!isset($modx) || !($modx instanceof modX)) throw new RuntimeException('MODX unavailable');
+    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);
+    $GLOBALS['cookieConsentModxLogDir']=$setting ? (string)$setting->get('value') : '';
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
+    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
+    $GLOBALS['cookieConsentServiceRegistry']=CookieConsentServiceRegistry::validateJson($setting ? (string)$setting->get('value') : '');
+    while (ob_get_level()>$level) ob_end_clean();
+    require MODX_CORE_PATH.'components/cookieconsent/public/audit.php';
+} catch (Throwable $e) {
+    while (ob_get_level()>$level) ob_end_clean();
     http_response_code(503);
-    exit;
+    header('Content-Type: application/json; charset=utf-8');
+    header('Cache-Control: no-store');
+    header('X-Content-Type-Options: nosniff');
+    echo '{"ok":false,"error":"audit_unavailable"}';
 }
-$GLOBALS['cookieConsentModxLogDir'] = (string)$modx->getOption('cookie_consent.log_dir', null, '');
-
-putenv('COOKIE_CONSENT_AUDIT_CONFIG=/home/account/private/cookie-consent-config.php');
-require '/home/account/private/cookie-consent-server/public/audit.php';

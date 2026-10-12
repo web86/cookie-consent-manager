@@ -1,3 +1,9 @@
+.local/
+node_modules/
+test-results/
+playwright-report/
+*.har
+.env
 server/config.php
 server/logs/
 *.log

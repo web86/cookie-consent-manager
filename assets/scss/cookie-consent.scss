@@ -98,3 +98,13 @@
     .cookie-warning-settings__buttons .cookie-btn { flex: 1 1 auto; white-space: normal; }
   }
 }
+
+.cookie-warning .cookie-warning-settings { max-height: 75vh; overflow-y: auto; overscroll-behavior: contain; }
+.cookie-warning .cc-provider { padding-left: 20px; }
+.cc-map-placeholder { border: 1px solid #bac2ca; padding: 20px; background: #f5f6f9; color: #1d2836; }
+[data-cc-map-provider] {
+  iframe { display: block; width: 100%; height: 320px; border: 0; }
+  button { padding: 10px 14px; margin: 8px 0; cursor: pointer; }
+  [hidden] { display: none !important; }
+  button:focus-visible { outline: 2px solid #2666ce; outline-offset: 2px; }
+}
