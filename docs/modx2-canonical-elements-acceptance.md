@@ -1,5 +1,7 @@
 # Beta21: canonical update и CookiesPopup localization — приёмка
 
+> Историческая приёмка beta21. Исправления пустых категорий и audit self-request проверены в [beta23](modx2-beta23-acceptance.md).
+
 Дата: 2026-10-13. Ветка feature/modx2-consent-audit-viewer от ea5ff62. Реализация: `8346560300415d37eb20bc76691fbdae8c5dfd07`. Main и production не изменялись.
 
 **429 сценариев, 3046 assertions, 0 FAIL. GO для review.** PHP suites входят в assertions. Финальные native/update/SSR и все 256 masks проверены на beta21 / test-upgrade beta22; byte-identical runtime.
