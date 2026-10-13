@@ -7,7 +7,7 @@ const cli=(args,input)=>execFileSync('docker',[...dc,'clean',...args],{encoding:
 const ctl=(op,key,input)=>cli(['php','/opt/cc-source/tests/transport/control.php',op,'/opt/cc-clean',...(key?[key]:[])],input);
 const saved=Object.fromEntries(['cookie_consent.audit','cookie_consent.audit_config_file','cookie_consent.log_dir'].map(k=>[k,ctl('get',k)]));
 const results=[];let assertions=0;const eq=(a,b)=>{assertions++;assert.deepEqual(a,b);};const browser=await chromium.launch();
-const output='.local/log-policy-evidence';mkdirSync(output,{recursive:true});
+const output='.local/beta24-server-evidence';mkdirSync(output,{recursive:true});
 try{
  ctl('set','cookie_consent.audit_config_file','');
  cli(['php','-r','define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();require MODX_CORE_PATH."components/cookieconsent/src/CookieConsentAuditConfiguration.php";CookieConsentAuditConfiguration::setup($modx);']);
@@ -24,15 +24,16 @@ try{
     try {
      const guard=absolute+'/.htaccess';cli(['php','-r','if(is_file($argv[1]))unlink($argv[1]);',guard]);
      const before=cli(['php','-r','echo hash_file("sha256",$argv[1]."/2000-01-cookie-consent.log");',absolute]);
-     let g=(await api('get')).object;let r=await api('audit_enable',{revision:g.revision,log_dir:path,log_dir_mode:mode});eq(r.http,200);eq(r.success,true);eq(r.object.written,true);eq(r.object.log_dir,absolute);eq(r.object.auditStatus.state,'ready');
+     let g=(await api('get')).object;let r=await api('audit_enable',{revision:g.revision,log_dir:path,log_dir_mode:mode});eq(r.http,200);eq(r.success,true);eq(r.object.partial,false);eq(r.object.log_dir,absolute);eq(r.object.auditStatus.state,'ready');
      eq(cli(['php','-r','echo json_encode([file_exists($argv[1]."/.htaccess"),glob($argv[1]."/cc-probe-*")]);',absolute]),'[false,[]]');
      // A custom administrator guard is kept byte for byte, including an empty rule set.
      cli(['php','-r','file_put_contents($argv[1],"# Custom administrator policy\n");chown($argv[1],"www-data");',guard]);
-     const hash=cli(['php','-r','echo hash_file("sha256",$argv[1]);',guard]);g=(await api('get')).object;r=await api('audit_enable',{revision:g.revision,log_dir:path,log_dir_mode:mode});eq(r.success,true);eq(r.object.written,true);eq(cli(['php','-r','echo hash_file("sha256",$argv[1]);',guard]),hash);
+     const hash=cli(['php','-r','echo hash_file("sha256",$argv[1]);',guard]);g=(await api('get')).object;r=await api('audit_enable',{revision:g.revision,log_dir:path,log_dir_mode:mode});eq(r.success,true);eq(r.object.partial,false);eq(cli(['php','-r','echo hash_file("sha256",$argv[1]);',guard]),hash);
      eq(cli(['php','-r','echo hash_file("sha256",$argv[1]."/2000-01-cookie-consent.log");',absolute]),before);
-     const record=JSON.parse(cli(['php','-r','require_once "/opt/cc-source/server/src/CookieConsentAuditFormat.php";foreach(CookieConsentAuditFormat::records($argv[1]."/".gmdate("Y-m")."-cookie-consent.log") as $v){}echo json_encode(["ip_valid"=>filter_var($v["ip"],FILTER_VALIDATE_IP)!==false,"ua"=>$v["user_agent"],"consent_id"=>preg_match("/^[a-f0-9-]{36}$/D",$v["consent_id"])===1]);',absolute]));eq(record,{ip_valid:true,ua:'CookieConsent-Manager-AuditCheck',consent_id:true});
+     const delivered=await p.evaluate(async()=>{const event={event_id:crypto.randomUUID(),consent_id:crypto.randomUUID(),event:'reject',stage:'committed',analytics:false,marketing:false,policy_version:'1',page:'/server-browser-test',timestamp:new Date().toISOString()};const r=await fetch('/assets/components/cookieconsent/audit.php',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(event)});return {status:r.status,ack:await r.json(),id:event.event_id};});eq(delivered.status,200);eq(delivered.ack.event_id,delivered.id);
+     const record=JSON.parse(cli(['php','-r','require_once "/opt/cc-source/server/src/CookieConsentAuditFormat.php";foreach(CookieConsentAuditFormat::records($argv[1]."/".gmdate("Y-m")."-cookie-consent.log") as $v){}echo json_encode(["ip_valid"=>filter_var($v["ip"],FILTER_VALIDATE_IP)!==false,"ua"=>str_contains($v["user_agent"],"Mozilla")?"browser":"unexpected","consent_id"=>preg_match("/^[a-f0-9-]{36}$/D",$v["consent_id"])===1]);',absolute]));eq(record,{ip_valid:true,ua:'browser',consent_id:true});
      if(mode==='site')eq((await ctx.request.get(origin+'/logs/server-acceptance/2000-01-cookie-consent.log')).status(),200);
-     await p.reload();await p.locator('#ccm-save').waitFor();await p.locator('#ccm-tab-logs').click();await p.locator('#ccm-log-storage > summary').click();eq(await p.locator('#ccm-audit-warning').count(),1);await p.locator('#ccm-audit-enable').click();await p.waitForFunction(()=>document.querySelector('#ccm-status').dataset.state==='saved');eq((await api('get')).object.auditStatus.state,'ready');
+     await p.reload();await p.locator('#ccm-save').waitFor();await p.locator('#ccm-tab-main').click();eq(await p.locator('#ccm-audit-warning').count(),1);await p.locator('#ccm-save').click();await p.waitForFunction(()=>document.querySelector('#ccm-status').dataset.state==='saved');eq((await api('get')).object.auditStatus.state,'ready');
      await p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await p.screenshot({path:output+'/'+name+'.png'});results.push({name,result:'PASS',assertions:assertions-start});console.log('PASS '+name);
     }catch(e){results.push({name,result:'FAIL',assertions:assertions-start,error:e.message});throw e;}
    }

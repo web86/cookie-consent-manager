@@ -71,14 +71,14 @@ final class CookieConsentAuditConfiguration
         if(!hash_equals(strtolower($_SERVER['HTTP_ORIGIN']??''),$origin)||!hash_equals(strtolower($_SERVER['HTTP_HOST']??''),$authority))throw new RuntimeException('audit_origin_request_mismatch');
         return $origin;
     }
-    public static function setup($modx,int $limit=60,?string $origin=null): void {
+    public static function setup($modx,int $limit=60,?string $origin=null,bool $inTransaction=false): void {
         $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
         if($env||($legacy&&$legacy->get('value')!=='')){
             $config=self::forModx($modx);if($origin!==null&&!hash_equals(strtolower($config['site_origin']),$origin))throw new RuntimeException('audit_origin_external_config');return;
         }
         if($origin!==null)self::validate(['site_origin'=>$origin,'rate_limit_key'=>str_repeat('x',32)]);
         if($limit<1||$limit>10000)throw new InvalidArgumentException('rate_limit');
-        $modx->beginTransaction();
+        if(!$inTransaction)$modx->beginTransaction();
         try {
             $lock=$modx->prepare('SELECT `key` FROM '.$modx->getTableName('modSystemSetting')." WHERE `key`='cookie_consent.audit' FOR UPDATE");
             if(!$lock->execute())throw new RuntimeException('audit_lock');
@@ -96,9 +96,9 @@ final class CookieConsentAuditConfiguration
                     $s->set('value',json_encode($metadata,JSON_THROW_ON_ERROR));if(!$s->save())throw new RuntimeException('audit_setup');
                 }
             }
-            $modx->commit();
-        }catch(Throwable $e){$modx->rollBack();throw $e;}
-        $modx->cacheManager->refresh(['system_settings'=>[]]);
+            if(!$inTransaction)$modx->commit();
+        }catch(Throwable $e){if(!$inTransaction)$modx->rollBack();throw $e;}
+        if(!$inTransaction)$modx->cacheManager->refresh(['system_settings'=>[]]);
     }
     public static function status($modx): array {
         $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$source=$env?'environment':($legacy&&$legacy->get('value')!==''?'setting':'managed');

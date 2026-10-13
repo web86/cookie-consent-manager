@@ -73,33 +73,23 @@
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
     const auditViewer=window.CookieConsentAuditViewer.mount(panels.logs,{api,t,el,boot,data});
-    const storage=el('details',null,{id:'ccm-log-storage'});storage.append(el('summary',t('log_storage')));panels.logs.append(storage);
+    const storage=el('section',null,{id:'ccm-log-storage'});storage.append(el('h3',t('consent_journal')));
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
     for(const mode of ['site','absolute'])logMode.append(el('option',t('log_'+mode),{value:mode}));
-    let storedLogDir=data.log_dir;
     const publicRoot=data.documentRoot;
     draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';
     if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);
     logMode.value=draft.log_dir_mode;storage.append(el('label',t('log_location')),logMode);
     logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
-    field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
-    const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});storage.append(auditState);
-    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});storage.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
-    storage.append(el('p',t('audit_origin_help')+' '+location.origin,{class:'ccm-help',id:'ccm-audit-origin'}));
-    enableAudit.onclick=async()=>{enableAudit.disabled=true;try{
-      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision,site_origin:location.origin});revision=result.revision;storedLogDir=result.log_dir;
-      auditState.textContent=t('audit_ready');status.textContent=t('audit_enable_success');status.dataset.state=dirty?'dirty':'saved';
-      // Only journal selection is persisted by this operation; other form drafts stay local.
-      const current={options:draft.options,registry:draft.registry,texts:draft.texts};
-      dirty=JSON.stringify(current)!==savedForm;
-      status.dataset.state=dirty?'dirty':'saved';
-    }catch(e){status.textContent=e.message;status.dataset.state='error';}finally{enableAudit.disabled=false;}};
+    field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_save_help'));
+    storage.append(el('p',t('log_default_help')+' '+data.defaultLogDir,{class:'ccm-help'}),el('p',t('log_backup_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
+    savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});
     const advanced=el('details',null,{id:'ccm-advanced'});advanced.append(el('summary',t('advanced')));
     const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); storage.append(integration);
+    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);panels.main.append(storage);
 
     function textSource(language, key) {
       const base = draft.texts.base_language;
@@ -200,10 +190,10 @@
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);
       try {
-        const payload={...draft,log_dir:storedLogDir,log_dir_mode:'absolute'};
-        const saved = await api('save', { draft: JSON.stringify(payload), revision }); revision = saved.revision; auditState.textContent = t('audit_' + (saved.auditStatus?.state || 'not_configured'));
-        if (JSON.stringify(draft) === snapshot) { draft.options=saved.options;draft.registry=saved.registry;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};dirty=false;savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});renderServices();renderTexts(); }
-        status.textContent = dirty ? t('unsaved') : t('saved'); status.dataset.state = dirty ? 'dirty' : 'saved'; schedulePreview();
+        const payload={...draft};
+        const saved = await api('save', { draft: JSON.stringify(payload), revision,site_origin:location.origin }); revision = saved.revision;
+        if (JSON.stringify(draft) === snapshot) { draft.options=saved.options;draft.registry=saved.registry;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
+        if(saved.partial){status.textContent=t('saved_partial')+' '+(data.managerStrings['m.reason_'+saved.journal.reason]||t('log_write_error'));status.dataset.state='partial';}else{status.textContent=dirty?t('unsaved'):t('saved');status.dataset.state=dirty?'dirty':'saved';}schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }
     };

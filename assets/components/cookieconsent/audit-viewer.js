@@ -13,7 +13,7 @@
       const year = select('year', [[currentYear, currentYear], ['all', t('log_all_years')]]);
       const month = select('month', [['all', t('log_all_months')], ...Array.from({ length: 12 }, (_, i) => [String(i + 1).padStart(2, '0'), t('log_month_' + (i + 1))])]);
       const actionLabel = type => data.managerStrings['m.log_action_' + type] || t('log_unknown_action');
-      const event = select('action', [['all', t('log_all_actions')], ...['accept_all', 'accept', 'reject', 'save_settings', 'map_allow', 'map_deny'].map(key => [key, actionLabel(key)])]);
+      const event = select('action', [['all', t('log_all_actions')], ...['accept_all', 'accept', 'reject', 'save_settings', 'analytics_allow', 'analytics_deny', 'marketing_allow', 'marketing_deny', 'external_content_allow', 'external_content_deny', 'provider_allow', 'provider_deny', 'map_allow', 'map_deny'].map(key => [key, actionLabel(key)])]);
       const search = el('input', null, { id: 'ccm-log-search', type: 'search', maxlength: '512' }), searchLabel = el('label', t('log_search')); searchLabel.append(search); filters.append(searchLabel);
       const find = el('button', t('log_find'), { id: 'ccm-log-find', type: 'submit' }); filters.append(find);
       const summary = el('div', null, { class: 'ccm-log-summary' }), total = el('span', t('log_found') + ': 0', { id: 'ccm-log-total' });
@@ -40,10 +40,10 @@
           for (const key of ['page', 'policy_version', 'stage', 'client_time', 'provider', 'schema']) add(key, record[key]);
           history.onclick = () => { dialog.close(); search.value = record.consent_id; year.value = 'all'; month.value = 'all'; event.value = 'all'; apply(); };
           if (!dialog.open) dialog.showModal();
-        } catch (error) { feedback.textContent = error.message; }
+        } catch (error) { feedback.hidden=false;feedback.textContent = error.message; }
       }
       async function load() {
-        if (busy) return; setBusy(true); feedback.textContent = t('log_loading');
+        if (busy) return; setBusy(true); feedback.hidden=false; feedback.textContent = t('log_loading');
         try {
           const result = await api('logs_list', { ...applied, cursor: cursors[page] });
           loaded=true;nextCursor = result.next; total.textContent = t('log_found') + ': ' + result.total; pageLabel.textContent = t('log_page') + ' ' + (page + 1);
@@ -57,10 +57,8 @@
           year.replaceChildren(); for (const value of [...new Set([currentYear, ...result.years, pendingYear])].filter(v => v !== 'all').sort().reverse()) year.append(el('option', value, { value })); year.append(el('option', t('log_all_years'), { value: 'all' })); year.value = pendingYear;
           event.replaceChildren(el('option', t('log_all_actions'), { value: 'all' }));
           for (const value of [...new Set([...result.actions, ...(pendingEvent === 'all' ? [] : [pendingEvent])])]) event.append(el('option', data.managerStrings['m.log_action_' + value] || t('log_unknown_action') + ': ' + value, { value })); event.value = pendingEvent;
-          const issues = result.invalid + result.unknown_fields;
-          feedback.textContent = issues ? t('log_diagnostics') + ': ' + issues + '\n' + result.diagnostics.map(d => d.file + ', ' + t('log_line') + ' ' + d.line + ': ' + t('log_diagnostic_' + d.code)).join('\n') : '';
-          feedback.dataset.invalid = String(result.invalid); feedback.dataset.unknown = String(result.unknown_fields);
-        } catch (error) { loaded=false;body.replaceChildren();total.textContent=t('log_found')+': —';feedback.textContent = error.message; nextCursor = null; }
+          feedback.textContent='';feedback.hidden=true;
+        } catch (error) { loaded=false;body.replaceChildren();total.textContent=t('log_found')+': —';feedback.hidden=false;feedback.textContent = error.message; nextCursor = null; }
         finally { setBusy(false); }
       }
       function apply() { if (busy) return; applied = selected(); cursors = ['']; page = 0; nextCursor = null; load(); }

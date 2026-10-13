@@ -274,3 +274,24 @@ $_lang['m.reason_audit_response_malformed'] = 'HTTP succeeded without a valid re
 $_lang['m.reason_audit_event_mismatch'] = 'Receiver acknowledgement contains a different event_id. The check failed.';
 $_lang['m.reason_audit_record_invalid'] = 'Acknowledged event exists but its journal contents do not match. The check failed.';
 $_lang['m.reason_audit_log_corrupt'] = 'The monthly journal contains an invalid line. Preserve the file and inspect it before checking again.';
+
+// Single Save / local-only journal settings.
+$_lang['m.consent_journal'] = 'Consent journal';
+$_lang['m.log_save_help'] = 'Save checks a new or changed existing directory with a temporary PHP write/read test. Leave empty to stop new records; old logs are retained.';
+$_lang['m.log_default_help'] = 'Default MODX log directory:';
+$_lang['m.log_backup_help'] = 'Include consent logs in backups. Preserve these files before manually clearing the entire core/cache/ directory. Normal MODX cache clearing keeps logs.';
+$_lang['m.saved_partial'] = 'Other settings saved. Journal directory was not applied; the previous value is retained.';
+$_lang['m.log_write_error'] = 'Journal write/read check failed.';
+$_lang['m.reason_log_write_failed'] = 'PHP could not complete the temporary file write.';
+$_lang['m.reason_log_read_failed'] = 'PHP could not read and verify the temporary file.';
+$_lang['m.reason_log_lock_failed'] = 'PHP could not lock the temporary file.';
+$_lang['m.reason_log_cleanup_failed'] = 'PHP could not remove the temporary check file.';
+$_lang['m.reason_log_unsafe_file'] = 'The temporary file was replaced or is unsafe.';
+$_lang['m.log_action_analytics_allow'] = 'Allow analytics';
+$_lang['m.log_action_analytics_deny'] = 'Deny analytics';
+$_lang['m.log_action_marketing_allow'] = 'Allow marketing';
+$_lang['m.log_action_marketing_deny'] = 'Deny marketing';
+$_lang['m.log_action_external_content_allow'] = 'Allow external content';
+$_lang['m.log_action_external_content_deny'] = 'Deny external content';
+$_lang['m.log_action_provider_allow'] = 'Allow provider';
+$_lang['m.log_action_provider_deny'] = 'Deny provider';

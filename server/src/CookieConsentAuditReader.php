@@ -5,7 +5,7 @@ require_once __DIR__.'/CookieConsentAuditFormat.php';
 /** No writes, indexes or PII copies. O(lines) scans and a bounded 50-record heap. */
 final class CookieConsentAuditReader
 {
-    public const ACTIONS=['accept_all','accept','reject','save_settings','map_allow','map_deny'];
+    public const ACTIONS=['accept_all','accept','reject','save_settings','analytics_allow','analytics_deny','marketing_allow','marketing_deny','external_content_allow','external_content_deny','provider_allow','provider_deny','map_allow','map_deny'];
     private const FIELDS=['schema','server_time','event_id','consent_id','ip','user_agent','event','stage','categories','policy_version','page','client_time','providers','provider'];
     private string $directory;
     public function __construct(string $directory) {

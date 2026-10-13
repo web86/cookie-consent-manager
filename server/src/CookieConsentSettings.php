@@ -77,7 +77,7 @@ final class CookieConsentSettings
         }catch(Throwable $e){$modx->rollBack();throw $e;}
         $modx->cacheManager->refresh(['system_settings'=>[]]);
     }
-    public static function save($modx,array $draft,string $revision): array
+    public static function save($modx,array $draft,string $revision,?string $auditOrigin=null): array
     {
         if (!array_key_exists('audit_config_file',$draft)) $draft['audit_config_file']=self::read($modx)['audit_config_file'];
         require_once __DIR__.'/CookieConsentAuditConfiguration.php';
@@ -88,20 +88,40 @@ final class CookieConsentSettings
             if (!$lock->execute()) throw new RuntimeException('Settings lock');
             $current=self::read($modx);
             if (!hash_equals($current['revision'],$revision)) throw new DomainException('conflict');
-            // An unchanged, currently unavailable journal must not block other settings.
-            $root=CookieConsentAuditConfiguration::webroot();$unchanged=[];
-            require_once __DIR__.'/CookieConsentLogDirectory.php';
-            if(is_string($draft['log_dir']??null)&&is_string($draft['log_dir_mode']??'absolute')) {
-                $candidate=$draft['log_dir'];
-                if(($draft['log_dir_mode']??'absolute')==='site'&&$candidate!=='')$candidate=rtrim($root,'/').'/'.ltrim($candidate,'/');
-                if(rtrim($candidate,'/')===rtrim($current['log_dir'],'/')){$unchanged[]='log_dir';$draft['log_dir']=$current['log_dir'];}
-            }
-            if(($draft['audit_config_file']??null)===$current['audit_config_file'])$unchanged[]='audit_config_file';
+            $root=CookieConsentAuditConfiguration::webroot();
+            require_once __DIR__.'/CookieConsentAuditDirectoryCheck.php';
+            $mode=$draft['log_dir_mode']??'absolute';$requested=$draft['log_dir']??null;
+            // Validate all ordinary fields strictly, isolating only journal path/config I/O.
+            $unchanged=['log_dir'];if(($draft['audit_config_file']??null)===$current['audit_config_file'])$unchanged[]='audit_config_file';
             $draft=self::validate($draft,$root,true,$unchanged);
+            $journal=['saved'=>true,'checked'=>false];$needsSetup=false;
+            if($requested!==''){
+                try {
+                    $candidate=CookieConsentLogDirectory::resolve($requested,$root,$mode);
+                    $changed=rtrim($candidate,'/')!==rtrim($current['log_dir'],'/');
+                    try{CookieConsentAuditConfiguration::forModx($modx);$needsSetup=false;}catch(Throwable $e){$needsSetup=true;}
+                    if($changed||$needsSetup){CookieConsentAuditDirectoryCheck::check($candidate,$root);$journal['checked']=true;}
+                    if($needsSetup&&$auditOrigin!==null)$auditOrigin=CookieConsentAuditConfiguration::managerOrigin($auditOrigin);
+                    $draft['log_dir']=$changed?$candidate:$current['log_dir'];
+                }catch(Throwable $e){
+                    $draft['log_dir']=$current['log_dir'];$needsSetup=false;
+                    $journal=['saved'=>false,'checked'=>false,'reason'=>preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():'log_write_failed'];
+                }
+            }
             $values=[json_encode($draft['options'],JSON_THROW_ON_ERROR),json_encode($draft['registry'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),json_encode($draft['texts'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),$draft['log_dir'],$draft['audit_config_file']];
             foreach(self::KEYS as $i=>$key){$s=$modx->getObject('modSystemSetting',['key'=>$key]);if(!$s)throw new RuntimeException('Setting missing');$s->set('value',$values[$i]);if(!$s->save())throw new RuntimeException('write_failed');}
+            if($needsSetup){
+                if($modx->exec('SAVEPOINT cc_audit_setup')===false)throw new RuntimeException('write_failed');
+                try{CookieConsentAuditConfiguration::setup($modx,60,$auditOrigin,true);$modx->exec('RELEASE SAVEPOINT cc_audit_setup');}
+                catch(Throwable $e){
+                    if($modx->exec('ROLLBACK TO SAVEPOINT cc_audit_setup')===false)throw new RuntimeException('write_failed');
+                    $modx->exec('RELEASE SAVEPOINT cc_audit_setup');
+                    $row=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);$row->set('value',$current['log_dir']);if(!$row->save())throw new RuntimeException('write_failed');
+                    $journal=['saved'=>false,'checked'=>true,'reason'=>preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():'audit_not_configured'];
+                }
+            }
             $modx->commit();
         }catch(Throwable $e){$modx->rollBack();throw $e;}
-        $modx->cacheManager->refresh(['system_settings'=>[]]);return self::read($modx);
+        $modx->cacheManager->refresh(['system_settings'=>[]]);return self::read($modx)+['partial'=>!$journal['saved'],'journal'=>$journal];
     }
 }

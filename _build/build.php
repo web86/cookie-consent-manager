@@ -60,6 +60,7 @@ $prefix="<?php\n\$spec=".var_export($spec,true).";\n";
 $preflight=$work.'/preflight.php';file_put_contents($preflight,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/preflight.php')));
 $verify=$work.'/verify-install.php';file_put_contents($verify,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/verify-install.php')));
 $canonical=$work.'/canonical-elements.php';file_put_contents($canonical,file_get_contents(__DIR__.'/validators/canonical-elements.php'));
+$logDefault=$work.'/default-log-directory.php';file_put_contents($logDefault,file_get_contents(__DIR__.'/validators/default-log-directory.php'));
 $adapt=$work.'/adapt-menu.php';file_put_contents($adapt,file_get_contents(__DIR__.'/adapt-menu.php'));
 $modx->loadClass('transport.modPackageBuilder','',false,true);$builder=new modPackageBuilder($modx);$builder->directory=$work.'/native/';mkdir($builder->directory,0700);$builder->createPackage($metadata['name'],$metadata['version'],$metadata['release'].$metadata['release_index']);
 $ns=$modx->newObject('modNamespace');$ns->fromArray($definitions['namespace']['fields'],'',true,true);$builder->registerNamespace($ns,false,false);
@@ -69,7 +70,7 @@ $objectNumber=1;
 foreach($definitions as $name=>$def){
     $obj=$modx->newObject($def['class']);$obj->fromArray(array_merge($def['criteria'],$def['fields']),'',true,true);if(in_array($def['class'],['modSnippet','modChunk'],true))$obj->set('id',$objectNumber++);
     $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsent/'.$name)];
-    $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
+    $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='cookie_consent.log_dir')$vehicle->validate('php',['source'=>$logDefault]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native object vehicle failed: '.$name);
 }
 // One exact file per native vehicle avoids recursive uninstall of untracked files.

@@ -279,3 +279,24 @@ $_lang['m.reason_audit_response_malformed'] = 'HTTP-запрос заверши�
 $_lang['m.reason_audit_event_mismatch'] = 'В подтверждении receiver другой event_id. Проверка не пройдена.';
 $_lang['m.reason_audit_record_invalid'] = 'Подтверждённое событие найдено, но содержимое записи не совпадает. Проверка не пройдена.';
 $_lang['m.reason_audit_log_corrupt'] = 'В месячном журнале обнаружена повреждённая строка. Сохраните файл и проверьте его перед повторной проверкой.';
+
+// Single Save / local-only journal settings.
+$_lang['m.consent_journal'] = 'Журнал согласий';
+$_lang['m.log_save_help'] = '«Сохранить» проверяет новый или изменённый существующий каталог временной записью/чтением PHP. Пустой путь отключает новые записи; старые журналы сохраняются.';
+$_lang['m.log_default_help'] = 'Стандартный каталог журналов MODX:';
+$_lang['m.log_backup_help'] = 'Включайте журналы согласий в резервные копии. Перед ручным удалением всего core/cache/ сохраните эти файлы. Обычная очистка кэша MODX сохраняет журналы.';
+$_lang['m.saved_partial'] = 'Остальные настройки сохранены. Каталог журнала не применён; прежнее значение сохранено.';
+$_lang['m.log_write_error'] = 'Не пройдена проверка записи/чтения журнала.';
+$_lang['m.reason_log_write_failed'] = 'PHP не смог полностью записать временный файл.';
+$_lang['m.reason_log_read_failed'] = 'PHP не смог прочитать и проверить временный файл.';
+$_lang['m.reason_log_lock_failed'] = 'PHP не смог заблокировать временный файл.';
+$_lang['m.reason_log_cleanup_failed'] = 'PHP не смог удалить временный проверочный файл.';
+$_lang['m.reason_log_unsafe_file'] = 'Временный файл подменён или небезопасен.';
+$_lang['m.log_action_analytics_allow'] = 'Разрешить аналитику';
+$_lang['m.log_action_analytics_deny'] = 'Запретить аналитику';
+$_lang['m.log_action_marketing_allow'] = 'Разрешить маркетинг';
+$_lang['m.log_action_marketing_deny'] = 'Запретить маркетинг';
+$_lang['m.log_action_external_content_allow'] = 'Разрешить внешний контент';
+$_lang['m.log_action_external_content_deny'] = 'Запретить внешний контент';
+$_lang['m.log_action_provider_allow'] = 'Разрешить сервис';
+$_lang['m.log_action_provider_deny'] = 'Запретить сервис';
