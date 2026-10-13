@@ -1,5 +1,7 @@
 # beta23 — приёмка исправлений beta21
 
+> Историческая приёмка beta23. Финальное упрощение журнала — [beta24](modx2-beta24-acceptance.md).
+
 Дата: 2026-10-13. Основа: `feature/modx2-consent-audit-viewer`, `83d77896b99dd65c92236c01a02606ae14d794ab`. Отдельная ветка: `feature/modx2-beta21-acceptance-fixes`. Implementation commit: `3bbe0148f358d6d8e795c1042d35b1e51e80f7a6`.
 
 **GO только для review.** Финальные проверки: **471 сценарий/проверка, 3550 assertions, 0 FAIL**. PHP suite считается одной проверкой, а не отдельным сценарием на каждый assertion; в число входят syntax/inventory/reproducibility checks. Production и staging deployment, merge и подтверждение причины конкретного production request_id не выполнялись.
