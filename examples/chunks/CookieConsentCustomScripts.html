@@ -1,0 +1,29 @@
+<!-- User-owned chunk; install manually. Not a package-managed element. -->
+<script>
+(function () {
+    function register() {
+        const cc = window.web86CookieConsent;
+        if (!cc) return;
+        cc.onAllowed('analytics', function () { console.log('Analytics consent granted'); });
+        cc.onAllowed('marketing', function () { console.log('Marketing consent granted'); });
+        cc.onAllowed('external_content', async function (stillAllowed) {
+            if (!document.querySelector('.js-yandex-map') || !stillAllowed()) return;
+            // This MUST be the consent-adapted copy, never the original auto-start script.
+            if (typeof window.YMAP_RESCAN !== 'function') {
+                await new Promise(function (resolve, reject) {
+                    const script = document.createElement('script');
+                    script.src = '/assets/components/myyandexcoordstv/js/web/yonder-map-many.js';
+                    script.onload = resolve;
+                    script.onerror = function () { reject(new Error('Local map script unavailable')); };
+                    document.head.appendChild(script);
+                });
+            }
+            if (!stillAllowed()) return;
+            // Existing public function, inspected in the owner-supplied source.
+            window.YMAP_RESCAN(stillAllowed);
+        }, { service: 'yandex_maps' });
+    }
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', register, { once: true });
+    else register();
+})();
+</script>

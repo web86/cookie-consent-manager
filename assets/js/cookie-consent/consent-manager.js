@@ -39,6 +39,38 @@
   let hideTimer = null;
   let consentId = null;
   let auditQueue = Promise.resolve();
+  let callbacksReady = false;
+  let reloading = false;
+  const allowedCallbacks = new Set();
+
+  function onAllowed(category, callback, options = {}) {
+    if (!Object.hasOwn(inputs, category) || typeof callback !== 'function' || !options ||
+        typeof options !== 'object' || Array.isArray(options) || Object.keys(options).some(k => k !== 'service') ||
+        (Object.hasOwn(options, 'service') && (typeof options.service !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(options.service)))) {
+      throw new TypeError('Invalid onAllowed category, callback or options');
+    }
+    const service = Object.hasOwn(options, 'service') ? services.find(s => s.key === options.service && s.enabled && s.category === category) : null;
+    const needsService = Object.hasOwn(options, 'service');
+    let cancelled = false, called = false;
+    // Read only the CMP's validated committed state. Also stops work before reload.
+    const stillAllowed = () => !cancelled && callbacksReady && !reloading && consent?.[category] === true &&
+      (!needsService || Boolean(service && consent.providers?.[service.key] === service.fingerprint));
+    const run = () => {
+      if (called || !stillAllowed()) return;
+      called = true;
+      allowedCallbacks.delete(run);
+      try { Promise.resolve(callback(stillAllowed)).catch(() => console.warn('CookieConsent onAllowed callback failed')); }
+      catch (_) { console.warn('CookieConsent onAllowed callback failed'); }
+    };
+    allowedCallbacks.add(run);
+    run();
+    return () => { cancelled = true; allowedCallbacks.delete(run); };
+  }
+
+  function runAllowedCallbacks() {
+    callbacksReady = true;
+    for (const run of [...allowedCallbacks]) run();
+  }
 
   function newUuid() {
     if (!window.crypto || !window.crypto.getRandomValues) return null;
@@ -192,6 +224,7 @@
   }
 
   function commit(action, analytics, marketing, external = false, permissions = {}, provider = null) {
+    callbacksReady = false;
     const previous = consent;
     const value = { model:'categories_v1', disclosed: provider ? {...(previous?.disclosed || {}), [provider]:services.find(s=>s.key===provider).fingerprint} : Object.fromEntries(services.map(s=>[s.key,s.fingerprint])), version, necessary: true, analytics: Boolean(analytics), marketing: Boolean(marketing),
       external_content: Boolean(external), providers: Object.create(null), savedAt: Date.now(), consentId };
@@ -207,6 +240,7 @@
       services.some(s => previous.providers?.[s.key] === s.fingerprint && !value.providers[s.key]));
     // Remove frames synchronously on revocation before waiting for an audit response.
     if (revoked) {
+      reloading = true;
       registry?.revoke(mode, value);
       for (const map of maps) if (!value.providers[map.service.key] && map.frame) { map.frame.remove(); map.frame = null; }
       if (!persisted) console.warn(t('error_storage'));
@@ -215,6 +249,7 @@
     }
     applyConsent(value);
     needsChoice=services.some(s=>value.disclosed[s.key]!==s.fingerprint);if(needsChoice)showBanner();
+    runAllowedCallbacks();
   }
 
   function mapChoice(service, allowed) {
@@ -328,11 +363,13 @@
     setupMaps();
     if (consent) applyConsent(consent);
     if (!consent || needsChoice) showBanner();
+    runAllowedCallbacks();
   }
 
   window.web86CookieConsent = Object.freeze({
     getConsent: () => consent ? { ...consent, providers: { ...consent.providers } } : null,
     openSettings,
+    onAllowed,
     // Expose reset only for the mock testing stand, not for production.
     ...(mode === 'mock' ? { resetForTesting: () => {
       const storage = getStorage();
