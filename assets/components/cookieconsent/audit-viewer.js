@@ -15,12 +15,12 @@
       const actionLabel = type => data.managerStrings['m.log_action_' + type] || t('log_unknown_action');
       const event = select('action', [['all', t('log_all_actions')], ...['accept_all', 'accept', 'reject', 'save_settings', 'analytics_allow', 'analytics_deny', 'marketing_allow', 'marketing_deny', 'external_content_allow', 'external_content_deny', 'provider_allow', 'provider_deny', 'map_allow', 'map_deny'].map(key => [key, actionLabel(key)])]);
       const search = el('input', null, { id: 'ccm-log-search', type: 'search', maxlength: '512' }), searchLabel = el('label', t('log_search')); searchLabel.append(search); filters.append(searchLabel);
-      const find = el('button', t('log_find'), { id: 'ccm-log-find', type: 'submit' }); filters.append(find);
+      const find = el('button', t('log_find'), { id: 'ccm-log-find', type: 'submit', class: 'ccm-primary' }); filters.append(find);
       const summary = el('div', null, { class: 'ccm-log-summary' }), total = el('span', t('log_found') + ': 0', { id: 'ccm-log-total' });
       const exportButton = el('button', t('log_export'), { id: 'ccm-log-export', type: 'button', disabled: 'disabled' }); summary.append(total, exportButton);
       const feedback = el('p', '', { id: 'ccm-log-feedback', role: 'status', 'aria-live': 'polite' });
       const table = el('table', null, { id: 'ccm-log-table' }), head = el('thead'), header = el('tr'), body = el('tbody');
-      for (const name of ['date', 'action', 'details']) header.append(el('th', t('log_' + name), { scope: 'col' })); head.append(header); table.append(head, body);
+      for (const name of ['date', 'ip', 'action', 'details']) header.append(el('th', t('log_' + name), { scope: 'col' })); head.append(header); table.append(head, body);
       const pagination = el('div', null, { class: 'ccm-log-pagination' }), previous = el('button', t('log_previous'), { type: 'button', id: 'ccm-log-previous', disabled: 'disabled' }), next = el('button', t('log_next'), { type: 'button', id: 'ccm-log-next', disabled: 'disabled' }), pageLabel = el('span', '', { id: 'ccm-log-page' }); pagination.append(previous, pageLabel, next);
       const dialog = el('dialog', null, { id: 'ccm-log-dialog', 'aria-labelledby': 'ccm-log-detail-title' }), title = el('h3', t('log_details'), { id: 'ccm-log-detail-title' }), details = el('dl'), history = el('button', t('log_history'), { type: 'button', id: 'ccm-log-history' }), close = el('button', t('log_close'), { type: 'button', id: 'ccm-log-close' });
       dialog.append(title, details, history, close); close.onclick = () => dialog.close();
@@ -50,9 +50,9 @@
           body.replaceChildren();
           for (const row of result.items) {
             const tr = el('tr'), cell = el('td'), button = el('button', t('log_view'), { type: 'button', class: 'ccm-log-view' }); button.onclick = () => detail(row.locator); cell.append(button);
-            tr.append(el('td', row.server_time.replace('T', ' ').replace('Z', ' UTC')), el('td', actionLabel(row.event)), cell); body.append(tr);
+            tr.append(el('td', row.server_time.replace('T', ' ').replace('Z', ' UTC')), el('td', row.ip), el('td', actionLabel(row.event)), cell); body.append(tr);
           }
-          if (!result.items.length) { const tr = el('tr'); tr.append(el('td', t('log_empty'), { colspan: '3' })); body.append(tr); }
+          if (!result.items.length) { const tr = el('tr'); tr.append(el('td', t('log_empty'), { colspan: '4' })); body.append(tr); }
           const pendingYear = year.value, pendingEvent = event.value;
           year.replaceChildren(); for (const value of [...new Set([currentYear, ...result.years, pendingYear])].filter(v => v !== 'all').sort().reverse()) year.append(el('option', value, { value })); year.append(el('option', t('log_all_years'), { value: 'all' })); year.value = pendingYear;
           event.replaceChildren(el('option', t('log_all_actions'), { value: 'all' }));

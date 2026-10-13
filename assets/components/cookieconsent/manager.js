@@ -4,7 +4,7 @@
   const start = async () => {
     const root = document.getElementById('ccm-page'); if (!root) return;
     const boot = window.CookieConsentManagerBootstrap;
-    let data, draft, revision, editLanguage, previewLanguage, previewState = 'banner', dirty = false, previewTimer, sequence = 0;
+    let data, draft, revision, editLanguage, previewLanguage, previewState = 'banner', activeTab = 'main', dirty = false, previewTimer, sequence = 0;
     const api = async (action, values = {}) => {
       let response, json;
       const fail = (code, requestId = '') => Error((data?.managerStrings['m.error'] || boot.errorMessage || 'Request failed; draft retained') + ` (${action}, HTTP ${response?.status || 0}, ${code}${requestId ? ', ' + requestId : ''})`);
@@ -54,7 +54,7 @@
     for (const key of ['main', 'services', 'texts', 'logs']) {
       const button = el('button', t(key), { type: 'button', role: 'tab', id: 'ccm-tab-' + key, 'aria-controls': 'ccm-panel-' + key, 'aria-selected': String(key === 'main') });
       const panel = el('section', null, { role: 'tabpanel', id: 'ccm-panel-' + key, 'aria-labelledby': button.id, class: 'ccm-panel' }); panel.hidden = key !== 'main'; panels[key] = panel;
-      button.onclick = () => { if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
+      button.onclick = () => { activeTab=key;aside.hidden=key==='logs';layout.classList.toggle('ccm-layout-logs',key==='logs');if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
@@ -82,14 +82,14 @@
     logMode.value=draft.log_dir_mode;storage.append(el('label',t('log_location')),logMode);
     logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
     field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_save_help'));
-    storage.append(el('p',t('log_default_help')+' '+data.defaultLogDir,{class:'ccm-help'}),el('p',t('log_backup_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
+    storage.append(el('p',t('log_default_help')+' '+data.defaultLogDir,{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
     savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});
     const advanced=el('details',null,{id:'ccm-advanced'});advanced.append(el('summary',t('advanced')));
     const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);panels.main.append(storage);
+    integration.append(el('p',t('integration_head')),el('pre','[[!CookieConsentAssets]]'),el('p',t('integration_body')),el('pre','[[!CookieConsentBanner]]'),el('p',t('integration_legacy')),el('pre','[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);panels.main.append(storage);
 
     function textSource(language, key) {
       const base = draft.texts.base_language;
@@ -183,6 +183,7 @@
     }
     function schedulePreview() {
       clearTimeout(previewTimer); const current = ++sequence;
+      if(activeTab==='logs')return;
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {

@@ -1,3 +1,5 @@
+beta29: Assets generates safe public JSON directly; five canonical vehicles, no Registry installation/update/removal. Legacy integrations retained. Manager documents split integration, removes cache backup UI hint, suspends preview on a full-width Log tab. Viewer summaries include validated IP, four columns, primary Find button; search/CSV/ACL unchanged.
+
 beta28: Document the PHP translation placeholders in the source chunk. Native category vehicle reuses/creates CookieConsent; only newly installed canonical elements receive its ID. Upgrade/reinstall retain existing categories and metadata and replace source in place. No integration or runtime changes.
 
 0.1.0 beta26

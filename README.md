@@ -1,6 +1,6 @@
 # Cookie Consent Manager для MODX Revolution 2
 
-Согласие по категориям и отдельным сервисам, безопасные заглушки карт, серверный PHP-аудит с поддержкой старых JSONL и новых файлов с текстовым заголовком. Реализация и приёмка рассчитаны на **MODX 2.8.8, PHP ≥8.1**, same-origin endpoint и существующий каталог журналов внутри или вне webroot. HTTP-доступ к журналам ограничивает владелец сайта; компонент не создаёт `.htaccess` и не выполняет HTTP probes. Основная проверенная конфигурация — локальный mock. Актуальный кандидат beta28: [обновление и категория элементов](docs/modx2-beta28-update.md), [приёмка](docs/modx2-beta28-acceptance.md). Архитектура beta26: [frontend integration/build/update](docs/modx2-beta26-frontend.md), [приёмка и NOT RUN](docs/modx2-beta26-acceptance.md). Настройки журнала находятся в конце «Основных» и используют общий Save без HTTP self-request. Canonical update и SSR: [beta21 policy](docs/modx2-canonical-elements.md); [Viewer](docs/modx2-consent-audit-viewer.md), [приёмка beta21](docs/modx2-canonical-elements-acceptance.md). Историческая настройка журналов: [beta15](docs/modx2-log-policy-acceptance.md). Историческая матрица: [отчёт](docs/modx2-m2-maps-acceptance.md). Это не подтверждение безопасности произвольного GTM-контейнера или готовности любого существующего сайта к live-запуску.
+Согласие по категориям и отдельным сервисам, безопасные заглушки карт, серверный PHP-аудит с поддержкой старых JSONL и новых файлов с текстовым заголовком. Реализация и приёмка рассчитаны на **MODX 2.8.8, PHP ≥8.1**, same-origin endpoint и существующий каталог журналов внутри или вне webroot. HTTP-доступ к журналам ограничивает владелец сайта; компонент не создаёт `.htaccess` и не выполняет HTTP probes. Основная проверенная конфигурация — локальный mock. Актуальный кандидат beta29: [интеграция и обновление](docs/modx2-beta29-update.md), [приёмка](docs/modx2-beta29-acceptance.md). Новый transport содержит пять элементов; Assets формирует JSON самостоятельно. При upgrade старый Registry сохраняется, но компонент его не вызывает. Журнал занимает всю ширину и показывает IP. Архитектура beta26: [frontend integration/build/update](docs/modx2-beta26-frontend.md), [приёмка и NOT RUN](docs/modx2-beta26-acceptance.md). Настройки журнала находятся в конце «Основных» и используют общий Save без HTTP self-request. Canonical update и SSR: [beta21 policy](docs/modx2-canonical-elements.md); [Viewer](docs/modx2-consent-audit-viewer.md), [приёмка beta21](docs/modx2-canonical-elements-acceptance.md). Историческая настройка журналов: [beta15](docs/modx2-log-policy-acceptance.md). Историческая матрица: [отчёт](docs/modx2-m2-maps-acceptance.md). Это не подтверждение безопасности произвольного GTM-контейнера или готовности любого существующего сайта к live-запуску.
 
 ## Состав
 
@@ -21,6 +21,8 @@
 Предпочтительная установка/обновление — через настоящий Package Manager: [инструкция transport](docs/modx2-transport-package.md), [архитектура](docs/modx2-transport-architecture.md), [актуальная native приёмка](docs/modx2-native-minimal-acceptance.md). Private beta сохраняет пользовательские settings/elements и JSONL; fresh install выключает все необязательные сервисы. Аудит нужно явно настроить приватно, включая JSON-вариант для shared hosting без environment variables.
 
 ## Ручная установка на тестовый MODX 2 (прежний workflow)
+
+Этот раздел сохранён для старых ручных установок. Для beta29 используйте native Package Manager и [текущую инструкцию](docs/modx2-beta29-update.md); отдельные Registry/i18n scripts из прежнего workflow не подключайте.
 
 1. Сделать резервную копию шаблона, чанка CookiesPopup, старого JS и системных настроек. Для первой установки использовать отдельную тестовую копию сайта. Основной MODX core и код компонента разместить вне DOCUMENT_ROOT. Защитить также конфиг MODX/БД и доступ к Manager. Пример:
 
@@ -138,7 +140,9 @@ docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml
 
 ## Административная страница MODX 2 и переводы
 
-Новый milestone добавляет **Пакеты/Extras → Cookie Consent Manager** с вкладками «Основные», «Сервисы», «Тексты», «Журнал» и правым sandbox-предпросмотром. Подробная модель настроек, миграция fingerprint, безопасность и fallback: [архитектура Manager/i18n](docs/modx2-manager-architecture.md). Результаты: [новая приёмка](docs/modx2-manager-i18n-acceptance.md). Предыдущий отчёт выше сохранён как baseline, его числа не следует приписывать новому коду без повторного прогона.
+Для новых установок — [beta29](docs/modx2-beta29-update.md). Приведённый ниже ручной bootstrap относится к прежним версиям. В beta29 вкладка «Журнал» имеет четыре колонки и скрывает правый preview до возвращения на остальные вкладки.
+
+Исторический milestone добавляет **Пакеты/Extras → Cookie Consent Manager** с вкладками «Основные», «Сервисы», «Тексты», «Журнал» и правым sandbox-предпросмотром. Подробная модель настроек, миграция fingerprint, безопасность и fallback: [архитектура Manager/i18n](docs/modx2-manager-architecture.md). Результаты: [новая приёмка](docs/modx2-manager-i18n-acceptance.md). Предыдущий отчёт выше сохранён как baseline, его числа не следует приписывать новому коду без повторного прогона.
 
 Установка/обновление дополняет шаги предыдущей инструкции:
 

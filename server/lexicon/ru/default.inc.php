@@ -136,7 +136,7 @@ $_lang = [
     'm.integration_help' => 'Установка не меняет шаблоны и не включает сервисы. Подключите код вручную на staging, удалите прямые счётчики/noscript и используйте инертные карты до согласия.',
 ];
 
-$_lang['m.upgrade_elements'] = 'При обновлении код CookiesPopup, CookieConsent, CookieConsentRegistry и CookieConsentMap заменяется. Сначала сделайте backup; IDs и настройки сохраняются. Новые stock-копии не создаются.';
+$_lang['m.upgrade_elements'] = 'При обновлении код CookiesPopup, CookieConsent, CookieConsentMap, CookieConsentAssets и CookieConsentBanner заменяется. Сначала сделайте backup; IDs и настройки сохраняются. Новые stock-копии не создаются.';
 
 $_lang['m.audit_setup'] = 'Настроить аудит';
 $_lang['m.audit_test'] = 'Проверить POST → журнал';
@@ -284,7 +284,6 @@ $_lang['m.reason_audit_log_corrupt'] = 'В месячном журнале об�
 $_lang['m.consent_journal'] = 'Журнал согласий';
 $_lang['m.log_save_help'] = '«Сохранить» проверяет новый или изменённый существующий каталог временной записью/чтением PHP. Пустой путь отключает новые записи; старые журналы сохраняются.';
 $_lang['m.log_default_help'] = 'Стандартный каталог журналов MODX:';
-$_lang['m.log_backup_help'] = 'Включайте журналы согласий в резервные копии. Перед ручным удалением всего core/cache/ сохраните эти файлы. Обычная очистка кэша MODX сохраняет журналы.';
 $_lang['m.saved_partial'] = 'Остальные настройки сохранены. Каталог журнала не применён; прежнее значение сохранено.';
 $_lang['m.log_write_error'] = 'Не пройдена проверка записи/чтения журнала.';
 $_lang['m.reason_log_write_failed'] = 'PHP не смог полностью записать временный файл.';
@@ -300,3 +299,9 @@ $_lang['m.log_action_external_content_allow'] = 'Разрешить внешни
 $_lang['m.log_action_external_content_deny'] = 'Запретить внешний контент';
 $_lang['m.log_action_provider_allow'] = 'Разрешить сервис';
 $_lang['m.log_action_provider_deny'] = 'Запретить сервис';
+
+$_lang['m.integration_help'] = 'Вставьте каждый сниппет один раз. Установка не изменяет шаблоны.';
+$_lang['m.integration_head'] = 'В <head>: подключает стили, JavaScript и конфигурацию.';
+$_lang['m.integration_body'] = 'Перед </body>: выводит готовый баннер.';
+$_lang['m.integration_legacy'] = 'Старый CookieConsent остаётся альтернативой для существующих шаблонов. Не смешивайте старый и новый способы.';
+$_lang['m.log_ip'] = 'IP-адрес';

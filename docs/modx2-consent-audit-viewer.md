@@ -1,5 +1,7 @@
 # Consent Audit Viewer — beta21
 
+Актуальное изменение beta29: [инструкция](modx2-beta29-update.md), [приёмка](modx2-beta29-acceptance.md). Журнал использует одну колонку layout без preview и четыре колонки таблицы: дата/время, IP, действие, детали. IP входит в summary уже валидированной записи; поиск/пагинация/CSV/ACL прежние. Ниже — исходная документация beta21.
+
 Viewer реализован во вкладке «Журнал» Cookie Consent Manager на MODX 2.8.8 / PHP 8.1+. Основа — immutable beta15 с серверно-независимой настройкой журнала. Установка — штатный Package Manager, без Setup Options, SQL-таблиц событий, lifecycle ledger и скрытых копий персональных данных.
 
 ## Права

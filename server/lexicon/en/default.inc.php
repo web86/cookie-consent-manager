@@ -131,7 +131,7 @@ $_lang = [
     'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];
 
-$_lang['m.upgrade_elements'] = 'Updates replace code of CookiesPopup, CookieConsent, CookieConsentRegistry and CookieConsentMap. Back up first; IDs and settings are retained. No new stock copies are created.';
+$_lang['m.upgrade_elements'] = 'Updates replace code of CookiesPopup, CookieConsent, CookieConsentMap, CookieConsentAssets and CookieConsentBanner. Back up first; IDs and settings are retained. No new stock copies are created.';
 
 $_lang['m.audit_setup'] = 'Set up audit';
 $_lang['m.audit_test'] = 'Test POST → log';
@@ -279,7 +279,6 @@ $_lang['m.reason_audit_log_corrupt'] = 'The monthly journal contains an invalid 
 $_lang['m.consent_journal'] = 'Consent journal';
 $_lang['m.log_save_help'] = 'Save checks a new or changed existing directory with a temporary PHP write/read test. Leave empty to stop new records; old logs are retained.';
 $_lang['m.log_default_help'] = 'Default MODX log directory:';
-$_lang['m.log_backup_help'] = 'Include consent logs in backups. Preserve these files before manually clearing the entire core/cache/ directory. Normal MODX cache clearing keeps logs.';
 $_lang['m.saved_partial'] = 'Other settings saved. Journal directory was not applied; the previous value is retained.';
 $_lang['m.log_write_error'] = 'Journal write/read check failed.';
 $_lang['m.reason_log_write_failed'] = 'PHP could not complete the temporary file write.';
@@ -295,3 +294,9 @@ $_lang['m.log_action_external_content_allow'] = 'Allow external content';
 $_lang['m.log_action_external_content_deny'] = 'Deny external content';
 $_lang['m.log_action_provider_allow'] = 'Allow provider';
 $_lang['m.log_action_provider_deny'] = 'Deny provider';
+
+$_lang['m.integration_help'] = 'Insert each snippet once. Installation does not edit templates.';
+$_lang['m.integration_head'] = 'In <head>: loads styles, JavaScript and configuration.';
+$_lang['m.integration_body'] = 'Before </body>: renders the ready banner.';
+$_lang['m.integration_legacy'] = 'Legacy CookieConsent remains an alternative for existing templates. Do not mix the old and new methods.';
+$_lang['m.log_ip'] = 'IP address';

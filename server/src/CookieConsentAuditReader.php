@@ -109,7 +109,7 @@ final class CookieConsentAuditReader
             if(!self::matches($r,$filters))continue;$total++;$key=[$item['time'],$item['file'],$item['offset']];
             if($after!==null&&$key>=$after)continue;$eligible++;
             if($heap->count()===50&&$key<=$heap->top()['priority'])continue;
-            $summary=['server_time'=>$r['server_time'],'event'=>$r['event'],'locator'=>self::encode(['file'=>$item['file'],'offset'=>$item['offset'],'digest'=>$item['digest']])];
+            $summary=['server_time'=>$r['server_time'],'ip'=>$r['ip'],'event'=>$r['event'],'locator'=>self::encode(['file'=>$item['file'],'offset'=>$item['offset'],'digest'=>$item['digest']])];
             $heap->insert($summary,$key);if($heap->count()>50)$heap->extract();
         }
         $rows=[];$last=null;while(!$heap->isEmpty()){$v=$heap->extract();$rows[]=$v['data'];if($last===null)$last=$v['priority'];}$rows=array_reverse($rows);
