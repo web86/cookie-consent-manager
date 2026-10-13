@@ -43,7 +43,7 @@
 
 ZIP в checkout: `.local/release/cookieconsent-0.1.0-beta29.transport.zip`.
 
-SHA256: `5272da2e2b2417222a6073c2791b7cd3d11499506b0b91c5e362107a55a3498e`.
+SHA256: `9aa4e0bc498d29accb31897a1da11a2c21c1152b3a532a102118806488dbff96`.
 
 1. Сделайте backup DB, элементов/static source, пользовательского runtime и журналов. Код пяти canonical элементов будет заменён. Native `preserved.php` перезаписывается при reinstall и не является долговременным backup.
 2. Проверьте SHA256 ZIP и установите после review через штатный MODX Package Manager на отдельной staging-копии. Setup Options отсутствуют.

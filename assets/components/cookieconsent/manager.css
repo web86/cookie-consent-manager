@@ -23,3 +23,4 @@ body.ccm-manager #modx-content>.x-panel-bwrap{display:none!important}
 .ccm-page button.ccm-primary:focus-visible{outline:3px solid #3076b0!important;outline-offset:3px}
 .ccm-page button.ccm-primary:disabled{background:#3c6687;border-color:#3c6687;opacity:.6;cursor:not-allowed}
 #ccm-log-table .ccm-log-view{white-space:nowrap}
+.ccm-page.ccm-page-logs{max-width:none}

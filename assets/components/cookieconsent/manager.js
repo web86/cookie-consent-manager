@@ -31,7 +31,7 @@
     const el = (tag, text, attributes = {}) => { const node = document.createElement(tag); if (text != null) node.textContent = text; for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value); return node; };
     if(!data.canManage){
       document.body.classList.add('ccm-manager');root.closest('.x-panel-body')?.classList.add('ccm-scroll-host');
-      root.removeAttribute('aria-busy');root.className='ccm-page';root.append(el('h2',t('title')));
+      root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(el('h2',t('title')));
       const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
       window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();return;
     }
@@ -54,7 +54,7 @@
     for (const key of ['main', 'services', 'texts', 'logs']) {
       const button = el('button', t(key), { type: 'button', role: 'tab', id: 'ccm-tab-' + key, 'aria-controls': 'ccm-panel-' + key, 'aria-selected': String(key === 'main') });
       const panel = el('section', null, { role: 'tabpanel', id: 'ccm-panel-' + key, 'aria-labelledby': button.id, class: 'ccm-panel' }); panel.hidden = key !== 'main'; panels[key] = panel;
-      button.onclick = () => { activeTab=key;aside.hidden=key==='logs';layout.classList.toggle('ccm-layout-logs',key==='logs');if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
+      button.onclick = () => { activeTab=key;root.classList.toggle('ccm-page-logs',key==='logs');aside.hidden=key==='logs';layout.classList.toggle('ccm-layout-logs',key==='logs');if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
