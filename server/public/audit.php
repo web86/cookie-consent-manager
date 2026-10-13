@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-// HTTP POST JSON adapter; configuration and logs must live outside DOCUMENT_ROOT.
+// HTTP POST JSON adapter. Private configuration stays outside DOCUMENT_ROOT; log HTTP policy belongs to the site owner.
 header('Content-Type: application/json; charset=utf-8');
 header('Cache-Control: no-store');
 header('X-Content-Type-Options: nosniff');

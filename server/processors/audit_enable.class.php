@@ -7,7 +7,9 @@ class CookieConsentAuditEnableProcessor extends CookieConsentAuditTestProcessor 
         if(!hash_equals($previous['revision'],$revision))throw new DomainException('conflict');
         $dir=$this->getProperty('log_dir','');if(!is_string($dir)||$dir==='')throw new InvalidArgumentException('log_path');
         $dir=CookieConsentLogDirectory::resolve($dir,CookieConsentAuditConfiguration::webroot(),(string)$this->getProperty('log_dir_mode','absolute'));
-        CookieConsentAuditConfiguration::setup($this->modx);
+        $origin=$this->getProperty('site_origin',null);
+        if($origin!==null){if(!is_string($origin))throw new InvalidArgumentException('audit_origin_request_mismatch');$origin=CookieConsentAuditConfiguration::managerOrigin($origin);}
+        CookieConsentAuditConfiguration::setup($this->modx,60,$origin);
         $draft=$previous;unset($draft['revision']);$draft['log_dir']=$dir;
         $saved=CookieConsentSettings::save($this->modx,$draft,$revision);
         try {$check=parent::execute();}

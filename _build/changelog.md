@@ -1,3 +1,7 @@
+0.1.0 beta23
+WARNING / ВНИМАНИЕ: code of CookiesPopup, CookieConsent, CookieConsentRegistry and CookieConsentMap WILL BE REPLACED. Back up DB/elements/static source files before installation. IDs/types, settings, saved translations and logs are retained.
+Hide inactive optional categories in SSR/public JS/draft Manager preview; necessary stays visible. Provider fingerprint, schema 1/2, map and GTM gates retained. Audit self-request diagnostics distinguish redirects/status/TLS/network/invalid acknowledgements; success requires the same event_id and matching monthly record. Explicit managed-origin selection uses the authenticated Manager public address without trusting Forwarded headers; existing key/rate are retained, external private configuration is never overwritten. TLS verification remains enabled and redirects are never followed.
+
 0.1.0 beta21
 WARNING / ВНИМАНИЕ: code of CookiesPopup, CookieConsent, CookieConsentRegistry and CookieConsentMap WILL BE REPLACED. Back up DB/elements/static source files before installation. IDs/types, settings, saved translations and logs are retained.
 Canonical CookiesPopup/CookieConsent/CookieConsentRegistry/CookieConsentMap source update via native UPDATE_OBJECT=true and UNIQUE_KEY=name; IDs/type/user metadata retained, no new stock tree copies. Explicit pre-install code-replacement warning, native preserved backup verification and CLI restore. Structural chunk with safe context-localized server rendering before JS; saved text overrides/options preserved. Consent Audit Viewer remains included.

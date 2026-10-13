@@ -61,9 +61,22 @@ final class CookieConsentAuditConfiguration
         if(!is_array($config)||array_diff(array_keys($config),['site_origin','rate_limit_per_minute']))throw new RuntimeException('audit_parameters_invalid');
         $config['rate_limit_key']=self::managedKey($modx);return self::validate($config);
     }
-    public static function setup($modx,int $limit=60): void {
+    /** Explicit Manager selection: require the authenticated request's public Origin/Host.
+     * Never infer HTTPS from an untrusted Forwarded/X-Forwarded-Proto header.
+     */
+    public static function managerOrigin(string $origin): string {
+        $origin=strtolower($origin);
+        self::validate(['site_origin'=>$origin,'rate_limit_key'=>str_repeat('x',32)]);
+        $authority=parse_url($origin,PHP_URL_HOST).(($port=parse_url($origin,PHP_URL_PORT))?':'.$port:'');
+        if(!hash_equals(strtolower($_SERVER['HTTP_ORIGIN']??''),$origin)||!hash_equals(strtolower($_SERVER['HTTP_HOST']??''),$authority))throw new RuntimeException('audit_origin_request_mismatch');
+        return $origin;
+    }
+    public static function setup($modx,int $limit=60,?string $origin=null): void {
         $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
-        if($env||($legacy&&$legacy->get('value')!=='')){self::forModx($modx);return;}
+        if($env||($legacy&&$legacy->get('value')!=='')){
+            $config=self::forModx($modx);if($origin!==null&&!hash_equals(strtolower($config['site_origin']),$origin))throw new RuntimeException('audit_origin_external_config');return;
+        }
+        if($origin!==null)self::validate(['site_origin'=>$origin,'rate_limit_key'=>str_repeat('x',32)]);
         if($limit<1||$limit>10000)throw new InvalidArgumentException('rate_limit');
         $modx->beginTransaction();
         try {
@@ -73,9 +86,16 @@ final class CookieConsentAuditConfiguration
             if(!$s)throw new RuntimeException('audit_setting_missing');
             if((string)$s->get('value')===''){
                 $key=self::managedKey($modx,true);
-                $s->set('value',json_encode(['site_origin'=>self::origin($modx),'rate_limit_per_minute'=>$limit],JSON_THROW_ON_ERROR));
+                $s->set('value',json_encode(['site_origin'=>$origin??self::origin($modx),'rate_limit_per_minute'=>$limit],JSON_THROW_ON_ERROR));
                 if(!$s->save())throw new RuntimeException('audit_setup');
-            } else self::forModx($modx);
+            } else {
+                $config=self::forModx($modx);
+                if($origin!==null&&!hash_equals(strtolower($config['site_origin']),$origin)){
+                    // Explicit check/enable may correct a stale origin; keep key and rate limit.
+                    $metadata=json_decode($s->get('value'),true,8,JSON_THROW_ON_ERROR);$metadata['site_origin']=$origin;
+                    $s->set('value',json_encode($metadata,JSON_THROW_ON_ERROR));if(!$s->save())throw new RuntimeException('audit_setup');
+                }
+            }
             $modx->commit();
         }catch(Throwable $e){$modx->rollBack();throw $e;}
         $modx->cacheManager->refresh(['system_settings'=>[]]);

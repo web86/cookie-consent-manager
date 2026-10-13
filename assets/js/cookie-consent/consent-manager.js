@@ -323,6 +323,12 @@
     for (const button of root.querySelectorAll('[data-cc-action]')) button.textContent = t(button.dataset.ccAction === 'save' ? 'save' : button.dataset.ccAction.replace('-', '_'));
     for (const button of document.querySelectorAll('[data-cookie-settings-open]')) button.textContent = t('reopen');
     for (const element of root.querySelectorAll('[data-cc-text]')) element.textContent = t(element.dataset.ccText, {}, element.textContent);
+    // Keep hidden inputs for schema compatibility; visibility never changes saved grants.
+    for (const [category, input] of Object.entries(inputs)) {
+      const row = input.closest('label');
+      row.dataset.ccCategoryRow = category;
+      row.hidden = !services.some(service => service.enabled === true && service.category === category);
+    }
     setupButtonVisibility();
     root.addEventListener('click', onClick);
     for (const [category, input] of Object.entries(inputs)) input.addEventListener('change', () => {

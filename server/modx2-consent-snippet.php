@@ -7,7 +7,7 @@ try {
     $data=CookieConsentSettings::read($modx);$language=CookieConsentBannerRenderer::language($modx);
     $assets=$modx->getOption('assets_url');$mode=$modx->getOption('mode',$scriptProperties,'live');
     $strings=CookieConsentTexts::resolve($data['texts'],$language,$data['registry']['services']);
-    $banner=CookieConsentBannerRenderer::render($modx->getChunk('CookiesPopup'),$strings,$data['options'],$assets,$mode);
+    $banner=CookieConsentBannerRenderer::render($modx->getChunk('CookiesPopup'),$strings,$data['options'],$assets,$mode,$data['registry']['services']);
     $modx->regClientCSS($assets.'css/cookie-consent.css');
     $modx->regClientStartupHTMLBlock($modx->runSnippet('CookieConsentRegistry'));
     $modx->regClientHTMLBlock($banner);

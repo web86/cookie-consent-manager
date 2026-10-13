@@ -20,6 +20,13 @@ final class CookieConsentServiceRegistry
         'google_ads'=>['allow_ad_personalization_signals'=>true,'restricted_data_processing'=>false],
         'google_maps'=>['show_title'=>true], 'yandex_maps'=>['show_title'=>true],
     ];
+    /** Visibility follows activity only; it never grants provider permission. */
+    public static function visibleCategories(array $services): array
+    {
+        $visible=['necessary'=>true,'analytics'=>false,'marketing'=>false,'external_content'=>false];
+        foreach($services as $service) if(($service['enabled']??false)===true && array_key_exists($service['category']??'',$visible)) $visible[$service['category']]=true;
+        return $visible;
+    }
     public static function defaults(): array
     {
         $services=[];

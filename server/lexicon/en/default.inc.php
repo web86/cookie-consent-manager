@@ -255,3 +255,22 @@ $_lang['m.log_diagnostic_invalid_schema'] = 'Unsupported schema';
 $_lang['m.log_diagnostic_invalid_record'] = 'Invalid record';
 $_lang['m.log_diagnostic_invalid_time'] = 'Invalid time';
 $_lang['m.log_diagnostic_unknown_fields'] = 'Unsupported fields hidden';
+
+// Safe audit self-request diagnostics.
+$_lang['m.audit_origin_help'] = 'The explicit check uses this Manager site origin for managed audit configuration. A private external configuration must match it; its key and origin are never overwritten:';
+$_lang['m.reason_audit_origin_request_mismatch'] = 'Audit origin does not match the authenticated Manager request. Open Manager at the public site address.';
+$_lang['m.reason_audit_origin_external_config'] = 'The private audit configuration has a different origin. Correct site_origin in that configuration, keeping the key.';
+$_lang['m.reason_audit_http_redirect'] = 'Audit POST returned a redirect. Verify the public HTTPS origin; redirects are not followed.';
+$_lang['m.reason_audit_http_forbidden'] = 'Audit POST was forbidden. Check Origin and the receiver/proxy access policy.';
+$_lang['m.reason_audit_http_not_found'] = 'Public audit endpoint was not found. Check assets_url and package runtime files.';
+$_lang['m.reason_audit_http_bad_request'] = 'Receiver rejected the test event payload. Check the installed runtime and registry versions.';
+$_lang['m.reason_audit_http_duplicate'] = 'Receiver reported a duplicate test event. Retry the check.';
+$_lang['m.reason_audit_http_rate_limited'] = 'Audit rate limit reached. Wait before checking again.';
+$_lang['m.reason_audit_http_unavailable'] = 'Receiver is unavailable. Check MODX API initialization, audit key/configuration and journal write access.';
+$_lang['m.reason_audit_http_unexpected'] = 'Audit endpoint returned an unexpected HTTP status. Check hosting rules.';
+$_lang['m.reason_audit_tls_failed'] = 'PHP could not verify the audit endpoint TLS connection. Check the certificate, host name and PHP CA trust.';
+$_lang['m.reason_audit_network_failed'] = 'PHP could not reach the public audit endpoint. Check DNS, routing, egress and self-request support.';
+$_lang['m.reason_audit_response_malformed'] = 'HTTP succeeded without a valid receiver JSON acknowledgement. Check proxy/WAF responses and the installed endpoint.';
+$_lang['m.reason_audit_event_mismatch'] = 'Receiver acknowledgement contains a different event_id. The check failed.';
+$_lang['m.reason_audit_record_invalid'] = 'Acknowledged event exists but its journal contents do not match. The check failed.';
+$_lang['m.reason_audit_log_corrupt'] = 'The monthly journal contains an invalid line. Preserve the file and inspect it before checking again.';

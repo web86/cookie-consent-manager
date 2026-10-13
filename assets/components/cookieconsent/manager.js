@@ -18,7 +18,10 @@
         if (json.message === 'conflict') throw Error(data?.managerStrings['m.conflict'] || 'Conflict');
         const diagnostic = json.object || {};
         const code = diagnostic.code || (/permission|access|auth/i.test(json.message || '') ? 'authorization' : 'processor');
-        const reason=data?.managerStrings['m.reason_'+diagnostic.reason];if(reason)throw Error(reason+' ('+action+', HTTP '+response.status+', '+(diagnostic.request_id||code)+')');
+        const reason=data?.managerStrings['m.reason_'+diagnostic.reason];
+        const receiver=Number.isInteger(diagnostic.receiver_status)&&diagnostic.receiver_status>=0&&diagnostic.receiver_status<=599 ? ', receiver HTTP '+diagnostic.receiver_status : '';
+        const receiverCode=['origin_forbidden','invalid_payload','duplicate_event','rate_limited','audit_unavailable','method_not_allowed','unsupported_media_type','payload_too_large'].includes(diagnostic.receiver_code)?', '+diagnostic.receiver_code:'';
+        if(reason)throw Error(reason+' ('+action+', connector HTTP '+response.status+receiver+receiverCode+', request_id='+(diagnostic.request_id||code)+')');
         throw fail(code + (diagnostic.reason && /^[a-z_]{1,40}$/.test(diagnostic.reason) ? ':' + diagnostic.reason : ''), diagnostic.request_id);
       }
       return json.object;
@@ -82,8 +85,9 @@
     field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
     const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});storage.append(auditState);
     const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});storage.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
+    storage.append(el('p',t('audit_origin_help')+' '+location.origin,{class:'ccm-help',id:'ccm-audit-origin'}));
     enableAudit.onclick=async()=>{enableAudit.disabled=true;try{
-      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision});revision=result.revision;storedLogDir=result.log_dir;
+      const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision,site_origin:location.origin});revision=result.revision;storedLogDir=result.log_dir;
       auditState.textContent=t('audit_ready');status.textContent=t('audit_enable_success');status.dataset.state=dirty?'dirty':'saved';
       // Only journal selection is persisted by this operation; other form drafts stay local.
       const current={options:draft.options,registry:draft.registry,texts:draft.texts};
@@ -175,7 +179,7 @@
       if (previewState === 'banner') content = `<div class="cookie-warning-2"><div class="cookie-warning-text">${strings.notice_html}</div><div class="cookie-warning-buttons">${Object.entries(result.buttons).filter(([, v]) => v).map(([key]) => `<button class="cookie-btn cookie-btn--${['accept','accept_all'].includes(key)?'primary':'secondary'}" type="button">${escape(strings[key])}</button>`).join('')}</div></div>`;
       if (previewState === 'preferences') {
         const option = (name, description, disabled = false, attrs = '') => `<label class="cookie-option ${attrs ? 'cc-provider' : ''}" ${attrs}><span class="cookie-option__text"><strong>${escape(name)}</strong><small>${escape(description)}</small></span><input type="checkbox" ${disabled ? 'checked disabled' : ''}></label>`;
-        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
+        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].filter(cat => result.visibleCategories[cat]).map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
       }
       if (previewState === 'map') content = services.filter(s => s.category === 'external_content').map(s => {
         const provider = strings['service.' + s.key + '.name'] || s.name;

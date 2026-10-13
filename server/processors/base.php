@@ -1,5 +1,6 @@
 <?php
 require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
+require_once dirname(__DIR__).'/src/CookieConsentAuditCheckException.php';
 abstract class CookieConsentManagerProcessor extends modProcessor
 {
     public function checkPermissions(){return $this->modx->user->isAuthenticated('mgr') && $this->modx->hasPermission('cookie_consent_manage');}
@@ -18,7 +19,9 @@ abstract class CookieConsentManagerProcessor extends modProcessor
             // Log only a bounded diagnostic, never draft/configuration/secret values.
             $reason=preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():$code;
             $this->modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsentManager] request='.$requestId.' processor='.get_class($this).' exception='.get_class($e).' reason='.$reason);
-            return $this->failure($code,['code'=>$code,'request_id'=>$requestId,'reason'=>$reason]);
+            $diagnostic=['code'=>$code,'request_id'=>$requestId,'reason'=>$reason];
+            if($e instanceof CookieConsentAuditCheckException){$diagnostic['receiver_status']=$e->receiverStatus;if($e->receiverCode!=='')$diagnostic['receiver_code']=$e->receiverCode;}
+            return $this->failure($code,$diagnostic);
         }
     }
     abstract protected function execute(): array;

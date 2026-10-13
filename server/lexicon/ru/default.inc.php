@@ -260,3 +260,22 @@ $_lang['m.log_diagnostic_invalid_schema'] = 'Неизвестная схема';
 $_lang['m.log_diagnostic_invalid_record'] = 'Некорректная запись';
 $_lang['m.log_diagnostic_invalid_time'] = 'Некорректное время';
 $_lang['m.log_diagnostic_unknown_fields'] = 'Неподдерживаемые поля скрыты';
+
+// Safe audit self-request diagnostics.
+$_lang['m.audit_origin_help'] = 'Явная проверка использует адрес открытого Manager для managed-конфигурации аудита. Внешняя приватная конфигурация должна соответствовать ему; её ключ и origin не перезаписываются:';
+$_lang['m.reason_audit_origin_request_mismatch'] = 'Origin аудита не соответствует запросу Manager. Откройте Manager по публичному адресу сайта.';
+$_lang['m.reason_audit_origin_external_config'] = 'Во внешней конфигурации аудита другой origin. Исправьте site_origin в этой конфигурации, сохранив ключ.';
+$_lang['m.reason_audit_http_redirect'] = 'Проверочный POST вернул редирект. Проверьте публичный HTTPS origin; редиректы не выполняются.';
+$_lang['m.reason_audit_http_forbidden'] = 'Проверочный POST запрещён. Проверьте Origin и правила доступа receiver/proxy.';
+$_lang['m.reason_audit_http_not_found'] = 'Публичный endpoint аудита не найден. Проверьте assets_url и файлы компонента.';
+$_lang['m.reason_audit_http_bad_request'] = 'Receiver отклонил проверочное событие. Проверьте версии runtime и реестра сервисов.';
+$_lang['m.reason_audit_http_duplicate'] = 'Receiver сообщил о повторном проверочном событии. Повторите проверку.';
+$_lang['m.reason_audit_http_rate_limited'] = 'Достигнут лимит запросов аудита. Подождите перед повторной проверкой.';
+$_lang['m.reason_audit_http_unavailable'] = 'Receiver недоступен. Проверьте MODX API, ключ/конфигурацию аудита и права записи журнала.';
+$_lang['m.reason_audit_http_unexpected'] = 'Endpoint аудита вернул неожиданный HTTP-статус. Проверьте правила хостинга.';
+$_lang['m.reason_audit_tls_failed'] = 'PHP не смог проверить TLS-соединение endpoint аудита. Проверьте сертификат, имя сайта и доверенные CA PHP.';
+$_lang['m.reason_audit_network_failed'] = 'PHP не смог подключиться к публичному endpoint аудита. Проверьте DNS, маршрутизацию, исходящие соединения и поддержку self-request.';
+$_lang['m.reason_audit_response_malformed'] = 'HTTP-запрос завершился без корректного JSON-подтверждения receiver. Проверьте ответы proxy/WAF и установленный endpoint.';
+$_lang['m.reason_audit_event_mismatch'] = 'В подтверждении receiver другой event_id. Проверка не пройдена.';
+$_lang['m.reason_audit_record_invalid'] = 'Подтверждённое событие найдено, но содержимое записи не совпадает. Проверка не пройдена.';
+$_lang['m.reason_audit_log_corrupt'] = 'В месячном журнале обнаружена повреждённая строка. Сохраните файл и проверьте его перед повторной проверкой.';
