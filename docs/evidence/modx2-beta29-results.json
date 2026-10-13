@@ -1,0 +1,6265 @@
+{
+  "date": "2026-10-13",
+  "branch": "feature/modx2-frontend-bundle",
+  "base_commit": "df4b9a5",
+  "implementation_commits": [
+    "47cff7c",
+    "323d277"
+  ],
+  "signature": "cookieconsent-0.1.0-beta29",
+  "sha256": "9aa4e0bc498d29accb31897a1da11a2c21c1152b3a532a102118806488dbff96",
+  "result": "GO FOR REVIEW ONLY",
+  "tests": 409,
+  "assertions": 2820,
+  "failed": 0,
+  "network": {
+    "provider_combinations": 256,
+    "mock_har_requests": 3298,
+    "external_mock_requests": 0,
+    "live_sdk_execution": "NOT RUN: fulfilled local stubs"
+  },
+  "bundle": {
+    "tool": "esbuild",
+    "version": "0.28.2",
+    "inputs": {
+      "assets/js/cookie-consent/runtime.js": "cfedbb654089f72cbf85730f38343b3103922d86204ddb0336c064f398402a46",
+      "assets/js/cookie-consent/provider-registry.js": "e8a0edb24c568c4c04973604dfbd41c8f645c1be01da4fac4ae7219cc8533280",
+      "assets/js/cookie-consent/consent-manager.js": "cd6e4b920df5984b82adfb3be6cb18b7ccd22257795923918ccee7d0a8f68ae8",
+      "assets/css/cookie-consent.css": "da26f44279e4d39f7cbbd232c3ed430eda20182b96332ed7cf55c21bfd8549d2",
+      "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
+      "_build/frontend.mjs": "1c75fc71ff773c7564fde47541a64ea7250699bfad1bd7d62f8f0384eb734abe"
+    },
+    "outputs": {
+      "assets/js/cookie-consent/cookie-consent.min.js": {
+        "sha256": "764d59ecd0492a8cae443f1c837050df7791c8a2c9da11cbf26c96813f1c7c5e",
+        "bytes": 17243
+      },
+      "assets/css/cookie-consent.min.css": {
+        "sha256": "23bff258002e08e4520fdcf0c6105f46f8db5649d29d54e4f89f42f5924b5193",
+        "bytes": 3545
+      }
+    }
+  },
+  "suites": {
+    "native": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 7,
+      "assertions": 226,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "beta28-to-beta29-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 59
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 44
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "mainUpgrade": {
+      "suite": "Real existing beta28 upgrade retains Registry/IDs/settings/key/config/JSONL",
+      "tests": 1,
+      "assertions": 88,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "mainReinstall": {
+      "suite": "Final native reinstall retains current JSONL/key/config/settings/IDs/Registry",
+      "tests": 1,
+      "assertions": 88,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "manager": {
+      "suite": "beta29 Manager layout/integration/IP/primary Find",
+      "tests": 6,
+      "assertions": 62,
+      "failed": 0,
+      "results": [
+        {
+          "name": "EN-RU-integration-instructions-and-no-cache-backup-UI-hint",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "full-width-log-and-restored-two-column-preview-with-same-DOM",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "pending-debounce-and-stale-preview-result-cancelled-on-logs",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "validated-IP-in-summary-four-columns-no-detail-per-row-safe-rendering",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "primary-find-hover-keyboard-focus-disabled-and-Enter-only-search",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "tablet-mobile-layout-and-log-read-only-source-hashes",
+          "result": "PASS",
+          "assertions": 12
+        }
+      ]
+    },
+    "publicJSON": {
+      "suite": "Direct Assets safe JSON without Registry dependency",
+      "tests": 3,
+      "assertions": 84,
+      "failed": 0,
+      "results": [
+        {
+          "name": "direct-Assets-safe-minimal-JSON-split-legacy-ru",
+          "result": "PASS",
+          "assertions": 40
+        },
+        {
+          "name": "direct-Assets-safe-minimal-JSON-split-legacy-en",
+          "result": "PASS",
+          "assertions": 40
+        },
+        {
+          "name": "invalid-registry-safe-empty-configuration-no-external-services",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "localization": {
+      "suite": "Real MODX PHP localized source RU/EN stock/overrides cold/warm without JS",
+      "tests": 4,
+      "assertions": 112,
+      "failed": 0,
+      "results": [
+        {
+          "name": "stock-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "stock-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "overrides-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        },
+        {
+          "name": "overrides-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        }
+      ]
+    },
+    "frontend": {
+      "suite": "PHP-only static localization / split snippets / minified frontend",
+      "tests": 9,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-no-static-rewrite-en",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-ru",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-tr",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "one-call-contract-independent-split",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "one-call-contract-independent-legacy",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-assets-only",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-banner-only",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "localized-runtime-ACK-error-is-minimal-server-message",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "head-bundle-hashes-and-simple-repeat-JS-initialization-guard",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "viewerPHP": {
+      "suite": "Audit Viewer PHP",
+      "assertions": 62,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "elementsPHP": {
+      "suite": "Structural CookiesPopup and SSR localization PHP",
+      "assertions": 47,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "settingsPHP": {
+      "suite": "Manager settings/HTML/i18n PHP",
+      "assertions": 53,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "syntax": {
+      "suite": "PHP source/build/new fixture syntax",
+      "tests": 1,
+      "files": 53,
+      "assertions": 53,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "package": {
+      "signature": "cookieconsent-0.1.0-beta29",
+      "native_vehicles": 69,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 14,
+        "xPDOFileVehicle": 53,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 53,
+      "zip_entries": 132,
+      "sha256": "9aa4e0bc498d29accb31897a1da11a2c21c1152b3a532a102118806488dbff96",
+      "result": "PASS"
+    },
+    "journalSave": {
+      "suite": "Single Save local journal / partial result / real browser event",
+      "tests": 9,
+      "assertions": 60,
+      "failed": 0,
+      "results": [
+        {
+          "name": "Main-final-section-Log-has-no-settings-and-no-audit-buttons",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "one-Save-local-check-no-monthly-event-no-temp-files",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "unchanged-path-skips-write-test-preserves-key-and-metadata",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "partial-Save-path-traversal-missing-permissions-other-fields-retained",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "configuration-error-keeps-path-key-and-saves-other-fields",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "GUI-partial-Save-keeps-rejected-path-draft-and-saved-other-values",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "browser-ACK-and-monthly-JSONL-with-unchanged-receiver",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "unavailable-receiver-does-not-block-save-or-disable-local-journal",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "clear-path-disables-new-events-preserves-existing-logs-and-key",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "cache": {
+      "suite": "Actual standard MODX cache/logs and cache clearing",
+      "tests": 4,
+      "assertions": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual-standard-MODX-core-outside-webroot-Save-and-browser-record-error-log-untouched",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "ordinary-native-Manager-clearcache-preserves-monthly-and-error-log",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "missing-standard-directory-retains-path-and-other-settings-no-arbitrary-create",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manual-entire-core-cache-removal-is-handled-settings-kept-backup-restored",
+          "result": "PASS",
+          "assertions": 6
+        }
+      ]
+    },
+    "runtime": {
+      "suite": "Final 53 installed runtime hashes and unchanged public bundle",
+      "tests": 1,
+      "assertions": 54,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "reproducibility": {
+      "suite": "Two independent native ZIP builds byte-identical",
+      "tests": 1,
+      "assertions": 1,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "viewer": {
+      "suite": "Consent Audit Viewer Playwright",
+      "tests": 11,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "default-filters-four-columns-no-storage-or-diagnostics",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changing-filters-does-not-fetch-find-applies",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "pagination-newest-first-only-50",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "details-schema2-XSS-and-consent-history",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "all-actions-searches-unknown-and-empty",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "CSV-all-matches-UTF8-escaping-injection-applied-filters",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "direct-traversal-invalid-filters-and-unauthenticated-requests",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "manager-without-log-permission-denied-read-detail-export",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "view-only-manager-can-read-export-cannot-save-settings",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "RU-lexicon-screenshot",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "read-only-source-hashes-and-no-runtime-errors",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "cmp": {
+      "suite": "MODX CMP/i18n integration",
+      "tests": 17,
+      "assertions": 60,
+      "failed": 0,
+      "blockedHosts": [
+        "www.gravatar.com"
+      ],
+      "results": [
+        {
+          "name": "fresh-component-install-and-preserve-upgrade",
+          "result": "PASS"
+        },
+        {
+          "name": "ru-component-menu-tabs-and-system-language",
+          "result": "PASS"
+        },
+        {
+          "name": "services-three-groups-individual-settings",
+          "result": "PASS"
+        },
+        {
+          "name": "service-translations-retained-but-not-editable",
+          "result": "PASS"
+        },
+        {
+          "name": "legacy-mode-preview-and-preserved-values",
+          "result": "PASS"
+        },
+        {
+          "name": "languages-from-modx-single-select-and-preserved-draft",
+          "result": "PASS"
+        },
+        {
+          "name": "html-source-sanitization-preview-and-parser-tags",
+          "result": "PASS"
+        },
+        {
+          "name": "context-culturekey-and-fallback",
+          "result": "PASS"
+        },
+        {
+          "name": "translation-does-not-revoke-consent",
+          "result": "PASS"
+        },
+        {
+          "name": "privacy-parameter-invalidates-service-consent",
+          "result": "PASS"
+        },
+        {
+          "name": "new-service-through-group-controls",
+          "result": "PASS"
+        },
+        {
+          "name": "failed-save-keeps-draft",
+          "result": "PASS"
+        },
+        {
+          "name": "preview-no-service-network-or-audit",
+          "result": "PASS"
+        },
+        {
+          "name": "responsive-preview-stacks-below-main",
+          "result": "PASS"
+        },
+        {
+          "name": "unauthenticated-and-csrf-refused",
+          "result": "PASS"
+        },
+        {
+          "name": "english-manager-and-default-edit-locale",
+          "result": "PASS"
+        },
+        {
+          "name": "no-runtime-errors-or-external-public-hosts",
+          "result": "PASS"
+        }
+      ]
+    },
+    "browser": {
+      "suite": "Playwright Chromium / real MODX 2.8.8",
+      "assertions": 1419,
+      "tests": 281,
+      "failed": 0,
+      "results": [
+        {
+          "name": "first-visit",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 3
+        },
+        {
+          "name": "reject",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 4
+        },
+        {
+          "name": "category-0",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 7
+        },
+        {
+          "name": "category-1",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "category-2",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 12
+        },
+        {
+          "name": "category-3",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 21
+        },
+        {
+          "name": "category-4",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 14
+        },
+        {
+          "name": "category-5",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 23
+        },
+        {
+          "name": "category-6",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 19
+        },
+        {
+          "name": "category-7",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 30
+        },
+        {
+          "name": "map-google_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "map-yandex_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 14
+        },
+        {
+          "name": "accept-all-revoke",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 21
+        },
+        {
+          "name": "legacy-accept",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "accept",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "provider-only",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 7
+        },
+        {
+          "name": "expiry-ttl",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 17
+        },
+        {
+          "name": "expiry-policy",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 17
+        },
+        {
+          "name": "expiry-old-m2",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 17
+        },
+        {
+          "name": "expiry-popup-yurist",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 17
+        },
+        {
+          "name": "draft-not-committed",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "failed-audit",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            503
+          ],
+          "events": [
+            {
+              "event": "accept_all",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "invalid-200-acknowledgement",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 4
+        },
+        {
+          "name": "mobile-keyboard-modal",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 11
+        },
+        {
+          "name": "dynamic-add-disable",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 24
+        },
+        {
+          "name": "unsafe-admin-config",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 3
+        },
+        {
+          "name": "providers-001",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-000",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 7
+        },
+        {
+          "name": "providers-002",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-003",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-005",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-007",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-006",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-004",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-010",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-009",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-011",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-008",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 7
+        },
+        {
+          "name": "providers-013",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-015",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-014",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-012",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-018",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-016",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-019",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-017",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-020",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-021",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-023",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-022",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-027",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-024",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-025",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-026",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-030",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-028",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-029",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-031",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-033",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-032",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-034",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-035",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-037",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-036",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-038",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-039",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-040",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-041",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-042",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-043",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-046",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-045",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-047",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-044",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-048",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-050",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-051",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-049",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-054",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-052",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-053",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-055",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-058",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-057",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-056",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-059",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-060",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-062",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-061",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-063",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-065",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-064",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-067",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-066",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-070",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-068",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-071",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-069",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-074",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-073",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-072",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-075",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-076",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-077",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-078",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-079",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-081",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-083",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-080",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-082",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-086",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-084",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-085",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-087",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-090",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-088",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-091",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-089",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-093",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-092",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-095",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-094",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-097",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-099",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-096",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-098",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-102",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-101",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-100",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-103",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-104",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-105",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-106",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-107",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-110",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-108",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-111",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-109",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-115",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-113",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-112",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-114",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-119",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-117",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-116",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-118",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-123",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-121",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-120",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-122",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-126",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-125",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-124",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-127",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-128",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-129",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-130",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-131",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-135",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-134",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-132",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-133",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-136",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-138",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-137",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-139",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-140",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-142",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-143",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-141",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-147",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-145",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-144",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-146",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-148",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-149",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-150",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-151",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-152",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-155",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-154",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-153",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-156",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-158",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-157",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-159",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-161",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-160",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-163",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-162",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-166",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-165",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-164",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-167",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-171",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-169",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-168",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-170",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-173",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-174",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-172",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-175",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-179",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-176",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-178",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-177",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-182",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-181",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-180",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-183",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-184",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-186",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-185",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-187",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-189",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-191",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-188",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-190",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-194",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-192",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-193",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-195",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-196",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-198",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-199",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-197",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-201",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-200",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-202",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-203",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-204",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-207",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-206",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-205",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-210",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-209",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-211",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-208",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-212",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-213",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-215",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-214",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-216",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-219",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-218",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-217",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-220",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-223",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-221",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-222",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-224",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-226",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-225",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-227",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-228",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-230",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-229",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-231",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-232",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-235",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-233",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-234",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-239",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-238",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-237",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-236",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-242",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-240",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-243",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-241",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-244",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-246",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-247",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 16
+        },
+        {
+          "name": "providers-245",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-248",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-250",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-249",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-251",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-254",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-252",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-253",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-255",
+          "result": "PASS",
+          "mockLoads": [
+            "bitrix24-clientid.js",
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 17
+        }
+      ]
+    },
+    "http": {
+      "suite": "HTTP through real MODX wrapper",
+      "assertions": 121,
+      "tests": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "positive-server-jsonl",
+          "result": "PASS"
+        },
+        {
+          "name": "schema2-map",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "null-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "cross-site",
+          "result": "PASS"
+        },
+        {
+          "name": "same-site",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-method",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-content-type",
+          "result": "PASS"
+        },
+        {
+          "name": "malformed-json",
+          "result": "PASS"
+        },
+        {
+          "name": "list-json",
+          "result": "PASS"
+        },
+        {
+          "name": "excess-payload",
+          "result": "PASS"
+        },
+        {
+          "name": "no-fetch-metadata-same-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-ip",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-config",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-uuid",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-stage",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-type",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-calendar",
+          "result": "PASS"
+        },
+        {
+          "name": "query-pii",
+          "result": "PASS"
+        },
+        {
+          "name": "map-wrong-category",
+          "result": "PASS"
+        },
+        {
+          "name": "unknown-provider",
+          "result": "PASS"
+        },
+        {
+          "name": "replay",
+          "result": "PASS"
+        },
+        {
+          "name": "concurrent-append-and-replay",
+          "result": "PASS"
+        },
+        {
+          "name": "setting-change-preserves-archives",
+          "result": "PASS"
+        },
+        {
+          "name": "webroot-path-without-HTTP-protection",
+          "result": "PASS"
+        },
+        {
+          "name": "relative-path",
+          "result": "PASS"
+        },
+        {
+          "name": "document-root",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-path",
+          "result": "PASS"
+        },
+        {
+          "name": "traversal-path",
+          "result": "PASS"
+        },
+        {
+          "name": "empty-path",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "permission-denied-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "unwritable-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "rate-limit",
+          "result": "PASS"
+        },
+        {
+          "name": "upgrade-preserves-settings",
+          "result": "PASS"
+        }
+      ]
+    },
+    "live-guard": {
+      "suite": "Live adapters with local network fulfillment only",
+      "assertions": 50,
+      "tests": 11,
+      "failed": 0,
+      "results": [
+        {
+          "name": "google_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "yandex_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10"
+          ]
+        },
+        {
+          "name": "google_ga4",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "google_ads",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "gtm-partial-block",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "all-google-shared-library",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>",
+            "https://www.googletagmanager.com/gtm.js?id=<test-id>",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "map-url-rejection",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-0",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-1",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-2",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-3",
+          "result": "PASS",
+          "interceptedExternal": []
+        }
+      ]
+    },
+    "manager-permissions": {
+      "tests": 1,
+      "assertions": 4,
+      "failed": 0,
+      "results": [
+        {
+          "name": "authenticated-mgr-without-component-permission-denied",
+          "result": "PASS"
+        }
+      ]
+    }
+  },
+  "not_run": [
+    "Production/staging installation or deployment; actual hosting/CDN/vendor SDK/API keys/GTM container contents",
+    "Firefox/WebKit, alternate PHP/MODX, Windows/IIS/LiteSpeed",
+    "nginx/reverse proxy matrix rerun (server/receiver unchanged; local Apache used)",
+    "Million-row performance, static canonical restore, late transport failure injection not rerun",
+    "ENOSPC, power loss, DB outage, arbitrary FS races or universal atomic rollback",
+    "Custom duplicate/case-colliding categories or mixed/duplicated integration tags outside the documented contract"
+  ]
+}
