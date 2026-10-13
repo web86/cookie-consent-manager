@@ -1,6 +1,7 @@
 <?php
 declare(strict_types=1);
-/** MODX-independent PHP 8.1+ JSONL audit logger. Client events are untrusted claims. */
+require_once __DIR__.'/CookieConsentAuditFormat.php';
+/** MODX-independent PHP 8.1+ header-aware line audit logger. Client events are untrusted claims. */
 final class CookieConsentAuditLogger
 {
     private string $logDir;
@@ -48,13 +49,18 @@ final class CookieConsentAuditLogger
         return (new CookieConsentRateLimiter($this->logDir,$this->rateLimitKey,$this->rateLimit))->check($remoteAddr,$validated['event_id'],function() use($file,$json,$record): array {
             CookieConsentPrivatePath::file($file);
             $previousUmask=umask(0077);
-            try { $handle=@fopen($file,'c+b'); } finally { umask($previousUmask); }
+            // The shared limiter lock serializes cooperating creators before this open.
+            $created=!file_exists($file);
+            try { $handle=@fopen($file,$created?'x+b':'r+b'); } finally { umask($previousUmask); }
             if (!$handle) throw new RuntimeException('Cannot open audit log');
             $position=null;
             try {
                 if (!flock($handle,LOCK_EX) || fseek($handle,0,SEEK_END)!==0) throw new RuntimeException('Cannot lock/seek audit log');
                 $position=ftell($handle);
                 if ($position===false) throw new RuntimeException('Cannot locate end');
+                // A valid legacy final record may omit LF; never concatenate JSON values.
+                if($position>0){if(fseek($handle,-1,SEEK_END)!==0)throw new RuntimeException('Cannot inspect audit end');$last=fread($handle,1);if($last===false||fseek($handle,0,SEEK_END)!==0)throw new RuntimeException('Cannot inspect audit end');if($last!=="\n")CookieConsentRateLimiter::writeAll($handle,"\n");}
+                if($created&&$position===0)CookieConsentRateLimiter::writeAll($handle,CookieConsentAuditFormat::HEADER."\n");
                 CookieConsentRateLimiter::writeAll($handle,$json."\n");
                 if (!fflush($handle)) throw new RuntimeException('Cannot flush audit');
             } catch (Throwable $e) {

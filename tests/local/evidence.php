@@ -1,9 +1,9 @@
 <?php
 if (PHP_SAPI!=='cli' || !is_dir('/opt/cc-source/tests/local')) exit(1);
 $file='/opt/cc-private/logs/'.gmdate('Y-m').'-cookie-consent.log';
+require_once '/opt/cc-source/server/src/CookieConsentAuditFormat.php';
 $counts=[];$ids=[];$example=null;
-foreach (file($file,FILE_IGNORE_NEW_LINES) as $line) {
-    $record=json_decode($line,true,16,JSON_THROW_ON_ERROR);
+foreach (CookieConsentAuditFormat::records($file) as $record) {
     $counts[(string)$record['schema']]=($counts[(string)$record['schema']]??0)+1;
     if (isset($ids[$record['event_id']])) throw new RuntimeException('Duplicate stored event ID');
     $ids[$record['event_id']]=true;

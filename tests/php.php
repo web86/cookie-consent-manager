@@ -28,7 +28,7 @@ $old="{\"schema\":1,\"archive\":true}\n";file_put_contents($logs.'/2020-01-cooki
 $logger=new CookieConsentAuditLogger($logs,str_repeat('K',32),1000,$registry);
 $e=event();$logger->append($e,'127.0.0.1',"Unit\nUA\xFF");
 throws(fn()=>$logger->append($e,'127.0.0.2','changed IP'),DomainException::class);
-$record=json_decode(trim(file_get_contents($logs.'/'.gmdate('Y-m').'-cookie-consent.log')),true,16,JSON_THROW_ON_ERROR);
+$record=iterator_to_array(CookieConsentAuditFormat::records($logs.'/'.gmdate('Y-m').'-cookie-consent.log'))[0];
 check($record['ip']==='127.0.0.1' && $record['schema']===1,'Legacy record/IP');check(strpos($record['user_agent'],"\n")===false,'UA sanitization');
 $e=event();$e+=['schema'=>2,'external_content'=>true,'providers'=>['google_maps'=>true,'yandex_maps'=>false],'provider'=>'google_maps'];$e['event']='map_allow';
 $logger->append($e,'127.0.0.1','Unit');check(CookieConsentEventValidator::validate($e,$registry)===$e,'Schema 2');
@@ -52,7 +52,7 @@ for ($i=0;$i<20;$i++) {
     $pid=pcntl_fork();if ($pid===0) { try {(new CookieConsentAuditLogger($concurrent,str_repeat('K',32),1000))->append(event(),'127.0.0.1','Concurrent');exit(0);}catch(Throwable $e){exit(1);} }$ids[]=$pid;
 }
 foreach($ids as $pid){pcntl_waitpid($pid,$status);check(pcntl_wexitstatus($status)===0,'Concurrent child');}
-$lines=file($concurrent.'/'.gmdate('Y-m').'-cookie-consent.log',FILE_IGNORE_NEW_LINES);check(count($lines)===20,'20 complete lines');$unique=[];
-foreach($lines as $line){$r=json_decode($line,true,16,JSON_THROW_ON_ERROR);$unique[$r['event_id']]=1;check($r['stage']==='committed','Valid concurrent JSON');}check(count($unique)===20,'Unique concurrent IDs');
+$file=$concurrent.'/'.gmdate('Y-m').'-cookie-consent.log';$lines=iterator_to_array(CookieConsentAuditFormat::records($file));check(count($lines)===20,'20 complete records');check(substr_count(file_get_contents($file),CookieConsentAuditFormat::HEADER)===1,'Concurrent header exactly once');$unique=[];
+foreach($lines as $r){$unique[$r['event_id']]=1;check($r['stage']==='committed','Valid concurrent JSON');}check(count($unique)===20,'Unique concurrent IDs');
 check(file_get_contents($logs.'/2020-01-cookie-consent.log')===$old,'Archive unchanged');check(!file_exists(__DIR__.'/../server/bin/prune.php'),'No prune');
 echo json_encode(['suite'=>'PHP','assertions'=>$assertions,'result'=>'PASS'])."\n";

@@ -25,7 +25,7 @@ foreach($coreParts as $part){
     $paths=[];foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/server/'.$part,FilesystemIterator::SKIP_DOTS)) as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);
     foreach($paths as $source){if($part==='bin'&&basename($source)==='install-modx2.php')continue;addSource($source,'core/components/cookieconsent/'.$part.'/'.substr($source,strlen($root.'/server/'.$part.'/')),$files,$payload,$root);}
 }
-foreach(['manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
+foreach(['audit-viewer.js','manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
 addSource($root.'/server/modx2-manager-connector.php','assets/components/cookieconsent/connector.php',$files,$payload,$root);
 addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/cookieconsent/audit.php',$files,$payload,$root);
 foreach(['consent-manager.js','provider-registry.js','i18n.js','lexicons.json'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);

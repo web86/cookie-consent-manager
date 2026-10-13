@@ -70,7 +70,7 @@ try{
   cli('clean',['sh','-c','mkdir -p /var/www/html/logs/cookies; chown -R www-data:www-data /var/www/html/logs; printf "historical safe sentinel\\n" > /var/www/html/logs/cookies/2020-01-cookie-consent.log; chown www-data:www-data /var/www/html/logs/cookies/2020-01-cookie-consent.log']);
   eq((await c.api('audit_protect',{log_dir:'/var/www/html/logs/cookies'})).success,true);const get=await c.api('get');const draft=Object.fromEntries(['options','registry','texts','log_dir','audit_config_file'].map(k=>[k,get.object[k]]));draft.log_dir='/var/www/html/logs/cookies';eq((await c.api('save',{draft:JSON.stringify(draft),revision:get.object.revision})).success,true);eq((await c.api('audit_test')).success,true);
   eq(cli('clean',['php','-r','echo file_get_contents("/var/www/html/logs/cookies/2020-01-cookie-consent.log");']),'historical safe sentinel');
-  await c.p.reload();await c.p.locator('#ccm-save').waitFor();await c.p.locator('#ccm-tab-logs').click();await c.p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await c.p.screenshot({path:dir+'/managed-audit-ready.png'});
+  await c.p.reload();await c.p.locator('#ccm-save').waitFor();await c.p.locator('#ccm-tab-logs').click();await c.p.locator('#ccm-log-storage > summary').click();await c.p.frameLocator('#ccm-preview-frame').locator('section.cookie-warning').waitFor();await c.p.screenshot({path:dir+'/managed-audit-ready.png'});
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);

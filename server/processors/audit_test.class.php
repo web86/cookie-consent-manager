@@ -1,6 +1,7 @@
 <?php
 require_once __DIR__.'/audit_setup.class.php';
 require_once __DIR__.'/../src/CookieConsentAuditHttp.php';
+require_once __DIR__.'/../src/CookieConsentAuditFormat.php';
 class CookieConsentAuditTestProcessor extends CookieConsentManagerProcessor {
     protected function execute(): array {
         $config=CookieConsentAuditConfiguration::forModx($this->modx);$data=CookieConsentSettings::read($this->modx);
@@ -12,7 +13,7 @@ class CookieConsentAuditTestProcessor extends CookieConsentManagerProcessor {
         $response=CookieConsentAuditHttp::post($config['site_origin'],$path,json_encode($event,JSON_THROW_ON_ERROR));
         if($response['status']!==200)throw new RuntimeException('audit_post_failed');
         $file=$dir.'/'.gmdate('Y-m').'-cookie-consent.log';CookieConsentPrivatePath::file($file);$h=@fopen($file,'rb');if(!$h)throw new RuntimeException('audit_record_missing');$found=false;
-        try{while(($line=fgets($h))!==false){$record=json_decode($line,true);if(($record['event_id']??null)===$event['event_id']){$found=true;break;}}}finally{fclose($h);}
+        try{if(!flock($h,LOCK_SH))throw new RuntimeException('audit_record_missing');foreach(CookieConsentAuditFormat::lines($h,fstat($h)['size']) as $line){if(isset($line['error']))throw new RuntimeException('audit_log_corrupt');if(($line['data']['event_id']??null)===$event['event_id']){$found=true;break;}}}finally{flock($h,LOCK_UN);fclose($h);}
         if(!$found)throw new RuntimeException('audit_record_missing');return ['written'=>true];
     }
 }

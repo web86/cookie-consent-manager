@@ -16,7 +16,7 @@ async function test(name, callback) {
   try { await callback(); results.push({ name, result: 'PASS' }); console.log(`PASS ${name}`); }
   catch (e) { results.push({ name, result: 'FAIL', error: e.message }); console.error(`FAIL ${name}: ${e.message}`); }
 }
-function php(code, ...args) { return docker(['web', 'php', '-r', code, ...args]); }
+function php(code, ...args) { return docker(['web', 'php', '-r', 'require_once "/opt/cc-source/server/src/CookieConsentAuditFormat.php";'+code, ...args]); }
 function privateDir(name, mode = 0o700) {
   const path = '/opt/cc-private/' + name;
   php('if (!is_dir($argv[1])) mkdir($argv[1],0700);chown($argv[1],"www-data");chmod($argv[1],(int)$argv[2]);', path, String(mode)); return path;
@@ -27,7 +27,7 @@ setting('cookie_consent.log_dir', normal);
 try {
   await test('positive-server-jsonl', async () => {
     const e = event(); const response = await request(e, { headers: { 'X-Forwarded-For': '203.0.113.99' } }); check(response.status, 200); check(response.body.ok, true);
-    const line = JSON.parse(php('$files=glob("/opt/cc-private/logs/*-cookie-consent.log");foreach($files as $f)foreach(file($f) as $line){$r=json_decode($line,true);if(($r["event_id"]??null)===$argv[1])echo $line;}', e.event_id));
+    const line = JSON.parse(php('$files=glob("/opt/cc-private/logs/".gmdate("Y-m")."-cookie-consent.log");foreach($files as $f)foreach(CookieConsentAuditFormat::records($f) as $r){if(($r["event_id"]??null)===$argv[1])echo json_encode($r);}', e.event_id));
     check(line.user_agent, 'CC-acceptance-test-UA'); check(line.ip !== '203.0.113.99', true, 'Forwarded IP ignored'); check(line.consent_id, e.consent_id); check(line.server_time.endsWith('Z'), true, 'Server UTC'); check(line.client_time, e.timestamp);
     check(php('$file="/opt/cc-private/logs/".gmdate("Y-m")."-cookie-consent.log";echo decoct(fileperms($file)&0777);'), '600', 'Private file permissions');
     evidence('sanitized-record', { ...line, event_id: '<event UUID>', consent_id: '<consent UUID>', ip: '<local REMOTE_ADDR>', user_agent: '<test UA>' });
@@ -59,7 +59,7 @@ try {
   await test('replay', async () => { const e = event(); check((await request(e)).status, 200); check((await request(e)).status, 409); });
   await test('concurrent-append-and-replay', async () => {
     const events = Array.from({ length: 20 }, () => event()); const responses = await Promise.all(events.map(e => request(e))); check(responses.map(r => r.status), Array(20).fill(200));
-    const ids = events.map(e => e.event_id); const written = JSON.parse(php('$ids=json_decode($argv[1],true);$found=[];foreach(glob("/opt/cc-private/logs/".gmdate("Y-m")."-cookie-consent.log") as $f)foreach(file($f) as $line){$r=json_decode($line,true,16,JSON_THROW_ON_ERROR);if(in_array($r["event_id"],$ids,true))$found[]=$r["event_id"];}echo json_encode($found);', JSON.stringify(ids)));
+    const ids = events.map(e => e.event_id); const written = JSON.parse(php('$ids=json_decode($argv[1],true);$found=[];foreach(glob("/opt/cc-private/logs/".gmdate("Y-m")."-cookie-consent.log") as $f)foreach(CookieConsentAuditFormat::records($f) as $r){if(in_array($r["event_id"],$ids,true))$found[]=$r["event_id"];}echo json_encode($found);', JSON.stringify(ids)));
     check(written.length, 20); check(new Set(written).size, 20);
     const replay = event(); const duplicates = await Promise.all(Array.from({ length: 8 }, () => request(replay))); check(duplicates.map(r => r.status).sort(), [200, 409, 409, 409, 409, 409, 409, 409]);
   });

@@ -1,3 +1,6 @@
+0.1.0 beta19
+Read-only Consent Audit Viewer with exact server filters, 50-row cursor pages, safe details/history and streamed UTF-8 CSV. Separate cookie_consent_view_logs permission (default false). Storage settings collapsed below table. New monthly logs have a text MIME header under existing locks; old logs stay unchanged and all readers accept both formats with diagnostics.
+
 0.1.0 beta15
 Server-independent journal paths and real POST/JSONL check. Removed HTTP protection probes and automatic journal guards. Site administrators own HTTP access policy. Ordinary settings Save ignores the unsaved journal draft and tolerates unchanged unavailable audit paths. Filesystem safety/replay/rate limiting retained.
 

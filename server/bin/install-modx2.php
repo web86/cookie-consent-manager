@@ -19,10 +19,8 @@ if (!$namespace->get('assets_path')) $namespace->set('assets_path',MODX_ASSETS_P
 if (!$namespace->save()) throw new RuntimeException('Namespace');
 $menu=$modx->getObject('modMenu',['text'=>'Cookie Consent Manager']);
 if (!$menu) {$menu=$modx->newObject('modMenu');$menu->set('text','Cookie Consent Manager');$menu->fromArray(['text'=>'Cookie Consent Manager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings']);if(!$menu->save())throw new RuntimeException('Menu');}
-foreach ($modx->getCollection('modAccessPolicyTemplate') as $template) {
-    if (!$modx->getObject('modAccessPermission',['template'=>$template->get('id'),'name'=>'cookie_consent_manage'])) {
-        $permission=$modx->newObject('modAccessPermission');$permission->fromArray(['template'=>$template->get('id'),'name'=>'cookie_consent_manage','description'=>'Manage Cookie Consent Manager','value'=>true]);if(!$permission->save())throw new RuntimeException('Permission');
-    }
+foreach ($modx->getCollection('modAccessPolicyTemplate') as $template)foreach(['cookie_consent_manage'=>true,'cookie_consent_view_logs'=>false] as $name=>$value) {
+    if(!$modx->getObject('modAccessPermission',['template'=>$template->get('id'),'name'=>$name])){$permission=$modx->newObject('modAccessPermission');$permission->fromArray(['template'=>$template->get('id'),'name'=>$name,'description'=>$name==='cookie_consent_view_logs'?'View/export consent audit logs':'Manage Cookie Consent Manager','value'=>$value]);if(!$permission->save())throw new RuntimeException('Permission');}
 }
 $values=[
     'cookie_consent.audit_config_file'=>['','textfield'],

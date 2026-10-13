@@ -1,0 +1,23 @@
+<?php
+if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
+define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();if($modx->query('SELECT DATABASE()')->fetchColumn()!=='cookie_consent_test')exit(1);
+require_once '/opt/cc-source/server/src/CookieConsentAuditFormat.php';
+$dir='/opt/cc-private/viewer-fixture';$action=$argv[1]??'';
+if($action==='seed'){
+ if(is_dir($dir))rename($dir,$dir.'-archive-'.time());mkdir($dir,0700);chown($dir,'www-data');$year=gmdate('Y');$old=(string)((int)$year-1);$consent='bbbbbbbb-bbbb-4bbb-8bbb-111111111111';
+ $files=[$year.'-01-cookie-consent.log'=>'',$year.'-10-cookie-consent.log'=>CookieConsentAuditFormat::HEADER."\n",$old.'-12-cookie-consent.log'=>''];
+ for($i=0;$i<125;$i++){
+  $r=['schema'=>$i%2?2:1,'server_time'=>$year.'-'.($i<5?'01':'10').'-12T19:'.sprintf('%02d:%02dZ',intdiv($i,60),$i%60),'event_id'=>sprintf('aaaaaaaa-aaaa-4aaa-8aaa-%012d',$i),'consent_id'=>$i%5===0?$consent:sprintf('bbbbbbbb-bbbb-4bbb-8bbb-%012d',$i),'ip'=>$i%2?'203.0.113.20':'2001:db8::1','user_agent'=>$i===124?"=HYPERLINK(\"x\")\n<img src=x onerror=alert(1)>":'Fixture UA','event'=>['accept_all','accept','reject','save_settings','map_allow','map_deny'][$i%6],'stage'=>'committed','categories'=>['necessary'=>true,'analytics'=>true,'marketing'=>false],'policy_version'=>'custom-1','page'=>$i===124?'/<img src=x onerror=alert(1)>?example="quoted"':($i%2?'/search-target':'/other'),'client_time'=>$year.'-10-12T19:00:00.000Z'];
+  if($r['schema']===2){$r['categories']['external_content']=true;$r['providers']=['google_maps'=>true,'retired_provider'=>false];$r['provider']='google_maps';}if($i===122)$r['event']='future_event';if($i===124)$r['rate_limit_key']='DO-NOT-EXPOSE';
+  $files[$year.'-'.($i<5?'01':'10').'-cookie-consent.log'].=json_encode($r)."\n";
+ }
+ $r['event_id']='aaaaaaaa-aaaa-4aaa-8aaa-999999999999';$r['consent_id']=$consent;$r['server_time']=$old.'-12-12T19:00:00Z';unset($r['rate_limit_key']);$files[$old.'-12-cookie-consent.log']=json_encode($r)."\n";
+ $files[$year.'-10-cookie-consent.log'].="damaged record\n".CookieConsentAuditFormat::HEADER."\n";
+ foreach($files as $name=>$contents){file_put_contents($dir.'/'.$name,$contents);chown($dir.'/'.$name,'www-data');chmod($dir.'/'.$name,0600);}file_put_contents($dir.'/private-config.json','DO-NOT-READ');
+ $public='/var/www/html/logs/viewer-file-manager';if(!is_dir($public))mkdir($public,0700,true);chown($public,'www-data');echo json_encode(['directory'=>$dir,'consent_id'=>$consent,'year'=>$year,'old_year'=>$old]);exit;
+}
+if($action==='hashes'){echo json_encode(array_map(fn($p)=>hash_file('sha256',$p),glob($dir.'/*.log')));exit;}
+if($action==='user'){
+ $kind=$argv[2]??'';if(!in_array($kind,['manage-only','view-only'],true))exit(1);$name='cc-viewer-'.$kind;$password=bin2hex(random_bytes(24));$user=$modx->getObject('modUser',['username'=>$name])?:$modx->newObject('modUser');$user->set('username',$name);$user->set('active',true);$user->set('password',$password);$user->setSudo(false);if(!$user->save())throw new RuntimeException('User');$profile=$modx->getObject('modUserProfile',['internalKey'=>$user->get('id')])?:$modx->newObject('modUserProfile');$profile->fromArray(['internalKey'=>$user->get('id'),'fullname'=>'Viewer permission fixture','email'=>$name.'@example.invalid','blocked'=>false,'failedlogincount'=>0,'blockeduntil'=>0],'',true,true);$profile->save();$group=$modx->getObject('modUserGroup',['name'=>$name])?:$modx->newObject('modUserGroup');$group->set('name',$name);$group->save();$member=$modx->getObject('modUserGroupMember',['user_group'=>$group->get('id'),'member'=>$user->get('id')])?:$modx->newObject('modUserGroupMember');$member->fromArray(['user_group'=>$group->get('id'),'member'=>$user->get('id'),'role'=>1]);$member->save();$data=$modx->getObject('modAccessPolicy',['name'=>'Administrator'])->get('data');$data['cookie_consent_manage']=$kind==='manage-only';$data['cookie_consent_view_logs']=$kind==='view-only';$policy=$modx->getObject('modAccessPolicy',['name'=>$name])?:$modx->newObject('modAccessPolicy');$policy->fromArray(['name'=>$name,'template'=>1,'data'=>$data]);$policy->save();$acl=$modx->getObject('modAccessContext',['target'=>'mgr','principal'=>$group->get('id'),'principal_class'=>'modUserGroup'])?:$modx->newObject('modAccessContext');$acl->fromArray(['target'=>'mgr','principal'=>$group->get('id'),'principal_class'=>'modUserGroup','authority'=>9999,'policy'=>$policy->get('id')]);$acl->save();$modx->cacheManager->refresh();file_put_contents('/opt/cc-private/viewer-'.$kind.'.json',json_encode(['username'=>$name,'password'=>$password]));chmod('/opt/cc-private/viewer-'.$kind.'.json',0600);exit;
+}
+throw new RuntimeException('Unknown action');

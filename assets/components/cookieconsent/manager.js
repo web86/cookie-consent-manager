@@ -26,6 +26,12 @@
     try { data = await api('get'); } catch (e) { root.textContent = e.message; return; }
     const t = key => data.managerStrings['m.' + key] || data.managerStrings[key] || data.lexicons.en['m.' + key] || '…';
     const el = (tag, text, attributes = {}) => { const node = document.createElement(tag); if (text != null) node.textContent = text; for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value); return node; };
+    if(!data.canManage){
+      document.body.classList.add('ccm-manager');root.closest('.x-panel-body')?.classList.add('ccm-scroll-host');
+      root.removeAttribute('aria-busy');root.className='ccm-page';root.append(el('h2',t('title')));
+      const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
+      window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();return;
+    }
     const idPatterns = { yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
     const clone = value => JSON.parse(JSON.stringify(value));
     draft = { options: clone(data.options), registry: clone(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' };
@@ -45,7 +51,7 @@
     for (const key of ['main', 'services', 'texts', 'logs']) {
       const button = el('button', t(key), { type: 'button', role: 'tab', id: 'ccm-tab-' + key, 'aria-controls': 'ccm-panel-' + key, 'aria-selected': String(key === 'main') });
       const panel = el('section', null, { role: 'tabpanel', id: 'ccm-panel-' + key, 'aria-labelledby': button.id, class: 'ccm-panel' }); panel.hidden = key !== 'main'; panels[key] = panel;
-      button.onclick = () => { previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
+      button.onclick = () => { if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
@@ -63,17 +69,19 @@
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
+    const auditViewer=window.CookieConsentAuditViewer.mount(panels.logs,{api,t,el,boot,data});
+    const storage=el('details',null,{id:'ccm-log-storage'});storage.append(el('summary',t('log_storage')));panels.logs.append(storage);
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
     for(const mode of ['site','absolute'])logMode.append(el('option',t('log_'+mode),{value:mode}));
     let storedLogDir=data.log_dir;
     const publicRoot=data.documentRoot;
     draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';
     if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);
-    logMode.value=draft.log_dir_mode;panels.logs.append(el('label',t('log_location')),logMode);
+    logMode.value=draft.log_dir_mode;storage.append(el('label',t('log_location')),logMode);
     logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
-    field(panels.logs,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
-    const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});panels.logs.append(auditState);
-    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});panels.logs.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
+    field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_path_help'));
+    const auditState=el('p',t('audit_'+(data.auditStatus?.state||'not_configured')),{id:'ccm-audit-status',role:'status'});storage.append(auditState);
+    const enableAudit=el('button',t('audit_enable'),{type:'button',id:'ccm-audit-enable'});storage.append(enableAudit,el('p',t('audit_enable_help'),{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
     enableAudit.onclick=async()=>{enableAudit.disabled=true;try{
       const result=await api('audit_enable',{log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode,revision});revision=result.revision;storedLogDir=result.log_dir;
       auditState.textContent=t('audit_ready');status.textContent=t('audit_enable_success');status.dataset.state=dirty?'dirty':'saved';
@@ -87,8 +95,7 @@
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.logs.append(integration);
-    panels.logs.append(el('h3', t('logs')), el('p', t('logs_help')));
+    integration.append(el('pre', '[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); storage.append(integration);
 
     function textSource(language, key) {
       const base = draft.texts.base_language;
