@@ -1,5 +1,7 @@
 # beta24 — финальное упрощение журнала
 
+> Историческая приёмка beta24. Новый PHP-only frontend/bundle — [beta26](modx2-beta26-acceptance.md); настройка журнала сохранена.
+
 Дата: 2026-10-13. Ветка `feature/modx2-beta21-acceptance-fixes`, база beta23 `3cd7952`, implementation `ce14113`.
 
 **GO только для review. 453 завершённые проверки / 3480 assertions / 0 FAIL.** PHP suites и structural/build checks считаются по одной проверке, а не по числу assertions. Merge и staging/production deployment не выполнялись.
