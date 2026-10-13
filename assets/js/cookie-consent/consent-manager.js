@@ -7,11 +7,7 @@
   // Script can be safely loaded on pages without the banner.
   if (!root) return;
 
-  const i18n = window.web86I18n;
-  const t = (...args) => i18n?.t(...args) || args[0];
-  const publicConfig = i18n?.config || {};
-  if (publicConfig.settings) { root.dataset.ccPolicyVersion = publicConfig.settings.policy_version; root.dataset.ccTtlDays = String(publicConfig.settings.ttl_days); }
-  if (publicConfig.buttons) for (const [key, value] of Object.entries(publicConfig.buttons)) root.setAttribute('data-cc-show-' + key.replace('_', '-'), value ? '1' : '0');
+  const t = (...args) => window.web86Runtime?.message(...args) || args[0];
   const version = root.dataset.ccPolicyVersion || '1';
   const configuredTtl = Number(root.dataset.ccTtlDays);
   const ttlDays = Number.isFinite(configuredTtl) ? Math.min(3650, Math.max(1, configuredTtl || 90)) : 90;
@@ -31,15 +27,8 @@
   const analyticsInput = root.querySelector('[data-cc-category="analytics"]');
   const marketingInput = root.querySelector('[data-cc-category="marketing"]');
   const settingsHeading = root.querySelector('#cookie-settings-title');
-  let externalInput = root.querySelector('[data-cc-category="external_content"]');
-  if (!externalInput) {
-    const label = document.createElement('label'); label.className = 'cookie-option';
-    label.textContent = '';
-    const text = document.createElement('span'); text.className = 'cookie-option__text'; text.innerHTML = '<strong></strong><small></small>'; label.append(text);
-    externalInput = document.createElement('input'); externalInput.type = 'checkbox';
-    externalInput.dataset.ccCategory = 'external_content'; label.append(externalInput);
-    settings.insertBefore(label, settings.querySelector('.cookie-warning-settings__buttons'));
-  }
+  const externalInput = root.querySelector('[data-cc-category="external_content"]');
+  if (!analyticsInput || !marketingInput || !externalInput || !settings) return;
   const inputs = { analytics: analyticsInput, marketing: marketingInput, external_content: externalInput };
   let draftPermissions = Object.create(null);
   let returnFocus = null;
@@ -237,23 +226,22 @@
   function setupMaps() {
     for (const node of document.querySelectorAll('[data-cc-map-provider]')) {
       const service = services.find(s => s.key === node.dataset.ccMapProvider && s.category === 'external_content');
-      const title = node.dataset.ccMapTitle || t('map_title');
-      // Markup MUST be inert div data-cc-map-src, never an iframe src or remote image.
+      const template = Array.from(root.querySelectorAll('template[data-cc-map-template]')).find(t => t.dataset.ccMapTemplate === node.dataset.ccMapProvider);
+      const headingSource = template?.content.querySelector('h3');
+      const title = node.dataset.ccMapTitle || headingSource?.textContent || t('map_title');
+      // All initial markup is inert; only an explicit matching grant creates iframe src.
       node.replaceChildren();
-      if (!service) { node.textContent = t('map_disabled', { title }); continue; }
+      if (!service || !template) { node.textContent = t('map_disabled', { title }); continue; }
       let url;
       try { url = registry.safeMapUrl(service, node.dataset.ccMapSrc || '', mode); }
       catch (_) { node.textContent = t('map_rejected', { title }); continue; }
-      const placeholder = document.createElement('section'); placeholder.className = 'cc-map-placeholder';
-      const heading = document.createElement('h3'); heading.textContent = title; heading.hidden = service.config.show_title === false;
-      const description = document.createElement('p');
-      const provider = t('service.' + service.key + '.name', {}, service.name);
-      description.textContent = t('service.' + service.key + '.map_notice', { provider }, t('map_notice', { provider }));
-      const load = document.createElement('button'); load.type = 'button'; load.textContent = t('map_load', { provider });
-      load.dataset.ccMapLoad = service.key; load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
-      placeholder.append(heading, description, load);
-      const revoke = document.createElement('button'); revoke.type = 'button'; revoke.hidden = true;
-      revoke.textContent = t('map_revoke', { provider }); revoke.dataset.ccMapRevoke = service.key;
+      const fragment = template.content.cloneNode(true);
+      const placeholder = fragment.querySelector('.cc-map-placeholder');
+      const heading = fragment.querySelector('h3');
+      if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
+      const load = fragment.querySelector('[data-cc-map-load]');
+      load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
+      const revoke = fragment.querySelector('[data-cc-map-revoke]');
       revoke.addEventListener('click', () => mapChoice(service, false));
       node.append(placeholder, revoke); maps.push({ node, placeholder, revoke, service, title, url, frame: null });
     }
@@ -307,22 +295,11 @@
   }
 
   function initialize() {
-    if (!document.querySelector('[data-cookie-settings-open]')) { const reopen = document.createElement('button'); reopen.type = 'button'; reopen.dataset.cookieSettingsOpen = ''; reopen.className = 'cc-settings-launcher'; document.body.append(reopen); }
-    root.setAttribute('aria-label', t('region_label'));
-    root.querySelector('.cookie-warning-text').innerHTML = t('notice_html');
-    settingsHeading.textContent = t('settings_title');
-    settings.querySelector('p').textContent = t('settings_intro');
-    const necessary = root.querySelector('input:disabled');
-    necessary.setAttribute('aria-label', t('necessary_aria'));
-    necessary.closest('label').querySelector('strong').textContent = t('necessary_name');
-    necessary.closest('label').querySelector('small').textContent = t('necessary_description');
-    for (const [key,input] of Object.entries(inputs)) {
-      input.closest('label').querySelector('strong').textContent = t(key + '_name');
-      input.closest('label').querySelector('small').textContent = t(key + '_description');
+    if (!document.querySelector('[data-cookie-settings-open]')) {
+      const template = root.querySelector('template[data-cc-reopen-template]');
+      if (template) document.body.append(template.content.cloneNode(true));
     }
-    for (const button of root.querySelectorAll('[data-cc-action]')) button.textContent = t(button.dataset.ccAction === 'save' ? 'save' : button.dataset.ccAction.replace('-', '_'));
-    for (const button of document.querySelectorAll('[data-cookie-settings-open]')) button.textContent = t('reopen');
-    for (const element of root.querySelectorAll('[data-cc-text]')) element.textContent = t(element.dataset.ccText, {}, element.textContent);
+    // PHP owns all static banner text/HTML/ARIA. Never translate or overwrite it here.
     // Keep hidden inputs for schema compatibility; visibility never changes saved grants.
     for (const [category, input] of Object.entries(inputs)) {
       const row = input.closest('label');
@@ -369,7 +346,7 @@
     } } : {})
   });
 
-  const ready = () => (i18n?.ready || Promise.resolve()).then(initialize);
+  const ready = initialize;
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', ready, { once: true });
   else ready();
 })();

@@ -1,12 +1,11 @@
 <?php
-// Install uncached [[!CookieConsentRegistry]]. Translations are JSON, never parsed HTML.
+// Compatibility data snippet. No translation dictionary; static text belongs to PHP markup.
 try {
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentBannerRenderer.php';
     $data=CookieConsentSettings::read($modx);
     $language=CookieConsentBannerRenderer::language($modx);
     $json=CookieConsentTexts::safeJson($data['registry']);
-    $public=CookieConsentTexts::safeJson(['locale'=>$language,'strings'=>CookieConsentTexts::resolve($data['texts'],$language,$data['registry']['services']),
-        'settings'=>$data['options'],'buttons'=>CookieConsentSettings::effectiveButtons($data['options'])]);
+    $public=CookieConsentTexts::safeJson(['locale'=>$language]);
 } catch (Throwable $e) {
     $modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Invalid public configuration');
     $json='{"schema":1,"services":[]}';$public='{}';

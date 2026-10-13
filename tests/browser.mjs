@@ -174,7 +174,7 @@ try {
   });
   setting('cookie_consent.services', JSON.stringify({ schema: 1, services: [{ ...registry.services[0], name: '<img src=x onerror=alert(1)>' }] }));
   await suite('unsafe-admin-config', async ({ page, requests }) => {
-    await page.locator('[data-cc-action="accept-all"]').click(); equal(loads(requests), [], 'Invalid config fails closed');
+    equal(await page.locator('#cookie-block').count(),0,'Invalid server registry fails closed before rendering'); equal(loads(requests), [], 'Invalid config fails closed');
     equal(await page.locator('[data-cc-provider]').count(), 0);
   });
 } finally { setting('cookie_consent.services', JSON.stringify(registry)); }

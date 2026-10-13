@@ -7,7 +7,7 @@ if(realpath($site)!==rtrim($site,'/')||!is_file($site.'/index.php')||!preg_match
 define('MODX_API_MODE',true);ob_start();require $site.'/index.php';while(ob_get_level())ob_end_clean();
 require_once __DIR__.'/../src/CookieConsentPrivatePath.php';
 $file=MODX_CORE_PATH.'packages/'.$signature.'/preserved.php';CookieConsentPrivatePath::file($file);if(!is_readable($file))throw new RuntimeException('Native backup not available');$backup=require $file;if(!is_array($backup))throw new RuntimeException('Native backup invalid');
-$definitions=['chunk'=>['modChunk','CookiesPopup'],'snippet'=>['modSnippet','CookieConsentRegistry'],'CookieConsent'=>['modSnippet','CookieConsent'],'CookieConsentMap'=>['modSnippet','CookieConsentMap']];$items=[];$report=[];
+$definitions=['chunk'=>['modChunk','CookiesPopup'],'snippet'=>['modSnippet','CookieConsentRegistry'],'CookieConsent'=>['modSnippet','CookieConsent'],'CookieConsentMap'=>['modSnippet','CookieConsentMap'],'CookieConsentAssets'=>['modSnippet','CookieConsentAssets'],'CookieConsentBanner'=>['modSnippet','CookieConsentBanner']];$items=[];$report=[];
 foreach($definitions as $key=>[$class,$name]){
  $entry=$backup[md5('cookieconsent/'.$key)]['object']??null;if(!$entry)continue;
  if(($entry['name']??null)!==$name||!isset($entry['id'])||!is_string($entry['snippet']??null))throw new RuntimeException('Backup identity mismatch');$row=$modx->getObject($class,['name'=>$name]);if(!$row||$row->get('id')!=$entry['id'])throw new RuntimeException('Current identity mismatch; no element created');

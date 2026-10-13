@@ -22,6 +22,20 @@ final class CookieConsentBannerRenderer
             }
             $buttons=CookieConsentSettings::effectiveButtons($options);foreach($buttons as $key=>$yes)$root->setAttribute('data-cc-show-'.str_replace('_','-',$key),$yes?'1':'0');
             foreach($xpath->query('//*[@data-cc-action]') as $button){$key=str_replace('-','_',$button->getAttribute('data-cc-action'));if(array_key_exists($key,$buttons)){if($buttons[$key])$button->removeAttribute('hidden');else $button->setAttribute('hidden','');}}
+            // Only messages and templates needed for dynamic UI; no full dictionary in JSON.
+            $messages=$doc->createElement('div');$messages->setAttribute('hidden','');$messages->setAttribute('data-cc-runtime-messages','');
+            foreach(['error_ack','error_audit','error_storage','error_preference','error_random','error_registry','error_provider','error_buttons','map_title','map_disabled','map_rejected'] as $key){$node=$doc->createElement('span');$node->setAttribute('data-cc-message',$key);$node->appendChild($doc->createTextNode((string)($strings[$key]??$key)));$messages->appendChild($node);}$root->appendChild($messages);
+            $reopen=$doc->createElement('template');$reopen->setAttribute('data-cc-reopen-template','');$button=$doc->createElement('button');$button->setAttribute('type','button');$button->setAttribute('class','cc-settings-launcher');$button->setAttribute('data-cookie-settings-open','');$button->appendChild($doc->createTextNode((string)$strings['reopen']));$reopen->appendChild($button);$root->appendChild($reopen);
+            foreach($services as $service){
+                if(($service['enabled']??false)!==true||($service['category']??'')!=='external_content')continue;
+                $key=$service['key'];$provider=(string)($strings['service.'.$key.'.name']??$service['name']);
+                $template=$doc->createElement('template');$template->setAttribute('data-cc-map-template',$key);
+                $section=$doc->createElement('section');$section->setAttribute('class','cc-map-placeholder');
+                $heading=$doc->createElement('h3');$heading->appendChild($doc->createTextNode((string)$strings['map_title']));if((((array)$service['config'])['show_title']??true)===false)$heading->setAttribute('hidden','');$section->appendChild($heading);
+                $notice=$doc->createElement('p');$notice->appendChild($doc->createTextNode(str_replace('{provider}',$provider,(string)($strings['service.'.$key.'.map_notice']??$strings['map_notice']))));$section->appendChild($notice);
+                foreach(['load','revoke'] as $action){$button=$doc->createElement('button');$button->setAttribute('type','button');$button->setAttribute('data-cc-map-'.$action,$key);$button->appendChild($doc->createTextNode(str_replace('{provider}',$provider,(string)$strings['map_'.$action])));if($action==='load')$section->appendChild($button);else{$button->setAttribute('hidden','');$template->appendChild($button);}}
+                $template->insertBefore($section,$template->firstChild);$root->appendChild($template);
+            }
             // MODX/Fenom later passes must see data, never executable template delimiters.
             return str_replace(['[',']','{','}'],['&#91;','&#93;','&#123;','&#125;'],$doc->saveHTML($root));
         }finally{libxml_clear_errors();libxml_use_internal_errors($previous);}

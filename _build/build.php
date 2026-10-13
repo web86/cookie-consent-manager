@@ -20,6 +20,11 @@ function addSource(string $source,string $target,array &$files,string $payload,s
     $to=$payload.'/'.$target;if(!is_dir(dirname($to)))mkdir(dirname($to),0700,true);copy($source,$to);
     $files[]=['source'=>$target,'target'=>$target,'sha256'=>hash_file('sha256',$source)];
 }
+// Build-time bundle must match pinned source/tool inputs. No minification in MODX.
+$frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,16,JSON_THROW_ON_ERROR);
+if(($frontend['tool']??'')!=='esbuild'||($frontend['version']??'')!=='0.28.2')throw new RuntimeException('Run npm ci and npm run build:frontend');
+foreach($frontend['inputs'] as $path=>$hash)if(hash_file('sha256',$root.'/'.$path)!==$hash)throw new RuntimeException('Stale frontend inputs; run npm run build:frontend');
+foreach($frontend['outputs'] as $path=>$info)if(hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
 $coreParts=['src','public','controllers','templates','processors','lexicon','bin'];
 foreach($coreParts as $part){
     $paths=[];foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/server/'.$part,FilesystemIterator::SKIP_DOTS)) as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);
@@ -28,9 +33,9 @@ foreach($coreParts as $part){
 foreach(['audit-viewer.js','manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
 addSource($root.'/server/modx2-manager-connector.php','assets/components/cookieconsent/connector.php',$files,$payload,$root);
 addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/cookieconsent/audit.php',$files,$payload,$root);
-foreach(['consent-manager.js','provider-registry.js','i18n.js','lexicons.json'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);
+foreach(['cookie-consent.min.js'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);
 $paths=[];foreach(new DirectoryIterator($root.'/assets/js/cookie-consent/mock') as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);foreach($paths as $source)addSource($source,'assets/js/cookie-consent/mock/'.basename($source),$files,$payload,$root);
-addSource($root.'/assets/css/cookie-consent.css','assets/css/cookie-consent.css',$files,$payload,$root);
+addSource($root.'/assets/css/cookie-consent.min.css','assets/css/cookie-consent.min.css',$files,$payload,$root);
 // HTTP access policy, including existing .htaccess files, belongs to the site owner.
 usort($files,static fn($a,$b)=>strcmp($a['target'],$b['target']));
 define('MODX_API_MODE',true);ob_start();require $site.'/index.php';while(ob_get_level())ob_end_clean();
@@ -51,7 +56,7 @@ definition('modMenu',['text'=>'Cookie Consent Manager'],['text'=>'Cookie Consent
 $snippet=preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/modx2-registry-snippet.php'));
 definition('modSnippet',['name'=>'CookieConsentRegistry'],['snippet'=>trim($snippet)],'snippet',$definitions);
 definition('modChunk',['name'=>'CookiesPopup'],['snippet'=>file_get_contents($root.'/CookiesPopup.html')],'chunk',$definitions);
-foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2-map-snippet.php'] as $name=>$file) {
+foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2-map-snippet.php','CookieConsentAssets'=>'modx2-assets-snippet.php','CookieConsentBanner'=>'modx2-banner-snippet.php'] as $name=>$file) {
  definition('modSnippet',['name'=>$name],['snippet'=>trim(preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/'.$file)))],$name,$definitions);
 }
 $spec=['schema'=>1,'signature'=>$signature,'version_release'=>$metadata['version'].'-'.$metadata['release'].$metadata['release_index'],'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
@@ -69,8 +74,8 @@ $start=$builder->createVehicle(['source'=>$preflight],['vehicle_class'=>'xPDOScr
 $objectNumber=1;
 foreach($definitions as $name=>$def){
     $obj=$modx->newObject($def['class']);$obj->fromArray(array_merge($def['criteria'],$def['fields']),'',true,true);if(in_array($def['class'],['modSnippet','modChunk'],true))$obj->set('id',$objectNumber++);
-    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsent/'.$name)];
-    $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='cookie_consent.log_dir')$vehicle->validate('php',['source'=>$logDefault]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
+    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsent/'.$name)];
+    $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='cookie_consent.log_dir')$vehicle->validate('php',['source'=>$logDefault]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native object vehicle failed: '.$name);
 }
 // One exact file per native vehicle avoids recursive uninstall of untracked files.

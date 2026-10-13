@@ -76,7 +76,7 @@ try {
     await page.locator('#ccm-notice-html').fill(JSON.parse(control(['setting','cookie_consent.texts','get'])).locales.ru.notice_html.replace(/\[\[.*?\]\]|\{php\}.*?\{\/php\}/g,''));await save();
   });
   await test('context-culturekey-and-fallback',async()=>{
-    const p=await front('tr');equal((await p.locator('#cc-public-config').textContent()).includes('Istatistik'),true);equal(await p.locator('[data-cc-action=accept-all]').textContent(),'Принять все');await p.close();
+    const p=await front('tr');equal((await p.locator('[data-cc-text=analytics_name]').textContent()).includes('Istatistik'),true);equal(await p.locator('[data-cc-action=accept-all]').textContent(),'Принять все');await p.close();
     const en=await front('en');equal(await en.locator('[data-cc-action=reject]').textContent(),'Reject');await en.close();
   });
   await test('translation-does-not-revoke-consent',async()=>{

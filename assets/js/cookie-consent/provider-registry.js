@@ -2,7 +2,7 @@
 (() => {
   'use strict';
   const base = new URL('./', document.currentScript.src);
-  const t = (...args) => window.web86I18n?.t(...args) || args[0];
+  const t = (...args) => window.web86Runtime?.message(...args) || args[0];
   const categories = { analytics: 'analytics_name', marketing: 'marketing_name', external_content: 'external_content_name' };
   const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, clientId: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
   const catalog = Object.freeze({
@@ -20,13 +20,6 @@
   });
   const scripts = new Map();
   const started = new Set();
-  const defaults = { schema: 1, services: [
-    ['yandex', 'Yandex Metrica', 'Visitor statistics', { id: '23643118', clientId: true }],
-    ['mailru', 'Top.Mail.Ru', 'Visitor statistics', { id: '3265404' }],
-    ['mock_marketing', 'Mock marketing', 'Local advertising simulation', {}],
-    ['google_maps', 'Google Maps', 'External interactive maps', {}],
-    ['yandex_maps', 'Yandex Maps', 'External interactive maps', {}]
-  ].map(([loader, name, purpose, config]) => ({ key: loader, loader, name, purpose, config, category: catalog[loader], enabled: true })) };
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
@@ -55,9 +48,7 @@
   let services = [];
   try {
     const node = document.getElementById('cc-service-registry');
-    // Only standalone MOCK demo may use defaults. Live missing config fails closed.
-    const mock = document.getElementById('cookie-block')?.dataset.ccMode === 'mock';
-    services = validate(node ? JSON.parse(node.textContent) : mock ? defaults : { schema: 1, services: [] });
+    services = validate(node ? JSON.parse(node.textContent) : { schema: 1, services: [] });
   } catch (e) { console.warn(t('error_registry'), e.message); }
   function script(url) {
     const href = String(url);

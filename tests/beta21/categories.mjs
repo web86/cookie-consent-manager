@@ -15,7 +15,7 @@ try{
   const visible=['necessary',...cats.filter((c,i)=>mask&(1<<i))];
   const disabled=await b.newContext({javaScriptEnabled:false});disabled.setDefaultTimeout(15000);await disabled.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
   // Inspection stylesheet exposes only the two SSR panels; no page script runs.
-  await disabled.route('**/assets/css/cookie-consent.css',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'.cookie-warning.closed{display:block!important}.cookie-warning.done{opacity:1!important}.cookie-warning-settings[hidden]{display:block!important}'});});
+  await disabled.route('**/assets/css/cookie-consent.min.css*',async r=>{const response=await r.fetch();await r.fulfill({response,body:(await response.text())+'.cookie-warning.closed{display:block!important}.cookie-warning.done{opacity:1!important}.cookie-warning-settings[hidden]{display:block!important}'});});
   try{const p=await disabled.newPage();await p.goto(fixture);eq(await p.locator('[data-cc-category-row=necessary]').getAttribute('hidden'),null);for(const[i,cat]of cats.entries())eq(await p.locator('[data-cc-category-row='+cat+']').getAttribute('hidden'),mask&(1<<i)?null:'');
    eq(await p.locator('[data-cc-category-row]:visible').evaluateAll(xs=>xs.map(x=>x.dataset.ccCategoryRow)),visible);
 

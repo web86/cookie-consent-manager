@@ -25,7 +25,7 @@ for($i=0;$i<$zip->numFiles;$i++){
         if(($payload['uninstall_object']??true)!==false)throw new RuntimeException('Object uninstall must retain data');
         $isElement=in_array($payload['class'],['modChunk','modSnippet'],true);
         if($isElement){
-            $names=['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentRegistry'=>'modSnippet','CookieConsentMap'=>'modSnippet'];
+            $names=['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentRegistry'=>'modSnippet','CookieConsentMap'=>'modSnippet','CookieConsentAssets'=>'modSnippet','CookieConsentBanner'=>'modSnippet'];
             if(!isset($names[$obj['name']??''])||$names[$obj['name']]!==$payload['class']||isset($canonical[$obj['name']])||($payload['update_object']??false)!==true||($payload['unique_key']??[])!==['name'])throw new RuntimeException('Canonical update/unique policy');
             $canonical[$obj['name']]=true;
         }elseif(($payload['update_object']??true)!==false)throw new RuntimeException('Non-element object must retain user values');
@@ -37,7 +37,7 @@ for($i=0;$i<$zip->numFiles;$i++){
         }
     }
 }
-if(count($canonical)!==4)throw new RuntimeException('Exactly four canonical elements required');
+if(count($canonical)!==6)throw new RuntimeException('Exactly six canonical elements required');
 foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
 if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!==''||$found['cookie_consent.audit']!=='')throw new RuntimeException('Customer paths in ZIP');
 if(count($found)!==6)throw new RuntimeException('Only canonical product settings allowed');
