@@ -15,7 +15,7 @@ if($action==='existing'){
  $modx->cacheManager->refresh();
 }elseif($action!=='snapshot')throw new RuntimeException('Unknown fixture action');
 $out=['version'=>$modx->getVersionData()['full_version'],'categories'=>[],'elements'=>[],'unrelated'=>[]];
-foreach($modx->getCollection('modCategory') as$c)$out['categories'][$c->get('category')]=['id'=>$c->get('id'),'parent'=>$c->get('parent'),'hash'=>hash('sha256',json_encode($c->toArray()))];
+foreach($modx->getCollection('modCategory') as$c)$out['categories'][$c->get('category')]=['count'=>$modx->getCount('modCategory',['category'=>$c->get('category')]),'id'=>$c->get('id'),'parent'=>$c->get('parent'),'hash'=>hash('sha256',json_encode($c->toArray()))];
 foreach($elements as$class=>$names)foreach($names as$name){$rows=$modx->getCollection($class,['name'=>$name]);if(!$rows)continue;$e=reset($rows);$metadata=$e->toArray();unset($metadata['snippet'],$metadata['content']);$out['elements'][$name]=['count'=>count($rows),'id'=>$e->get('id'),'category'=>$e->get('category'),'metadata_sha256'=>hash('sha256',json_encode($metadata)),'code_sha256'=>hash('sha256',$e->get('snippet'))];}
 foreach(['modChunk','modSnippet'] as$class)foreach($modx->getCollection($class) as$e)if(!in_array($e->get('name'),$elements[$class],true))$out['unrelated'][$class.':'.$e->get('name')]=hash('sha256',json_encode($e->toArray()));
 foreach(['categories','elements','unrelated'] as$k)ksort($out[$k]);echo json_encode($out);
