@@ -6,5 +6,10 @@ try {
     if(!in_array($name,['CookiesPopup','CookieConsent','CookieConsentRegistry','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true))return false;
     $existing=$transport->xpdo->getObject($class,['name'=>$name]);
     if($existing){$source=$object->get($field);$object->fromArray($existing->toArray('',true),'',true,true);$object->set($field,$source);$object->set('static',false);}
+    else{
+        $category=$transport->xpdo->getObject('modCategory',['category'=>'CookieConsent']);
+        if(!$category||$category->get('category')!=='CookieConsent')return false;
+        $object->set('category',$category->get('id'));
+    }
     return true;
 }catch(Throwable $e){$transport->xpdo->log(xPDO::LOG_LEVEL_ERROR,'Canonical source update refused. Restore DB/element backup if needed.');return false;}

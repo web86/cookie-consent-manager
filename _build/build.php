@@ -53,6 +53,8 @@ $settings=[
 ];
 foreach($settings as $key=>[$value,$xtype])definition('modSystemSetting',['key'=>$key],['key'=>$key,'value'=>$value,'xtype'=>$xtype,'namespace'=>'cookie_consent','area'=>'consent'],$key,$definitions);
 definition('modMenu',['text'=>'Cookie Consent Manager'],['text'=>'Cookie Consent Manager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings','icon'=>'','menuindex'=>0,'params'=>'','handler'=>''],'menu',$definitions);
+// Native vehicle precedes elements; reuse the category without changing its metadata.
+definition('modCategory',['category'=>'CookieConsent'],[],'category',$definitions);
 $snippet=preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/modx2-registry-snippet.php'));
 definition('modSnippet',['name'=>'CookieConsentRegistry'],['snippet'=>trim($snippet)],'snippet',$definitions);
 definition('modChunk',['name'=>'CookiesPopup'],['snippet'=>file_get_contents($root.'/CookiesPopup.html')],'chunk',$definitions);
@@ -74,7 +76,7 @@ $start=$builder->createVehicle(['source'=>$preflight],['vehicle_class'=>'xPDOScr
 $objectNumber=1;
 foreach($definitions as $name=>$def){
     $obj=$modx->newObject($def['class']);$obj->fromArray(array_merge($def['criteria'],$def['fields']),'',true,true);if(in_array($def['class'],['modSnippet','modChunk'],true))$obj->set('id',$objectNumber++);
-    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsent/'.$name)];
+    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk','modCategory'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsent/'.$name)];
     $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['snippet','chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='cookie_consent.log_dir')$vehicle->validate('php',['source'=>$logDefault]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native object vehicle failed: '.$name);
 }

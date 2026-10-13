@@ -7,7 +7,7 @@ if(!class_exists('ZipArchive')) {
     class ZipArchive { public $numFiles=0;private $files=[];function open($f){$z=new PclZip($f);$this->files=$z->extract(PCLZIP_OPT_EXTRACT_AS_STRING);if(!is_array($this->files))return false;$this->numFiles=count($this->files);return true;}function getNameIndex($i){return $this->files[$i]['filename'];}function getFromIndex($i){return $this->files[$i]['content'];}function getFromName($n){foreach($this->files as $f)if($f['filename']===$n)return $f['content'];return false;} }
 }
 $zip=new ZipArchive();if($zip->open($file)!==true)throw new RuntimeException('ZIP');
-$prefix=$spec['signature'].'/';$vehicles=0;$found=[];$fileVehicles=[];$classes=[];$canonical=[];
+$prefix=$spec['signature'].'/';$vehicles=0;$found=[];$fileVehicles=[];$classes=[];$canonical=[];$categories=0;
 for($i=0;$i<$zip->numFiles;$i++){
     $name=$zip->getNameIndex($i);if(strpos($name,$prefix)!==0||strpos($name,'../')!==false||$name[0]==='/')throw new RuntimeException('ZIP path');
     if(preg_match('~/(?:\.git|\.local|node_modules|tests|logs)/|\.(?:har|log|pem|env)$|(?:config\.php|audit-config\.json)$~',$name))throw new RuntimeException('Excluded content');
@@ -29,6 +29,10 @@ for($i=0;$i<$zip->numFiles;$i++){
             if(!isset($names[$obj['name']??''])||$names[$obj['name']]!==$payload['class']||isset($canonical[$obj['name']])||($payload['update_object']??false)!==true||($payload['unique_key']??[])!==['name'])throw new RuntimeException('Canonical update/unique policy');
             $canonical[$obj['name']]=true;
         }elseif(($payload['update_object']??true)!==false)throw new RuntimeException('Non-element object must retain user values');
+        if($payload['class']==='modCategory'){
+            if($obj['category']!=='CookieConsent'||($payload['unique_key']??[])!==['category']||($payload['preserve_keys']??true)!==false||!empty($obj['id']))throw new RuntimeException('Native category policy');
+            $categories++;
+        }
         if($payload['class']==='modSystemSetting'){
             $found[$obj['key']]=$obj['value'];
             if($obj['key']==='cookie_consent.services'){
@@ -38,6 +42,7 @@ for($i=0;$i<$zip->numFiles;$i++){
     }
 }
 if(count($canonical)!==6)throw new RuntimeException('Exactly six canonical elements required');
+if($categories!==1)throw new RuntimeException('Exactly one native CookieConsent category vehicle required');
 foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
 if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!==''||$found['cookie_consent.audit']!=='')throw new RuntimeException('Customer paths in ZIP');
 if(count($found)!==6)throw new RuntimeException('Only canonical product settings allowed');
