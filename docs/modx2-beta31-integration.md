@@ -1,4 +1,4 @@
-# beta31 — VK Ads, Meta Pixel и ручное открытие настроек
+# beta31 — GTM, VK Ads, Meta Pixel и ручное открытие настроек
 
 Ветка `feature/modx2-frontend-bundle`, база beta30. [Приёмка и NOT RUN](modx2-beta31-acceptance.md). GO только для review; merge и deployment не выполнялись.
 
@@ -81,6 +81,7 @@ python3 _build/normalize.py .local/private/new-beta31-build/cookieconsent-0.1.0-
 CC_INSTALL_SERVICES=web node tests/transport/install-current.mjs
 node tests/beta31/pixels.mjs
 node tests/beta31/manager.mjs
+node tests/beta31/gtm.mjs
 python3 tests/transport/reset.py clean publiccore
 node tests/beta31/native.mjs
 node tests/browser.mjs
@@ -93,8 +94,10 @@ node tests/viewer/browser.mjs
 node tests/http.mjs
 ```
 
-Все fake-ID SDK/pixel requests перехвачены контролируемыми ответами. Реальный receiver/JSONL работают локально. Tests main, меняющие settings, запускаются последовательно. Native reset архивирует только disposable fixtures. Immutable ZIP не перезаписывается.
+Все fake-ID SDK/pixel requests перехвачены контролируемыми ответами. Отдельный GTM-тест загружает настоящий контейнер владельца. Реальный receiver/JSONL работают локально. Tests main, меняющие settings, запускаются последовательно. Native reset архивирует только disposable fixtures. Immutable ZIP не перезаписывается.
 
 ## Real GTM acceptance
 
-Owner container GTM-WJD8XJD6 publishes a Custom HTML tag incrementing window.__ccGtmTest. Tests download the real container on local MODX and intercept all other external requests. Published version 2 has no analytics tag: separate actual analytics-tag acceptance is NOT RUN until the owner publishes a test tag with consent checks. Tests do not change the GTM workspace.
+Owner container GTM-WJD8XJD6 version 4 publishes a marketing Custom HTML test incrementing window.__ccGtmTest and an analytics test incrementing window.__ccGtmAnalyticsTest. The analytics tag requires analytics_storage. Tests download the real container on local MODX and intercept all other external requests: marketing-only runs the marketing test once and blocks the analytics test; all-consent runs both once. Real Consent Mode states are also observed after GTM consumes the queue. Tests do not change the GTM workspace or claim real Analytics/Ads delivery.
+
+Version 3 initially fired the analytics test with analytics_storage denied because its additional consent check was missing. This FAIL is retained in the acceptance evidence. The owner configured and published the check in version 4; the final nine-scenario regression passes. Consent Mode does not replace tag-level checks.
