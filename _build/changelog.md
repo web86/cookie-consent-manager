@@ -1,3 +1,5 @@
+beta30: Fix real MODX Manager config serialization. MODX modError converts empty config objects to arrays; normalize only empty arrays before editing and after Save, reject malformed/non-empty arrays. Preserve provider IDs/boolean options; field-level RU/EN ID errors and focused validation. Consent, frontend, audit and receiver unchanged.
+
 beta29: Assets generates safe public JSON directly; five canonical vehicles, no Registry installation/update/removal. Legacy integrations retained. Manager documents split integration, removes cache backup UI hint, suspends preview on a full-width Log tab. Viewer summaries include validated IP, four columns, primary Find button; search/CSV/ACL unchanged.
 
 beta28: Document the PHP translation placeholders in the source chunk. Native category vehicle reuses/creates CookieConsent; only newly installed canonical elements receive its ID. Upgrade/reinstall retain existing categories and metadata and replace source in place. No integration or runtime changes.

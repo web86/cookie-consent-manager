@@ -300,3 +300,7 @@ $_lang['m.integration_head'] = 'In <head>: loads styles, JavaScript and configur
 $_lang['m.integration_body'] = 'Before </body>: renders the ready banner.';
 $_lang['m.integration_legacy'] = 'Legacy CookieConsent remains an alternative for existing templates. Do not mix the old and new methods.';
 $_lang['m.log_ip'] = 'IP address';
+
+$_lang['m.invalid_config'] = 'Invalid service configuration: expected an object. A non-empty array cannot be converted automatically.';
+$_lang['m.id_required'] = 'Enter an ID to enable this service.';
+$_lang['m.id_invalid'] = 'Invalid ID. Expected format: {format}.';

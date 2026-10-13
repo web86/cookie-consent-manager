@@ -36,8 +36,19 @@
       window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();return;
     }
     const idPatterns = { yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
+    const idFormats = { yandex: '12345678', mailru: '12345678', google_ga4: 'G-XXXXXX', google_ads: 'AW-12345678', google_gtm: 'GTM-XXXXXX' };
     const clone = value => JSON.parse(JSON.stringify(value));
-    draft = { options: clone(data.options), registry: clone(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' };
+    // MODX modError::toArray turns empty stdClass configs into []; normalize before editing/cloning.
+    const editableRegistry = registry => {
+      for (const service of registry.services) {
+        if (Array.isArray(service.config) && service.config.length === 0 && Object.keys(service.config).length === 0) service.config = {};
+        if (!service.config || Object.getPrototypeOf(service.config) !== Object.prototype) throw Error(t('invalid_config') + ' (' + service.key + ')');
+      }
+      return clone(registry);
+    };
+    const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
+    try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
+    catch (e) { root.removeAttribute('aria-busy'); root.setAttribute('role', 'alert'); root.textContent = e.message; return; }
     revision = data.revision; editLanguage = data.managerLanguage; previewLanguage = editLanguage;
     draft.texts.locales[editLanguage] ||= {};
     document.body.classList.add('ccm-manager');
@@ -109,10 +120,18 @@
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
           card.append(el('h4', textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name));
           const validity = el('span', null, { class: 'ccm-config-status' });
-          const updateValidity = () => { validity.textContent = idPatterns[service.loader] && ((service.enabled && !service.config.id) || (service.config.id && !idPatterns[service.loader].test(service.config.id))) ? t('needs_id') : t('configured'); };
+          let idInput, idError;
+          const updateValidity = () => {
+            const invalid = invalidId(service); validity.textContent = invalid ? t('needs_id') : t('configured');
+            if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (!service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
+          };
           field(card, t('enable'), service.enabled, v => { service.enabled = v; updateValidity(); }, 'checkbox', 'ccm-enable-' + service.key); card.append(validity); updateValidity();
           const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); card.append(details);
-          if (['yandex','mailru','google_ga4','google_ads','google_gtm'].includes(service.loader)) field(details, t({ google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
+          if (idPatterns[service.loader]) {
+            idInput = field(details, t({ google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
+            idError = el('small', '', { id: 'ccm-id-error-' + service.key, class: 'ccm-field-error', role: 'status' });
+            idInput.setAttribute('aria-describedby', idError.id); idInput.parentElement.append(idError); updateValidity();
+          }
           for (const [key, fallback] of Object.entries(data.booleanOptions[service.loader] || {})) field(details, t(key), service.config[key] ?? fallback, v => service.config[key] = v, 'checkbox', 'ccm-' + service.key + '-' + key);
           const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help' }[service.loader];
           if (note) details.append(el('p', t(note), { class: 'ccm-help' }));
@@ -187,13 +206,15 @@
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
-      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => (idPatterns[s.loader] && ((s.enabled && !s.config.id) || (s.config.id && !idPatterns[s.loader].test(s.config.id)))) || (s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id)))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
+      const invalidService = draft.registry.services.find(invalidId);
+      if (invalidService) { document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t('needs_id'); status.dataset.state = 'error'; return; }
+      if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);
       try {
         const payload={...draft};
         const saved = await api('save', { draft: JSON.stringify(payload), revision,site_origin:location.origin }); revision = saved.revision;
-        if (JSON.stringify(draft) === snapshot) { draft.options=saved.options;draft.registry=saved.registry;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
+        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
         if(saved.partial){status.textContent=t('saved_partial')+' '+(data.managerStrings['m.reason_'+saved.journal.reason]||t('log_write_error'));status.dataset.state='partial';}else{status.textContent=dirty?t('unsaved'):t('saved');status.dataset.state=dirty?'dirty':'saved';}schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }
