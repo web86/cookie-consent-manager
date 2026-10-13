@@ -1,3 +1,5 @@
+> Историческая приёмка beta19. Canonical source retention policy заменена в beta21; см. [новые требования и результаты](modx2-canonical-elements-acceptance.md).
+
 # Consent Audit Viewer — приёмка beta19
 
 Дата: 2026-10-13. Ветка `feature/modx2-consent-audit-viewer` от актуальной `feature/modx2-category-consent-audit` / `6a2f478`. Реализация: `65bc0222cbc8b5f2e9cec995a6a1d953f6ef345d`. Проверка Git до начала: чистый workspace, remote source tip совпал. Main не изменяется; production deployment и merge не выполняются.

@@ -1,67 +1,36 @@
-<!-- На тестовом сайте используйте data-cc-mode="mock"; на рабочем — "live". -->
-<div id="cookie-block"
-     class="cookie-warning closed done"
-     role="region"
-     aria-label="Управление файлами cookie"
-     data-cc-mode="mock"
-     data-cc-policy-version="1"
-     data-cc-ttl-days="90"
-     data-cc-audit-url="/assets/components/cookieconsent/audit.php"
-     data-cc-show-configure="1"
-     data-cc-show-reject="1"
-     data-cc-show-accept-all="1"
-     data-cc-show-accept="0">
+<div id="cookie-block" class="cookie-warning closed done" role="region" data-cc-aria="region_label">
   <div class="cookie-warning-content">
     <div class="cookie-warning-2" data-cc-panel="main">
-      <div class="cookie-warning-text">
-        Мы используем необходимые cookie для работы сайта. Аналитические, маркетинговые cookie и внешние карты используются только с вашего согласия. Подробнее — в
-        <a href="/soglasie" target="_blank" rel="noopener noreferrer">согласии</a>
-        и <a href="/pkd" target="_blank" rel="noopener noreferrer">политике обработки данных</a>.
-      </div>
+      <div class="cookie-warning-text" data-cc-html="notice_html"></div>
       <div class="cookie-warning-buttons">
-        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="reject">Отклонить</button>
-        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="configure">Настроить</button>
-        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept-all">Принять все</button>
-        <!-- Совместимость с прежним сценарием: отдельная включаемая кнопка. -->
-        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept" hidden>Принять</button>
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="reject" data-cc-text="reject"></button>
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="configure" data-cc-text="configure"></button>
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept-all" data-cc-text="accept_all"></button>
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="accept" data-cc-text="accept"></button>
       </div>
     </div>
-
     <section class="cookie-warning-settings" data-cc-panel="settings" aria-labelledby="cookie-settings-title" hidden>
-      <h2 id="cookie-settings-title" tabindex="-1">Настройки файлов cookie</h2>
-      <p>Выберите, для каких целей сайт может использовать необязательные cookie.</p>
-
+      <h2 id="cookie-settings-title" tabindex="-1" data-cc-text="settings_title"></h2>
+      <p data-cc-text="settings_intro"></p>
       <label class="cookie-option">
-        <span class="cookie-option__text">
-          <strong>Необходимые файлы cookie</strong>
-          <small>Нужны для работы сайта. Всегда включены.</small>
-        </span>
-        <input type="checkbox" checked disabled aria-label="Необходимые файлы cookie, всегда включены">
+        <span class="cookie-option__text"><strong data-cc-text="necessary_name"></strong><small data-cc-text="necessary_description"></small></span>
+        <input type="checkbox" checked disabled data-cc-aria="necessary_aria">
       </label>
-
       <label class="cookie-option">
-        <span class="cookie-option__text">
-          <strong>Аналитические файлы cookie</strong>
-          <small>Включённые сервисы перечислены ниже. ClientID необязателен.</small>
-        </span>
+        <span class="cookie-option__text"><strong data-cc-text="analytics_name"></strong><small data-cc-text="analytics_description"></small></span>
         <input type="checkbox" data-cc-category="analytics">
       </label>
-
       <label class="cookie-option">
-        <span class="cookie-option__text">
-          <strong>Маркетинговые файлы cookie</strong>
-          <small>Включённые рекламные сервисы и контейнеры перечислены ниже.</small>
-        </span>
+        <span class="cookie-option__text"><strong data-cc-text="marketing_name"></strong><small data-cc-text="marketing_description"></small></span>
         <input type="checkbox" data-cc-category="marketing">
       </label>
-
       <label class="cookie-option">
-        <span class="cookie-option__text"><strong>Внешние данные и карты</strong><small>Сторонние материалы загружаются только с разрешения.</small></span>
+        <span class="cookie-option__text"><strong data-cc-text="external_content_name"></strong><small data-cc-text="external_content_description"></small></span>
         <input type="checkbox" data-cc-category="external_content">
       </label>
       <div class="cookie-warning-settings__buttons">
-        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="back">Назад</button>
-        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="save">Сохранить настройки</button>
+        <button type="button" class="btn cookie-btn cookie-btn--secondary" data-cc-action="back" data-cc-text="back"></button>
+        <button type="button" class="btn cookie-btn cookie-btn--primary" data-cc-action="save" data-cc-text="save"></button>
       </div>
     </section>
   </div>

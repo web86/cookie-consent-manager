@@ -131,7 +131,7 @@ $_lang = [
     'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];
 
-$_lang['m.upgrade_elements'] = 'Updates preserve active chunks and snippets. Compare the *_package_VERSION stock copies in Elements and apply changes explicitly; installation never edits templates.';
+$_lang['m.upgrade_elements'] = 'Updates replace code of CookiesPopup, CookieConsent, CookieConsentRegistry and CookieConsentMap. Back up first; IDs and settings are retained. No new stock copies are created.';
 
 $_lang['m.audit_setup'] = 'Set up audit';
 $_lang['m.audit_test'] = 'Test POST → log';

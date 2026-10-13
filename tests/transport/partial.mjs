@@ -2,6 +2,7 @@ import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import assert from 'node:assert/strict';
+import {retain} from '../elements/assertions.mjs';
 const base=JSON.parse(readFileSync('_build/package.json')).release_index;
 const sig=n=>'cookieconsent-0.1.0-beta'+n;
 const dir='.local/native-minimal-evidence';mkdirSync(dir,{recursive:true});
@@ -13,7 +14,7 @@ const snapshot=s=>JSON.parse(control(s,'snapshot'));
 const results=[],snapshots=[];let assertions=0;
 function eq(a,b,m){assertions++;assert.deepEqual(a,b,m);}function ok(a,m){assertions++;assert.ok(a,m);}
 async function test(name,fn){const count=assertions;try{await fn();results.push({name,result:'PASS',assertions:assertions-count});console.log('PASS '+name);}catch(e){results.push({name,result:'FAIL',assertions:assertions-count,error:e.message});throw e;}}
-function preserve(a,b){for(const k of ['settings','menus','resources','templates','policies','data','auditRegistry'])eq(b[k],a[k],k+' retained');for(const [k,v]of Object.entries(a.elements))eq(b.elements[k],v,k+' retained');}
+function preserve(a,b){retain(a,b,eq);}
 const browser=await chromium.launch();
 async function manager(s,port){const origin='http://127.0.0.1:'+port,ctx=await browser.newContext({viewport:{width:1440,height:1000}});await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());const p=await ctx.newPage(),creds=JSON.parse(control(s,'credentials'));await p.goto(origin+'/manager/',{waitUntil:'networkidle'});await p.locator('#modx-login-username').fill(creds.username);await p.locator('#modx-login-password').fill(creds.password);await p.locator('#modx-login-btn').click();await p.waitForFunction(()=>window.MODx?.siteId);const token=await p.evaluate(()=>MODx.siteId);
  const processor=async(action,form={})=>(await ctx.request.post(origin+'/connectors/index.php',{form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,...form},headers:{modAuth:token}})).json();

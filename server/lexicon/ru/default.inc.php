@@ -136,7 +136,7 @@ $_lang = [
     'm.integration_help' => 'Установка не меняет шаблоны и не включает сервисы. Подключите код вручную на staging, удалите прямые счётчики/noscript и используйте инертные карты до согласия.',
 ];
 
-$_lang['m.upgrade_elements'] = 'Обновления сохраняют действующие чанки и сниппеты. Сравните stock-копии *_package_VERSION в «Элементах» и примените изменения явно; установщик не меняет шаблоны.';
+$_lang['m.upgrade_elements'] = 'При обновлении код CookiesPopup, CookieConsent, CookieConsentRegistry и CookieConsentMap заменяется. Сначала сделайте backup; IDs и настройки сохраняются. Новые stock-копии не создаются.';
 
 $_lang['m.audit_setup'] = 'Настроить аудит';
 $_lang['m.audit_test'] = 'Проверить POST → журнал';

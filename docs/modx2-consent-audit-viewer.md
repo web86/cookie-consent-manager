@@ -1,4 +1,4 @@
-# Consent Audit Viewer — beta19
+# Consent Audit Viewer — beta21
 
 Viewer реализован во вкладке «Журнал» Cookie Consent Manager на MODX 2.8.8 / PHP 8.1+. Основа — immutable beta15 с серверно-независимой настройкой журнала. Установка — штатный Package Manager, без Setup Options, SQL-таблиц событий, lifecycle ledger и скрытых копий персональных данных.
 
@@ -46,10 +46,12 @@ CSV — UTF-8 с BOM, separator `;`, 17 локализованных колон�
 ## Установка / обновление
 
 1. Backup DB/registry key, core/assets, настройки, элементы/props, legacy config и все журналы.
-2. Проверить SHA256 beta19 и установить через Package Manager. Settings/HTML/переводы/services/props, canonical chunks/snippets, audit key и журналы сохраняются; runtime обновляется. Stock copies применять только явно при необходимости. Нет автоматических изменений шаблонов или `.htaccess`.
+2. Проверить SHA256 beta21 и установить через Package Manager. Settings/HTML/переводы/services/props, ID/type/metadata элементов, audit key и журналы сохраняются; canonical code четырёх элементов и runtime обновляются. Новые stock copies не создаются. Нет автоматических изменений шаблонов или `.htaccess`.
 3. Назначить view_logs нужным группам; существующие manage permissions сохраняются. Проверить RU/EN, фильтры, details и CSV на своём staging.
 4. Для настройки журнала раскрыть «Настройки хранения», выбрать существующий PHP-writable каталог и нажать «Проверить и включить журнал». Старые записи/файлы не мигрируются и не удаляются.
 
 Журналы могут содержать IP-адреса и технические сведения о посетителях. Ограничение HTTP-доступа к каталогу обеспечивает администратор сайта
 
 Точные результаты, SHA256, screenshots и NOT RUN: [приёмка](modx2-consent-audit-viewer-acceptance.md).
+
+Новая обязательная policy обновления code/backup/SSR: [beta21](modx2-canonical-elements.md). Исторический отчёт beta19 относится к прежней retention policy.

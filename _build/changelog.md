@@ -1,3 +1,7 @@
+0.1.0 beta21
+WARNING / ВНИМАНИЕ: code of CookiesPopup, CookieConsent, CookieConsentRegistry and CookieConsentMap WILL BE REPLACED. Back up DB/elements/static source files before installation. IDs/types, settings, saved translations and logs are retained.
+Canonical CookiesPopup/CookieConsent/CookieConsentRegistry/CookieConsentMap source update via native UPDATE_OBJECT=true and UNIQUE_KEY=name; IDs/type/user metadata retained, no new stock tree copies. Explicit pre-install code-replacement warning, native preserved backup verification and CLI restore. Structural chunk with safe context-localized server rendering before JS; saved text overrides/options preserved. Consent Audit Viewer remains included.
+
 0.1.0 beta19
 Read-only Consent Audit Viewer with exact server filters, 50-row cursor pages, safe details/history and streamed UTF-8 CSV. Separate cookie_consent_view_logs permission (default false). Storage settings collapsed below table. New monthly logs have a text MIME header under existing locks; old logs stay unchanged and all readers accept both formats with diagnostics.
 

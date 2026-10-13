@@ -1,9 +1,9 @@
 <?php
 // Install uncached [[!CookieConsentRegistry]]. Translations are JSON, never parsed HTML.
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentBannerRenderer.php';
     $data=CookieConsentSettings::read($modx);
-    $language=CookieConsentTexts::language((string)$modx->getOption('cultureKey',null,'en'));
+    $language=CookieConsentBannerRenderer::language($modx);
     $json=CookieConsentTexts::safeJson($data['registry']);
     $public=CookieConsentTexts::safeJson(['locale'=>$language,'strings'=>CookieConsentTexts::resolve($data['texts'],$language,$data['registry']['services']),
         'settings'=>$data['options'],'buttons'=>CookieConsentSettings::effectiveButtons($data['options'])]);
