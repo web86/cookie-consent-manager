@@ -156,9 +156,9 @@
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
         frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
         frame.setAttribute('allowfullscreen', ''); frame.src = map.url;
-        map.node.insertBefore(frame, map.revoke); map.frame = frame;
+        map.node.append(frame); map.frame = frame;
       } else if (!allowed && map.frame) { map.frame.remove(); map.frame = null; }
-      map.placeholder.hidden = Boolean(allowed); map.revoke.hidden = !allowed;
+      map.placeholder.hidden = Boolean(allowed);
     }
   }
 
@@ -207,6 +207,7 @@
       services.some(s => previous.providers?.[s.key] === s.fingerprint && !value.providers[s.key]));
     // Remove frames synchronously on revocation before waiting for an audit response.
     if (revoked) {
+      registry?.revoke(mode, value);
       for (const map of maps) if (!value.providers[map.service.key] && map.frame) { map.frame.remove(); map.frame = null; }
       if (!persisted) console.warn(t('error_storage'));
       Promise.race([auditDelivery, new Promise(resolve => setTimeout(resolve, 900))]).finally(() => location.reload());
@@ -241,9 +242,7 @@
       if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
       const load = fragment.querySelector('[data-cc-map-load]');
       load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
-      const revoke = fragment.querySelector('[data-cc-map-revoke]');
-      revoke.addEventListener('click', () => mapChoice(service, false));
-      node.append(placeholder, revoke); maps.push({ node, placeholder, revoke, service, title, url, frame: null });
+      node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });
     }
   }
 
@@ -295,10 +294,6 @@
   }
 
   function initialize() {
-    if (!document.querySelector('[data-cookie-settings-open]')) {
-      const template = root.querySelector('template[data-cc-reopen-template]');
-      if (template) document.body.append(template.content.cloneNode(true));
-    }
     // PHP owns all static banner text/HTML/ARIA. Never translate or overwrite it here.
     // Keep hidden inputs for schema compatibility; visibility never changes saved grants.
     for (const [category, input] of Object.entries(inputs)) {

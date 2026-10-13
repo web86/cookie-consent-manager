@@ -35,8 +35,8 @@
       const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
       window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();return;
     }
-    const idPatterns = { yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
-    const idFormats = { yandex: '12345678', mailru: '12345678', google_ga4: 'G-XXXXXX', google_ads: 'AW-12345678', google_gtm: 'GTM-XXXXXX' };
+    const idPatterns = { vk_ads: /^[0-9]{1,20}$/, meta_pixel: /^[0-9]{1,20}$/, yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
+    const idFormats = { vk_ads: '12345678', meta_pixel: '123456789012345', yandex: '12345678', mailru: '12345678', google_ga4: 'G-XXXXXX', google_ads: 'AW-12345678', google_gtm: 'GTM-XXXXXX' };
     const clone = value => JSON.parse(JSON.stringify(value));
     // MODX modError::toArray turns empty stdClass configs into []; normalize before editing/cloning.
     const editableRegistry = registry => {
@@ -46,6 +46,7 @@
       }
       return clone(registry);
     };
+    const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
     try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
     catch (e) { root.removeAttribute('aria-busy'); root.setAttribute('role', 'alert'); root.textContent = e.message; return; }
@@ -122,13 +123,13 @@
           const validity = el('span', null, { class: 'ccm-config-status' });
           let idInput, idError;
           const updateValidity = () => {
-            const invalid = invalidId(service); validity.textContent = invalid ? t('needs_id') : t('configured');
-            if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (!service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
+            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict; validity.textContent = invalid ? t('needs_id') : t('configured');
+            if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (conflict ? t('pixel_id_conflict') : !service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
           };
           field(card, t('enable'), service.enabled, v => { service.enabled = v; updateValidity(); }, 'checkbox', 'ccm-enable-' + service.key); card.append(validity); updateValidity();
           const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); card.append(details);
           if (idPatterns[service.loader]) {
-            idInput = field(details, t({ google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
+            idInput = field(details, t({ vk_ads: 'pixel_id', meta_pixel: 'pixel_id', google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
             idError = el('small', '', { id: 'ccm-id-error-' + service.key, class: 'ccm-field-error', role: 'status' });
             idInput.setAttribute('aria-describedby', idError.id); idInput.parentElement.append(idError); updateValidity();
           }
@@ -206,8 +207,8 @@
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
-      const invalidService = draft.registry.services.find(invalidId);
-      if (invalidService) { document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t('needs_id'); status.dataset.state = 'error'; return; }
+      const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s));
+      if (invalidService) { renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
       if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);

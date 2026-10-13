@@ -56,8 +56,10 @@ for (const [key, id] of [['google_ga4', 'G-MOCK1234'], ['google_ads', 'AW-123456
   equal(update.analytics_storage, key === 'google_ga4' ? 'granted' : 'denied');
   equal(update.ad_storage, key === 'google_ads' ? 'granted' : 'denied');
 });
-await suite('gtm-partial-block', async (p, external) => {
-  await p.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_gtm');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:false,marketing:true,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(100); equal(external, []);
+await suite('gtm-marketing-only', async (p, external) => {
+  await p.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_gtm');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:false,marketing:true,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(100); equal(external, ['https://www.googletagmanager.com/gtm.js?id=GTM-MOCK1234']);
+  const update = await p.evaluate(() => dataLayer.filter(a=>a[0]==='consent'&&a[1]==='update').at(-1)[2]);
+  equal(update, {analytics_storage:'denied',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
 });
 await suite('all-google-shared-library', async (p, external) => {
   await p.locator('[data-cc-action="accept-all"]').click(); await p.waitForTimeout(200);

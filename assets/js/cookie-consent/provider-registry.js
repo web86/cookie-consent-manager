@@ -7,23 +7,25 @@
   const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, clientId: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
-    google_gtm: 'marketing', google_ads: 'marketing', mock_marketing: 'marketing',
+    google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing', mock_marketing: 'marketing',
     google_maps: 'external_content', yandex_maps: 'external_content'
   });
   const hostPatterns = Object.freeze({
     yandex: ['mc.yandex.ru', 'mc.yandex.com'], mailru: ['top-fwz1.mail.ru', 'top.mail.ru'],
     google_ga4: ['www.googletagmanager.com', '*.google-analytics.com'],
     google_ads: ['www.googletagmanager.com', 'www.googleadservices.com', '*.doubleclick.net', 'www.google.com'],
+    vk_ads: ['top-fwz1.mail.ru', 'top.mail.ru'], meta_pixel: ['connect.facebook.net', 'www.facebook.com'],
     google_gtm: ['www.googletagmanager.com'], mock_marketing: [],
     google_maps: ['www.google.com', 'maps.googleapis.com', 'maps.gstatic.com'],
     yandex_maps: ['yandex.ru', 'api-maps.yandex.ru', '*.maps.yandex.net']
   });
   const scripts = new Map();
-  const started = new Set();
+  const started = new Set(), metaIds = new Set(), vkIds = new Set();
+  let currentValue, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
-    return data.services.map(s => {
+    const result = data.services.map(s => {
       if (!s || Object.keys(s).filter(k => k !== 'purpose_id').sort().join() !== 'category,config,enabled,key,loader,name,purpose' ||
           typeof s.key !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(s.key) || keys.has(s.key) ||
           !Object.hasOwn(catalog, s.loader) || s.category !== catalog[s.loader] || typeof s.enabled !== 'boolean') throw Error('Invalid service');
@@ -32,7 +34,7 @@
       for (const [k, max] of [['name', 100], ['purpose', 500]]) {
         if (typeof s[k] !== 'string' || !s[k] || new TextEncoder().encode(s[k]).length > max || /[\x00-\x1f\x7f<>]/.test(s[k])) throw Error('Invalid text');
       }
-      const allowed = [...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
+      const allowed = [...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
       if (!s.config || typeof s.config !== 'object' || Array.isArray(s.config) || Object.keys(s.config).some(k => !allowed.includes(k))) throw Error('Invalid config');
       const pattern = { google_ga4: /^G-[A-Z0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/ }[s.loader] || /^[0-9]{1,20}$/;
       if ((s.enabled && allowed.includes('id') && !Object.hasOwn(s.config, 'id')) ||
@@ -44,6 +46,9 @@
       const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);
       return Object.freeze({ ...s, config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
     }).filter(s => s.enabled);
+    const analyticsIds = new Set(result.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));
+    if (result.some(s => s.loader === 'vk_ads' && analyticsIds.has(s.config.id.replace(/^0+(?=\d)/, '')))) throw Error('pixel_id_conflict');
+    return result;
   }
   let services = [];
   try {
@@ -60,21 +65,45 @@
     }));
     return scripts.get(href);
   }
+  function metaQueue() {
+    if (!window.fbq) {
+      const queue = function (...args) { if (queue.callMethod) queue.callMethod.apply(queue, args); else queue.queue.push(args); };
+      queue.push = queue; queue.loaded = true; queue.version = '2.0'; queue.queue = [];
+      window.fbq = queue; if (!window._fbq) window._fbq = queue;
+    }
+    if (typeof window.fbq !== 'function') throw Error('Invalid fbq');
+    // Only our explicit PageView; no automatic form/history events or matching data.
+    window.fbq.disablePushState = true;
+    return window.fbq;
+  }
+  function revoke(mode, value) {
+    stopping = true;
+    if (mode !== 'live') return;
+    if (googleDefaults) googleConsent(value);
+    if (metaIds.size && typeof window.fbq === 'function') {
+      if (!window.fbq.callMethod && Array.isArray(window.fbq.queue)) window.fbq.queue = window.fbq.queue.filter(call => !(metaIds.has(call[0] === 'set' ? call[3] : call[1]) || (call[0] === 'consent' && call[1] === 'grant')));
+      window.fbq('consent', 'revoke'); metaGranted = false;
+    }
+    // SDK not yet available: remove pending VK events before its queue can drain.
+    if (!tmrLoaded && Array.isArray(window._tmr)) for (let i = window._tmr.length - 1; i >= 0; i--) if (window._tmr[i]?.type === 'pageView' && vkIds.has(window._tmr[i].id)) window._tmr.splice(i, 1);
+  }
   function googleConsent(value) {
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    const allowed = loader => services.some(s => s.loader === loader && value.providers?.[s.key] === s.fingerprint);
-    window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
-    window.gtag('consent', 'update', { analytics_storage: allowed('google_ga4') ? 'granted' : 'denied',
-      ad_storage: allowed('google_ads') ? 'granted' : 'denied', ad_user_data: allowed('google_ads') ? 'granted' : 'denied',
-      ad_personalization: allowed('google_ads') ? 'granted' : 'denied' });
+    const allowed = loader => services.some(s => s.loader === loader && value[s.category] === true && value.providers?.[s.key] === s.fingerprint);
+    const container = allowed('google_gtm') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`));
+    const analytics = value.analytics === true && (container || allowed('google_ga4'));
+    const marketing = value.marketing === true && (container || allowed('google_ads'));
+    if (!googleDefaults) {
+      window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
+      googleDefaults = true;
+    }
+    window.gtag('consent', 'update', { analytics_storage: analytics ? 'granted' : 'denied',
+      ad_storage: marketing ? 'granted' : 'denied', ad_user_data: marketing ? 'granted' : 'denied',
+      ad_personalization: marketing ? 'granted' : 'denied' });
   }
   async function start(s, mode, value) {
-    if (s.category === 'external_content') return;
-    // Arbitrary GTM containers cannot be sandboxed by Consent Mode. Refuse partial
-    // consent even in mock; live deployment additionally requires container review.
-    if (s.loader === 'google_gtm' && (!Object.keys(categories).every(c => value[c] === true) ||
-        services.some(p => value.providers?.[p.key] !== p.fingerprint))) return;
+    if (stopping || s.category === 'external_content') return;
     const token = `${s.loader}:${s.config.id || ''}`;
     if (started.has(token)) return;
     started.add(token);
@@ -92,9 +121,19 @@
           const el = document.getElementById('clientid'); if (el && id) el.setAttribute('data-clientid', String(id));
         });
         await script('https://mc.yandex.ru/metrika/tag.js'); break;
-      case 'mailru':
+      case 'mailru': case 'vk_ads':
+        if (s.loader === 'vk_ads') vkIds.add(s.config.id);
         window._tmr = window._tmr || []; window._tmr.push({ id: s.config.id, type: 'pageView', start: Date.now() });
-        await script('https://top-fwz1.mail.ru/js/code.js'); break;
+        await script('https://top-fwz1.mail.ru/js/code.js'); tmrLoaded = true; break;
+      case 'meta_pixel': {
+        const fbq = metaQueue(); metaIds.add(s.config.id);
+        if (!metaGranted) { fbq('consent', 'grant'); metaGranted = true; }
+        fbq('set', 'autoConfig', false, s.config.id);
+        fbq('init', s.config.id);
+        await script('https://connect.facebook.net/en_US/fbevents.js');
+        if (!stopping && currentValue?.marketing === true && currentValue.providers?.[s.key] === s.fingerprint) fbq('trackSingle', s.config.id, 'PageView');
+        break;
+      }
       case 'google_ga4': case 'google_ads':
         googleConsent(value);
         window.gtag('js', new Date());
@@ -103,9 +142,9 @@
         if (!started.has('gtag-library')) { started.add('gtag-library'); await script(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(s.config.id)}`); }
         break;
       case 'google_gtm':
-        // All disclosed services must be authorized before this unrestricted container.
+        // Container consent is marketing + its fingerprint. Tag-level checks belong to its administrator.
         googleConsent(value);
-        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js', cookie_consent: { analytics: true, marketing: true, external_content: true } });
+        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js', cookie_consent: { analytics: value.analytics === true, marketing: value.marketing === true, external_content: value.external_content === true } });
         await script(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(s.config.id)}`); break;
     }
   }
@@ -127,7 +166,9 @@
     return u.href;
   }
   window.web86Providers = Object.freeze({ services: Object.freeze(services), categories: Object.freeze(categories),
-    validate, safeMapUrl, apply(value, mode) {
+    validate, safeMapUrl, revoke, apply(value, mode) {
+      currentValue = value;
+      if (mode === 'live' && googleDefaults) googleConsent(value);
       for (const s of services) if (value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
     }
   });

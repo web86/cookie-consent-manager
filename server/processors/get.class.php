@@ -7,6 +7,8 @@ class CookieConsentGetProcessor extends CookieConsentManagerProcessor
         require_once dirname(__DIR__).'/src/CookieConsentAuditConfiguration.php';
         $manage=$this->modx->hasPermission('cookie_consent_manage');
         $data=$manage?CookieConsentSettings::read($this->modx):[];
+        // New adapters appear disabled in Manager without rewriting existing saved registries.
+        if($manage){$keys=array_column($data['registry']['services'],'key');foreach(CookieConsentServiceRegistry::defaults()['services'] as $service)if(in_array($service['key'],['vk_ads','meta_pixel'],true)&&!in_array($service['key'],$keys,true)&&count($data['registry']['services'])<32)$data['registry']['services'][]=$service;}
         // The system Manager language is independent of merged web/session caches.
         $languageSetting=$this->modx->getObject('modSystemSetting',['key'=>'manager_language']);
         $lang=CookieConsentTexts::language($languageSetting ? (string)$languageSetting->get('value') : 'en');

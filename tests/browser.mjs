@@ -69,7 +69,7 @@ for (let mask = 0; mask < 8; mask++) await suite(`category-${mask}`, async ({ pa
   const selected = ['analytics', 'marketing', 'external_content'].filter((c, i) => mask & (1 << i));
   await choose(page, selected);
   await page.waitForFunction(() => window.__deliveries.some(e => e.ok));
-  const expected = [...(mask & 1 ? scriptsA : []), ...(mask & 2 ? scriptsM : []), ...(mask & 4 ? ['google_maps.html', 'yandex_maps.html'] : []), ...(mask === 7 ? ['google_gtm.js'] : [])].sort();
+  const expected = [...(mask & 1 ? scriptsA : []), ...(mask & 2 ? scriptsM : []), ...(mask & 4 ? ['google_maps.html', 'yandex_maps.html'] : []), ...(mask & 2 ? ['google_gtm.js'] : [])].sort();
   equal(loads(requests), expected, 'Exact mock network set');
   if (mask & 1) await page.waitForFunction(() => document.getElementById('clientid').dataset.clientid === 'MOCK-CLIENT-23643118');
   else equal(await page.locator('#clientid').getAttribute('data-clientid'), '', 'ClientID not set');
@@ -89,7 +89,7 @@ for (const key of ['google_maps', 'yandex_maps']) await suite(`map-${key}`, asyn
   equal(loads(requests), [`${key}.html`], 'Only selected provider map');
   const c = await page.evaluate(() => window.web86CookieConsent.getConsent()); equal(c.analytics, false); equal(c.marketing, false);
   requests.length = 0; await page.reload({ waitUntil: 'networkidle' }); equal(loads(requests), [`${key}.html`], 'Map permission persisted');
-  requests.length = 0; await page.locator(`[data-cc-map-revoke="${key}"]`).first().click();
+  requests.length = 0; await page.evaluate(()=>web86CookieConsent.openSettings()); await page.locator('[data-cc-category=external_content]').uncheck(); await page.locator('[data-cc-action=save]').click();
   await page.waitForFunction(() => !window.web86CookieConsent.getConsent()?.external_content);
   await page.waitForTimeout(600); equal(loads(requests), [], 'Revoked maps absent after reload');
   equal(await page.locator('[data-cc-map-provider] iframe').count(), 0, 'Frames removed');
@@ -155,7 +155,7 @@ await suite('mobile-keyboard-modal', async ({ page, requests }) => {
   await page.locator('#open-map-modal').click(); equal(loads(requests), [], 'Dialog map blocked');
   await page.locator('#map-modal [data-cc-map-load="google_maps"]').click(); await page.waitForTimeout(200);
   equal(loads(requests), ['google_maps.html'], 'Dialog permission');
-  await page.locator('#map-modal [data-cc-map-revoke="google_maps"]').click(); await page.waitForTimeout(600);
+  await page.locator('#map-modal > button').click(); await page.evaluate(()=>web86CookieConsent.openSettings()); await page.locator('[data-cc-category=external_content]').uncheck(); await page.locator('[data-cc-action=save]').click(); await page.waitForTimeout(600);
   equal(await page.locator('[data-cc-map-provider] iframe').count(), 0);
 }, { viewport: { width: 390, height: 844 } });
 // Configuration mutations use real MODX system settings. Never a public mutation URL.
@@ -191,7 +191,7 @@ for(let start=0;start<256;start+=4)await Promise.all(Array.from({length:Math.min
   await page.waitForTimeout(100);
   const expected = [];
   for (const service of selected) {
-    if (service.loader === 'google_gtm') { if (mask === 255) expected.push('google_gtm.js'); }
+    if (service.loader === 'google_gtm') expected.push('google_gtm.js');
     else if (service.loader === 'yandex') expected.push('yandex.js', 'bitrix24-clientid.js');
     else if (service.loader === 'mock_marketing') expected.push('marketing.js');
     else expected.push(service.loader + (service.category === 'external_content' ? '.html' : '.js'));

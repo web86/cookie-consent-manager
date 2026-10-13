@@ -45,7 +45,7 @@ try {
   });
   for(const tab of ['main','services','texts','logs']){await page.locator('#ccm-tab-'+tab).click();await page.screenshot({path:`${dir}/manager-ru-${tab}.png`});}
   await test('services-three-groups-individual-settings',async()=>{
-    await page.locator('#ccm-tab-services').click();equal(await page.locator('.ccm-service-group').count(),3);equal(await page.locator('.ccm-service').count(),8);
+    await page.locator('#ccm-tab-services').click();equal(await page.locator('.ccm-service-group').count(),3);equal(await page.locator('.ccm-service').count(),10);
     await page.locator('[data-settings=yandex] summary').click();equal(await page.locator('#ccm-yandex-webvisor').isChecked(),true);
     await page.screenshot({path:`${dir}/services-yandex-settings.png`});
   });

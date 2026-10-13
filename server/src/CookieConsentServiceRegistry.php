@@ -6,8 +6,10 @@ final class CookieConsentServiceRegistry
     public const CATALOG = [
         'yandex' => ['category'=>'analytics', 'hosts'=>['mc.yandex.ru','mc.yandex.com']],
         'mailru' => ['category'=>'analytics', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'vk_ads' => ['category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'meta_pixel' => ['category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
         'google_ga4' => ['category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
-        // A container is NOT a category. It has a conservative all-provider gate.
+        // Container loads with marketing consent; the administrator must configure consent checks for its tags.
         'google_gtm' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
         'google_ads' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
         'mock_marketing' => ['category'=>'marketing', 'hosts'=>[]],
@@ -34,8 +36,10 @@ final class CookieConsentServiceRegistry
             ['yandex','Яндекс.Метрика','Статистика посещений',false,['id'=>'23643118','clientId'=>true,'webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true]],
             ['mailru','Top.Mail.Ru','Статистика посещений',false,['id'=>'3265404']],
             ['google_ga4','Google Analytics 4','Статистика посещений',false,[]],
-            ['google_gtm','Google Tag Manager','Контейнер: требует разрешения всех включённых сервисов',false,[]],
+            ['google_gtm','Google Tag Manager','Контейнер тегов: запускается после согласия на маркетинг',false,[]],
             ['google_ads','Google Ads','Рекламные измерения',false,[]],
+            ['vk_ads','VK Реклама — пиксель','Рекламные измерения VK',false,[]],
+            ['meta_pixel','Meta Pixel (Facebook / Instagram)','Рекламные измерения Meta',false,[]],
             ['google_maps','Google Maps','Внешние интерактивные карты',false,[]],
             ['yandex_maps','Яндекс.Карты','Внешние интерактивные карты',false,[]],
         ] as [$loader,$name,$purpose,$enabled,$config]) {
@@ -62,7 +66,7 @@ final class CookieConsentServiceRegistry
                 if (!is_string($s[$field]) || $s[$field]==='' || strlen($s[$field])>$max || preg_match('/[\x00-\x1f\x7f<>]/',$s[$field])) throw new InvalidArgumentException('Invalid service text');
             }
             if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || $s['category']!==self::CATALOG[$s['loader']]['category'] || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
-            $allowed=array_merge(in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
+            $allowed=array_merge(in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
             if (array_diff(array_keys($s['config']),$allowed)) throw new InvalidArgumentException('Unknown config');
             $pattern=match($s['loader']) {
                 'google_ga4'=>'/^G-[A-Z0-9]{4,20}$/D', 'google_gtm'=>'/^GTM-[A-Z0-9]{4,20}$/D',
@@ -74,6 +78,8 @@ final class CookieConsentServiceRegistry
             $s['config']=$s['config'] ?: new stdClass();
         }
         unset($s);
+        $analyticsIds=[];foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='mailru')$analyticsIds[ltrim($service['config']['id'],'0')?:'0']=true;
+        foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='vk_ads'&&isset($analyticsIds[ltrim($service['config']['id'],'0')?:'0']))throw new InvalidArgumentException('pixel_id_conflict');
         return $data;
     }
     public static function publicJson(string $json): string
