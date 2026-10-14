@@ -27,12 +27,15 @@
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
     const result = data.services.map(s => {
-      if (!s || Object.keys(s).filter(k => k !== 'purpose_id').sort().join() !== 'category,config,enabled,key,loader,name,purpose' ||
+      // Accept cached pre-projection HTML as well as the minimal public contract.
+      const fields = s && Object.keys(s).filter(k => k !== 'purpose_id').sort().join();
+      const legacy = fields === 'category,config,enabled,key,loader,name,purpose';
+      if (!s || (!legacy && fields !== 'category,config,enabled,key,loader') ||
           typeof s.key !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(s.key) || keys.has(s.key) ||
           !Object.hasOwn(catalog, s.loader) || s.category !== catalog[s.loader] || typeof s.enabled !== 'boolean') throw Error('Invalid service');
       keys.add(s.key);
       if (Object.hasOwn(s, 'purpose_id') && (typeof s.purpose_id !== 'string' || !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) throw Error('Stable purpose');
-      for (const [k, max] of [['name', 100], ['purpose', 500]]) {
+      if (legacy) for (const [k, max] of [['name', 100], ['purpose', 500]]) {
         if (typeof s[k] !== 'string' || !s[k] || new TextEncoder().encode(s[k]).length > max || /[\x00-\x1f\x7f<>]/.test(s[k])) throw Error('Invalid text');
       }
       const allowed = [...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
@@ -45,7 +48,7 @@
       // Permission binds to the exact disclosure and reviewed adapter configuration.
       const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
       const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);
-      return Object.freeze({ ...s, config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
+      return Object.freeze({ key: s.key, category: s.category, enabled: s.enabled, loader: s.loader, ...(Object.hasOwn(s, 'purpose_id') ? { purpose_id: s.purpose_id } : {}), config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
     }).filter(s => s.enabled);
     const analyticsIds = new Set(result.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));
     if (result.some(s => s.loader === 'vk_ads' && analyticsIds.has(s.config.id.replace(/^0+(?=\d)/, '')))) throw Error('pixel_id_conflict');

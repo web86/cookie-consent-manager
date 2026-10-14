@@ -77,3 +77,6 @@ GTM запускается по маркетингу и своему fingerprint
 `npm ci` устанавливает зафиксированные esbuild 0.28.2 и Playwright 1.62.1. `npm run build:frontend` собирает раздельные исходники в один публичный минифицированный JS и CSS. `_build/build.php` использует настоящий MODX 2 modPackageBuilder; `_build/normalize.py` нормализует ZIP metadata, `_build/verify.php` проверяет vehicles, hashes и отсутствие приватных данных. Минификация не выполняется в MODX runtime.
 
 [Полный release harness](tests/release/run.mjs), [новые focused тесты](tests/beta33/README.md), [transport tests](tests/transport/). Только локальные именованные disposable DB и loopback fixtures. Shared main suites запускаются последовательно. Независимые beta-отчёты и immutable архивы сохранены в `docs/`; они описывают соответствующие исторические версии. Production deployment выполняется владельцем отдельно после staging.
+## Публичный реестр
+
+В review-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).

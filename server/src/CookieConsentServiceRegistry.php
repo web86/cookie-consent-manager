@@ -1,6 +1,6 @@
 <?php
 declare(strict_types=1);
-/** Public metadata, never executable administrator-supplied code or HTML. */
+/** Full server registry; publicRegistry projects only reviewed runtime data. */
 final class CookieConsentServiceRegistry
 {
     public const CATALOG = [
@@ -88,8 +88,21 @@ final class CookieConsentServiceRegistry
         foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='vk_ads'&&isset($analyticsIds[ltrim($service['config']['id'],'0')?:'0']))throw new InvalidArgumentException('pixel_id_conflict');
         return $data;
     }
+    /** Project validated server data without changing stored settings or consent identity. */
+    public static function publicRegistry(array $registry): array
+    {
+        $services=[];
+        foreach ($registry['services'] as $service) {
+            $public=[];
+            foreach (['key','category','enabled','loader','config','purpose_id'] as $field) {
+                if (array_key_exists($field,$service)) $public[$field]=$service[$field];
+            }
+            $services[]=$public;
+        }
+        return ['schema'=>$registry['schema'],'services'=>$services];
+    }
     public static function publicJson(string $json): string
     {
-        return json_encode(self::validateJson($json),JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR);
+        return json_encode(self::publicRegistry(self::validateJson($json)),JSON_HEX_TAG|JSON_HEX_AMP|JSON_HEX_APOS|JSON_HEX_QUOT|JSON_THROW_ON_ERROR);
     }
 }

@@ -5,7 +5,7 @@ try {
     try {
         $data=CookieConsentSettings::read($modx);
         $language=CookieConsentBannerRenderer::language($modx);
-        $registry=CookieConsentTexts::safeJson($data['registry']);$public=CookieConsentTexts::safeJson(['locale'=>$language]);
+        $registry=CookieConsentTexts::safeJson(CookieConsentServiceRegistry::publicRegistry($data['registry']));$public=CookieConsentTexts::safeJson(['locale'=>$language]);
     }catch(Throwable $e){$modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Invalid public configuration');$registry='{"schema":1,"services":[]}';$public='{}';}
     $configuration='<script type="application/json" id="cc-service-registry">'.$registry.'</script><script type="application/json" id="cc-public-config">'.$public.'</script>';
     $assets=(string)$modx->getOption('assets_url');$css='css/cookie-consent.min.css';$js='js/cookie-consent/cookie-consent.min.js';
