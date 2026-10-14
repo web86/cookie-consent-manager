@@ -52,7 +52,55 @@ Cookie Consent Manager показывает настройки cookie, подк�
 
 Удалите старые прямые подключения счётчиков, пикселей, GTM и noscript-пиксели, которые могут обходить согласие. CookieConsentMap используется для iframe-карт, onAllowed() — для собственных JavaScript-интеграций. Такие интеграции проверяйте отдельно.
 
-### 5. Проверьте сайт перед публикацией
+### 5. Подключение собственных JavaScript-сервисов
+
+API onAllowed(category, callback, options) поддерживает analytics, marketing и external_content. Без options проверяется только согласие на видимую категорию, даже если в ней нет сервисов. Включите «Показывать в настройках cookie» для такой категории. Это не разрешение на отдельный зарегистрированный провайдер.
+
+Регистрируйте callback после инициализации публичного bundle. Он вызывается один раз для каждой регистрации после подтверждённого разрешения; действующее сохранённое согласие также запускает callback, включая позднюю регистрацию. Пример A — собственная интеграция категории:
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    const cmp = window.web86CookieConsent;
+    if (!cmp?.onAllowed) return;
+
+    cmp.onAllowed('external_content', async function (stillAllowed) {
+        if (!stillAllowed()) return;
+
+        const module = await import('/assets/js/custom-map.js');
+        if (!stillAllowed()) return;
+
+        await module.initMap(stillAllowed);
+    });
+});
+```
+
+custom-map.js — пример принадлежащего сайту модуля. Импорт не должен сам загружать сторонние API. initMap(stillAllowed) обязан проверять guard перед каждым внешним SDK/запросом и после каждой асинхронной операции, прежде чем продолжать работу. Отзыв или unsubscribe делают guard ложным и останавливают последующие действия; уже отправленные запросы отменить задним числом нельзя.
+
+Пример B — разрешение конкретного сервиса. В B/C cmp — window.web86CookieConsent; регистрируйте их после инициализации, как в A. Для управляемого SDK используйте { service: «ключ_экземпляра» }, если экземпляр зарегистрирован. yandex здесь — key, который может отличаться от loader: нужен включённый, настроенный экземпляр той же категории с действующим совпадающим fingerprint. Одно согласие на категорию не заменяет его разрешение.
+
+```javascript
+cmp.onAllowed('analytics', function (stillAllowed) {
+    if (!stillAllowed()) return;
+
+    // Пользовательская логика разрешённого экземпляра Яндекс.Метрики.
+}, { service: 'yandex' });
+```
+
+Пример C — onAllowed возвращает unsubscribe. Его можно вызвать, когда интеграция больше не нужна. Это отменяет ожидающий callback и делает переданный ему stillAllowed() ложным; уже загруженные скрипты и прошедшую сетевую активность unsubscribe не удаляет.
+
+```javascript
+const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
+    if (!stillAllowed()) return;
+    // Запустить разрешённую интеграцию.
+});
+
+// Когда интеграция больше не нужна:
+unsubscribe();
+```
+
+Размещайте код в собственном чанке или JS-файле сайта, а не в ядре компонента. API не создаёт сервисы в Manager; редактора произвольного JavaScript нет. Для интеграций нужен отдельный тест: отказ, разрешение, восстановление после reload, отзыв во время import/fetch и отсутствие дальнейших запросов после ложного guard.
+
+### 6. Проверьте сайт перед публикацией
 
 Очистите штатный кэш MODX и кэш HTML/CDN. Проверьте в новом профиле браузера отказ, каждую используемую категорию, сохранённый выбор после перезагрузки и отзыв через свою кнопку настроек. В Network не должно быть запросов неразрешённых сервисов.
 
@@ -114,7 +162,55 @@ Alternatively, retain one legacy CookieConsent call. Never combine both integrat
 
 Remove old direct counter, pixel and GTM scripts and noscript pixels that could bypass consent. Use CookieConsentMap for iframe maps and onAllowed() for your own JavaScript integrations. Verify custom integrations separately.
 
-### 5. Verify before publishing
+### 5. Integrating custom JavaScript services
+
+The onAllowed(category, callback, options) API supports analytics, marketing and external_content. Without options it checks only permission for a visible category, even when no services are registered in it. Enable Show in cookie settings for that category. This is not permission for a particular registered provider.
+
+Register callbacks after the public bundle initializes. Each registration runs once after confirmed permission; valid restored consent also triggers it, including late registrations. Example A — a category-based custom integration:
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    const cmp = window.web86CookieConsent;
+    if (!cmp?.onAllowed) return;
+
+    cmp.onAllowed('external_content', async function (stillAllowed) {
+        if (!stillAllowed()) return;
+
+        const module = await import('/assets/js/custom-map.js');
+        if (!stillAllowed()) return;
+
+        await module.initMap(stillAllowed);
+    });
+});
+```
+
+custom-map.js is an illustrative website-owned module. Importing it must not automatically load third-party APIs. initMap(stillAllowed) must check the guard before each external SDK/request and after every asynchronous operation before continuing. Revocation or unsubscribe makes the guard false and prevents subsequent work; already-dispatched requests cannot be undone.
+
+Example B — permission for a specific service. In B/C, cmp is window.web86CookieConsent; register after initialization as in A. For controlled SDKs, use { service: "instance_key" } when an instance is registered. Here yandex is an instance key, which can differ from its loader: an enabled, configured instance in the same category with valid matching fingerprint permission is required. Category-level consent does not replace that permission.
+
+```javascript
+cmp.onAllowed('analytics', function (stillAllowed) {
+    if (!stillAllowed()) return;
+
+    // Custom logic for an approved Yandex.Metrika instance.
+}, { service: 'yandex' });
+```
+
+Example C — onAllowed returns unsubscribe. Call it when the integration is no longer needed. It cancels a pending callback and makes its stillAllowed() guard false; it does not remove scripts already loaded or reverse previous network activity.
+
+```javascript
+const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
+    if (!stillAllowed()) return;
+    // Start the approved integration.
+});
+
+// When the integration is no longer needed:
+unsubscribe();
+```
+
+Keep code in website-owned chunks or JS files rather than the component core. The API does not create services in Manager; there is no free-form JavaScript editor. Test custom integrations independently: rejection, permission, restored consent after reload, revocation during import/fetch and no further requests after a false guard.
+
+### 6. Verify before publishing
 
 Clear the normal MODX cache and HTML/CDN cache. In a new browser profile, test rejection, each category used, saved preferences after reload and withdrawal through your settings opener. Network must show no requests to services without permission.
 
