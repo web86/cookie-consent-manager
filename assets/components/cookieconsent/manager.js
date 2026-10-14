@@ -46,9 +46,19 @@
       }
       return clone(registry);
     };
+    // MODX also turns empty translation dictionaries into []; never edit arrays as maps.
+    const editableTexts = texts => {
+      if (Array.isArray(texts.locales) && texts.locales.length === 0 && Object.keys(texts.locales).length === 0) texts.locales = {};
+      if (!texts.locales || Object.getPrototypeOf(texts.locales) !== Object.prototype) throw Error(t('invalid_texts'));
+      for (const [language, values] of Object.entries(texts.locales)) {
+        if (Array.isArray(values) && values.length === 0 && Object.keys(values).length === 0) texts.locales[language] = {};
+        if (!texts.locales[language] || Object.getPrototypeOf(texts.locales[language]) !== Object.prototype) throw Error(t('invalid_texts') + ' (' + language + ')');
+      }
+      return clone(texts);
+    };
     const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
-    try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: clone(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
+    try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: editableTexts(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
     catch (e) { root.removeAttribute('aria-busy'); root.setAttribute('role', 'alert'); root.textContent = e.message; return; }
     revision = data.revision; editLanguage = data.managerLanguage; previewLanguage = editLanguage;
     draft.texts.locales[editLanguage] ||= {};
@@ -223,7 +233,7 @@
       try {
         const payload={...draft};
         const saved = await api('save', { draft: JSON.stringify(payload), revision,site_origin:location.origin }); revision = saved.revision;
-        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=saved.texts;draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
+        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=editableTexts(saved.texts);draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
         if(saved.partial){status.textContent=t('saved_partial')+' '+(data.managerStrings['m.reason_'+saved.journal.reason]||t('log_write_error'));status.dataset.state='partial';}else{status.textContent=dirty?t('unsaved'):t('saved');status.dataset.state=dirty?'dirty':'saved';}schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }

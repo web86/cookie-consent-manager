@@ -316,3 +316,5 @@ $_lang['m.category_visible'] = 'Show in cookie settings';
 $_lang['m.category_visibility_help'] = 'Visibility is independent of enabled services. Hiding invalidates previous category consent.';
 $_lang['m.collapse'] = 'Collapse';
 $_lang['m.expand'] = 'Expand';
+
+$_lang['m.invalid_texts'] = 'Invalid translation dictionary. Settings were not changed.';

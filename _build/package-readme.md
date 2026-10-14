@@ -1,4 +1,4 @@
-Cookie Consent Manager — native MODX 2 package (beta33)
+Cookie Consent Manager — native MODX 2 package (1.0.0)
 
 No Setup Options or package-state directory. Open Extras → Cookie Consent Manager. Journal settings are at the end of Main and use the single Save button. Fresh installations propose the target host MODX_CORE_PATH + cache/logs/; upgrades keep existing paths, including an intentionally empty disabled value. An empty path stops new events without deleting old logs. Save checks a new/changed existing directory with a temporary local PHP exclusive write/flock/read/cleanup proof, initializes audit configuration and never sends HTTP self-requests or fictitious consents. On journal failure other valid settings are saved and the previous path is retained with an explicit partial result. Unchanged valid paths/configuration are not write-tested again. No directories or .htaccess are created automatically. Back up consent logs, including before manually clearing the entire core/cache directory; ordinary MODX cache clearing preserves logs. Logs use YYYY-MM-cookie-consent.log, separately from error.log.
 

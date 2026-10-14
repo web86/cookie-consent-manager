@@ -6,8 +6,10 @@ $root=dirname(__DIR__);$site=$argv[1]??'';$out=$argv[2]??($root.'/.local/artifac
 if($site===''||$site[0]!=='/'||!is_file($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
 $metadata=json_decode(file_get_contents(__DIR__.'/package.json'),true,8,JSON_THROW_ON_ERROR);
 if($releaseIndex!==null)$metadata['release_index']=$releaseIndex;
-if($metadata['release_index']<1||$metadata['release_index']>999)throw new RuntimeException('Release index');
-$signature=$metadata['name'].'-'.$metadata['version'].'-'.$metadata['release'].$metadata['release_index'];
+if(!in_array($metadata['release'],['','beta'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
+$release=$metadata['release']===''?'':$metadata['release'].$metadata['release_index'];
+$versionRelease=$metadata['version'].($release===''?'':'-'.$release);
+$signature=$metadata['name'].'-'.$versionRelease;
 if(!is_dir($out)&&!mkdir($out,0700,true))throw new RuntimeException('Output path');
 $work=$out.'/work-'.$signature;
 if(is_dir($work)){throw new RuntimeException('Use a new output/work directory; previous build preserved');}
@@ -59,7 +61,7 @@ definition('modChunk',['name'=>'CookiesPopup'],['snippet'=>file_get_contents($ro
 foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2-map-snippet.php','CookieConsentAssets'=>'modx2-assets-snippet.php','CookieConsentBanner'=>'modx2-banner-snippet.php'] as $name=>$file) {
  definition('modSnippet',['name'=>$name],['snippet'=>trim(preg_replace('/^<\?php\s*/','',file_get_contents($root.'/server/'.$file)))],$name,$definitions);
 }
-$spec=['schema'=>1,'signature'=>$signature,'version_release'=>$metadata['version'].'-'.$metadata['release'].$metadata['release_index'],'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
+$spec=['schema'=>1,'signature'=>$signature,'version_release'=>$versionRelease,'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
 file_put_contents($work.'/source-inventory.json',json_encode($spec,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
 $prefix="<?php\n\$spec=".var_export($spec,true).";\n";
 $preflight=$work.'/preflight.php';file_put_contents($preflight,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/preflight.php')));
@@ -67,7 +69,7 @@ $verify=$work.'/verify-install.php';file_put_contents($verify,$prefix.preg_repla
 $canonical=$work.'/canonical-elements.php';file_put_contents($canonical,file_get_contents(__DIR__.'/validators/canonical-elements.php'));
 $logDefault=$work.'/default-log-directory.php';file_put_contents($logDefault,file_get_contents(__DIR__.'/validators/default-log-directory.php'));
 $adapt=$work.'/adapt-menu.php';file_put_contents($adapt,file_get_contents(__DIR__.'/adapt-menu.php'));
-$modx->loadClass('transport.modPackageBuilder','',false,true);$builder=new modPackageBuilder($modx);$builder->directory=$work.'/native/';mkdir($builder->directory,0700);$builder->createPackage($metadata['name'],$metadata['version'],$metadata['release'].$metadata['release_index']);
+$modx->loadClass('transport.modPackageBuilder','',false,true);$builder=new modPackageBuilder($modx);$builder->directory=$work.'/native/';mkdir($builder->directory,0700);$builder->createPackage($metadata['name'],$metadata['version'],$release);
 $ns=$modx->newObject('modNamespace');$ns->fromArray($definitions['namespace']['fields'],'',true,true);$builder->registerNamespace($ns,false,false);
 // Standard script vehicle preflight; its return value propagates to native PM.
 $start=$builder->createVehicle(['source'=>$preflight],['vehicle_class'=>'xPDOScriptVehicle','guid'=>md5('cookieconsent/preflight'),xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true]);if(!$builder->putVehicle($start))throw new RuntimeException('Preflight vehicle');
@@ -85,7 +87,7 @@ foreach($files as $entry){
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native file vehicle failed');
 }
 $end=$builder->createVehicle(['source'=>$verify],['vehicle_class'=>'xPDOScriptVehicle','guid'=>md5('cookieconsent/verify'),xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true]);if(!$builder->putVehicle($end))throw new RuntimeException('Verification vehicle');
-$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Private beta. Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.8,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
+$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.8,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
 if(!$builder->pack())throw new RuntimeException('modPackageBuilder pack failed');
 copy($builder->directory.$signature.'.transport.zip',$out.'/'.$signature.'.transport.zip');
 copy($work.'/source-inventory.json',$out.'/'.$signature.'.inventory.json');

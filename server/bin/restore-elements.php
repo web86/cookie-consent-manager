@@ -3,7 +3,7 @@ declare(strict_types=1);
 /** CLI-only recovery from MODX native preserved.php. Default is a hash-only dry run. */
 if(PHP_SAPI!=='cli'){http_response_code(404);exit;}
 $site=$argv[1]??'';$signature=$argv[2]??'';$apply=($argv[3]??'')==='--apply';
-if(realpath($site)!==rtrim($site,'/')||!is_file($site.'/index.php')||!preg_match('/^cookieconsent-0\.1\.0-beta[1-9][0-9]{0,2}$/D',$signature))throw new RuntimeException('Usage: restore-elements.php /canonical/MODX-root cookieconsent-0.1.0-betaN [--apply]');
+if(realpath($site)!==rtrim($site,'/')||!is_file($site.'/index.php')||!preg_match('/^cookieconsent-[0-9]{1,4}\.[0-9]{1,4}\.[0-9]{1,4}(?:-beta[1-9][0-9]{0,2})?$/D',$signature))throw new RuntimeException('Usage: restore-elements.php /canonical/MODX-root cookieconsent-VERSION [--apply]');
 define('MODX_API_MODE',true);ob_start();require $site.'/index.php';while(ob_get_level())ob_end_clean();
 require_once __DIR__.'/../src/CookieConsentPrivatePath.php';
 $file=MODX_CORE_PATH.'packages/'.$signature.'/preserved.php';CookieConsentPrivatePath::file($file);if(!is_readable($file))throw new RuntimeException('Native backup not available');$backup=require $file;if(!is_array($backup))throw new RuntimeException('Native backup invalid');

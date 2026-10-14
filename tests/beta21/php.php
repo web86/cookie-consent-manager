@@ -2,10 +2,10 @@
 require_once __DIR__.'/../../server/src/CookieConsentBannerRenderer.php';
 require_once __DIR__.'/../../server/src/CookieConsentAuditHttp.php';
 $n=0;function eq($a,$b,$why=''){global $n;$n++;if($a!==$b)throw new RuntimeException($why);}
-$categories=['analytics','marketing','external_content'];$markup=file_get_contents(__DIR__.'/../../CookiesPopup.html');
+$legacyOptions=CookieConsentSettings::defaults();unset($legacyOptions['categories'],$legacyOptions['category_versions']);$categories=['analytics','marketing','external_content'];$markup=file_get_contents(__DIR__.'/../../CookiesPopup.html');
 for($mask=0;$mask<8;$mask++){
  $services=[];foreach($categories as $i=>$cat){$services[]=['enabled'=>(bool)($mask&(1<<$i)),'category'=>$cat,'key'=>$cat,'name'=>$cat,'config'=>[]];$services[]=['enabled'=>false,'category'=>$cat];}
- $html=CookieConsentBannerRenderer::render($markup,CookieConsentTexts::resolve(CookieConsentTexts::defaults(),'en'),CookieConsentSettings::defaults(),'/assets/','live',$services);
+ $html=CookieConsentBannerRenderer::render($markup,CookieConsentTexts::resolve(CookieConsentTexts::defaults(),'en'),$legacyOptions,'/assets/','live',$services);
  $doc=new DOMDocument();libxml_use_internal_errors(true);$doc->loadHTML($html);$xp=new DOMXPath($doc);
  eq($xp->query('//*[@data-cc-category-row="necessary"]')->item(0)->hasAttribute('hidden'),false,'necessary SSR');
  foreach($categories as $i=>$cat)eq($xp->query('//*[@data-cc-category-row="'.$cat.'"]')->item(0)->hasAttribute('hidden'),!($mask&(1<<$i)),'mask SSR '.$mask);
