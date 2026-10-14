@@ -21,6 +21,8 @@
   const auditEnabled = Boolean(auditUrl);
   const registry = window.web86Providers;
   const services = registry?.services || [];
+  const categoryVisibility = Object.fromEntries(['analytics','marketing','external_content'].map(c => [c, root.getAttribute('data-cc-category-' + c.replaceAll('_','-')) === '1']));
+  const categoryVersions = Object.fromEntries(Object.keys(categoryVisibility).map(c => [c, Number(root.getAttribute('data-cc-category-version-' + c.replaceAll('_','-')))]));
   const maps = [];
   const main = root.querySelector('[data-cc-panel="main"]');
   const settings = root.querySelector('[data-cc-panel="settings"]');
@@ -53,7 +55,7 @@
     const needsService = Object.hasOwn(options, 'service');
     let cancelled = false, called = false;
     // Read only the CMP's validated committed state. Also stops work before reload.
-    const stillAllowed = () => !cancelled && callbacksReady && !reloading && consent?.[category] === true &&
+    const stillAllowed = () => !cancelled && callbacksReady && !reloading && categoryVisibility[category] && consent?.[category] === true &&
       (!needsService || Boolean(service && consent.providers?.[service.key] === service.fingerprint));
     const run = () => {
       if (called || !stillAllowed()) return;
@@ -130,9 +132,11 @@
       }
       // M2 preference retains its ID, but cannot authorize newly disclosed providers.
       needsChoice = data.model !== 'categories_v1' || services.some(service => data.disclosed?.[service.key] !== service.fingerprint);
+      const granted = Object.fromEntries(Object.keys(categoryVisibility).map(c => [c, categoryVisibility[c] && data[c] === true && (data.category_versions?.[c] ?? 0) === categoryVersions[c]]));
+      needsChoice ||= Object.keys(categoryVisibility).some(c => categoryVisibility[c] && (data.category_versions?.[c] ?? 0) !== categoryVersions[c]);
       const providers = Object.create(null);
-      for (const service of services) if (data.providers?.[service.key] === service.fingerprint && data[service.category] === true) providers[service.key] = service.fingerprint;
-      return { ...data, external_content: data.external_content === true, providers };
+      for (const service of services) if (data.providers?.[service.key] === service.fingerprint && granted[service.category] === true) providers[service.key] = service.fingerprint;
+      return { ...data, ...granted, providers };
     } catch (error) {
       console.warn(t('error_preference'), error);
       return null;
@@ -182,7 +186,7 @@
   function applyConsent(value) {
     registry?.apply(value, mode);
     for (const map of maps) {
-      const allowed = value.external_content && value.providers?.[map.service.key] === map.service.fingerprint;
+      const allowed = categoryVisibility.external_content && value.external_content && value.providers?.[map.service.key] === map.service.fingerprint;
       if (allowed && !map.frame) {
         const frame = document.createElement('iframe'); frame.title = map.title;
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -226,8 +230,8 @@
   function commit(action, analytics, marketing, external = false, permissions = {}, provider = null) {
     callbacksReady = false;
     const previous = consent;
-    const value = { model:'categories_v1', disclosed: provider ? {...(previous?.disclosed || {}), [provider]:services.find(s=>s.key===provider).fingerprint} : Object.fromEntries(services.map(s=>[s.key,s.fingerprint])), version, necessary: true, analytics: Boolean(analytics), marketing: Boolean(marketing),
-      external_content: Boolean(external), providers: Object.create(null), savedAt: Date.now(), consentId };
+    const value = { model:'categories_v1', disclosed: provider ? {...(previous?.disclosed || {}), [provider]:services.find(s=>s.key===provider).fingerprint} : Object.fromEntries(services.map(s=>[s.key,s.fingerprint])), version, necessary: true, analytics: categoryVisibility.analytics && Boolean(analytics), marketing: categoryVisibility.marketing && Boolean(marketing),
+      external_content: categoryVisibility.external_content && Boolean(external), category_versions: { ...categoryVersions }, providers: Object.create(null), savedAt: Date.now(), consentId };
     for (const s of services) if (value[s.category] && permissions[s.key]) value.providers[s.key] = s.fingerprint;
     const persisted = saveConsent(value);
     consent = value;
@@ -253,6 +257,7 @@
   }
 
   function mapChoice(service, allowed) {
+    if (!categoryVisibility.external_content) return;
     const permissions = Object.fromEntries(services.map(s => [s.key, consent?.providers?.[s.key] === s.fingerprint]));
     permissions[service.key] = allowed;
     const external = services.some(s => s.category === 'external_content' && permissions[s.key]);
@@ -276,6 +281,7 @@
       const heading = fragment.querySelector('h3');
       if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
       const load = fragment.querySelector('[data-cc-map-load]');
+      load.hidden = !categoryVisibility.external_content; load.disabled = !categoryVisibility.external_content;
       load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
       node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });
     }
@@ -334,7 +340,7 @@
     for (const [category, input] of Object.entries(inputs)) {
       const row = input.closest('label');
       row.dataset.ccCategoryRow = category;
-      row.hidden = !services.some(service => service.enabled === true && service.category === category);
+      row.hidden = !categoryVisibility[category];
     }
     setupButtonVisibility();
     root.addEventListener('click', onClick);

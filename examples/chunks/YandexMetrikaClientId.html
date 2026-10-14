@@ -1,0 +1,17 @@
+<!-- User-owned example. Create a chunk yourself; the package never installs it.
+     Place [[$YandexMetrikaClientId]] after [[!CookieConsentBanner]].
+     The optional target #clientid is owned by your form integration.
+     Replace service:'yandex' if you use a different registered instance key. -->
+<script>
+window.web86CookieConsent.onAllowed('analytics', function (stillAllowed) {
+    const service = window.web86Providers.services.find(s => s.key === 'yandex' && s.loader === 'yandex');
+    const target = document.getElementById('clientid');
+    if (!target || !service || !stillAllowed() || typeof window.ym !== 'function') return;
+    // The existing consent-controlled adapter owns the SDK and its standard queue.
+    window.ym(Number(service.config.id), 'getClientID', function (clientId) {
+        if (stillAllowed() && target.isConnected && typeof clientId === 'string' && clientId) {
+            target.setAttribute('data-clientid', clientId);
+        }
+    });
+}, {service: 'yandex'});
+</script>

@@ -113,10 +113,18 @@
       select.replaceChildren(); const codes = [...new Set([...(available ? data.availableLanguages : Object.keys(draft.texts.locales)), selected])].sort();
       for (const code of codes) select.append(el('option', code, { value: code })); select.value = selected;
     }
+    const groupExpanded = { analytics: true, marketing: true, external_content: true };
     function renderServices() {
       panels.services.replaceChildren();
       for (const category of ['analytics', 'marketing', 'external_content']) {
-        const group = el('section', null, { class: 'ccm-service-group', 'data-group': category }); group.append(el('h3', data.managerStrings[category + '_name']));
+        const group = el('section', null, { class: 'ccm-service-group', 'data-group': category });
+        const heading = el('div', null, {class:'ccm-group-heading'}), title=el('h3', data.managerStrings[category + '_name'],{id:'ccm-group-title-'+category});
+        heading.append(title);
+        field(heading,t('category_visible'),draft.options.categories[category],v=>draft.options.categories[category]=v,'checkbox','ccm-category-visible-'+category,t('category_visibility_help'));
+        const content=el('div',null,{id:'ccm-group-content-'+category,'aria-labelledby':title.id});content.hidden=!groupExpanded[category];
+        const toggle=el('button',t(groupExpanded[category]?'collapse':'expand'),{type:'button',id:'ccm-group-toggle-'+category,'aria-controls':content.id,'aria-expanded':String(groupExpanded[category]),'aria-label':t(groupExpanded[category]?'collapse':'expand')+' — '+title.textContent});
+        toggle.onclick=()=>{groupExpanded[category]=!groupExpanded[category];content.hidden=!groupExpanded[category];toggle.textContent=t(groupExpanded[category]?'collapse':'expand');toggle.setAttribute('aria-expanded',String(groupExpanded[category]));toggle.setAttribute('aria-label',toggle.textContent+' — '+title.textContent);};
+        heading.append(toggle);group.append(heading,content);
         for (const service of draft.registry.services.filter(s => s.category === category)) {
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
           card.append(el('h4', textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name));
@@ -137,7 +145,7 @@
           const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help' }[service.loader];
           if (note) details.append(el('p', t(note), { class: 'ccm-help' }));
           if (!Object.hasOwn(data.catalog, service.key)) { const remove = el('button', t('delete'), { type: 'button' }); remove.onclick = () => { draft.registry.services = draft.registry.services.filter(s => s !== service); changed(); renderServices(); renderTexts(); }; details.append(remove); }
-          group.append(card);
+          content.append(card);
         }
         panels.services.append(group);
       }
@@ -156,7 +164,7 @@
         draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:meta.category,enabled:false,name:name.value.trim(),purpose:data.lexicons.en['service.'+adapter.value+'.description'],config:{id:counterId.value}});
         draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+key+'.name']=name.value.trim();
         changed();renderServices();renderTexts();status.textContent=t('counter_added');
-        const card=panels.services.querySelector('[data-service="'+key+'"]');card.scrollIntoView({block:'center'});
+        const card=panels.services.querySelector('[data-service="'+key+'"]');if(groupExpanded[meta.category])card.scrollIntoView({block:'center'});
       };
     }
     const editorControls = el('div', null, { class: 'ccm-language-controls' }); panels.texts.append(editorControls);
@@ -194,7 +202,7 @@
       if (previewState === 'map') content = services.filter(s => s.category === 'external_content').map(s => {
         const provider = strings['service.' + s.key + '.name'] || s.name;
         const replace = str => (str || '').split('{provider}').join(provider);
-        return `<div class="cc-map-placeholder" data-preview-map="${escape(s.key)}">${s.config.show_title === false ? '' : '<h3>' + escape(strings.map_title) + '</h3>'}<p>${escape(replace(strings['service.' + s.key + '.map_notice'] || strings.map_notice))}</p><button type="button">${escape(replace(strings.map_load))}</button></div>`;
+        return `<div class="cc-map-placeholder" data-preview-map="${escape(s.key)}">${s.config.show_title === false ? '' : '<h3>' + escape(strings.map_title) + '</h3>'}<p>${escape(replace(strings['service.' + s.key + '.map_notice'] || strings.map_notice))}</p><button type="button" ${result.visibleCategories.external_content?'':'hidden disabled'}>${escape(replace(strings.map_load))}</button></div>`;
       }).join('');
       const parsed = new DOMParser().parseFromString(content, 'text/html');
       for (const a of parsed.querySelectorAll('a')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
@@ -208,7 +216,7 @@
     }
     save.onclick = async () => {
       const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s));
-      if (invalidService) { renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
+      if (invalidService) { groupExpanded[invalidService.category]=true;renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
       if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);

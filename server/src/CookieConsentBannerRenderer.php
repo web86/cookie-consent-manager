@@ -14,7 +14,8 @@ final class CookieConsentBannerRenderer
             $notice=$xpath->query('//*[@data-cc-html="notice_html"]')->item(0);
             if($notice){while($notice->firstChild)$notice->removeChild($notice->firstChild);$fragment=new DOMDocument();$fragment->loadHTML('<?xml encoding="UTF-8"><html><body>'.CookieConsentHtmlSanitizer::clean((string)($strings['notice_html']??'')).'</body></html>',LIBXML_NONET);$body=$fragment->getElementsByTagName('body')->item(0);if($body)foreach($body->childNodes as $child)$notice->appendChild($doc->importNode($child,true));}
             $root->setAttribute('data-cc-mode',$mode==='mock'?'mock':'live');$root->setAttribute('data-cc-policy-version',$options['policy_version']);$root->setAttribute('data-cc-ttl-days',(string)$options['ttl_days']);$root->setAttribute('data-cc-audit-url',$assets.'components/cookieconsent/audit.php');
-            $visible=CookieConsentServiceRegistry::visibleCategories($services);
+            $options=CookieConsentSettings::categoryOptions($options,$services);$visible=['necessary'=>true]+$options['categories'];
+            foreach(CookieConsentSettings::CATEGORIES as $category){$root->setAttribute('data-cc-category-'.str_replace('_','-',$category),$visible[$category]?'1':'0');$root->setAttribute('data-cc-category-version-'.str_replace('_','-',$category),(string)$options['category_versions'][$category]);}
             foreach($xpath->query('//*[@data-cc-category]') as $input){
                 $category=$input->getAttribute('data-cc-category');$row=$input;
                 while($row && $row->nodeName!=='label')$row=$row->parentNode;
@@ -32,7 +33,7 @@ final class CookieConsentBannerRenderer
                 $section=$doc->createElement('section');$section->setAttribute('class','cc-map-placeholder');
                 $heading=$doc->createElement('h3');$heading->appendChild($doc->createTextNode((string)$strings['map_title']));if((((array)$service['config'])['show_title']??true)===false)$heading->setAttribute('hidden','');$section->appendChild($heading);
                 $notice=$doc->createElement('p');$notice->appendChild($doc->createTextNode(str_replace('{provider}',$provider,(string)($strings['service.'.$key.'.map_notice']??$strings['map_notice']))));$section->appendChild($notice);
-                $button=$doc->createElement('button');$button->setAttribute('type','button');$button->setAttribute('data-cc-map-load',$key);$button->appendChild($doc->createTextNode(str_replace('{provider}',$provider,(string)$strings['map_load'])));$section->appendChild($button);
+                $button=$doc->createElement('button');$button->setAttribute('type','button');$button->setAttribute('data-cc-map-load',$key);if(!$visible['external_content']){$button->setAttribute('hidden','');$button->setAttribute('disabled','');}$button->appendChild($doc->createTextNode(str_replace('{provider}',$provider,(string)$strings['map_load'])));$section->appendChild($button);
                 $template->insertBefore($section,$template->firstChild);$root->appendChild($template);
             }
             // MODX/Fenom later passes must see data, never executable template delimiters.

@@ -23,11 +23,6 @@
     });
   }
 
-  function setClientId(clientID) {
-    const el = document.getElementById('clientid');
-    if (el && clientID) el.setAttribute('data-clientid', String(clientID));
-  }
-
   function loadRealYandex() {
     const url = 'https://mc.yandex.ru/metrika/tag.js';
     window.ym = window.ym || function () {
@@ -45,8 +40,6 @@
       accurateTrackBounce: true,
       webvisor: true
     });
-    // Асинхронно получает ID после загрузки API Метрики.
-    window.ym(YANDEX_ID, 'getClientID', setClientId);
   }
 
   function loadRealMailRu() {
@@ -60,7 +53,6 @@
   function loadMockAnalytics() {
     // Каждый файл — реальный самостоятельный HTTP-запрос к ТВОЕМУ тестовому сайту.
     addScript(new URL('mock/yandex.js', assetBase).href, 'web86-mock-yandex')
-      .then(() => addScript(new URL('mock/bitrix24-clientid.js', assetBase).href, 'web86-mock-bitrix'))
       .catch(console.error);
     addScript(new URL('mock/mailru.js', assetBase).href, 'web86-mock-mailru')
       .catch(console.error);

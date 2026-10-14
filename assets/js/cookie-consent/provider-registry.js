@@ -4,7 +4,7 @@
   const base = new URL('./', document.currentScript.src);
   const t = (...args) => window.web86Runtime?.message(...args) || args[0];
   const categories = { analytics: 'analytics_name', marketing: 'marketing_name', external_content: 'external_content_name' };
-  const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true, clientId: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
+  const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
     google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing', mock_marketing: 'marketing',
@@ -19,6 +19,7 @@
     google_maps: ['www.google.com', 'maps.googleapis.com', 'maps.gstatic.com'],
     yandex_maps: ['yandex.ru', 'api-maps.yandex.ru', '*.maps.yandex.net']
   });
+  const visibility = Object.fromEntries(Object.keys(categories).map(c => [c, document.getElementById('cookie-block')?.getAttribute('data-cc-category-' + c.replaceAll('_','-')) === '1']));
   const scripts = new Map();
   const started = new Set(), metaIds = new Set(), vkIds = new Set();
   let currentValue, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
@@ -39,7 +40,7 @@
       const pattern = { google_ga4: /^G-[A-Z0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/ }[s.loader] || /^[0-9]{1,20}$/;
       if ((s.enabled && allowed.includes('id') && !Object.hasOwn(s.config, 'id')) ||
           (Object.hasOwn(s.config, 'id') && (typeof s.config.id !== 'string' || !pattern.test(s.config.id))) ||
-          Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid ID/ClientID');
+          Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid provider options');
       const config = Object.fromEntries(Object.entries({ ...(booleanOptions[s.loader] || {}), ...s.config }).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
       // Permission binds to the exact disclosure and reviewed adapter configuration.
       const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
@@ -90,10 +91,10 @@
   function googleConsent(value) {
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    const allowed = loader => services.some(s => s.loader === loader && value[s.category] === true && value.providers?.[s.key] === s.fingerprint);
+    const allowed = loader => services.some(s => s.loader === loader && visibility[s.category] && value[s.category] === true && value.providers?.[s.key] === s.fingerprint);
     const container = allowed('google_gtm') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`));
-    const analytics = value.analytics === true && (container || allowed('google_ga4'));
-    const marketing = value.marketing === true && (container || allowed('google_ads'));
+    const analytics = visibility.analytics && value.analytics === true && (container || allowed('google_ga4'));
+    const marketing = visibility.marketing && value.marketing === true && (container || allowed('google_ads'));
     if (!googleDefaults) {
       window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
       googleDefaults = true;
@@ -109,7 +110,6 @@
     started.add(token);
     if (mode === 'mock') {
       await script(new URL(`mock/${s.loader === 'mock_marketing' ? 'marketing' : s.loader}.js`, base));
-      if (s.loader === 'yandex' && s.config.clientId) await script(new URL('mock/bitrix24-clientid.js', base));
       return;
     }
     switch (s.loader) {
@@ -117,9 +117,6 @@
         window.ym = window.ym || function () { (window.ym.a = window.ym.a || []).push(arguments); };
         window.ym.l = Date.now();
         window.ym(Number(s.config.id), 'init', { webvisor: s.config.webvisor, clickmap: s.config.clickmap, trackLinks: s.config.trackLinks, accurateTrackBounce: s.config.accurateTrackBounce });
-        if (s.config.clientId) window.ym(Number(s.config.id), 'getClientID', id => {
-          const el = document.getElementById('clientid'); if (el && id) el.setAttribute('data-clientid', String(id));
-        });
         await script('https://mc.yandex.ru/metrika/tag.js'); break;
       case 'mailru': case 'vk_ads':
         if (s.loader === 'vk_ads') vkIds.add(s.config.id);
@@ -169,7 +166,7 @@
     validate, safeMapUrl, revoke, apply(value, mode) {
       currentValue = value;
       if (mode === 'live' && googleDefaults) googleConsent(value);
-      for (const s of services) if (value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
+      for (const s of services) if (visibility[s.category] && value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
     }
   });
 })();

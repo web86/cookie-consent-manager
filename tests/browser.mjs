@@ -7,7 +7,7 @@ const results = [];
 function equal(a, b, message) { assertions++; assert.deepEqual(a, b, message); }
 function ok(value, message) { assertions++; assert.ok(value, message); }
 const browser = await chromium.launch({ headless: true });
-const scriptsA = ['bitrix24-clientid.js', 'google_ga4.js', 'mailru.js', 'yandex.js'];
+const scriptsA = ['google_ga4.js', 'mailru.js', 'yandex.js'];
 const scriptsM = ['google_ads.js', 'marketing.js'];
 function loads(requests) { return [...new Set(requests.filter(r => r.url.includes('/mock/')).map(r => new URL(r.url).pathname.split('/').at(-1)))].sort(); }
 async function suite(name, callback, options = {}) {
@@ -71,8 +71,7 @@ for (let mask = 0; mask < 8; mask++) await suite(`category-${mask}`, async ({ pa
   await page.waitForFunction(() => window.__deliveries.some(e => e.ok));
   const expected = [...(mask & 1 ? scriptsA : []), ...(mask & 2 ? scriptsM : []), ...(mask & 4 ? ['google_maps.html', 'yandex_maps.html'] : []), ...(mask & 2 ? ['google_gtm.js'] : [])].sort();
   equal(loads(requests), expected, 'Exact mock network set');
-  if (mask & 1) await page.waitForFunction(() => document.getElementById('clientid').dataset.clientid === 'MOCK-CLIENT-23643118');
-  else equal(await page.locator('#clientid').getAttribute('data-clientid'), '', 'ClientID not set');
+  equal(await page.locator('#clientid').getAttribute('data-clientid'), '', 'ClientID not set');
   const before = requests.length;
   await page.evaluate(() => { const c = window.web86CookieConsent.getConsent(); window.web86Providers.apply(c, 'mock'); window.web86Providers.apply(c, 'mock'); });
   await page.waitForTimeout(80); equal(requests.length, before, 'No duplicate initialization');
@@ -192,7 +191,7 @@ for(let start=0;start<256;start+=4)await Promise.all(Array.from({length:Math.min
   const expected = [];
   for (const service of selected) {
     if (service.loader === 'google_gtm') expected.push('google_gtm.js');
-    else if (service.loader === 'yandex') expected.push('yandex.js', 'bitrix24-clientid.js');
+    else if (service.loader === 'yandex') expected.push('yandex.js');
     else if (service.loader === 'mock_marketing') expected.push('marketing.js');
     else expected.push(service.loader + (service.category === 'external_content' ? '.html' : '.js'));
   }

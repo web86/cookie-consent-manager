@@ -1,4 +1,4 @@
-Cookie Consent Manager — native MODX 2 package (beta26)
+Cookie Consent Manager — native MODX 2 package (beta33)
 
 No Setup Options or package-state directory. Open Extras → Cookie Consent Manager. Journal settings are at the end of Main and use the single Save button. Fresh installations propose the target host MODX_CORE_PATH + cache/logs/; upgrades keep existing paths, including an intentionally empty disabled value. An empty path stops new events without deleting old logs. Save checks a new/changed existing directory with a temporary local PHP exclusive write/flock/read/cleanup proof, initializes audit configuration and never sends HTTP self-requests or fictitious consents. On journal failure other valid settings are saved and the previous path is retained with an explicit partial result. Unchanged valid paths/configuration are not write-tested again. No directories or .htaccess are created automatically. Back up consent logs, including before manually clearing the entire core/cache directory; ordinary MODX cache clearing preserves logs. Logs use YYYY-MM-cookie-consent.log, separately from error.log.
 
@@ -29,3 +29,7 @@ Beta31 adds VK Ads and Meta Pixel marketing adapters, off by default. New disabl
 GTM loads with marketing consent and its own fingerprint, independent of analytics/external content. Consent Mode v2 states remain separate. Administrators must configure consent checks for container tags; require analytics_storage for analytics tags. Consent Mode does not automatically block arbitrary Custom HTML/third-party tags.
 
 Beta32 adds onAllowed callbacks for analytics/marketing/external_content with optional enabled service/fingerprint check. Callbacks run once per registration/page after committed consent; unsubscribe and live stillAllowed guard support asynchronous cancellation before reload. CustomScripts belongs to the site owner and is not installed/updated by transport. Third-party JS-map integration must be reviewed and adapted separately; callbacks do not sandbox arbitrary scripts.
+
+Beta33 adds explicit optional category visibility on Services. Native upgrade initializes old values from enabled services once; fresh defaults hide all optional categories. Subsequent service changes do not change visibility. Hiding/re-enabling invalidates only the affected category preferences using internal versions; provider fingerprints remain unchanged.
+
+The package does not obtain Metrika ClientID or populate form fields. Historic clientId booleans are retired by migration. The changed Metrika fingerprint requires explicit reapproval; other service permissions remain unchanged. Optional form integration belongs to a user-owned chunk.

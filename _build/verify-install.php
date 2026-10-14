@@ -3,6 +3,8 @@ if(($options[xPDOTransport::PACKAGE_ACTION]??0)===xPDOTransport::ACTION_UNINSTAL
 try {
     $modx=$transport->xpdo;
     foreach($spec['files'] as $entry){[$kind,$relative]=explode('/',$entry['target'],2);$file=$modx->getOption($kind.'_path').$relative;clearstatcache(true,$file);if(!is_file($file)||hash_file('sha256',$file)!==$entry['sha256'])throw new RuntimeException('Native file copy incomplete');if(substr($file,-4)==='.php'&&function_exists('opcache_invalidate'))opcache_invalidate($file,true);}
+    require_once $modx->getOption('core_path').'components/cookieconsent/src/CookieConsentSettings.php';
+    CookieConsentSettings::migrateCategories($modx);
     $oldCanonical=false;
     foreach(['chunk','CookieConsent','CookieConsentMap','CookieConsentAssets','CookieConsentBanner'] as $key){$def=$spec['objects'][$key];$row=$modx->getObject($def['class'],$def['criteria']);if(!$row||hash('sha256',$row->get('snippet'))!==hash('sha256',$def['fields']['snippet'])||$row->get('static'))throw new RuntimeException('Canonical source update incomplete');$guid=md5('cookieconsent/'.$key);if(isset($transport->_preserved[$guid]))$oldCanonical=true;}
     // Use MODX's own backup map/file; no independent lifecycle store or tree copies.

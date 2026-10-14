@@ -1,0 +1,292 @@
+{
+  "date": "2026-10-14",
+  "signature": "cookieconsent-0.1.0-beta33",
+  "sha256": "c7a000076850de6f6698e17577f3ea483f528486ddc95b134be48a8eb62e2caa",
+  "result": "PASS focused beta33 acceptance; full regression repeated for stable 1.0.0",
+  "tests": 48,
+  "assertions": 772,
+  "failed": 0,
+  "suites": {
+    "manager": {
+      "tests": 4,
+      "assertions": 73,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "collapsed-error-group-revealed-and-add-preserves-other-section",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "visibility-independent-service-toggle-preview-and-strict-save-conflict",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ]
+    },
+    "public": {
+      "tests": 23,
+      "assertions": 200,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-and-browser-analytics-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-analytics",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-marketing",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-external_content",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "offline-hide-show-does-not-resurrect-old-grant",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "per-map-hidden-no-user-or-programmatic-bypass-visible-map-allow-retained",
+          "result": "PASS",
+          "assertions": 6
+        }
+      ]
+    },
+    "native": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 7,
+      "assertions": 222,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 60
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "migration": {
+      "signature": "cookieconsent-0.1.0-beta33",
+      "tests": 10,
+      "assertions": 264,
+      "failed": 0,
+      "results": [
+        {
+          "name": "native-beta32-migration-mask-0-clientId-true",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-true",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "native-beta32-migration-mask-2-clientId-true",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "native-beta32-migration-mask-3-clientId-true",
+          "result": "PASS",
+          "assertions": 29
+        },
+        {
+          "name": "native-beta32-migration-mask-4-clientId-true",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "native-beta32-migration-mask-5-clientId-true",
+          "result": "PASS",
+          "assertions": 29
+        },
+        {
+          "name": "native-beta32-migration-mask-6-clientId-true",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "native-beta32-migration-mask-7-clientId-true",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-false",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-absent",
+          "result": "PASS",
+          "assertions": 28
+        }
+      ]
+    },
+    "clientid": {
+      "tests": 4,
+      "assertions": 13,
+      "failed": 0,
+      "results": [
+        {
+          "name": "core-no-getClientID-or-form-writing-after-analytics",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "user-chunk-denied-no-request-allowed-once-scoped-ID",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "user-chunk-missing-target-does-not-block-consent",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "user-chunk-late-callback-disconnected-target-safe",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    }
+  },
+  "not_run": [
+    "Real Bitrix24/Yandex ClientID destination; controlled SDK test only.",
+    "Production deployment; full matrix is reported separately for final stable package."
+  ]
+}

@@ -1,7 +1,7 @@
 import {chromium} from 'playwright';import assert from 'node:assert/strict';import {origin,registry,evidence} from './helpers.mjs';
 let assertions=0;const results=[];const eq=(a,b)=>{assertions++;assert.deepEqual(a,b);};
 const html=await(await fetch(origin)).text();const config=structuredClone(registry);
-config.services[0].config={id:'12345678',clientId:false,webvisor:true,clickmap:false,trackLinks:false,accurateTrackBounce:false};
+config.services[0].config={id:'12345678',webvisor:true,clickmap:false,trackLinks:false,accurateTrackBounce:false};
 config.services.find(s=>s.loader==='google_ga4').config={id:'G-MOCK1234',send_page_view:false,allow_google_signals:true,allow_ad_personalization_signals:true};
 config.services.find(s=>s.loader==='google_ads').config={id:'AW-12345678',allow_ad_personalization_signals:false,restricted_data_processing:true};
 const body=html.replace(/(<script type="application\/json" id="cc-service-registry">)[\s\S]*?(<\/script>)/,'$1'+JSON.stringify(config)+'$2').replaceAll('data-cc-mode="mock"','data-cc-mode="live"');

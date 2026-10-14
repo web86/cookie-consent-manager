@@ -17,12 +17,12 @@ final class CookieConsentServiceRegistry
         'yandex_maps' => ['category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
     ];
     public const BOOL_OPTIONS = [
-        'yandex'=>['webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true,'clientId'=>true],
+        'yandex'=>['webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true],
         'google_ga4'=>['send_page_view'=>true,'allow_google_signals'=>false,'allow_ad_personalization_signals'=>false],
         'google_ads'=>['allow_ad_personalization_signals'=>true,'restricted_data_processing'=>false],
         'google_maps'=>['show_title'=>true], 'yandex_maps'=>['show_title'=>true],
     ];
-    /** Visibility follows activity only; it never grants provider permission. */
+    /** Legacy visibility rule used only for the one-time category migration. */
     public static function visibleCategories(array $services): array
     {
         $visible=['necessary'=>true,'analytics'=>false,'marketing'=>false,'external_content'=>false];
@@ -33,7 +33,7 @@ final class CookieConsentServiceRegistry
     {
         $services=[];
         foreach ([
-            ['yandex','Яндекс.Метрика','Статистика посещений',false,['id'=>'23643118','clientId'=>true,'webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true]],
+            ['yandex','Яндекс.Метрика','Статистика посещений',false,['id'=>'23643118','webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true]],
             ['mailru','Top.Mail.Ru','Статистика посещений',false,['id'=>'3265404']],
             ['google_ga4','Google Analytics 4','Статистика посещений',false,[]],
             ['google_gtm','Google Tag Manager','Контейнер тегов: запускается после согласия на маркетинг',false,[]],
@@ -66,6 +66,12 @@ final class CookieConsentServiceRegistry
                 if (!is_string($s[$field]) || $s[$field]==='' || strlen($s[$field])>$max || preg_match('/[\x00-\x1f\x7f<>]/',$s[$field])) throw new InvalidArgumentException('Invalid service text');
             }
             if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || $s['category']!==self::CATALOG[$s['loader']]['category'] || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
+            // Retired integration option: accept only its historic boolean shape, then remove.
+            // No fingerprint alias: browsers must explicitly approve the changed Yandex config.
+            if ($s['loader']==='yandex' && array_key_exists('clientId',$s['config'])) {
+                if (!is_bool($s['config']['clientId'])) throw new InvalidArgumentException('Invalid legacy boolean option');
+                unset($s['config']['clientId']);
+            }
             $allowed=array_merge(in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
             if (array_diff(array_keys($s['config']),$allowed)) throw new InvalidArgumentException('Unknown config');
             $pattern=match($s['loader']) {
