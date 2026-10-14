@@ -1,4 +1,5 @@
 import assert from 'node:assert/strict';
+import {execFileSync} from 'node:child_process';
 import { randomUUID } from 'node:crypto';
 import { setTimeout as delay } from 'node:timers/promises';
 import { origin, docker, setting, evidence, registry } from './helpers.mjs';
@@ -92,20 +93,20 @@ try {
   });
   await test('rate-limit', async () => {
     const path = privateDir('limiter-' + randomUUID()); setting('cookie_consent.log_dir', path);
-    php('$c=require "/opt/cc-private/config.php";$c["rate_limit_per_minute"]=1;file_put_contents("/opt/cc-private/config.php","<?php return ".var_export($c,true).";");');
+    docker(['web','php','/opt/cc-source/tests/modx3/control.php','rate','1']);
     // Apache OPcache revalidates changed private PHP config every two seconds.
     await delay(2200);
     check((await request()).status, 200); const r = await request(); check(r.status, 429); check(r.headers.get('retry-after'), '60');
   });
-  await test('upgrade-preserves-settings', async () => {
+  await test('native-reinstall-preserves-settings', async () => {
     setting('cookie_consent.log_dir', safe);
-    const output = docker(['web', 'php', '/opt/cc-source/server/bin/install-modx2.php', '/var/www/html', normal]);
-    check(output.includes('Preserved cookie_consent.log_dir'), true);
-    check(php('define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();echo $modx->getObject("modSystemSetting",["key"=>"cookie_consent.log_dir"])->get("value");'), safe);
+    const output=execFileSync('node',['tests/modx3/reinstall.mjs'],{encoding:'utf8'});
+    check(output.includes('PASS native reinstall'),true);
+    check(php('define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();echo $modx->getObject("MODX\\\\Revolution\\\\modSystemSetting",["key"=>"cookie_consent.log_dir"])->get("value");'), safe);
   });
 } finally {
   setting('cookie_consent.log_dir', normal);
-  php('$c=require "/opt/cc-private/config.php";$c["rate_limit_per_minute"]=10000;file_put_contents("/opt/cc-private/config.php","<?php return ".var_export($c,true).";");');
+  docker(['web','php','/opt/cc-source/tests/modx3/control.php','rate','10000']);
   await delay(2200);
 }
 evidence('http-results', { suite: 'HTTP through real MODX wrapper', assertions, tests: results.length, failed: results.filter(r => r.result === 'FAIL').length, results });

@@ -2,7 +2,7 @@
 """Bounded acceptance export. Keep upgrade and provider-matrix evidence separate."""
 from pathlib import Path
 import hashlib,json,subprocess
-root=Path('.local/locale-guide-evidence')
+root=Path('.local/modx3/locale-guide-evidence')
 names=['browser-results','categories-results','managerCategories-results','callbacks-results',
        'maps-results','clientIdExample-results','localization-results','publicJson-results',
        'liveGuard-results','providerParameters-results','pixels-results','gtm-results',
@@ -17,21 +17,21 @@ for name,r in suites.items():
     assert not any(x.get('result')=='FAIL'for x in r.get('results',[])),name
 assert sum(x['name'].startswith('providers-')for x in suites['browser-results']['results'])==256
 assert suites['reviewed-candidate-upgrade']['results'][0]['name'].startswith('real-cookieconsent-1.0.1-to-cookieconsent-1.0.2')
-sig='cookieconsent-1.0.2';archive=Path('.local/artifacts')/(sig+'.transport.zip')
+sig='cookieconsent-1.0.2';archive=Path('.local/modx3/artifacts')/(sig+'.transport.zip')
 digest=lambda p:hashlib.sha256(p.read_bytes()).hexdigest()
 sha=digest(archive);assert sha=='dc01bd4c6d5b5e96888a6c6707a92d134daadea7fe506ea741152783153cc506'
-assert archive.read_bytes()==Path('.local/private/locale-guide-b/'+archive.name).read_bytes()
+assert archive.read_bytes()==Path('.local/modx3/private/locale-guide-b/'+archive.name).read_bytes()
 assert suites['zip']['sha256']==sha
-assert Path('.local/artifacts/cookieconsent-1.0.1.transport.zip').read_bytes()==Path('.local/review/public-registry/cookieconsent-1.0.1.transport.zip').read_bytes()
-assert digest(Path('.local/review/public-registry/cookieconsent-1.0.1.transport.zip'))=='cb239c590c9e1f4df42409e98c642b9b927e82934520748310830e4c9f24b3d4'
-assert digest(Path('.local/release/cookieconsent-1.0.0.transport.zip'))=='0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b'
+assert Path('.local/modx3/artifacts/cookieconsent-1.0.1.transport.zip').read_bytes()==Path('.local/modx3/review/public-registry/cookieconsent-1.0.1.transport.zip').read_bytes()
+assert digest(Path('.local/modx3/review/public-registry/cookieconsent-1.0.1.transport.zip'))=='cb239c590c9e1f4df42409e98c642b9b927e82934520748310830e4c9f24b3d4'
+assert digest(Path('.local/modx3/release/cookieconsent-1.0.0.transport.zip'))=='0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b'
 assert subprocess.check_output(['git','rev-parse','main'],text=True).strip()==subprocess.check_output(['git','rev-parse','v1.0.0^{}'],text=True).strip()=='b6c4402a0d61c167ca9f677cc25dcc2c26e235c9'
-target=Path('.local/review/locale-guide');target.mkdir(parents=True,exist_ok=True)
+target=Path('.local/modx3/review/locale-guide');target.mkdir(parents=True,exist_ok=True)
 for suffix in ['.transport.zip','.transport.zip.sha256','.inventory.json','.zip-inventory.json']:
-    src=Path('.local/artifacts')/(sig+suffix);dst=target/src.name
+    src=Path('.local/modx3/artifacts')/(sig+suffix);dst=target/src.name
     if dst.exists():assert dst.read_bytes()==src.read_bytes(),'Never overwrite immutable review ZIP'
     else:dst.write_bytes(src.read_bytes());dst.chmod(0o444)
-r={'date':'2026-10-14','timezone':'Europe/Istanbul','branch':'feature/modx2-commercial-polish-performance',
+r={'date':'2026-10-14','timezone':'Europe/Istanbul','branch':'feature/modx3-commercial-polish-performance',
    'base_commit':'44b36c7','implementation_commits':['0706282','dd46995'],
    'changed_files':sorted(set(subprocess.check_output(['git','diff','--name-only','44b36c7','HEAD'],text=True).splitlines()+subprocess.check_output(['git','ls-files','--others','--exclude-standard'],text=True).splitlines())),
    'result':'GO FOR REVIEW; unpublished 1.0.2 candidate','signature':sig,'sha256':sha,
@@ -49,5 +49,5 @@ r={'date':'2026-10-14','timezone':'Europe/Istanbul','branch':'feature/modx2-comm
               'Real Meta/VK/other vendor event delivery, client JS-map API keys/backend/tiles/geocode. Controlled fixtures; safe owner GTM v4 tested.',
               'New full late filesystem/DB fault injection and archived beta migration permutations; current native fresh/1.0.0 upgrade/reinstall/uninstall plus reviewed 1.0.1 consent upgrade tested.',
               'Arbitrary customer scripts and complete historical standalone CMP stacks. Retained i18n ready/t helper tested only with owner-supplied same-origin lexicons or inline strings.']}
-out=Path('docs/evidence/modx2-locale-guide-results.json');out.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
+out=Path('docs/evidence/modx3-locale-guide-results.json');out.write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n')
 print(json.dumps({k:r[k]for k in ['tests','assertions','failed','sha256']}))

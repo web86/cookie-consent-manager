@@ -20,8 +20,8 @@ if($case==='invalid-record'){
  define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
  require_once '/opt/cc-source/server/src/CookieConsentAuditConfiguration.php';require '/opt/cc-source/server/src/CookieConsentEventValidator.php';require '/opt/cc-source/server/src/CookieConsentRateLimiter.php';
  $cfg=CookieConsentAuditConfiguration::forModx($modx);$input['policy_version']='tampered';
- $dir=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir'])->get('value');
- $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);$registry=json_decode($s->get('value'),true);
+ $dir=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir'])->get('value');
+ $s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.services']);$registry=json_decode($s->get('value'),true);
  $accepted=(new CookieConsentAuditLogger($dir,$cfg['rate_limit_key'],10000,$registry))->append($input,$_SERVER['REMOTE_ADDR'],'CookieConsent-Manager-AuditCheck');$ack['server_time']=$accepted['server_time'];
 }
 echo json_encode($ack);

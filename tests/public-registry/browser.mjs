@@ -9,12 +9,12 @@ const meta=JSON.parse(readFileSync('_build/package.json')),target=meta.name+'-'+
 const saved=ctl(['setting','cookie_consent.services','get']),culture=JSON.parse(ctl(['context','get']));
 const snapshot=()=>JSON.parse(docker(['web','php','/opt/cc-source/tests/transport/control.php','snapshot','/opt/cc-private']));
 // Rebuilt development signatures reuse resolver paths; restart disposable PHP to discard OPcache.
-const install=signature=>{execFileSync('docker',['compose','--env-file','.local/private/compose.env','-f','tests/local/compose.yaml','restart','web'],{stdio:'pipe'});execFileSync('node',['tests/transport/install-current.mjs'],{stdio:'pipe',env:{...process.env,CC_INSTALL_SERVICES:'web',CC_INSTALL_SIGNATURE:signature}});};
-const base={schema:1,services:JSON.parse(readFileSync('.local/private/base-registry.json')).services.filter(s=>s.loader!=='mock_marketing')};
+const install=signature=>{execFileSync('docker',['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','restart','web'],{stdio:'pipe'});execFileSync('node',['tests/transport/install-current.mjs'],{stdio:'pipe',env:{...process.env,CC_INSTALL_SERVICES:'web',CC_INSTALL_SIGNATURE:signature}});};
+const base={schema:1,services:JSON.parse(readFileSync('.local/modx3/private/base-registry.json')).services.filter(s=>s.loader!=='mock_marketing')};
 for(const s of base.services)if(s.loader==='yandex'){delete s.config.clientId;s.purpose_id='owner.analytics';}
 for(const[loader,id]of[['vk_ads','777111'],['meta_pixel','888222']])base.services.push({key:loader,loader,category:'marketing',enabled:true,name:loader,purpose:'Marketing disclosure',config:{id}});
 const ids=JSON.parse(docker(['web','php','/opt/cc-source/tests/beta31/fixture.php']));
-const b=await chromium.launch(),out=process.env.CC_REGISTRY_EVIDENCE||'.local/public-registry-evidence';mkdirSync(out,{recursive:true});
+const b=await chromium.launch(),out=process.env.CC_REGISTRY_EVIDENCE||'.local/modx3/public-registry-evidence';mkdirSync(out,{recursive:true});
 let n=0;const results=[],eq=(a,c,m)=>{n++;assert.deepEqual(a,c,m)};
 const test=async(name,fn)=>{const start=n;try{await fn();results.push({name,result:'PASS',assertions:n-start});console.log('PASS '+name)}catch(e){results.push({name,result:'FAIL',assertions:n-start,error:e.message});throw e}};
 let ctx,p,requests=[],external=[],errors=[];

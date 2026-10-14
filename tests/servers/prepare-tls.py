@@ -2,7 +2,7 @@
 """Create isolated acceptance certificates. No production certificate/configuration is read."""
 from pathlib import Path
 import subprocess
-p=Path('.local/server-tls');p.mkdir(parents=True,exist_ok=True)
+p=Path('.local/modx3/server-tls');p.mkdir(parents=True,exist_ok=True)
 def run(*args):subprocess.run(['openssl',*args],check=True,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
 if not (p/'site.pem').exists():
  run('req','-x509','-newkey','rsa:2048','-nodes','-keyout',str(p/'ca.key'),'-out',str(p/'ca.pem'),'-days','30','-subj','/CN=CC local acceptance CA','-addext','basicConstraints=critical,CA:TRUE')

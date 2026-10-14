@@ -1,12 +1,12 @@
 services:
   clean:
     image: cookie-consent-acceptance-web:latest
-    ports: ['127.0.0.1:8889:80']
+    ports: ['127.0.0.1:18889:80']
     volumes:
-      - ../../.local/transport-clean/public:/var/www/html
-      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../.local/modx3/transport-clean/public:/var/www/html
+      - ../../.local/modx3/transport-clean/private:/opt/cc-clean
       - ../../:/opt/cc-source:ro
-      - ../../.local/artifacts:/opt/cc-artifacts
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
     environment:
       COOKIE_CONSENT_LOCAL_HTTP: '1'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
@@ -15,12 +15,12 @@ services:
         condition: service_healthy
   publiccore:
     image: cookie-consent-acceptance-web:latest
-    ports: ['127.0.0.1:8890:80']
+    ports: ['127.0.0.1:18890:80']
     volumes:
-      - ../../.local/transport-publiccore/public:/var/www/html
-      - ../../.local/transport-publiccore/private:/opt/cc-publiccore
+      - ../../.local/modx3/transport-publiccore/public:/var/www/html
+      - ../../.local/modx3/transport-publiccore/private:/opt/cc-publiccore
       - ../../:/opt/cc-source:ro
-      - ../../.local/artifacts:/opt/cc-artifacts
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
     environment:
       COOKIE_CONSENT_LOCAL_HTTP: '1'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}

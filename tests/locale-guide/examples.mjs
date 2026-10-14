@@ -59,4 +59,4 @@ try{
   try{await p.goto(origin+'/owner-standalone',{waitUntil:'networkidle'});eq(await p.evaluate(async()=>{await web86I18n.ready;return web86I18n.t('reject')}),reject);eq(requests.includes('/fixtures/lexicons.json'),!inline);eq(await p.evaluate(()=>typeof web86CookieConsent),'undefined','Not a current CMP integration');}finally{await ctx.close();}
  });
 }catch(e){console.error(e.message);process.exitCode=1;}
-finally{ctl(['setting','cookie_consent.services'],saved);await b.close();mkdirSync('.local/locale-guide-evidence',{recursive:true});writeFileSync('.local/locale-guide-evidence/examples.json',JSON.stringify({tests:results.length,assertions:n,failed:results.filter(x=>x.result==='FAIL').length,results},null,2));}
+finally{ctl(['setting','cookie_consent.services'],saved);await b.close();mkdirSync('.local/modx3/locale-guide-evidence',{recursive:true});writeFileSync('.local/modx3/locale-guide-evidence/examples.json',JSON.stringify({tests:results.length,assertions:n,failed:results.filter(x=>x.result==='FAIL').length,results},null,2));}

@@ -11,7 +11,7 @@ const scriptsA = ['google_ga4.js', 'mailru.js', 'yandex.js'];
 const scriptsM = ['google_ads.js', 'marketing.js'];
 function loads(requests) { return [...new Set(requests.filter(r => r.url.includes('/mock/')).map(r => new URL(r.url).pathname.split('/').at(-1)))].sort(); }
 async function suite(name, callback, options = {}) {
-  const context = await browser.newContext({ ...options, recordHar: { path: `.local/evidence/${name}.har`, content: 'omit' } });
+  const context = await browser.newContext({ ...options, recordHar: { path: `.local/modx3/evidence/${name}.har`, content: 'omit' } });
   const requests = [], responses = [], errors = [], events = [], deliveries = [];
   await context.route('**/*', route => {
     const url = route.request().url(); requests.push({ url, method: route.request().method() });
@@ -148,7 +148,7 @@ await suite('invalid-200-acknowledgement', async ({ page, context }) => {
 await suite('mobile-keyboard-modal', async ({ page, requests }) => {
   await page.locator('[data-cc-action="configure"]').focus(); await page.keyboard.press('Enter');
   equal(await page.evaluate(() => document.activeElement.id), 'cookie-settings-title');
-  await page.screenshot({ path: '.local/evidence/preferences-mobile.png', fullPage: true });
+  await page.screenshot({ path: '.local/modx3/evidence/preferences-mobile.png', fullPage: true });
   equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'No horizontal overflow');
   await page.locator('[data-cc-action="save"]').click(); await page.waitForTimeout(500);
   await page.locator('#open-map-modal').click(); equal(loads(requests), [], 'Dialog map blocked');
@@ -201,6 +201,6 @@ for(let start=0;start<256;start+=4)await Promise.all(Array.from({length:Math.min
 }));
 await browser.close();
 const failed = results.filter(r => r.result === 'FAIL');
-evidence('browser-results', { suite: 'Playwright Chromium / real MODX 2.8.8', assertions, tests: results.length, failed: failed.length, results });
+evidence('browser-results', { suite: 'Playwright Chromium / real MODX 3.2.4', assertions, tests: results.length, failed: failed.length, results });
 console.log(`${results.length} browser scenarios, ${assertions} assertions, ${failed.length} failures`);
 if (failed.length) process.exitCode = 1;

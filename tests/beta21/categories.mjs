@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import {origin,registry,setting,docker} from '../helpers.mjs';
-const cats=['analytics','marketing','external_content'],out='.local/beta21-evidence';mkdirSync(out,{recursive:true});
+const cats=['analytics','marketing','external_content'],out='.local/modx3/beta21-evidence';mkdirSync(out,{recursive:true});
 const b=await chromium.launch(),results=[];let n=0;const eq=(a,c,m)=>{n++;assert.deepEqual(a,c,m);};
 const test=async(name,fn)=>{const start=n;try{await fn();results.push({name,result:'PASS',assertions:n-start});console.log('PASS '+name);}catch(e){results.push({name,result:'FAIL',error:e.message});throw e;}};
 const ctx=await b.newContext();ctx.setDefaultTimeout(15000);const mgr=await ctx.newPage();await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());

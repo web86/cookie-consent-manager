@@ -3,8 +3,8 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
-const dir='.local/manager-ux-evidence';mkdirSync(dir,{recursive:true});
-const dc=['compose','--env-file','.local/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','exec','-T'];
+const dir='.local/modx3/manager-ux-evidence';mkdirSync(dir,{recursive:true});
+const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','exec','-T'];
 const privateDir=s=>s==='web'?'/opt/cc-private':'/opt/cc-clean';
 const cli=(s,args,input)=>execFileSync('docker',[...dc,s,...args],{input,encoding:'utf8',maxBuffer:8*1024*1024}).trim();
 const control=(s,op,key,input)=>cli(s,['php','/opt/cc-source/tests/transport/control.php',op,privateDir(s),...(key?[key]:[])],input);
@@ -18,7 +18,7 @@ for(const s of ['web','clean'])snapshots[s]=Object.fromEntries(keys.map(k=>[k,co
 const context=fixture('web','context',undefined,'get');
 const event=()=>({event_id:randomUUID(),consent_id:randomUUID(),event:'reject',stage:'committed',analytics:false,marketing:false,policy_version:'1',page:'/cookie-consent-audit-check',timestamp:new Date().toISOString()});
 try{
- const m=await manager('web',8888);
+ const m=await manager('web',18888);
  await test('desktop-long-texts-and-services-scroll-with-sticky-preview',async()=>{
   await m.p.locator('#ccm-tab-texts').click();await m.p.locator('[data-text-key]').last().scrollIntoViewIfNeeded();const last=await m.p.locator('[data-text-key]').last().boundingBox();ok(last.y>=0&&last.y+last.height<=900);ok(await m.p.evaluate(()=>document.body.scrollTop>0||document.documentElement.scrollTop>0));const aside=await m.p.locator('.ccm-preview').boundingBox();ok(aside.y>=0&&aside.y<100,'Preview stays visible');
   await m.p.screenshot({path:dir+'/desktop-texts-bottom.png'});
@@ -57,7 +57,7 @@ try{
   for(const language of ['en','ru','en']){fixture('web','context',language);await p.waitForTimeout(2300);network.length=0;await p.goto(m.origin+'/?id='+id,{waitUntil:'networkidle'});eq(await p.locator('#cookie-block').count(),1);eq(await p.locator('#cc-service-registry').count(),1);eq(await p.locator('script[src*="cookie-consent.min.js"]').count(),1);eq(await p.locator('[data-cc-map-provider]').count(),2);eq(await p.locator('[data-cc-map-provider] iframe').count(),0);eq(await p.locator('#cookie-block').getAttribute('data-cc-mode'),'live');eq(await p.locator('#cc-public-config').count(),0);eq(await p.locator('[data-cc-action=reject]').textContent(),({en:'Reject',ru:'Отклонить'}[language]));ok(network.every(u=>new URL(u).origin===m.origin));const html=await p.content();ok(html.indexOf('cc-service-registry')<html.indexOf('cookie-consent.min.js'));eq((await p.locator('script[src]').evaluateAll(xs=>xs.map(x=>x.src))).filter(s=>/\/(i18n|provider-registry|consent-manager)\.js/.test(s)).length,0);}
   const cache=await p.reload({waitUntil:'networkidle'});eq(cache.status(),200);eq(await p.locator('#cookie-block').count(),1);await p.screenshot({path:dir+'/unified-map-placeholders.png'});await p.close();fixture('web','resource',undefined,'remove');
  });
- const c=await manager('clean',8889);
+ const c=await manager('clean',18889);
  await test('managed-audit-init-idempotent-key-never-in-CMP-public-config',async()=>{
   eq((await c.api('audit_setup')).success,true);const first=JSON.parse(fixture('clean','managed-check'));eq(first.key_length,64);eq(first.origin,c.origin);eq(first.limit,60);eq((await c.api('audit_setup')).success,true);eq(JSON.parse(fixture('clean','managed-check')).key_hash,first.key_hash);const raw=await c.api('get');ok(!JSON.stringify(raw).includes('rate_limit_key'));ok(!Object.hasOwn(raw.object,'audit'));await c.p.reload();await c.p.locator('#ccm-save').waitFor();ok(!(await c.p.evaluate(()=>JSON.stringify(window.MODx.config))).includes('rate_limit_key'));ok(!control('clean','get','cookie_consent.audit').includes('rate_limit_key'));
  });

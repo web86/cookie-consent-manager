@@ -2,7 +2,7 @@ import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { mkdirSync, writeFileSync } from 'node:fs';
 import { origin, docker } from './helpers.mjs';
-const dir = '.local/manager-i18n-evidence'; mkdirSync(dir, { recursive: true });
+const dir = '.local/modx3/manager-i18n-evidence'; mkdirSync(dir, { recursive: true });
 let assertions = 0; const results = [], external = [], publicErrors = [];
 function equal(a,b,message) { assertions++; assert.deepEqual(a,b,message); }
 function ok(a,message) { assertions++; assert.ok(a,message); }
@@ -15,10 +15,10 @@ let ctx, page;
 async function openManager(language) {
   if (ctx) await ctx.close();
   control(['setting','manager_language'],language);
-  ctx = await browser.newContext({ viewport:{width:1440,height:1000} });
+  ctx = await browser.newContext({ locale:language,viewport:{width:1440,height:1000} });
   await ctx.route('**/*',r=>{if(new URL(r.request().url()).origin!==origin){external.push(new URL(r.request().url()).hostname);return r.abort();}return r.continue();});
   page = await ctx.newPage();page.on('dialog',d=>d.accept());page.on('pageerror',e=>publicErrors.push(e.message));
-  await page.goto(origin+'/manager/?cultureKey='+language,{waitUntil:'networkidle'});await page.locator('#modx-login-username').fill(credentials.username);await page.locator('#modx-login-password').fill(credentials.password);await page.locator('#modx-login-btn').click();await page.waitForTimeout(500);
+  await page.goto(origin+'/manager/?manager_language='+language,{waitUntil:'networkidle'});await page.locator('#modx-login-username').fill(credentials.username);await page.locator('#modx-login-password').fill(credentials.password);await page.locator('#modx-login-btn').click();await page.waitForTimeout(500);
   await page.goto(origin+'/manager/?a=index&namespace=cookie_consent',{waitUntil:'networkidle'});await page.locator('#ccm-save').waitFor();
 }
 async function test(name,fn){try{await fn();results.push({name,result:'PASS'});console.log('PASS '+name);}catch(e){results.push({name,result:'FAIL',error:e.message});console.error('FAIL '+name+': '+e.message);}}
@@ -30,9 +30,9 @@ try {
   await test('fresh-component-install-and-preserve-upgrade',async()=>{
     control(['fresh']);
     try {
-      docker(['web','php','/opt/cc-source/server/bin/install-modx2.php','/var/www/html','/opt/cc-private/logs']);
+      docker(['web','php','/opt/cc-source/server/bin/install-modx3.php','/var/www/html','/opt/cc-private/logs']);
       const registry=JSON.parse(control(['setting','cookie_consent.services','get']));equal(registry.services.every(s=>!s.enabled),true,'Fresh defaults');
-      const before=control(['setting','cookie_consent.services','get']);docker(['web','php','/opt/cc-source/server/bin/install-modx2.php','/var/www/html','/opt/cc-private/logs']);equal(control(['setting','cookie_consent.services','get']),before,'Upgrade preserves');
+      const before=control(['setting','cookie_consent.services','get']);docker(['web','php','/opt/cc-source/server/bin/install-modx3.php','/var/www/html','/opt/cc-private/logs']);equal(control(['setting','cookie_consent.services','get']),before,'Upgrade preserves');
       equal(JSON.parse(control(['setting','cookie_consent.options','get'])).ttl_days,90);
     }finally{control(['restore']);}
   });

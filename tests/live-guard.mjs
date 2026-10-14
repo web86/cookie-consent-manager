@@ -17,7 +17,7 @@ const liveHtml = html.replace(/(<script type="application\/json" id="cc-service-
   .replaceAll('/assets/js/cookie-consent/mock/google_maps.html', googleMap)
   .replaceAll('/assets/js/cookie-consent/mock/yandex_maps.html', yandexMap.replaceAll('&', '&amp;'));
 async function suite(name, cb, content = liveHtml) {
-  const ctx = await browser.newContext({ recordHar: { path: `.local/evidence/live-${name}.har`, content: 'omit' } });
+  const ctx = await browser.newContext({ recordHar: { path: `.local/modx3/evidence/live-${name}.har`, content: 'omit' } });
   const external = [], configCalls = [];
   await ctx.route('**/*', route => {
     const url = route.request().url();

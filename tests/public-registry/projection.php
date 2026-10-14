@@ -1,7 +1,7 @@
 <?php
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
-if($modx->getOption('dbname')!=='cookie_consent_test')exit(1);
+if($modx->getOption('dbname')!=='cookie_consent_modx3_test')exit(1);
 require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
 $n=0;function eq($a,$b,$m){global$n;$n++;if($a!==$b)throw new RuntimeException($m);}
 $full=CookieConsentServiceRegistry::validateJson(json_encode(CookieConsentServiceRegistry::defaults()));

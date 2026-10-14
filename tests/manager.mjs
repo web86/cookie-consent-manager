@@ -27,7 +27,7 @@ try {
   await p.getByRole('button', { name: 'Login', exact: true }).click(); await p.waitForTimeout(800);
   await p.goto(origin + '/manager/?a=system/settings&ns=cookie_consent', { waitUntil: 'networkidle' });
   for (const key of ['options','services','texts','log_dir','audit_config_file']) equal(await p.locator('.x-grid3-row').filter({hasText:'cookie_consent.'+key}).count(), 1, 'Namespaced setting visible: '+key);
-  await p.screenshot({ path: '.local/evidence/modx-manager-settings.png', fullPage: true });
+  await p.screenshot({ path: '.local/modx3/evidence/modx-manager-settings.png', fullPage: true });
   const changed = structuredClone(registry); changed.services.push({ key: 'manager_added', name: 'Сервис из MODX Manager', purpose: 'Проверка добавления через интерфейс', category: 'analytics', enabled: true, loader: 'google_ga4', config: { id: 'G-MANAGER1' } });
   await editRegistry(changed);
   const front = await ctx.newPage(); await front.goto(origin, { waitUntil: 'networkidle' });
@@ -41,7 +41,7 @@ try {
   results.push({ name: 'native-manager-disable', result: 'PASS' });
   const unauth = await fetch(origin + '/connectors/index.php', { method: 'POST', headers: { 'Content-Type': 'application/x-www-form-urlencoded' }, body: new URLSearchParams({ action: 'system/settings/update', key: 'cookie_consent.services', value: '{}' }) });
   const body = await unauth.json(); equal(body.success, false, 'Unauthenticated config mutation refused');
-  const current = JSON.parse(docker(['web', 'php', '-r', 'define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();echo $modx->getObject("modSystemSetting",["key"=>"cookie_consent.services"])->get("value");']));
+  const current = JSON.parse(docker(['web', 'php', '-r', 'define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();echo $modx->getObject("MODX\\\\Revolution\\\\modSystemSetting",["key"=>"cookie_consent.services"])->get("value");']));
   equal(current, changed, 'Setting unchanged after unauthenticated mutation');
   results.push({ name: 'unauthenticated-admin-mutation', result: 'PASS' });
   // MODX Manager itself requests an admin Gravatar avatar. All such traffic

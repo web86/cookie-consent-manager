@@ -1,0 +1,60 @@
+name: cookie-consent-modx3-acceptance
+services:
+  db:
+    image: mariadb:11.8
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CC_DB_PASSWORD:?Run prepare.py first}
+      MARIADB_DATABASE: cookie_consent_modx3_test
+    volumes: [cc3-db:/var/lib/mysql]
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  web:
+    image: cookie-consent-modx3-php81:local
+    build: .
+    ports: ['127.0.0.1:18888:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/site:/var/www/html
+      - ../../.local/modx3/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
+  clean:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:18889:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/clean/site:/var/www/html
+      - ../../.local/modx3/clean/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_clean
+      CC_HTTP_PORT: '18889'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  fresh:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:18890:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/fresh/site:/var/www/html
+      - ../../.local/modx3/fresh/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_fresh
+      CC_HTTP_PORT: '18890'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+volumes:
+  cc3-db:
