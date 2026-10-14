@@ -1,5 +1,7 @@
 # Cookie Consent Manager 1.0.0
 
+> В этой review-ветке готовится непубликуемый кандидат 1.0.1: [инструкция, Services UI и измерения](docs/modx2-commercial-polish-guide.md). Стабильные main/v1.0.0 и опубликованный ZIP остаются прежними.
+
 Стабильный native transport для **MODX Revolution 2.8.8**, PHP **8.1+**. Канонический источник — ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main). [Release Notes](docs/release-1.0.0.md), [приёмка PASS/FAIL/NOT RUN](docs/modx2-1.0.0-acceptance.md).
 
 Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, без MODX plugins и отдельного lifecycle ledger.

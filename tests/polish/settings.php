@@ -1,0 +1,12 @@
+<?php
+if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();if($modx->getOption('dbname')!=='cookie_consent_test')exit(1);
+require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentGuide.php';
+$n=0;function eq($a,$b,$m){global$n;$n++;if($a!==$b)throw new RuntimeException($m);} $modx->beginTransaction();try{
+ $raw=[];foreach(CookieConsentSettings::KEYS as$key)$raw[$key]=(string)$modx->getObject('modSystemSetting',['key'=>$key])->get('value');
+ $q=$modx->executedQueries;$before=CookieConsentSettings::read($modx);eq($modx->executedQueries-$q,1,'Single native settings query');eq($before['revision'],hash('sha256',json_encode($raw)),'Exact old revision ordering');
+ $row=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.options']);$opts=json_decode($row->get('value'),true);$opts['ttl_days']=333;$row->set('value',json_encode($opts));if(!$row->save())throw new RuntimeException('Save');eq(CookieConsentSettings::read($modx)['options']['ttl_days'],333,'No stale same-request cache after save');
+ foreach(['ru','en']as$lang){$modx->context->config['cultureKey']=$lang;foreach(['live','mock']as$mode){$html=$modx->runSnippet('CookieConsentBanner',['mode'=>$mode]);eq(str_contains($html,'data-cc-mode="'.$mode.'"'),true,'Mode independent');eq(str_contains($modx->runSnippet('CookieConsentAssets'),'"locale":"'.$lang.'"'),true,'Context-local language');eq(str_contains($html,'data-cc-ttl-days="333"'),true,'Fresh setting in both fragments');}}
+ $row->remove();eq(CookieConsentSettings::read($modx)['options']['ttl_days'],CookieConsentSettings::defaults()['ttl_days'],'Missing option fallback unchanged');
+ $source=json_decode(file_get_contents('/opt/cc-source/_build/user-guide.json'),true);foreach(['ru','en']as$lang)eq(CookieConsentGuide::forLanguage($lang),$source['languages'][$lang],'Generated guide exact source');eq(CookieConsentGuide::forLanguage('ru-ru'),$source['languages']['ru'],'Regional fallback');eq(CookieConsentGuide::forLanguage('tr'),$source['languages']['en'],'Unknown fallback');
+}finally{$modx->rollBack();$modx->cacheManager->refresh(['system_settings'=>[]]);}
+echo json_encode(['tests'=>1,'assertions'=>$n,'failed'=>0,'result'=>'PASS','suite'=>'Batched settings query, stable revision, fresh reads, locale/mode and guide source'])."\n";

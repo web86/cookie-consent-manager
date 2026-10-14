@@ -126,8 +126,6 @@ $_lang = [
     'm.audit_ready' => 'Audit configuration ready — verify a same-origin POST',
     'm.audit_not_configured' => 'Audit not configured',
     'm.audit_invalid' => 'Audit configuration invalid or unavailable',
-    'm.integration_title' => 'Safe staging integration',
-    'm.integration_help' => 'Installation does not edit templates or enable services. Connect this code manually in staging, remove direct trackers/noscript, and keep map embeds inert until consent.',
 ];
 
 $_lang['m.upgrade_elements'] = 'Updates replace code of CookiesPopup, CookieConsent, CookieConsentMap, CookieConsentAssets and CookieConsentBanner. Back up first; IDs and settings are retained. No new stock copies are created.';
@@ -144,9 +142,6 @@ $_lang['m.save_first'] = 'Save or discard the form changes first.';
 $_lang['m.add_counter'] = 'Add another counter';
 $_lang['m.counter_invalid'] = 'Check the name and ID for the selected adapter.';
 $_lang['m.counter_added'] = 'Counter added to the form. Click Save to apply.';
-$_lang['m.integration_help'] = 'Add this snippet once to the shared website template. Installation does not edit templates.';
-$_lang['m.remove_direct_scripts'] = 'Remove old direct analytics scripts and noscript pixels: they send requests independently of consent.';
-$_lang['m.map_api_help'] = 'For pages with maps use CookieConsentMap with provider and src parameters. See the component documentation for examples and allowed URLs.';
 
 $_lang['m.log_location'] = 'Directory location';
 $_lang['m.log_site'] = 'Inside website, relative to DOCUMENT_ROOT';
@@ -294,10 +289,6 @@ $_lang['m.log_action_external_content_deny'] = 'Deny external content';
 $_lang['m.log_action_provider_allow'] = 'Allow provider';
 $_lang['m.log_action_provider_deny'] = 'Deny provider';
 
-$_lang['m.integration_help'] = 'Insert each snippet once. Installation does not edit templates.';
-$_lang['m.integration_head'] = 'In <head>: loads styles, JavaScript and configuration.';
-$_lang['m.integration_body'] = 'Before </body>: renders the ready banner.';
-$_lang['m.integration_legacy'] = 'Legacy CookieConsent remains an alternative for existing templates. Do not mix the old and new methods.';
 $_lang['m.log_ip'] = 'IP address';
 
 $_lang['m.invalid_config'] = 'Invalid service configuration: expected an object. A non-empty array cannot be converted automatically.';
@@ -318,3 +309,7 @@ $_lang['m.collapse'] = 'Collapse';
 $_lang['m.expand'] = 'Expand';
 
 $_lang['m.invalid_texts'] = 'Invalid translation dictionary. Settings were not changed.';
+
+$_lang['m.developer'] = 'Developer:';
+
+$_lang['m.service_disabled'] = 'Disabled';

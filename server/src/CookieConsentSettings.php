@@ -59,8 +59,9 @@ final class CookieConsentSettings
     }
     public static function read($modx): array
     {
-        $values=[];
-        foreach(self::KEYS as $key){$setting=$modx->getObject('modSystemSetting',['key'=>$key]);$values[$key]=$setting?(string)$setting->get('value'):'';}
+        // One native query, no request/global cache. Keep key order stable for revisions.
+        $values=array_fill_keys(self::KEYS,'');
+        foreach($modx->getCollection('modSystemSetting',['key:IN'=>self::KEYS]) as $setting)$values[(string)$setting->get('key')]=(string)$setting->get('value');
         $options=self::options($values[self::KEYS[0]]===''?self::defaults():json_decode($values[self::KEYS[0]],true,16,JSON_THROW_ON_ERROR));
         $registry=CookieConsentServiceRegistry::validateJson($values[self::KEYS[1]]);
         $options=self::categoryOptions($options,$registry['services']);

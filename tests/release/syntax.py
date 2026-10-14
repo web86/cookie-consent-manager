@@ -7,4 +7,5 @@ for p in php:
 for p in js:
  r=subprocess.run(['node','--check',p],text=True,capture_output=True)
  if r.returncode:failed.append({'path':p,'error':r.stderr})
-r={'signature':'cookieconsent-1.0.0','tests':1,'assertions':len(php)+len(js),'php_files':len(php),'js_files':len(js),'failed':len(failed),'result':'FAIL'if failed else'PASS','errors':failed};Path('.local/release100-evidence/syntax.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r));raise SystemExit(bool(failed))
+meta=json.loads(Path('_build/package.json').read_text());signature=meta['name']+'-'+meta['version']+('-'+meta['release']+str(meta['release_index']) if meta['release'] else '')
+r={'signature':signature,'tests':1,'assertions':len(php)+len(js),'php_files':len(php),'js_files':len(js),'failed':len(failed),'result':'FAIL'if failed else'PASS','errors':failed};Path('.local/release100-evidence/syntax.json').write_text(json.dumps(r,indent=2)+'\n');print(json.dumps(r));raise SystemExit(bool(failed))

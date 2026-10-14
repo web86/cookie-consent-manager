@@ -131,8 +131,6 @@ $_lang = [
     'm.audit_ready' => 'Конфигурация аудита готова — проверьте same-origin POST',
     'm.audit_not_configured' => 'Аудит не настроен',
     'm.audit_invalid' => 'Конфигурация аудита некорректна или недоступна',
-    'm.integration_title' => 'Безопасное подключение на staging',
-    'm.integration_help' => 'Установка не меняет шаблоны и не включает сервисы. Подключите код вручную на staging, удалите прямые счётчики/noscript и используйте инертные карты до согласия.',
 ];
 
 $_lang['m.upgrade_elements'] = 'При обновлении код CookiesPopup, CookieConsent, CookieConsentMap, CookieConsentAssets и CookieConsentBanner заменяется. Сначала сделайте backup; IDs и настройки сохраняются. Новые stock-копии не создаются.';
@@ -149,9 +147,6 @@ $_lang['m.save_first'] = 'Сначала сохраните или отмени�
 $_lang['m.add_counter'] = 'Добавить ещё один счётчик';
 $_lang['m.counter_invalid'] = 'Проверьте название и ID выбранного адаптера.';
 $_lang['m.counter_added'] = 'Счётчик добавлен в форму. Нажмите «Сохранить», чтобы применить.';
-$_lang['m.integration_help'] = 'Добавьте этот сниппет один раз в общий шаблон сайта. Установка не изменяет шаблоны.';
-$_lang['m.remove_direct_scripts'] = 'Удалите старые прямые подключения аналитики и noscript-пиксели: они отправляют запросы независимо от согласия.';
-$_lang['m.map_api_help'] = 'На страницах с картами используйте CookieConsentMap с параметрами provider и src. Пример и допустимые URL — в документации компонента.';
 
 $_lang['m.log_location'] = 'Расположение каталога';
 $_lang['m.log_site'] = 'Внутри сайта, относительно DOCUMENT_ROOT';
@@ -299,10 +294,6 @@ $_lang['m.log_action_external_content_deny'] = 'Запретить внешни�
 $_lang['m.log_action_provider_allow'] = 'Разрешить сервис';
 $_lang['m.log_action_provider_deny'] = 'Запретить сервис';
 
-$_lang['m.integration_help'] = 'Вставьте каждый сниппет один раз. Установка не изменяет шаблоны.';
-$_lang['m.integration_head'] = 'В <head>: подключает стили, JavaScript и конфигурацию.';
-$_lang['m.integration_body'] = 'Перед </body>: выводит готовый баннер.';
-$_lang['m.integration_legacy'] = 'Старый CookieConsent остаётся альтернативой для существующих шаблонов. Не смешивайте старый и новый способы.';
 $_lang['m.log_ip'] = 'IP-адрес';
 
 $_lang['m.invalid_config'] = 'Некорректная конфигурация сервиса: ожидается объект. Непустой массив не преобразуется автоматически.';
@@ -323,3 +314,7 @@ $_lang['m.collapse'] = 'Свернуть';
 $_lang['m.expand'] = 'Развернуть';
 
 $_lang['m.invalid_texts'] = 'Некорректный словарь переводов. Настройки не изменены.';
+
+$_lang['m.developer'] = 'Разработчик:';
+
+$_lang['m.service_disabled'] = 'Выключен';

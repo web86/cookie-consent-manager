@@ -29,11 +29,16 @@
     try { data = await api('get'); } catch (e) { root.textContent = e.message; return; }
     const t = key => data.managerStrings['m.' + key] || data.managerStrings[key] || data.lexicons.en['m.' + key] || '…';
     const el = (tag, text, attributes = {}) => { const node = document.createElement(tag); if (text != null) node.textContent = text; for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value); return node; };
+    const appendFooter = () => {
+      const footer=el('footer',null,{class:'ccm-footer'});
+      footer.append(document.createTextNode(t('developer')+' '),el('a','www.web86.site',{href:'https://www.web86.site/',target:'_blank',rel:'noopener noreferrer'}));
+      root.append(footer);
+    };
     if(!data.canManage){
       document.body.classList.add('ccm-manager');root.closest('.x-panel-body')?.classList.add('ccm-scroll-host');
       root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(el('h2',t('title')));
       const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
-      window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();return;
+      window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();appendFooter();return;
     }
     const idPatterns = { vk_ads: /^[0-9]{1,20}$/, meta_pixel: /^[0-9]{1,20}$/, yandex: /^[0-9]{1,20}$/, mailru: /^[0-9]{1,20}$/, google_ga4: /^G-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/ };
     const idFormats = { vk_ads: '12345678', meta_pixel: '123456789012345', yandex: '12345678', mailru: '12345678', google_ga4: 'G-XXXXXX', google_ads: 'AW-12345678', google_gtm: 'GTM-XXXXXX' };
@@ -110,8 +115,25 @@
     const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
-    const integration = el('details', null, { id: 'ccm-integration-help' }); integration.append(el('summary', t('integration_title')), el('p', t('integration_help')));
-    integration.append(el('p',t('integration_head')),el('pre','[[!CookieConsentAssets]]'),el('p',t('integration_body')),el('pre','[[!CookieConsentBanner]]'),el('p',t('integration_legacy')),el('pre','[[!CookieConsent]]'),el('p',t('remove_direct_scripts')),el('p',t('map_api_help'))); panels.main.append(integration);panels.main.append(storage);
+    const guide=data.guide;
+    const help=el('button',guide.title,{type:'button',id:'ccm-guide-open'});
+    const dialog=el('dialog',null,{id:'ccm-guide-dialog','aria-labelledby':'ccm-guide-title'});
+    const close=el('button',guide.close,{type:'button',id:'ccm-guide-close',autofocus:''});
+    const heading=el('div',null,{class:'ccm-guide-heading'});heading.append(el('h2',guide.title,{id:'ccm-guide-title'}),close);
+    dialog.append(heading,el('p',guide.intro),el('p',guide.warning,{class:'ccm-guide-warning'}));
+    for(const section of guide.sections){
+      dialog.append(el('h3',section.title));
+      for(const block of section.blocks){
+        if(block.type==='code'){const pre=el('pre');pre.append(el('code',block.text));dialog.append(pre);}
+        else if(block.type==='paragraph')dialog.append(el('p',block.text));
+      }
+    }
+    close.onclick=()=>dialog.close();root.append(dialog);
+    help.onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>help.focus());
+    // MODX Manager's ExtJS keymap prevents the native Escape default. Keep handling local.
+    dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();dialog.close();}});
+    panels.main.append(help,storage);appendFooter();
+
 
     function textSource(language, key) {
       const base = draft.texts.base_language;
@@ -125,26 +147,30 @@
     }
     const groupExpanded = { analytics: true, marketing: true, external_content: true };
     function renderServices() {
-      panels.services.replaceChildren();
+      panels.services.replaceChildren(el('p',t('category_visibility_help'),{class:'ccm-help ccm-services-intro'}));
       for (const category of ['analytics', 'marketing', 'external_content']) {
         const group = el('section', null, { class: 'ccm-service-group', 'data-group': category });
-        const heading = el('div', null, {class:'ccm-group-heading'}), title=el('h3', data.managerStrings[category + '_name'],{id:'ccm-group-title-'+category});
-        heading.append(title);
-        field(heading,t('category_visible'),draft.options.categories[category],v=>draft.options.categories[category]=v,'checkbox','ccm-category-visible-'+category,t('category_visibility_help'));
+        const name=data.managerStrings[category + '_name'];
+        const heading=el('div',null,{class:'ccm-group-heading'}),title=el('h3',null,{id:'ccm-group-title-'+category});
         const content=el('div',null,{id:'ccm-group-content-'+category,'aria-labelledby':title.id});content.hidden=!groupExpanded[category];
-        const toggle=el('button',t(groupExpanded[category]?'collapse':'expand'),{type:'button',id:'ccm-group-toggle-'+category,'aria-controls':content.id,'aria-expanded':String(groupExpanded[category]),'aria-label':t(groupExpanded[category]?'collapse':'expand')+' — '+title.textContent});
-        toggle.onclick=()=>{groupExpanded[category]=!groupExpanded[category];content.hidden=!groupExpanded[category];toggle.textContent=t(groupExpanded[category]?'collapse':'expand');toggle.setAttribute('aria-expanded',String(groupExpanded[category]));toggle.setAttribute('aria-label',toggle.textContent+' — '+title.textContent);};
-        heading.append(toggle);group.append(heading,content);
+        const toggle=el('button',null,{type:'button',class:'ccm-group-toggle',id:'ccm-group-toggle-'+category,'aria-controls':content.id,'aria-expanded':String(groupExpanded[category]),'aria-label':t(groupExpanded[category]?'collapse':'expand')+' — '+name});
+        toggle.append(el('span',null,{class:'ccm-chevron','aria-hidden':'true'}),el('span',name));title.append(toggle);heading.append(title);
+        const visible=field(heading,t('category_visible'),draft.options.categories[category],v=>draft.options.categories[category]=v,'checkbox','ccm-category-visible-'+category);
+        visible.parentElement.classList.add('ccm-category-visibility');
+        toggle.onclick=()=>{groupExpanded[category]=!groupExpanded[category];content.hidden=!groupExpanded[category];toggle.setAttribute('aria-expanded',String(groupExpanded[category]));toggle.setAttribute('aria-label',t(groupExpanded[category]?'collapse':'expand')+' — '+name);};
+        group.append(heading,content);
         for (const service of draft.registry.services.filter(s => s.category === category)) {
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
-          card.append(el('h4', textSource(data.managerLanguage, 'service.' + service.key + '.name') || service.name));
+          const cardHeading=el('div',null,{class:'ccm-service-heading'}),identity=el('div',null,{class:'ccm-service-identity'});
+          identity.append(el('h4',textSource(data.managerLanguage,'service.'+service.key+'.name')||service.name));cardHeading.append(identity);card.append(cardHeading);
           const validity = el('span', null, { class: 'ccm-config-status' });
           let idInput, idError;
           const updateValidity = () => {
-            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict; validity.textContent = invalid ? t('needs_id') : t('configured');
+            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict; validity.textContent = invalid ? t('needs_id') : service.enabled ? t('configured') : t('service_disabled');
+            validity.dataset.state=invalid?'invalid':service.enabled?'ready':'off';
             if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (conflict ? t('pixel_id_conflict') : !service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
           };
-          field(card, t('enable'), service.enabled, v => { service.enabled = v; updateValidity(); }, 'checkbox', 'ccm-enable-' + service.key); card.append(validity); updateValidity();
+          const enable=field(cardHeading,t('enable'),service.enabled,v=>{service.enabled=v;updateValidity();},'checkbox','ccm-enable-'+service.key);enable.parentElement.classList.add('ccm-service-enable');identity.append(validity); updateValidity();
           const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); card.append(details);
           if (idPatterns[service.loader]) {
             idInput = field(details, t({ vk_ads: 'pixel_id', meta_pixel: 'pixel_id', google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);

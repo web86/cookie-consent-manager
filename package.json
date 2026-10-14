@@ -9,7 +9,8 @@
     "test:cmp": "node tests/manager-i18n.mjs",
     "test:parameters": "node tests/provider-parameters.mjs",
     "test:permissions": "node tests/manager-permissions.mjs",
-    "build:frontend": "node _build/frontend.mjs"
+    "build:frontend": "node _build/frontend.mjs",
+    "build:guide": "node _build/user-guide.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",
