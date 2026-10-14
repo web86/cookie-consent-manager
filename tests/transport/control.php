@@ -26,7 +26,7 @@ if($action==='snapshot'){
  foreach(['modMenu'=>'menus','modResource'=>'resources','modTemplate'=>'templates','modAccessPolicy'=>'policies'] as $class=>$key)foreach($modx->getCollection($class) as $r)$out[$key][(string)$r->getPrimaryKey()]=hash('sha256',json_encode($r->toArray()));
  foreach(array_merge(glob($private.'/logs/*-cookie-consent.log'),glob($private.'/configs/*.json'),glob($private.'/config.php')) as $f)$out['data'][basename($f)]=hash_file('sha256',$f);
  foreach(array_merge(glob('/var/www/html/logs/cookies/*-cookie-consent.log')?:[],is_file('/var/www/html/logs/cookies/.rate/state.json')?['/var/www/html/logs/cookies/.rate/state.json']:[]) as $f)$out['data']['public:'.basename($f)]=hash_file('sha256',$f);
- foreach(['/var/www/html/assets/components/cookieconsent','/var/www/html/assets/js/cookie-consent',MODX_CORE_PATH.'components/cookieconsent'] as $dir)if(is_dir($dir))foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir,FilesystemIterator::SKIP_DOTS)) as $f)if($f->isFile()&&strpos($f->getPathname(),'/.stage/')===false)$out['runtime'][$f->getPathname()]=hash_file('sha256',$f->getPathname());
+ foreach(['/var/www/html/assets/components/cookieconsent','/var/www/html/assets/js/cookie-consent','/var/www/html/assets/css',MODX_CORE_PATH.'components/cookieconsent'] as $dir)if(is_dir($dir))foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($dir,FilesystemIterator::SKIP_DOTS)) as $f)if($f->isFile()&&strpos($f->getPathname(),'/.stage/')===false)$out['runtime'][$f->getPathname()]=hash_file('sha256',$f->getPathname());
  foreach($out as &$value)if(is_array($value))ksort($value);unset($value);echo json_encode($out);exit;
 }
 throw new RuntimeException('Unknown control action');

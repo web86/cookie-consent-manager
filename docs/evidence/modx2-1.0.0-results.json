@@ -1,0 +1,7021 @@
+{
+  "date": "2026-10-14",
+  "signature": "cookieconsent-1.0.0",
+  "sha256": "0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b",
+  "implementation_commit": "7a00ef319aba28f475a7e1348f949a95efad8b25",
+  "beta33_commit": "37f6d8cbed6b41ce7d3604c174926dc37a5b2cca",
+  "result": "GO stable repository release; site deployment requires owner staging acceptance",
+  "tests": 526,
+  "assertions": 4410,
+  "failed": 0,
+  "network": {
+    "provider_combinations": 256,
+    "mock_har_requests": 3289,
+    "external_mock_requests": 0,
+    "real_gtm": "Owner published GTM-WJD8XJD6; harmless marketing/analytics checks only",
+    "servers": [
+      "Apache",
+      "nginx/PHP-FPM",
+      "Apache behind nginx proxy"
+    ],
+    "self_request_403_browser_ack_jsonl": true
+  },
+  "bundle": {
+    "tool": "esbuild",
+    "version": "0.28.2",
+    "inputs": {
+      "assets/js/cookie-consent/runtime.js": "cfedbb654089f72cbf85730f38343b3103922d86204ddb0336c064f398402a46",
+      "assets/js/cookie-consent/provider-registry.js": "18470e5f56cd6831f6eb1531fd8ba449a00e9ecec872f30a793bed72284476c2",
+      "assets/js/cookie-consent/consent-manager.js": "ba6db6f44a4be4efaf4fa9840caf057e5d3eed6029afe312bd503e87eeea6729",
+      "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
+      "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
+      "_build/frontend.mjs": "1c75fc71ff773c7564fde47541a64ea7250699bfad1bd7d62f8f0384eb734abe"
+    },
+    "outputs": {
+      "assets/js/cookie-consent/cookie-consent.min.js": {
+        "sha256": "d14dcc9711df0116159a0af102cf7a1ebb332c5872cdb3bc810417831903d0d3",
+        "bytes": 20012
+      },
+      "assets/css/cookie-consent.min.css": {
+        "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
+        "bytes": 3286
+      }
+    }
+  },
+  "suites": {
+    "auditDiagnosticsPHP": {
+      "suite": "Beta21 category SSR and bounded audit diagnostics PHP",
+      "tests": 1,
+      "assertions": 77,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "auditDirectoryPHP": {
+      "suite": "Local journal write/read safety and failure injections",
+      "tests": 1,
+      "assertions": 17,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "auditSave": {
+      "suite": "Single Save local journal / partial result / real browser event",
+      "tests": 9,
+      "assertions": 60,
+      "failed": 0,
+      "results": [
+        {
+          "name": "Main-final-section-Log-has-no-settings-and-no-audit-buttons",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "one-Save-local-check-no-monthly-event-no-temp-files",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "unchanged-path-skips-write-test-preserves-key-and-metadata",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "partial-Save-path-traversal-missing-permissions-other-fields-retained",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "configuration-error-keeps-path-key-and-saves-other-fields",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "GUI-partial-Save-keeps-rejected-path-draft-and-saved-other-values",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "browser-ACK-and-monthly-JSONL-with-unchanged-receiver",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "unavailable-receiver-does-not-block-save-or-disable-local-journal",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "clear-path-disables-new-events-preserves-existing-logs-and-key",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "auditSecurityPHP": {
+      "suite": "PHP",
+      "assertions": 81,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "browser": {
+      "suite": "Playwright Chromium / real MODX 2.8.8",
+      "assertions": 1423,
+      "tests": 281,
+      "failed": 0,
+      "results": [
+        {
+          "name": "first-visit",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 3
+        },
+        {
+          "name": "reject",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 4
+        },
+        {
+          "name": "category-0",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 7
+        },
+        {
+          "name": "category-1",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 14
+        },
+        {
+          "name": "category-2",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 14
+        },
+        {
+          "name": "category-3",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 21
+        },
+        {
+          "name": "category-4",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 14
+        },
+        {
+          "name": "category-5",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 21
+        },
+        {
+          "name": "category-6",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 21
+        },
+        {
+          "name": "category-7",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 28
+        },
+        {
+          "name": "map-google_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 17
+        },
+        {
+          "name": "map-yandex_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 15
+        },
+        {
+          "name": "accept-all-revoke",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 20
+        },
+        {
+          "name": "legacy-accept",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "accept",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "provider-only",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 7
+        },
+        {
+          "name": "expiry-ttl",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "expiry-policy",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "expiry-old-m2",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "expiry-popup-yurist",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "har_requests": 16
+        },
+        {
+          "name": "draft-not-committed",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "failed-audit",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            503
+          ],
+          "events": [
+            {
+              "event": "accept_all",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "invalid-200-acknowledgement",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 4
+        },
+        {
+          "name": "mobile-keyboard-modal",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 12
+        },
+        {
+          "name": "dynamic-add-disable",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "har_requests": 22
+        },
+        {
+          "name": "unsafe-admin-config",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "har_requests": 3
+        },
+        {
+          "name": "providers-000",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 7
+        },
+        {
+          "name": "providers-002",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-001",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-003",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-007",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-005",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-004",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-006",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-011",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-009",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-008",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-010",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-014",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-013",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-015",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-012",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-018",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-019",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-017",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-016",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-022",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-020",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-023",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-021",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-025",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-026",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-027",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-024",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-029",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-028",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-030",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-031",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-034",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-032",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-033",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-035",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-038",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-036",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-039",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-037",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-043",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-040",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-042",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-041",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-046",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-047",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-045",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-044",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-049",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-051",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-048",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-050",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-052",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-054",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-053",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-055",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-057",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-056",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-059",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-058",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-062",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-061",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-060",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-063",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-066",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-067",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-064",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-065",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-071",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-069",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-068",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-070",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-072",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-074",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-073",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-075",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-076",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-079",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-077",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-078",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-083",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-081",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-082",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-080",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-084",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-085",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-087",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-086",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-091",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-088",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-090",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-089",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-093",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-095",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-092",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-094",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-097",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-096",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-099",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-098",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-101",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-102",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-100",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-103",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-104",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-105",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-106",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-107",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-109",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-111",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-108",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-110",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-114",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-113",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-112",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-115",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-118",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-119",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-117",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-116",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-120",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-121",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-123",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-122",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-126",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-124",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-127",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-125",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-128",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 8
+        },
+        {
+          "name": "providers-129",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-131",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-130",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-132",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-135",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-134",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-133",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-137",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-139",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-138",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-136",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-141",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-140",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-143",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-142",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-146",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-144",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-145",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-147",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-148",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-149",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-150",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-151",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-154",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-152",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-153",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-155",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-159",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-157",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-158",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-156",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-161",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-160",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-163",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-162",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-166",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-167",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-165",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-164",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-169",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-170",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-168",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-171",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-173",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-175",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-174",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-172",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-178",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-176",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-177",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-179",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-182",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-181",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-183",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-180",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-184",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-186",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-185",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-187",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-188",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-190",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-189",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-191",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-192",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 9
+        },
+        {
+          "name": "providers-193",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-195",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-194",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-198",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-197",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-199",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-196",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-202",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-203",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-201",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-200",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-205",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-206",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-204",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-207",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-209",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-208",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 10
+        },
+        {
+          "name": "providers-210",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-211",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-214",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-212",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-215",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-213",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-216",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-217",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-219",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-218",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-223",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-221",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-220",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-222",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-225",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-226",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-224",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 11
+        },
+        {
+          "name": "providers-227",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-230",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-229",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-228",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-231",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-233",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-234",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-232",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-235",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-237",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-236",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-239",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-238",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-241",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-240",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 12
+        },
+        {
+          "name": "providers-242",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-243",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-247",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-245",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-244",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-246",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-251",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-249",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-248",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 13
+        },
+        {
+          "name": "providers-250",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-255",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 16
+        },
+        {
+          "name": "providers-252",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 14
+        },
+        {
+          "name": "providers-254",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        },
+        {
+          "name": "providers-253",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "har_requests": 15
+        }
+      ],
+      "execution_date": "2026-10-14T08:37:09.239Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "cacheLogs": {
+      "suite": "Actual standard MODX cache/logs and cache clearing",
+      "tests": 4,
+      "assertions": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual-standard-MODX-core-outside-webroot-Save-and-browser-record-error-log-untouched",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "ordinary-native-Manager-clearcache-preserves-monthly-and-error-log",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "missing-standard-directory-retains-path-and-other-settings-no-arbitrary-create",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manual-entire-core-cache-removal-is-handled-settings-kept-backup-restored",
+          "result": "PASS",
+          "assertions": 6
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "callbacks": {
+      "suite": "Real MODX onAllowed public API",
+      "tests": 13,
+      "assertions": 44,
+      "failed": 0,
+      "results": [
+        {
+          "name": "register-before-initialization-and-consent-isolated-analytics",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "register-before-initialization-and-consent-isolated-marketing",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "register-before-initialization-and-consent-isolated-external_content",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "late-registration-saved-consent-and-unsubscribe-split",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "late-registration-saved-consent-and-unsubscribe-legacy",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "draft-and-forged-audit-do-not-run-and-storage-copy-cannot-grant",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "multiple-callbacks-sync-and-async-errors-isolated-and-cancel-pending",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "service-absent-or-wrong-category-not_existing",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "service-absent-or-wrong-category-mailru",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "service-fingerprint-change-disabled-and-category-only-distinction",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-invalidates-live-guard-before-reload-and-no-restored-callback",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "new-service-and-expired-or-invalid-stored-state-cannot-authorize-callback",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "invalid-API-arguments-throw-without-altering-CMP",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ],
+      "execution_date": "2026-10-14T08:39:19.057Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "categories": {
+      "tests": 23,
+      "assertions": 200,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-and-browser-analytics-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-analytics",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-marketing",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-external_content",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "offline-hide-show-does-not-resurrect-old-grant",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "per-map-hidden-no-user-or-programmatic-bypass-visible-map-allow-retained",
+          "result": "PASS",
+          "assertions": 6
+        }
+      ],
+      "execution_date": "2026-10-14T08:33:36.047Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "categoryPHP": {
+      "tests": 1,
+      "assertions": 198,
+      "failed": 0,
+      "result": "PASS",
+      "suite": "Explicit category flags/legacy migration/SSR 0,1,2 providers/boolean validation",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "clientIdExample": {
+      "tests": 4,
+      "assertions": 13,
+      "failed": 0,
+      "results": [
+        {
+          "name": "core-no-getClientID-or-form-writing-after-analytics",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "user-chunk-denied-no-request-allowed-once-scoped-ID",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "user-chunk-missing-target-does-not-block-consent",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "user-chunk-late-callback-disconnected-target-safe",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ],
+      "execution_date": "2026-10-14T08:33:49.466Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "demo": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 1,
+      "assertions": 7,
+      "failed": 0,
+      "results": [
+        {
+          "name": "static-PHP-generated-demo-consent-network-gate",
+          "result": "PASS"
+        }
+      ]
+    },
+    "elementsPHP": {
+      "suite": "Structural CookiesPopup and SSR localization PHP",
+      "assertions": 47,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "frontend": {
+      "suite": "PHP-only static localization / split snippets / minified frontend",
+      "tests": 9,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-no-static-rewrite-en",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-ru",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-tr",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "one-call-contract-independent-split",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "one-call-contract-independent-legacy",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-assets-only",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-banner-only",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "localized-runtime-ACK-error-is-minimal-server-message",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "head-bundle-hashes-and-simple-repeat-JS-initialization-guard",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ],
+      "execution_date": "2026-10-14T08:39:51.946Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "gtm": {
+      "suite": "Real published owner GTM container / local MODX 2.8.8",
+      "container": "GTM-WJD8XJD6",
+      "tests": 9,
+      "assertions": 126,
+      "failed": 0,
+      "publishedVersions": [
+        "4"
+      ],
+      "analyticsTag": "Real owner Custom HTML analytics test with analytics_storage consent check; assertions require marketing-only blocked and all-consent fires once",
+      "externalPolicy": "Only owner gtm.js downloaded; all other external requests locally fulfilled",
+      "results": [
+        {
+          "name": "real-GTM-marketing-only-Save-reload-once-per-page",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "real-GTM-analytics-only-container-blocked",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "real-GTM-all-categories-Accept-all",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "real-GTM-all-categories-Save",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "real-GTM-reject-blocked",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "real-GTM-marketing-withdraw-Save-reloads-blocked",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "real-GTM-analytics-grant-update-and-marketing-revoke-states-independent",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "real-GTM-changed-ID-fingerprint-blocked",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "real-GTM-new-service-does-not-inherit-existing-grant",
+          "result": "PASS",
+          "assertions": 24
+        }
+      ],
+      "execution_date": "2026-10-14T08:38:52.468Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "http": {
+      "suite": "HTTP through real MODX wrapper",
+      "assertions": 121,
+      "tests": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "positive-server-jsonl",
+          "result": "PASS"
+        },
+        {
+          "name": "schema2-map",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "null-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "cross-site",
+          "result": "PASS"
+        },
+        {
+          "name": "same-site",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-method",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-content-type",
+          "result": "PASS"
+        },
+        {
+          "name": "malformed-json",
+          "result": "PASS"
+        },
+        {
+          "name": "list-json",
+          "result": "PASS"
+        },
+        {
+          "name": "excess-payload",
+          "result": "PASS"
+        },
+        {
+          "name": "no-fetch-metadata-same-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-ip",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-config",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-uuid",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-stage",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-type",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-calendar",
+          "result": "PASS"
+        },
+        {
+          "name": "query-pii",
+          "result": "PASS"
+        },
+        {
+          "name": "map-wrong-category",
+          "result": "PASS"
+        },
+        {
+          "name": "unknown-provider",
+          "result": "PASS"
+        },
+        {
+          "name": "replay",
+          "result": "PASS"
+        },
+        {
+          "name": "concurrent-append-and-replay",
+          "result": "PASS"
+        },
+        {
+          "name": "setting-change-preserves-archives",
+          "result": "PASS"
+        },
+        {
+          "name": "webroot-path-without-HTTP-protection",
+          "result": "PASS"
+        },
+        {
+          "name": "relative-path",
+          "result": "PASS"
+        },
+        {
+          "name": "document-root",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-path",
+          "result": "PASS"
+        },
+        {
+          "name": "traversal-path",
+          "result": "PASS"
+        },
+        {
+          "name": "empty-path",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "permission-denied-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "unwritable-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "rate-limit",
+          "result": "PASS"
+        },
+        {
+          "name": "upgrade-preserves-settings",
+          "result": "PASS"
+        }
+      ],
+      "execution_date": "2026-10-14T08:37:25.542Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "jsMaps": {
+      "suite": "User-supplied JS-map adaptation with intercepted controlled Yandex API/endpoints; not real client deployment",
+      "tests": 9,
+      "assertions": 42,
+      "failed": 0,
+      "results": [
+        {
+          "name": "no-local-or-Yandex-before-consent-draft-and-analytics-only",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "allowed-after-DOMContentLoaded-multiple-point-polygon-line-and-fallback-once",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "withdraw-reload-does-not-resume-local-script-or-SDK",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-while-pending-Local-no-late-operations",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-while-pending-SDK-no-late-operations",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "withdraw-while-pending-Data-no-late-operations",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "authorized-geometry-matches-owner-source-functional-baseline",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "changed-fingerprint-and-disabled-service-block-custom-script-after-reload",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "existing-ready-API-and-duplicate-rescan-do-not-hang-or-double-init",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ],
+      "execution_date": "2026-10-14T08:39:42.304Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "liveGuard": {
+      "suite": "Live adapters with local network fulfillment only",
+      "assertions": 51,
+      "tests": 11,
+      "failed": 0,
+      "results": [
+        {
+          "name": "google_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "yandex_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10"
+          ]
+        },
+        {
+          "name": "google_ga4",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "google_ads",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "gtm-marketing-only",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtm.js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "all-google-shared-library",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>",
+            "https://www.googletagmanager.com/gtm.js?id=<test-id>",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "map-url-rejection",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-0",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-1",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-2",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-3",
+          "result": "PASS",
+          "interceptedExternal": []
+        }
+      ],
+      "execution_date": "2026-10-14T08:37:37.837Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "localization": {
+      "suite": "Real MODX PHP localized source RU/EN stock/overrides cold/warm without JS",
+      "tests": 4,
+      "assertions": 112,
+      "failed": 0,
+      "results": [
+        {
+          "name": "stock-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "stock-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "overrides-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        },
+        {
+          "name": "overrides-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        }
+      ],
+      "execution_date": "2026-10-14T08:40:01.529Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "managerCategories": {
+      "tests": 4,
+      "assertions": 73,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "collapsed-error-group-revealed-and-add-preserves-other-section",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "visibility-independent-service-toggle-preview-and-strict-save-conflict",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "migration": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 10,
+      "assertions": 264,
+      "failed": 0,
+      "results": [
+        {
+          "name": "native-beta32-migration-mask-0-clientId-true",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-true",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "native-beta32-migration-mask-2-clientId-true",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "native-beta32-migration-mask-3-clientId-true",
+          "result": "PASS",
+          "assertions": 29
+        },
+        {
+          "name": "native-beta32-migration-mask-4-clientId-true",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "native-beta32-migration-mask-5-clientId-true",
+          "result": "PASS",
+          "assertions": 29
+        },
+        {
+          "name": "native-beta32-migration-mask-6-clientId-true",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "native-beta32-migration-mask-7-clientId-true",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-false",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "native-beta32-migration-mask-1-clientId-absent",
+          "result": "PASS",
+          "assertions": 28
+        }
+      ]
+    },
+    "native-results": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 7,
+      "assertions": 222,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 60
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "package": {
+      "signature": "cookieconsent-1.0.0",
+      "native_vehicles": 70,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 14,
+        "xPDOFileVehicle": 54,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 54,
+      "zip_entries": 134,
+      "sha256": "0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b",
+      "result": "PASS"
+    },
+    "pixelManager": {
+      "suite": "VK/Meta Manager RU/EN instances and conflict controls",
+      "tests": 4,
+      "assertions": 48,
+      "failed": 0,
+      "results": [
+        {
+          "name": "new-disabled-cards-ID-labels-save-reload-ru",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "new-disabled-cards-ID-labels-save-reload-en",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "additional-VK-and-Meta-instances-via-existing-counter-form",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "same-active-Mail-VK-ID-local-error-no-POST-and-server-rejection",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "pixels": {
+      "suite": "Marketing pixels controlled SDK mocks / manual opener / general map revoke",
+      "tests": 32,
+      "assertions": 175,
+      "failed": 0,
+      "results": [
+        {
+          "name": "marketing-consent-state-0",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "marketing-consent-state-1",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "marketing-consent-state-2",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "marketing-consent-state-3",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "pixel-provider-powerset-0",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-1",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-2",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-3",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-4",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-5",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-6",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-7",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-8",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-9",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-10",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-11",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-12",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-13",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-14",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-15",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "browser-registry-rejects-shared-Mail-VK-ID-before-start",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "explicit-reject-no-SDK-or-pixel",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "single-duplicate-and-multiple-ID-once-SDK-once-PageView",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "Mail-analytics-first-VK-later-no-shared-SDK-reload",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "revocation-immediate-Meta-consent-revoke-reload-and-reconsent",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "withdraw-during-pending-meta-SDK-no-late-ad-event",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "withdraw-during-pending-tmr-SDK-no-late-ad-event",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "ID-change-and-new-ID-fingerprint-do-not-inherit-grant",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "no-automatic-opener-initializes-split-none",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "no-automatic-opener-initializes-legacy-none",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "maps-general-settings-revoke-no-buttons-cold-warm-ru",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "maps-general-settings-revoke-no-buttons-cold-warm-en",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ],
+      "execution_date": "2026-10-14T08:38:31.183Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "providerConfig": {
+      "suite": "Real Manager GET/provider ID and boolean Save/reload E2E",
+      "tests": 16,
+      "assertions": 287,
+      "failed": 0,
+      "results": [
+        {
+          "name": "object-google_ga4-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "object-google_ads-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "object-google_gtm-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "object-mailru-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "object-yandex-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "array-google_ga4-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "array-google_ads-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "array-google_gtm-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "array-mailru-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "array-yandex-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "subsequent-Save-without-reload-normalizes-new-empty-configs",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "all-checkbox-options-both-boolean-values-persist",
+          "result": "PASS",
+          "assertions": 48
+        },
+        {
+          "name": "en-missing-invalid-ID-errors-near-field-no-Save-POST",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "ru-missing-invalid-ID-errors-near-field-no-Save-POST",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "backend-rejects-nonempty-array-without-overwriting-settings",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "client-rejects-corrupt-nonempty-array-null-and-scalar-GET-no-data-loss",
+          "result": "PASS",
+          "assertions": 13
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "providerConfigPHP": {
+      "suite": "Provider configuration compatibility/strict validation PHP",
+      "tests": 1,
+      "assertions": 53,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "providerParameters": {
+      "tests": 4,
+      "assertions": 18,
+      "failed": 0,
+      "results": [
+        {
+          "name": "yandex-options",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "ga-privacy-without-marketing",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "ga-ads-options",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "gtm-marketing-only",
+          "result": "PASS",
+          "interceptedRequests": 1
+        }
+      ],
+      "execution_date": "2026-10-14T08:37:43.922Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "recovery": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 1,
+      "assertions": 16,
+      "failed": 0,
+      "results": [
+        {
+          "name": "stable-native-backup-recovery-five-elements",
+          "result": "PASS"
+        }
+      ]
+    },
+    "registryPHP": {
+      "suite": "Pixel registry/ID/conflict/visibility and removed controls PHP",
+      "tests": 1,
+      "assertions": 36,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "reinstall": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 1,
+      "assertions": 62,
+      "failed": 0,
+      "result": "PASS",
+      "runtime_files": 54
+    },
+    "reproducibility": {
+      "tests": 1,
+      "assertions": 1,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0",
+      "two_native_builds_byte_identical": true
+    },
+    "self403Browser200": {
+      "suite": "Self-request forbidden but browser delivery accepted",
+      "tests": 1,
+      "assertions": 12,
+      "failed": 0,
+      "results": [
+        {
+          "name": "self403-localSave-browser400-real200-JSONL",
+          "result": "PASS"
+        }
+      ],
+      "signature": "cookieconsent-1.0.0"
+    },
+    "servers": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 6,
+      "assertions": 48,
+      "failed": 0,
+      "results": [
+        {
+          "name": "Apache-site",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "Apache-absolute",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "nginx-PHP-FPM-site",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "nginx-PHP-FPM-absolute",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "Apache-proxy-site",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "Apache-proxy-absolute",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ]
+    },
+    "settingsPHP": {
+      "suite": "Manager settings/HTML/i18n PHP",
+      "assertions": 53,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "syntax": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 1,
+      "assertions": 172,
+      "php_files": 89,
+      "js_files": 83,
+      "failed": 0,
+      "result": "PASS",
+      "errors": []
+    },
+    "texts": {
+      "signature": "cookieconsent-1.0.0",
+      "tests": 3,
+      "assertions": 12,
+      "failed": 0,
+      "results": [
+        {
+          "name": "en-fresh-empty-dictionary-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "ru-fresh-empty-dictionary-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "nonempty-corrupt-translation-array-not-silently-converted",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "viewer": {
+      "suite": "Consent Audit Viewer Playwright",
+      "tests": 11,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "default-filters-four-columns-no-storage-or-diagnostics",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changing-filters-does-not-fetch-find-applies",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "pagination-newest-first-only-50",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "details-schema2-XSS-and-consent-history",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "all-actions-searches-unknown-and-empty",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "CSV-all-matches-UTF8-escaping-injection-applied-filters",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "direct-traversal-invalid-filters-and-unauthenticated-requests",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "manager-without-log-permission-denied-read-detail-export",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "view-only-manager-can-read-export-cannot-save-settings",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "RU-lexicon-screenshot",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "read-only-source-hashes-and-no-runtime-errors",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ],
+      "execution_date": "2026-10-14T08:40:12.375Z",
+      "signature": "cookieconsent-1.0.0"
+    },
+    "viewerPHP": {
+      "suite": "Audit Viewer PHP",
+      "assertions": 63,
+      "failed": 0,
+      "result": "PASS",
+      "signature": "cookieconsent-1.0.0"
+    }
+  },
+  "not_run": [
+    "Actual Meta/VK/GA/Ads/Metrika/Bitrix24 account delivery, real Yandex SDK/key/tiles/geocode or client TV/backend/hosting. Controlled SDKs/queues/owner source adaptation do not prove vendor delivery.",
+    "Production or customer staging deployment; actual CDN/hosting caches; Firefox/WebKit, Windows/IIS/LiteSpeed, other MODX/PHP versions.",
+    "Full native late failure injection after partial writes/uninstall, ENOSPC, power loss, DB outages, arbitrary filesystem races. Native PM is not an atomic rollback guarantee; backup/restore is required.",
+    "Legacy ledger state.json/menu/rollback scenarios are not applicable to this minimal native architecture; no own package ledger exists.",
+    "Real TLS/certificate chain/remote redirects repeated testing and malformed audit self-response matrix at hosting were not run; enable/Save uses no self-request. Local PHP diagnostics, Origin/replay/rate checks and real browser ACK+JSONL were run."
+  ],
+  "preparatory_findings": [
+    "Detected fresh Manager empty locale dictionaries as arrays; fixed narrowly, real RU/EN POST/save/reload and corrupt-array refusal regression passed.",
+    "Development ZIP replacement under the same signature caused a stale resolver OPcache failure; cleared local fixture workers and final immutable native fresh/upgrade/reinstall/uninstall passed. Published beta archives were not replaced.",
+    "Harness corrections: JSON helper parsing, fixture alias, explicit mixed-checkbox reapproval, generic stable signature path, direct API draft dictionary shape, inclusion of CSS in runtime snapshot. Final runs have zero FAIL."
+  ],
+  "execution_scope": "Public full matrix ran on the identical final public bundle/PHP category and consent code. Later narrow Manager dictionary/restore-helper fixes were followed by affected Manager, clean/native lifecycle, recovery, runtime hashes and syntax reruns on the exact final ZIP."
+}
