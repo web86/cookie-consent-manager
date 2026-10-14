@@ -5,7 +5,10 @@ const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m)},ok=(v,m)=>{assertions++
 const retained=(a,b)=>{for(const name of Object.keys(a.elements)){eq(b.elements[name].id,a.elements[name].id,name+' ID');eq(b.elements[name].metadata,a.elements[name].metadata,name+' metadata');eq(b.elements[name].count,1);}eq(b.settings,a.settings);for(const[key,value]of Object.entries(a.relations))eq(b.relations[key],value);eq(b.data,a.data);};
 let before,after,raw,p;
 try{
- await test('genuine-native-beta1-to-beta2-consent-and-five-metadata-retention',async()=>{
+ const prior=await s.core('workspace/packages/get',{signature});
+ const firstName=prior.success&&prior.object.installed?'native-beta2-reinstall-consent-and-five-metadata-retention':'genuine-native-beta1-to-beta2-consent-and-five-metadata-retention';
+ if(firstName.startsWith('genuine')){const old=await s.core('workspace/packages/get',{signature:'cookieconsent3-0.1.0-beta1'});ok(old.success&&old.object.installed,'Genuine upgrade requires installed beta1 baseline');}
+ await test(firstName,async()=>{
   p=await s.ctx.newPage();await p.goto(s.origin+'/',{waitUntil:'networkidle'});if(await p.locator('[data-cc-action=accept-all]').isVisible())await p.locator('[data-cc-action=accept-all]').click();else{await p.evaluate(()=>web86CookieConsent.openSettings());for(const cat of ['analytics','marketing','external_content'])await p.locator('[data-cc-category='+cat+']').check();await p.locator('[data-cc-action=save]').click();}await p.waitForTimeout(600);raw=await p.evaluate(()=>localStorage.getItem('web86_cookie_consent'));ok(raw);const id=await p.evaluate(()=>web86CookieConsent.getConsent().consentId);
   control('clean','customize');control('clean','external-config');before=control('clean','snapshot');const staticHash=cli('clean',['php','-r','echo hash_file("sha256","/opt/cc-private/owner-static-map.php");']);
   await s.install(signature,folder);after=control('clean','snapshot');retained(before,after);for(const value of Object.values(after.elements))eq(value.static,false);eq(cli('clean',['php','-r','echo hash_file("sha256","/opt/cc-private/owner-static-map.php");']),staticHash);
