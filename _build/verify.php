@@ -2,10 +2,7 @@
 declare(strict_types=1);
 if(PHP_SAPI!=='cli')exit(1);
 $file=$argv[1]??'';$spec=json_decode(file_get_contents(str_replace('.transport.zip','.inventory.json',$file)),true,64,JSON_THROW_ON_ERROR);
-if(!class_exists('ZipArchive')) {
-    require ($argv[2]??'/opt/cc-private/core').'/xpdo/compression/pclzip.lib.php';
-    class ZipArchive { public $numFiles=0;private $files=[];function open($f){$z=new PclZip($f);$this->files=$z->extract(PCLZIP_OPT_EXTRACT_AS_STRING);if(!is_array($this->files))return false;$this->numFiles=count($this->files);return true;}function getNameIndex($i){return $this->files[$i]['filename'];}function getFromIndex($i){return $this->files[$i]['content'];}function getFromName($n){foreach($this->files as $f)if($f['filename']===$n)return $f['content'];return false;} }
-}
+if(!class_exists('ZipArchive'))throw new RuntimeException('ext-zip is required to verify MODX 3 artifacts');
 $zip=new ZipArchive();if($zip->open($file)!==true)throw new RuntimeException('ZIP');
 $prefix=$spec['signature'].'/';$vehicles=0;$found=[];$fileVehicles=[];$classes=[];$canonical=[];$categories=0;
 for($i=0;$i<$zip->numFiles;$i++){
@@ -17,23 +14,23 @@ for($i=0;$i<$zip->numFiles;$i++){
     if(strpos($body,'CookieConsentPackageLifecycle')!==false||strpos($body,'cc_package_state_dir')!==false)throw new RuntimeException('Custom lifecycle infrastructure in ZIP');
     if(substr($name,-8)==='.vehicle'){
         $payload=(static function($bytes){return eval(substr($bytes,5));})($body);
-        if(!is_array($payload)||!in_array($payload['vehicle_class']??'',['xPDOObjectVehicle','xPDOFileVehicle','xPDOScriptVehicle'],true))throw new RuntimeException('Native vehicle');
+        if(!is_array($payload)||!in_array($payload['vehicle_class']??'',['xPDO\Transport\xPDOObjectVehicle','xPDO\Transport\xPDOFileVehicle','xPDO\Transport\xPDOScriptVehicle'],true))throw new RuntimeException('Native vehicle');
         $vehicles++;$classes[$payload['vehicle_class']]=($classes[$payload['vehicle_class']]??0)+1;
-        if($payload['vehicle_class']==='xPDOFileVehicle'){$fileVehicles[$payload['relative_target']]=$payload['object'];if(empty($payload['uninstall_files']))throw new RuntimeException('Native file uninstall missing');continue;}
-        if($payload['vehicle_class']==='xPDOScriptVehicle')continue;
+        if($payload['vehicle_class']==='xPDO\Transport\xPDOFileVehicle'){$fileVehicles[$payload['relative_target']]=$payload['object'];if(empty($payload['uninstall_files']))throw new RuntimeException('Native file uninstall missing');continue;}
+        if($payload['vehicle_class']==='xPDO\Transport\xPDOScriptVehicle')continue;
         $obj=json_decode($payload['object'],true,16,JSON_THROW_ON_ERROR);
         if(($payload['uninstall_object']??true)!==false)throw new RuntimeException('Object uninstall must retain data');
-        $isElement=in_array($payload['class'],['modChunk','modSnippet'],true);
+        $isElement=in_array($payload['class'],['MODX\Revolution\modChunk','MODX\Revolution\modSnippet'],true);
         if($isElement){
-            $names=['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentMap'=>'modSnippet','CookieConsentAssets'=>'modSnippet','CookieConsentBanner'=>'modSnippet'];
+            $names=['CookiesPopup'=>'MODX\Revolution\modChunk','CookieConsent'=>'MODX\Revolution\modSnippet','CookieConsentMap'=>'MODX\Revolution\modSnippet','CookieConsentAssets'=>'MODX\Revolution\modSnippet','CookieConsentBanner'=>'MODX\Revolution\modSnippet'];
             if(!isset($names[$obj['name']??''])||$names[$obj['name']]!==$payload['class']||isset($canonical[$obj['name']])||($payload['update_object']??false)!==true||($payload['unique_key']??[])!==['name'])throw new RuntimeException('Canonical update/unique policy');
             $canonical[$obj['name']]=true;
         }elseif(($payload['update_object']??true)!==false)throw new RuntimeException('Non-element object must retain user values');
-        if($payload['class']==='modCategory'){
+        if($payload['class']==='MODX\Revolution\modCategory'){
             if($obj['category']!=='CookieConsent'||($payload['unique_key']??[])!==['category']||($payload['preserve_keys']??true)!==false||!empty($obj['id']))throw new RuntimeException('Native category policy');
             $categories++;
         }
-        if($payload['class']==='modSystemSetting'){
+        if($payload['class']==='MODX\Revolution\modSystemSetting'){
             $found[$obj['key']]=$obj['value'];
             if($obj['key']==='cookie_consent.services'){
                 $registry=json_decode($obj['value'],true,16,JSON_THROW_ON_ERROR);foreach($registry['services'] as $s)if($s['enabled']!==false||isset($s['config']['id']))throw new RuntimeException('Fresh service unsafe');

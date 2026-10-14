@@ -1,7 +1,7 @@
 <?php
 require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
 require_once dirname(__DIR__).'/src/CookieConsentAuditCheckException.php';
-abstract class CookieConsentManagerProcessor extends modProcessor
+abstract class CookieConsentManagerProcessor extends \MODX\Revolution\Processors\Processor
 {
     public function checkPermissions(){return $this->modx->user->isAuthenticated('mgr') && $this->modx->hasPermission('cookie_consent_manage');}
     public function draft(): array {
@@ -18,7 +18,7 @@ abstract class CookieConsentManagerProcessor extends modProcessor
             $code=$e instanceof DomainException?'conflict':($e instanceof InvalidArgumentException||$e instanceof JsonException?'validation':'unavailable');
             // Log only a bounded diagnostic, never draft/configuration/secret values.
             $reason=preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():$code;
-            $this->modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsentManager] request='.$requestId.' processor='.get_class($this).' exception='.get_class($e).' reason='.$reason);
+            $this->modx->log(\MODX\Revolution\modX::LOG_LEVEL_ERROR,'[CookieConsentManager] request='.$requestId.' processor='.get_class($this).' exception='.get_class($e).' reason='.$reason);
             $diagnostic=['code'=>$code,'request_id'=>$requestId,'reason'=>$reason];
             if($e instanceof CookieConsentAuditCheckException){$diagnostic['receiver_status']=$e->receiverStatus;if($e->receiverCode!=='')$diagnostic['receiver_code']=$e->receiverCode;}
             return $this->failure($code,$diagnostic);

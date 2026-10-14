@@ -43,9 +43,9 @@ final class CookieConsentAuditConfiguration
     private static function managedKey($modx,bool $create=false): string {
         // A native server-owned queue OPTIONS record, never a readable message.
         // Hyphens deliberately exclude this name from native read/send processors.
-        $q=$modx->getObject('registry.db.modDbRegisterQueue',['name'=>'cookieconsent-audit-private']);
+        $q=$modx->getObject('MODX\Revolution\Registry\Db\modDbRegisterQueue',['name'=>'cookieconsent-audit-private']);
         if(!$q&&$create){
-            $q=$modx->newObject('registry.db.modDbRegisterQueue');
+            $q=$modx->newObject('MODX\Revolution\Registry\Db\modDbRegisterQueue');
             $q->fromArray(['name'=>'cookieconsent-audit-private','options'=>['rate_limit_key'=>bin2hex(random_bytes(32))]],'',true,true);
             if(!$q->save())throw new RuntimeException('audit_key_save');
         }
@@ -54,9 +54,9 @@ final class CookieConsentAuditConfiguration
         return $options['rate_limit_key'];
     }
     public static function forModx($modx): array {
-        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$file=is_string($env)&&$env!==''?$env:($s?(string)$s->get('value'):'');
+        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$file=is_string($env)&&$env!==''?$env:($s?(string)$s->get('value'):'');
         if($file!=='')return self::load($file,self::webroot(),!$env);
-        $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit']);if(!$s||(string)$s->get('value')==='')throw new RuntimeException('audit_not_configured');
+        $s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit']);if(!$s||(string)$s->get('value')==='')throw new RuntimeException('audit_not_configured');
         $config=json_decode($s->get('value'),true,8,JSON_THROW_ON_ERROR);
         if(!is_array($config)||array_diff(array_keys($config),['site_origin','rate_limit_per_minute']))throw new RuntimeException('audit_parameters_invalid');
         $config['rate_limit_key']=self::managedKey($modx);return self::validate($config);
@@ -72,7 +72,7 @@ final class CookieConsentAuditConfiguration
         return $origin;
     }
     public static function setup($modx,int $limit=60,?string $origin=null,bool $inTransaction=false): void {
-        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
+        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
         if($env||($legacy&&$legacy->get('value')!=='')){
             $config=self::forModx($modx);if($origin!==null&&!hash_equals(strtolower($config['site_origin']),$origin))throw new RuntimeException('audit_origin_external_config');return;
         }
@@ -80,9 +80,9 @@ final class CookieConsentAuditConfiguration
         if($limit<1||$limit>10000)throw new InvalidArgumentException('rate_limit');
         if(!$inTransaction)$modx->beginTransaction();
         try {
-            $lock=$modx->prepare('SELECT `key` FROM '.$modx->getTableName('modSystemSetting')." WHERE `key`='cookie_consent.audit' FOR UPDATE");
+            $lock=$modx->prepare('SELECT `key` FROM '.$modx->getTableName('MODX\Revolution\modSystemSetting')." WHERE `key`='cookie_consent.audit' FOR UPDATE");
             if(!$lock->execute())throw new RuntimeException('audit_lock');
-            $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit']);
+            $s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit']);
             if(!$s)throw new RuntimeException('audit_setting_missing');
             if((string)$s->get('value')===''){
                 $key=self::managedKey($modx,true);
@@ -101,8 +101,8 @@ final class CookieConsentAuditConfiguration
         if(!$inTransaction)$modx->cacheManager->refresh(['system_settings'=>[]]);
     }
     public static function status($modx): array {
-        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$source=$env?'environment':($legacy&&$legacy->get('value')!==''?'setting':'managed');
-        $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);$dir=$s?(string)$s->get('value'):'';
+        $env=getenv('COOKIE_CONSENT_AUDIT_CONFIG');$legacy=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit_config_file']);$source=$env?'environment':($legacy&&$legacy->get('value')!==''?'setting':'managed');
+        $s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir']);$dir=$s?(string)$s->get('value'):'';
         if($dir==='')return ['state'=>'not_configured','source'=>$source];
         try {$config=self::forModx($modx);require_once __DIR__.'/CookieConsentLogDirectory.php';CookieConsentLogDirectory::validate($dir,self::webroot());return ['state'=>'ready','source'=>$source];}
         catch(Throwable $e){return ['state'=>$e->getMessage()==='audit_not_configured'?'not_configured':'invalid','source'=>$source];}

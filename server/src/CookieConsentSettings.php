@@ -33,11 +33,11 @@ final class CookieConsentSettings
     public static function migrateCategories($modx): void {
         $modx->beginTransaction();
         try{
-            $lock=$modx->prepare("SELECT `key` FROM ".$modx->getTableName('modSystemSetting')." WHERE `key` IN ('cookie_consent.options','cookie_consent.services') FOR UPDATE");
+            $lock=$modx->prepare("SELECT `key` FROM ".$modx->getTableName('MODX\Revolution\modSystemSetting')." WHERE `key` IN ('cookie_consent.options','cookie_consent.services') FOR UPDATE");
             if(!$lock->execute())throw new RuntimeException('Settings lock');
-            $row=$modx->getObject('modSystemSetting',['key'=>self::KEYS[0]]);if(!$row)throw new RuntimeException('Setting missing');
+            $row=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>self::KEYS[0]]);if(!$row)throw new RuntimeException('Setting missing');
             $raw=json_decode($row->get('value'),true,16,JSON_THROW_ON_ERROR);self::options($raw);
-            $registryRow=$modx->getObject('modSystemSetting',['key'=>self::KEYS[1]]);if(!$registryRow)throw new RuntimeException('Setting missing');
+            $registryRow=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>self::KEYS[1]]);if(!$registryRow)throw new RuntimeException('Setting missing');
             $registryRaw=(string)$registryRow->get('value');
             $registry=CookieConsentServiceRegistry::validateJson($registryRaw);
             $legacyRegistry=json_decode($registryRaw,true,16,JSON_THROW_ON_ERROR);
@@ -61,7 +61,7 @@ final class CookieConsentSettings
     {
         // One native query, no request/global cache. Keep key order stable for revisions.
         $values=array_fill_keys(self::KEYS,'');
-        foreach($modx->getCollection('modSystemSetting',['key:IN'=>self::KEYS]) as $setting)$values[(string)$setting->get('key')]=(string)$setting->get('value');
+        foreach($modx->getCollection('MODX\Revolution\modSystemSetting',['key:IN'=>self::KEYS]) as $setting)$values[(string)$setting->get('key')]=(string)$setting->get('value');
         $options=self::options($values[self::KEYS[0]]===''?self::defaults():json_decode($values[self::KEYS[0]],true,16,JSON_THROW_ON_ERROR));
         $registry=CookieConsentServiceRegistry::validateJson($values[self::KEYS[1]]);
         $options=self::categoryOptions($options,$registry['services']);
@@ -105,10 +105,10 @@ final class CookieConsentSettings
     {
         $modx->beginTransaction();
         try {
-            $lock=$modx->prepare("SELECT `key` FROM ".$modx->getTableName('modSystemSetting')." WHERE `key` LIKE 'cookie\\_consent.%' FOR UPDATE");
+            $lock=$modx->prepare("SELECT `key` FROM ".$modx->getTableName('MODX\Revolution\modSystemSetting')." WHERE `key` LIKE 'cookie\\_consent.%' FOR UPDATE");
             if(!$lock->execute())throw new RuntimeException('Settings lock');
             if(!hash_equals(self::read($modx)['revision'],$revision))throw new DomainException('conflict');
-            $row=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);
+            $row=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir']);
             if(!$row)throw new RuntimeException('Setting missing');$row->set('value',$previous);
             if(!$row->save())throw new RuntimeException('write_failed');$modx->commit();
         }catch(Throwable $e){$modx->rollBack();throw $e;}
@@ -120,7 +120,7 @@ final class CookieConsentSettings
         require_once __DIR__.'/CookieConsentAuditConfiguration.php';
         $modx->beginTransaction();
         try {
-            $table=$modx->getTableName('modSystemSetting');
+            $table=$modx->getTableName('MODX\Revolution\modSystemSetting');
             $lock=$modx->prepare("SELECT `key` FROM $table WHERE `key` LIKE 'cookie\\_consent.%' FOR UPDATE");
             if (!$lock->execute()) throw new RuntimeException('Settings lock');
             $current=self::read($modx);
@@ -152,14 +152,14 @@ final class CookieConsentSettings
                 }
             }
             $values=[json_encode($draft['options'],JSON_THROW_ON_ERROR),json_encode($draft['registry'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),json_encode($draft['texts'],JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR),$draft['log_dir'],$draft['audit_config_file']];
-            foreach(self::KEYS as $i=>$key){$s=$modx->getObject('modSystemSetting',['key'=>$key]);if(!$s)throw new RuntimeException('Setting missing');$s->set('value',$values[$i]);if(!$s->save())throw new RuntimeException('write_failed');}
+            foreach(self::KEYS as $i=>$key){$s=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>$key]);if(!$s)throw new RuntimeException('Setting missing');$s->set('value',$values[$i]);if(!$s->save())throw new RuntimeException('write_failed');}
             if($needsSetup){
                 if($modx->exec('SAVEPOINT cc_audit_setup')===false)throw new RuntimeException('write_failed');
                 try{CookieConsentAuditConfiguration::setup($modx,60,$auditOrigin,true);$modx->exec('RELEASE SAVEPOINT cc_audit_setup');}
                 catch(Throwable $e){
                     if($modx->exec('ROLLBACK TO SAVEPOINT cc_audit_setup')===false)throw new RuntimeException('write_failed');
                     $modx->exec('RELEASE SAVEPOINT cc_audit_setup');
-                    $row=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);$row->set('value',$current['log_dir']);if(!$row->save())throw new RuntimeException('write_failed');
+                    $row=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir']);$row->set('value',$current['log_dir']);if(!$row->save())throw new RuntimeException('write_failed');
                     $journal=['saved'=>false,'checked'=>true,'reason'=>preg_match('/^[a-z_]{1,40}$/D',$e->getMessage())?$e->getMessage():'audit_not_configured'];
                 }
             }

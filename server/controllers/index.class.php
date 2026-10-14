@@ -1,5 +1,5 @@
 <?php
-class Cookie_consentIndexManagerController extends modExtraManagerController
+class CookieconsentIndexManagerController extends \MODX\Revolution\modExtraManagerController
 {
     public function getPageTitle(){return 'Cookie Consent Manager';}
     public function getLanguageTopics(){return ['cookie_consent:default'];}
@@ -11,4 +11,4 @@ class Cookie_consentIndexManagerController extends modExtraManagerController
     }
     public function getTemplateFile(){return dirname(__DIR__).'/templates/home.tpl';}
 }
-return 'Cookie_consentIndexManagerController';
+return 'CookieconsentIndexManagerController';

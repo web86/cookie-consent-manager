@@ -1,4 +1,4 @@
-# Cookie Consent Manager
+# Cookie Consent Manager for MODX 3
 
 ## RU — Инструкции и руководство
 

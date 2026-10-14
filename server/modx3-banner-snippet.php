@@ -5,4 +5,4 @@ try {
     $data=CookieConsentSettings::read($modx);$language=CookieConsentBannerRenderer::language($modx);
     $strings=CookieConsentTexts::resolve($data['texts'],$language,$data['registry']['services']);
     return CookieConsentBannerRenderer::render($modx->getChunk('CookiesPopup'),$strings,$data['options'],(string)$modx->getOption('assets_url'),$modx->getOption('mode',$scriptProperties,'live'),$data['registry']['services']);
-}catch(Throwable $e){$modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Banner configuration unavailable');return '';}
+}catch(Throwable $e){$modx->log(\MODX\Revolution\modX::LOG_LEVEL_ERROR,'[CookieConsent] Banner configuration unavailable');return '';}

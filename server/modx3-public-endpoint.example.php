@@ -9,16 +9,16 @@ ob_start();
 try {
     if (!defined('MODX_API_MODE')) define('MODX_API_MODE',true);
     require dirname(__DIR__,3).'/index.php';
-    if (!isset($modx) || !($modx instanceof modX)) throw new RuntimeException('MODX unavailable');
-    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);
+    if (!isset($modx) || !($modx instanceof \MODX\Revolution\modX)) throw new RuntimeException('MODX unavailable');
+    $setting=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir']);
     $GLOBALS['cookieConsentModxLogDir']=$setting ? (string)$setting->get('value') : '';
-    $configSetting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
+    $configSetting=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.audit_config_file']);
     $GLOBALS['cookieConsentAuditConfigFile']=$configSetting ? (string)$configSetting->get('value') : '';
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditConfiguration.php';
     if(($_SERVER['REQUEST_METHOD']??'')==='POST' && preg_match('~^application/json~i',$_SERVER['CONTENT_TYPE']??''))
         $GLOBALS['cookieConsentAuditOptions']=CookieConsentAuditConfiguration::forModx($modx);
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
-    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
+    $setting=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.services']);
     $GLOBALS['cookieConsentServiceRegistry']=CookieConsentServiceRegistry::validateJson($setting ? (string)$setting->get('value') : '');
     while (ob_get_level()>$level) ob_end_clean();
     require MODX_CORE_PATH.'components/cookieconsent/public/audit.php';
