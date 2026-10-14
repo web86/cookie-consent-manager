@@ -1,0 +1,6854 @@
+{
+  "date": "2026-10-14",
+  "timezone": "Europe/Istanbul",
+  "branch": "feature/modx2-commercial-polish-performance",
+  "base_commit": "44b36c7",
+  "implementation_commits": [
+    "0706282",
+    "dd46995"
+  ],
+  "changed_files": [
+    "README.md",
+    "_build/frontend-manifest.json",
+    "_build/package-readme.md",
+    "_build/package.json",
+    "_build/user-guide-manifest.json",
+    "_build/user-guide.json",
+    "assets/js/cookie-consent/cookie-consent.min.js",
+    "assets/js/cookie-consent/runtime.js",
+    "demo.html",
+    "docs/evidence/modx2-locale-guide-results.json",
+    "docs/modx2-locale-guide-acceptance.md",
+    "docs/modx2-locale-guide.md",
+    "server/modx2-assets-snippet.php",
+    "server/modx2-registry-snippet.php",
+    "server/src/CookieConsentGuide.php",
+    "tests/beta26/frontend.mjs",
+    "tests/beta28/localization.mjs",
+    "tests/beta29/public-json.mjs",
+    "tests/beta33/native.mjs",
+    "tests/locale-guide/examples.mjs",
+    "tests/locale-guide/summarize.py",
+    "tests/manager-ux.mjs",
+    "tests/polish/native.mjs",
+    "tests/polish/package.mjs",
+    "tests/polish/reinstall.mjs",
+    "tests/polish/settings.php",
+    "tests/polish/ui.mjs",
+    "tests/public-registry/browser.mjs",
+    "tests/release/demo.php"
+  ],
+  "result": "GO FOR REVIEW; unpublished 1.0.2 candidate",
+  "signature": "cookieconsent-1.0.2",
+  "sha256": "dc01bd4c6d5b5e96888a6c6707a92d134daadea7fe506ea741152783153cc506",
+  "tests": 506,
+  "assertions": 4170,
+  "failed": 0,
+  "suites": {
+    "browser-results": {
+      "suite": "Playwright Chromium / real MODX 2.8.8",
+      "assertions": 1423,
+      "tests": 281,
+      "failed": 0,
+      "results": [
+        {
+          "name": "first-visit",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "reject",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 4
+        },
+        {
+          "name": "category-0",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "category-1",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 6
+        },
+        {
+          "name": "category-2",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 6
+        },
+        {
+          "name": "category-3",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 9
+        },
+        {
+          "name": "category-4",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 6
+        },
+        {
+          "name": "category-5",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 9
+        },
+        {
+          "name": "category-6",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 9
+        },
+        {
+          "name": "category-7",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 12
+        },
+        {
+          "name": "map-google_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 5
+        },
+        {
+          "name": "map-yandex_maps",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 5
+        },
+        {
+          "name": "accept-all-revoke",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 4
+        },
+        {
+          "name": "legacy-accept",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "accept",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 13
+        },
+        {
+          "name": "provider-only",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [],
+          "events": [],
+          "networkRequests": 4
+        },
+        {
+          "name": "expiry-ttl",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "expiry-policy",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "expiry-old-m2",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "expiry-popup-yurist",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "draft-not-committed",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200,
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "failed-audit",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            503
+          ],
+          "events": [
+            {
+              "event": "accept_all",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "invalid-200-acknowledgement",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "reject",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 3
+        },
+        {
+          "name": "mobile-keyboard-modal",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 12
+        },
+        {
+          "name": "dynamic-add-disable",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200,
+            200,
+            200,
+            200,
+            200
+          ],
+          "events": [],
+          "networkRequests": 5
+        },
+        {
+          "name": "unsafe-admin-config",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [],
+          "events": [],
+          "networkRequests": 3
+        },
+        {
+          "name": "providers-000",
+          "result": "PASS",
+          "mockLoads": [],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 4
+        },
+        {
+          "name": "providers-002",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-003",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-001",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-005",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-007",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-004",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-006",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-009",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-011",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-008",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-010",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-015",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-014",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-013",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-012",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-018",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-016",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-017",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-019",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-021",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-020",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-022",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-023",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-027",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-024",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-025",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-026",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-029",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-031",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-028",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-030",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-034",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-033",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-035",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-032",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-039",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-036",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-038",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-037",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-040",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-041",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-042",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-043",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-045",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-046",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-047",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-044",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-051",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-048",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-049",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-050",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-054",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-055",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-052",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-053",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-057",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-058",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-056",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-059",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-063",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-062",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-060",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-061",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-065",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-064",
+          "result": "PASS",
+          "mockLoads": [
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-066",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-067",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-071",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-070",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-068",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-069",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-072",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-074",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-073",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-075",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-077",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-076",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-078",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-079",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-080",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-082",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-081",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-083",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-085",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-084",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-086",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-087",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-088",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-091",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-089",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-090",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-092",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-093",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-095",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-094",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-096",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-097",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-099",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-098",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-102",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-101",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-100",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-103",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-104",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-106",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-105",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-107",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-108",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-110",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-111",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-109",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-113",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-112",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-114",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-115",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-117",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-118",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-116",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-119",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-122",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-120",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-121",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-123",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-124",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-125",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-126",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-127",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-130",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-129",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-128",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 5
+        },
+        {
+          "name": "providers-131",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-132",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-133",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-135",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-134",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-137",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-136",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-138",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-139",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-141",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-142",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-143",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-140",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-145",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-147",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-146",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-144",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-148",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-151",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-150",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-149",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-153",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-155",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-154",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-152",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-158",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-156",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-159",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-157",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-162",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-160",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-161",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-163",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-167",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-165",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-164",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-166",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-169",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-170",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-168",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-171",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-173",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-174",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-172",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-175",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-177",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-176",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-178",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-179",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-180",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-182",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-183",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-181",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-185",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-186",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-184",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-187",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-190",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-188",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-189",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-191",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-195",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-194",
+          "result": "PASS",
+          "mockLoads": [
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-192",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 6
+        },
+        {
+          "name": "providers-193",
+          "result": "PASS",
+          "mockLoads": [
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-197",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-196",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-198",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-199",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-201",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-202",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-200",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-203",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-205",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-207",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-204",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-206",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-209",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-210",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-208",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 7
+        },
+        {
+          "name": "providers-211",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-213",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-212",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-215",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-214",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-218",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-217",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-219",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-216",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-221",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-220",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-222",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-223",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-224",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 8
+        },
+        {
+          "name": "providers-225",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-227",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-226",
+          "result": "PASS",
+          "mockLoads": [
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-230",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-228",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-229",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-231",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-232",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-235",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-234",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-233",
+          "result": "PASS",
+          "mockLoads": [
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-239",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-237",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-238",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-236",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-243",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-241",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-242",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-240",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 9
+        },
+        {
+          "name": "providers-244",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-246",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-245",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-247",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-248",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 10
+        },
+        {
+          "name": "providers-250",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-249",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-251",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-255",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 13
+        },
+        {
+          "name": "providers-252",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 11
+        },
+        {
+          "name": "providers-254",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "mailru.js",
+            "marketing.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        },
+        {
+          "name": "providers-253",
+          "result": "PASS",
+          "mockLoads": [
+            "google_ads.js",
+            "google_ga4.js",
+            "google_gtm.js",
+            "google_maps.html",
+            "marketing.js",
+            "yandex.js",
+            "yandex_maps.html"
+          ],
+          "auditHTTP": [
+            200
+          ],
+          "events": [
+            {
+              "event": "save_settings",
+              "stage": "committed"
+            }
+          ],
+          "networkRequests": 12
+        }
+      ]
+    },
+    "categories-results": {
+      "tests": 23,
+      "assertions": 200,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-and-browser-analytics-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-analytics-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-marketing-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-0-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-1-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-false",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "SSR-and-browser-external_content-2-true",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-analytics",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-marketing",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "hide-show-only-affected-grant-invalidated-external_content",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "offline-hide-show-does-not-resurrect-old-grant",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "per-map-hidden-no-user-or-programmatic-bypass-visible-map-allow-retained",
+          "result": "PASS",
+          "assertions": 6
+        }
+      ]
+    },
+    "managerCategories-results": {
+      "tests": 4,
+      "assertions": 73,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-visibility-label-keyboard-collapse-preserved-preview-Save",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "collapsed-error-group-revealed-and-add-preserves-other-section",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "visibility-independent-service-toggle-preview-and-strict-save-conflict",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ]
+    },
+    "callbacks-results": {
+      "suite": "Real MODX onAllowed public API",
+      "tests": 13,
+      "assertions": 44,
+      "failed": 0,
+      "results": [
+        {
+          "name": "register-before-initialization-and-consent-isolated-analytics",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "register-before-initialization-and-consent-isolated-marketing",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "register-before-initialization-and-consent-isolated-external_content",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "late-registration-saved-consent-and-unsubscribe-split",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "late-registration-saved-consent-and-unsubscribe-legacy",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "draft-and-forged-audit-do-not-run-and-storage-copy-cannot-grant",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "multiple-callbacks-sync-and-async-errors-isolated-and-cancel-pending",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "service-absent-or-wrong-category-not_existing",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "service-absent-or-wrong-category-mailru",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "service-fingerprint-change-disabled-and-category-only-distinction",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-invalidates-live-guard-before-reload-and-no-restored-callback",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "new-service-and-expired-or-invalid-stored-state-cannot-authorize-callback",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "invalid-API-arguments-throw-without-altering-CMP",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "maps-results": {
+      "suite": "User-supplied JS-map adaptation with intercepted controlled Yandex API/endpoints; not real client deployment",
+      "tests": 9,
+      "assertions": 42,
+      "failed": 0,
+      "results": [
+        {
+          "name": "no-local-or-Yandex-before-consent-draft-and-analytics-only",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "allowed-after-DOMContentLoaded-multiple-point-polygon-line-and-fallback-once",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "withdraw-reload-does-not-resume-local-script-or-SDK",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-while-pending-Local-no-late-operations",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "withdraw-while-pending-SDK-no-late-operations",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "withdraw-while-pending-Data-no-late-operations",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "authorized-geometry-matches-owner-source-functional-baseline",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "changed-fingerprint-and-disabled-service-block-custom-script-after-reload",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "existing-ready-API-and-duplicate-rescan-do-not-hang-or-double-init",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "clientIdExample-results": {
+      "tests": 4,
+      "assertions": 13,
+      "failed": 0,
+      "results": [
+        {
+          "name": "core-no-getClientID-or-form-writing-after-analytics",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "user-chunk-denied-no-request-allowed-once-scoped-ID",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "user-chunk-missing-target-does-not-block-consent",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "user-chunk-late-callback-disconnected-target-safe",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "localization-results": {
+      "suite": "Real MODX PHP localized source RU/EN stock/overrides cold/warm without JS",
+      "tests": 4,
+      "assertions": 112,
+      "failed": 0,
+      "results": [
+        {
+          "name": "stock-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "stock-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "overrides-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        },
+        {
+          "name": "overrides-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+          "result": "PASS",
+          "assertions": 33
+        }
+      ]
+    },
+    "publicJson-results": {
+      "suite": "Direct Assets safe JSON without Registry dependency",
+      "tests": 3,
+      "assertions": 84,
+      "failed": 0,
+      "results": [
+        {
+          "name": "direct-Assets-safe-minimal-JSON-split-legacy-ru",
+          "result": "PASS",
+          "assertions": 40
+        },
+        {
+          "name": "direct-Assets-safe-minimal-JSON-split-legacy-en",
+          "result": "PASS",
+          "assertions": 40
+        },
+        {
+          "name": "invalid-registry-safe-empty-configuration-no-external-services",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "liveGuard-results": {
+      "suite": "Live adapters with local network fulfillment only",
+      "assertions": 51,
+      "tests": 11,
+      "failed": 0,
+      "results": [
+        {
+          "name": "google_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "yandex_maps",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10"
+          ]
+        },
+        {
+          "name": "google_ga4",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "google_ads",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "gtm-marketing-only",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://www.googletagmanager.com/gtm.js?id=<test-id>"
+          ]
+        },
+        {
+          "name": "all-google-shared-library",
+          "result": "PASS",
+          "interceptedExternal": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=<test-id>",
+            "https://www.googletagmanager.com/gtm.js?id=<test-id>",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK",
+            "https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10",
+            "https://www.google.com/maps/embed?pb=TEST%3AMOCK"
+          ]
+        },
+        {
+          "name": "map-url-rejection",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-0",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-1",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-2",
+          "result": "PASS",
+          "interceptedExternal": []
+        },
+        {
+          "name": "audit-url-3",
+          "result": "PASS",
+          "interceptedExternal": []
+        }
+      ]
+    },
+    "providerParameters-results": {
+      "tests": 4,
+      "assertions": 18,
+      "failed": 0,
+      "results": [
+        {
+          "name": "yandex-options",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "ga-privacy-without-marketing",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "ga-ads-options",
+          "result": "PASS",
+          "interceptedRequests": 1
+        },
+        {
+          "name": "gtm-marketing-only",
+          "result": "PASS",
+          "interceptedRequests": 1
+        }
+      ]
+    },
+    "pixels-results": {
+      "suite": "Marketing pixels controlled SDK mocks / manual opener / general map revoke",
+      "tests": 32,
+      "assertions": 175,
+      "failed": 0,
+      "results": [
+        {
+          "name": "marketing-consent-state-0",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "marketing-consent-state-1",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "marketing-consent-state-2",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "marketing-consent-state-3",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "pixel-provider-powerset-0",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-1",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-2",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-3",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-4",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-5",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-6",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-7",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-8",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-9",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-10",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-11",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-12",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-13",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-14",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "pixel-provider-powerset-15",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "browser-registry-rejects-shared-Mail-VK-ID-before-start",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "explicit-reject-no-SDK-or-pixel",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "single-duplicate-and-multiple-ID-once-SDK-once-PageView",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "Mail-analytics-first-VK-later-no-shared-SDK-reload",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "revocation-immediate-Meta-consent-revoke-reload-and-reconsent",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "withdraw-during-pending-meta-SDK-no-late-ad-event",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "withdraw-during-pending-tmr-SDK-no-late-ad-event",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "ID-change-and-new-ID-fingerprint-do-not-inherit-grant",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "no-automatic-opener-initializes-split-none",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "no-automatic-opener-initializes-legacy-none",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "maps-general-settings-revoke-no-buttons-cold-warm-ru",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "maps-general-settings-revoke-no-buttons-cold-warm-en",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    "gtm-results": {
+      "suite": "Real published owner GTM container / local MODX 2.8.8",
+      "container": "GTM-WJD8XJD6",
+      "tests": 9,
+      "assertions": 126,
+      "failed": 0,
+      "publishedVersions": [
+        "4"
+      ],
+      "analyticsTag": "Real owner Custom HTML analytics test with analytics_storage consent check; assertions require marketing-only blocked and all-consent fires once",
+      "externalPolicy": "Only owner gtm.js downloaded; all other external requests locally fulfilled",
+      "results": [
+        {
+          "name": "real-GTM-marketing-only-Save-reload-once-per-page",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "real-GTM-analytics-only-container-blocked",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "real-GTM-all-categories-Accept-all",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "real-GTM-all-categories-Save",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "real-GTM-reject-blocked",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "real-GTM-marketing-withdraw-Save-reloads-blocked",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "real-GTM-analytics-grant-update-and-marketing-revoke-states-independent",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "real-GTM-changed-ID-fingerprint-blocked",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "real-GTM-new-service-does-not-inherit-existing-grant",
+          "result": "PASS",
+          "assertions": 24
+        }
+      ]
+    },
+    "frontend-results": {
+      "suite": "PHP-only static localization / split snippets / minified frontend",
+      "tests": 9,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "SSR-no-static-rewrite-en",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-ru",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "SSR-no-static-rewrite-tr",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "one-call-contract-independent-split",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "one-call-contract-independent-legacy",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-assets-only",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "one-call-contract-independent-banner-only",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "localized-runtime-ACK-error-is-minimal-server-message",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "head-bundle-hashes-and-simple-repeat-JS-initialization-guard",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "viewer-results": {
+      "suite": "Consent Audit Viewer Playwright",
+      "tests": 11,
+      "assertions": 77,
+      "failed": 0,
+      "results": [
+        {
+          "name": "default-filters-four-columns-no-storage-or-diagnostics",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changing-filters-does-not-fetch-find-applies",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "pagination-newest-first-only-50",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "details-schema2-XSS-and-consent-history",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "all-actions-searches-unknown-and-empty",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "CSV-all-matches-UTF8-escaping-injection-applied-filters",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "direct-traversal-invalid-filters-and-unauthenticated-requests",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "manager-without-log-permission-denied-read-detail-export",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "view-only-manager-can-read-export-cannot-save-settings",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "RU-lexicon-screenshot",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "read-only-source-hashes-and-no-runtime-errors",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "http-results": {
+      "suite": "HTTP through real MODX wrapper",
+      "assertions": 121,
+      "tests": 37,
+      "failed": 0,
+      "results": [
+        {
+          "name": "positive-server-jsonl",
+          "result": "PASS"
+        },
+        {
+          "name": "schema2-map",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "null-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "cross-site",
+          "result": "PASS"
+        },
+        {
+          "name": "same-site",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-method",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-content-type",
+          "result": "PASS"
+        },
+        {
+          "name": "malformed-json",
+          "result": "PASS"
+        },
+        {
+          "name": "list-json",
+          "result": "PASS"
+        },
+        {
+          "name": "excess-payload",
+          "result": "PASS"
+        },
+        {
+          "name": "no-fetch-metadata-same-origin",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-ip",
+          "result": "PASS"
+        },
+        {
+          "name": "extra-config",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-uuid",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-stage",
+          "result": "PASS"
+        },
+        {
+          "name": "wrong-type",
+          "result": "PASS"
+        },
+        {
+          "name": "invalid-calendar",
+          "result": "PASS"
+        },
+        {
+          "name": "query-pii",
+          "result": "PASS"
+        },
+        {
+          "name": "map-wrong-category",
+          "result": "PASS"
+        },
+        {
+          "name": "unknown-provider",
+          "result": "PASS"
+        },
+        {
+          "name": "replay",
+          "result": "PASS"
+        },
+        {
+          "name": "concurrent-append-and-replay",
+          "result": "PASS"
+        },
+        {
+          "name": "setting-change-preserves-archives",
+          "result": "PASS"
+        },
+        {
+          "name": "webroot-path-without-HTTP-protection",
+          "result": "PASS"
+        },
+        {
+          "name": "relative-path",
+          "result": "PASS"
+        },
+        {
+          "name": "document-root",
+          "result": "PASS"
+        },
+        {
+          "name": "missing-path",
+          "result": "PASS"
+        },
+        {
+          "name": "traversal-path",
+          "result": "PASS"
+        },
+        {
+          "name": "empty-path",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "permission-denied-directory",
+          "result": "PASS"
+        },
+        {
+          "name": "symlink-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "unwritable-monthly-file",
+          "result": "PASS"
+        },
+        {
+          "name": "rate-limit",
+          "result": "PASS"
+        },
+        {
+          "name": "upgrade-preserves-settings",
+          "result": "PASS"
+        }
+      ]
+    },
+    "native-results": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 8,
+      "assertions": 224,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "fresh-public-JSON-is-minimal-internal-registry-is-full",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "stable-1.0.0-to-candidate-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 57
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "provider-config": {
+      "suite": "Real Manager GET/provider ID and boolean Save/reload E2E",
+      "tests": 16,
+      "assertions": 287,
+      "failed": 0,
+      "results": [
+        {
+          "name": "object-google_ga4-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "object-google_ads-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "object-google_gtm-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "object-mailru-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "object-yandex-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "array-google_ga4-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "array-google_ads-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "array-google_gtm-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "array-mailru-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "array-yandex-real-fields-POST-Save-reload",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "subsequent-Save-without-reload-normalizes-new-empty-configs",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "all-checkbox-options-both-boolean-values-persist",
+          "result": "PASS",
+          "assertions": 48
+        },
+        {
+          "name": "en-missing-invalid-ID-errors-near-field-no-Save-POST",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "ru-missing-invalid-ID-errors-near-field-no-Save-POST",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "backend-rejects-nonempty-array-without-overwriting-settings",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "client-rejects-corrupt-nonempty-array-null-and-scalar-GET-no-data-loss",
+          "result": "PASS",
+          "assertions": 13
+        }
+      ]
+    },
+    "ui": {
+      "tests": 7,
+      "assertions": 227,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-1440-native-guide-focus-Escape-draft-footer",
+          "result": "PASS",
+          "assertions": 41
+        },
+        {
+          "name": "ru-390-native-guide-focus-Escape-draft-footer",
+          "result": "PASS",
+          "assertions": 41
+        },
+        {
+          "name": "en-1440-native-guide-focus-Escape-draft-footer",
+          "result": "PASS",
+          "assertions": 41
+        },
+        {
+          "name": "en-390-native-guide-focus-Escape-draft-footer",
+          "result": "PASS",
+          "assertions": 41
+        },
+        {
+          "name": "ru-services-chevron-heading-checkbox-keyboard",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-services-chevron-heading-checkbox-keyboard",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "view-only-footer-no-settings-guide-no-external-widget",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ]
+    },
+    "package": {
+      "tests": 1,
+      "assertions": 20,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "settings": {
+      "tests": 1,
+      "assertions": 24,
+      "failed": 0,
+      "result": "PASS",
+      "suite": "Batched settings query, stable revision, fresh reads, locale/mode and guide source"
+    },
+    "projection": {
+      "suite": "Native PHP public registry projection and full internal settings",
+      "tests": 1,
+      "assertions": 85,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "examples": {
+      "tests": 5,
+      "assertions": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual-guide-example-A-zero-services-grant-and-restored-consent",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "actual-guide-example-A-withdraw-pending-import-no-late-init",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "historical-standalone-i18n-ru",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "historical-standalone-i18n-en",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "historical-standalone-i18n-tr",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ]
+    },
+    "settings-validation": {
+      "suite": "Manager UX security/lexicon PHP",
+      "assertions": 26,
+      "result": "PASS"
+    },
+    "categories-php": {
+      "tests": 1,
+      "assertions": 198,
+      "failed": 0,
+      "result": "PASS",
+      "suite": "Explicit category flags/legacy migration/SSR 0,1,2 providers/boolean validation"
+    },
+    "viewer-php": {
+      "suite": "Audit Viewer PHP",
+      "assertions": 62,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "config-php": {
+      "suite": "Provider configuration compatibility/strict validation PHP",
+      "tests": 1,
+      "assertions": 53,
+      "failed": 0,
+      "result": "PASS"
+    },
+    "reinstall": {
+      "tests": 1,
+      "assertions": 63,
+      "failed": 0,
+      "result": "PASS",
+      "runtime_files": 55
+    },
+    "syntax": {
+      "signature": "cookieconsent-1.0.2",
+      "tests": 1,
+      "assertions": 188,
+      "php_files": 94,
+      "js_files": 94,
+      "failed": 0,
+      "result": "PASS",
+      "errors": []
+    },
+    "zip": {
+      "signature": "cookieconsent-1.0.2",
+      "native_vehicles": 71,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 14,
+        "xPDOFileVehicle": 55,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 55,
+      "zip_entries": 136,
+      "sha256": "dc01bd4c6d5b5e96888a6c6707a92d134daadea7fe506ea741152783153cc506",
+      "result": "PASS"
+    },
+    "reviewed-candidate-upgrade": {
+      "suite": "Actual previous-release consent and native upgrade to minimal registry",
+      "tests": 6,
+      "assertions": 55,
+      "failed": 0,
+      "results": [
+        {
+          "name": "real-cookieconsent-1.0.1-to-cookieconsent-1.0.2-no-reconsent-exact-fingerprints-and-data",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "minimal-and-cached-full-contract-same-v2-fingerprint-strict-rejection",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "scoped-onAllowed-and-user-owned-ClientID-example-with-minimal-data",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-ru",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-en",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-tr",
+          "result": "PASS",
+          "assertions": 11
+        }
+      ]
+    }
+  },
+  "environment": {
+    "modx": "2.8.8-pl",
+    "php": "8.2.34",
+    "web_server": "Apache",
+    "browser": "Chromium",
+    "playwright": "1.62.1",
+    "esbuild": "0.28.2"
+  },
+  "frontend": {
+    "removed_block_bytes_ru_en": 78,
+    "previous_js_bytes": 20201,
+    "current_js_bytes": 20095,
+    "css_bytes": 3286,
+    "registry": "Byte-identical minimal technical JSON across actual 1.0.1 upgrade",
+    "consent": "Raw storage, effective consent, ID, policy/category versions and v2 fingerprints unchanged"
+  },
+  "initial_runs": [
+    {
+      "result": "FAIL",
+      "scenario": "Before/after HTML comparison captured EN from old regenerated context cache and RU after native upgrade",
+      "resolution": "Waited for disposable PHP context-cache revalidation, asserted RU before baseline. Actual 1.0.1-to-1.0.2 upgrade then passed exact localized HTML comparison. No product locale code fix needed."
+    }
+  ],
+  "not_run": [
+    "Production deployment, GitHub Release/tag/main publication or updates to protected 1.0.0/1.0.1 ZIPs.",
+    "Client hosting/CDN deployment, nginx/proxy/LiteSpeed/IIS, load/concurrency or network performance.",
+    "PHP 8.1/other versions, Firefox/WebKit/older browsers and screen reader acceptance.",
+    "Real Meta/VK/other vendor event delivery, client JS-map API keys/backend/tiles/geocode. Controlled fixtures; safe owner GTM v4 tested.",
+    "New full late filesystem/DB fault injection and archived beta migration permutations; current native fresh/1.0.0 upgrade/reinstall/uninstall plus reviewed 1.0.1 consent upgrade tested.",
+    "Arbitrary customer scripts and complete historical standalone CMP stacks. Retained i18n ready/t helper tested only with owner-supplied same-origin lexicons or inline strings."
+  ]
+}
