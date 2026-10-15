@@ -1,4 +1,4 @@
-name: cookie-consent-modx3-acceptance
+name: cookie-consent-modx3-beta3
 services:
   db:
     image: mariadb:11.8
@@ -56,5 +56,17 @@ services:
       CC_DB_NAME: cookie_consent_modx3_fresh
       CC_HTTP_PORT: '18890'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  php82:
+    image: cookie-consent-acceptance-web:latest
+    ports: ['127.0.0.1:18891:80']
+    volumes:
+      - ../../.local/modx3/clean/site:/var/www/html
+      - ../../.local/modx3/clean/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_clean
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
 volumes:
   cc3-db:
