@@ -54,7 +54,7 @@ try {
     require_once dirname(__DIR__).'/src/CookieConsentEventValidator.php';
     require_once dirname(__DIR__).'/src/CookieConsentRateLimiter.php';
     require_once dirname(__DIR__).'/src/CookieConsentAuditLogger.php';
-    $logger=new CookieConsentAuditLogger($logDir,$key,(int)($config['rate_limit_per_minute'] ?? 60),$GLOBALS['cookieConsentServiceRegistry'] ?? null);
+    $logger=new CookieConsentAuditLogger($logDir,$key,(int)($config['rate_limit_per_minute'] ?? 60),$GLOBALS['cookieConsentServiceRegistry'] ?? null,$GLOBALS['cookieConsentCategoryVisibility'] ?? null);
     $accepted=$logger->append($input,(string)($_SERVER['REMOTE_ADDR'] ?? ''),(string)($_SERVER['HTTP_USER_AGENT'] ?? ''));
     respond(200,['ok'=>true,'event_id'=>$accepted['event_id'],'server_time'=>$accepted['server_time']]);
 } catch (DomainException $e) {
