@@ -77,7 +77,7 @@ $_lang = [
     'm.add_service' => 'Add service',
     'm.adapter' => 'Reviewed adapter',
     'm.key' => 'Unique service key',
-    'm.name' => 'Display name (translations in Texts)',
+    'm.name' => 'Service name',
     'm.purpose' => 'Description (translations in Texts)',
     'm.purpose_id' => 'Stable purpose identifier',
     'm.purpose_help' => 'Change this identifier when the processing purpose changes. Translating display text does not revoke consent.',
@@ -339,3 +339,8 @@ $_lang['map_category_confirm'] = 'Allow the {category} category for this map. Ot
 
 $_lang['m.log_date'] = 'Date and time — MSK (UTC+03:00)';
 $_lang['m.log_field_server_time'] = 'Server date and time (UTC)';
+
+$_lang['m.package_version'] = 'Package version:';
+$_lang['m.hidden_services_help'] = 'This category is hidden. Its enabled services stay blocked even after Accept. Enable category visibility and save to request consent.';
+$_lang['m.script_help'] = 'Root-relative path or full HTTPS .js URL, e.g. /assets/js/integrations/chat.js or https://cdn.example.com/chat.js?v=2. No HTML, inline JS, credentials or fragment.';
+$_lang['m.script_invalid'] = 'Enter a valid .js path or HTTPS JavaScript URL. Another service must not reuse the same address.';

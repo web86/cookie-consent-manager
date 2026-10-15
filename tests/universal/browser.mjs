@@ -33,7 +33,7 @@ try{
  await p.goto(origin+'/manager/');await p.locator('#modx-login-username').fill(creds.username);await p.locator('#modx-login-password').fill(creds.password);await p.locator('#modx-login-btn').click();await p.waitForFunction(()=>window.MODx?.siteId);token=await p.evaluate(()=>MODx.siteId);base.services=(await api('get')).object.registry.services;
  for(const lang of ['ru','en'])await test('Manager-'+lang+'-category-draft-move-add-existing-unique-instances-custom-preview',async()=>{
   configure(base);ctl(['setting','manager_language'],lang);await open();
-  eq(await p.locator('#ccm-add-counter').count(),0,'Old competing form absent');eq(await p.locator('[id^=ccm-category-]').count(),base.services.length+3,'Category select for every instance plus visibility flags');
+  eq(await p.locator('#ccm-add-counter').count(),0,'Old competing form absent');eq(await p.locator('select[id^=ccm-category-], input[id^=ccm-category-]').count(),base.services.length+3,'Category select for every instance plus visibility flags');
   await p.locator('[data-settings=yandex] summary').click();await p.locator('#ccm-id-yandex').fill('123456789');await p.locator('#ccm-category-yandex').selectOption('marketing');eq(await p.locator('[data-group=marketing] #ccm-id-yandex').inputValue(),'123456789','Uncommitted fields retained when moving');
   await p.locator('[data-settings=yandex_maps] summary').click();await p.locator('#ccm-category-yandex_maps').selectOption('marketing');await p.locator('[data-settings=google_maps] summary').click();await p.locator('#ccm-category-google_maps').selectOption('analytics');
   for(const [loader,id]of [['yandex','999111'],['google_ga4','G-EXTRA2026']]){

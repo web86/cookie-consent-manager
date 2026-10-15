@@ -20,7 +20,7 @@ Registry schema 1 сохраняется:
 | vk_ads | marketing | numeric id; не должен конфликтовать с активным Top.Mail.Ru |
 | meta_pixel | marketing | numeric id |
 | google_maps / yandex_maps | external_content | show_title boolean |
-| custom_js | marketing | canonical root-relative local .js path |
+| custom_js | marketing | root-relative .js path or explicit HTTPS .js URL with optional query |
 | mock_marketing | marketing | тестовый адаптер без production-интеграции |
 
 Рекомендация не ограничивает категорию. Реальные SDK/iframe сохраняют host/path validation; дополнительные рекламные сигналы Consent Mode вычисляются отдельно от условия запуска. GTM tag-level checks настраивает владелец контейнера.

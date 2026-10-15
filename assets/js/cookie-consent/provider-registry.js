@@ -23,7 +23,7 @@
   const scripts = new Map();
   const started = new Set(), metaIds = new Set(), vkIds = new Set();
   let currentValue, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
-  const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path) && !/[\r\n]/.test(path);
+  const validScriptPath = window.web86ScriptUrl.valid;
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
@@ -57,7 +57,7 @@
     });
     const paths = new Set();
     for (const s of result) {
-      if (s.loader === 'custom_js') { if (paths.has(s.config.path)) throw Error('Duplicate script path'); paths.add(s.config.path); }
+      if (s.loader === 'custom_js') { const identity = window.web86ScriptUrl.identity(s.config.path); if (paths.has(identity)) throw Error('Duplicate script path'); paths.add(identity); }
     }
     const enabled = result.filter(s => s.enabled);
     const analyticsIds = new Set(enabled.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));
@@ -70,7 +70,7 @@
     services = validate(node ? JSON.parse(node.textContent) : { schema: 1, services: [] });
   } catch (e) { console.warn(t('error_registry'), e.message); }
   function script(url) {
-    const href = String(url);
+    const href = new URL(String(url), location.href).href;
     if (!scripts.has(href)) scripts.set(href, new Promise((resolve, reject) => {
       const el = document.createElement('script');
       el.src = href; el.async = true;

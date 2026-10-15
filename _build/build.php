@@ -18,6 +18,8 @@ if(!in_array($metadata['release'],['','beta'],true)||($metadata['release']===''&
 $release=$metadata['release']===''?'':$metadata['release'].$metadata['release_index'];
 $versionRelease=$metadata['version'].($release===''?'':'-'.$release);
 $signature=$metadata['name'].'-'.$versionRelease;
+require_once $root.'/server/src/CookieConsentVersion.php';
+if(CookieConsentVersion::VERSION!==$versionRelease)throw new RuntimeException('Stale package version; run node _build/version.mjs');
 if(!is_dir($out)&&!mkdir($out,0700,true))throw new RuntimeException('Output path');
 $work=$out.'/work-'.$signature;
 if(is_dir($work)){throw new RuntimeException('Use a new output/work directory; previous build preserved');}
@@ -40,6 +42,7 @@ foreach($coreParts as $part){
     $paths=[];foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/server/'.$part,FilesystemIterator::SKIP_DOTS)) as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);
     foreach($paths as $source){if($part==='bin'&&basename($source)==='install-modx2.php')continue;addSource($source,'core/components/cookieconsent/'.$part.'/'.substr($source,strlen($root.'/server/'.$part.'/')),$files,$payload,$root);}
 }
+addSource($root.'/assets/js/cookie-consent/script-url.js','assets/components/cookieconsent/script-url.js',$files,$payload,$root);
 foreach(['audit-viewer.js','manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
 addSource($root.'/server/modx2-manager-connector.php','assets/components/cookieconsent/connector.php',$files,$payload,$root);
 addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/cookieconsent/audit.php',$files,$payload,$root);

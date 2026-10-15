@@ -1,3 +1,12 @@
+# Cookie Consent Manager 1.0.4-beta2 — acceptance and Manager usability
+
+- Share the visible-category acceptance path for Accept and Accept all; preserve their distinct historical audit event names.
+- Show the active runtime package version, accessible category classification tooltip and hidden-category diagnostics.
+- Use the clear Service name label in service creation and settings.
+- Support reviewed HTTPS JavaScript URLs as well as local custom_js paths; share PHP/Manager/frontend validation rules and normalized duplicate checks. Report script location errors instead of unrelated counter ID errors.
+- Bust Manager asset caches by content hash. Keep categories_v2, schema 3 audit, category visibility and consent versioning unchanged.
+- Reproduce and compare both button modes on native MODX with real receiver/Viewer and locally fulfilled SDK requests. Beta1 transport remains immutable.
+
 # Cookie Consent Manager 1.0.4-beta1 — category-only staging candidate
 
 - Visitors choose only analytics, marketing and external_content. Every enabled adapter follows its assigned category; no individual provider grants or mandatory original-category dependencies.

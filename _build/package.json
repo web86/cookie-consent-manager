@@ -2,7 +2,7 @@
   "name": "cookieconsent",
   "version": "1.0.4",
   "release": "beta",
-  "release_index": 1,
+  "release_index": 2,
   "source_epoch": 1792022400,
   "minimum_php": "8.1.0",
   "minimum_modx": "2.8.8",

@@ -314,10 +314,9 @@
         commit('reject', false, false);
         return;
       case 'accept-all':
-        commit('accept_all', true, true, true);
-        return;
       case 'accept':
-        commit('accept', true, true, true);
+        // Identical category grant, differing only in the historical audit action name.
+        commit(action.dataset.ccAction.replace('-', '_'), ...Object.keys(inputs).map(category => categoryVisibility[category]));
         return;
       case 'save':
         commit('save_settings', analyticsInput.checked, marketingInput.checked, externalInput.checked);

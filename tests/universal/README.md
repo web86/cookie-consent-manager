@@ -12,7 +12,7 @@ php tests/audit-visibility/php.php
 python3 tests/fenom/regression.py
 ```
 
-Browser suites share the main disposable database and must run sequentially. `regression.mjs` accepts a list of paths to repeat only affected suites. It writes logs to ignored `.local/universal-evidence/regression`. Test helpers restore their settings; native Save is used whenever category composition/versioning is under test.
+Browser suites share the main disposable database and must run sequentially. Manager UX also uses the clean native fixture: do not reset or run native lifecycle tests concurrently with this runner. `regression.mjs` accepts a list of paths to repeat only affected suites. It writes logs to ignored `.local/universal-evidence/regression`. Test helpers restore their settings; native Save is used whenever category composition/versioning is under test.
 
 - `browser.mjs`: actual RU/EN Manager, creation/moving/removal, Save/reopen, preview isolation, validation, version increments, SDK launch/processing separation, custom JS/revocation, maps and texts.
 - `matrix.mjs`: every supported public adapter in every category; no request before consent/rejection, all enabled members start, disabled stays blocked, no duplicate startup, extraneous provider fields do not gate execution.
@@ -26,7 +26,7 @@ Native lifecycle requires clean fixtures and the built ZIP. Never run resets aga
 ```sh
 node _build/transport.mjs /var/www/html /opt/cc-artifacts/<new-build-directory>
 # Copy output from the disposable build container into .local/artifacts, then:
-python3 _build/normalize.py .local/artifacts/cookieconsent-1.0.4-beta1.transport.zip
+python3 _build/normalize.py .local/artifacts/cookieconsent-1.0.4-beta2.transport.zip
 python3 tests/transport/reset.py clean publiccore
 CC_EVIDENCE_DIR=.local/universal-evidence/native node tests/beta33/native.mjs
 node tests/public-registry/browser.mjs

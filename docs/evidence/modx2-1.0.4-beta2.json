@@ -1,0 +1,368 @@
+{
+  "date": "2026-10-15",
+  "branch": "codex/modx2-universal-services",
+  "base": "d26823123e88fddabe90d6438dbed697510f2231",
+  "version": "1.0.4-beta2",
+  "model": "categories_v2 / category-only launch / audit schema 3",
+  "finding": {
+    "beta1_accept_bug_reproduced": false,
+    "baseline": {
+      "tests": 8,
+      "assertions": 98,
+      "failed": 0
+    },
+    "customer_confirmed_1_0_4_not_installed": true,
+    "reported_asset_hash_prefix": "2adee12c7b5928c9a093",
+    "matching_main_1_0_2_asset_sha256": "2adee12c7b5928c9a093dea198d9449a3831a4ea614e43dab9d200e276c297af",
+    "reported_model": "categories_v1",
+    "analytics_visible": true,
+    "analytics_allowed": true,
+    "reported_yandexLoaded": true,
+    "old_site_symptom_root_cause": "Not established; old deployed version is not evidence of beta1 failure",
+    "customer_site_requested_or_changed": false
+  },
+  "environment": {
+    "modx": "2.8.8-pl",
+    "php_primary": "8.2.34",
+    "php_minimum": "8.1.34",
+    "browser": "Playwright Chromium",
+    "external_traffic": "SDK/map requests fulfilled locally or blocked; real vendor delivery not tested"
+  },
+  "browser_native": {
+    "suites": 23,
+    "tests": 303,
+    "assertions": 2268,
+    "failed": 0,
+    "results": [
+      {
+        "name": "Universal Manager/frontend",
+        "status": "PASS",
+        "tests": 21,
+        "assertions": 173,
+        "evidence": ".local/universal-evidence/browser-results.json"
+      },
+      {
+        "name": "Audit Moscow RU/EN",
+        "status": "PASS",
+        "tests": 2,
+        "assertions": 14,
+        "evidence": ".local/universal-evidence/audit-results.json"
+      },
+      {
+        "name": "All adapter/category combinations",
+        "status": "PASS",
+        "tests": 30,
+        "assertions": 300,
+        "evidence": ".local/universal-evidence/matrix-results.json"
+      },
+      {
+        "name": "Frontend persistence and categories",
+        "status": "PASS",
+        "tests": 33,
+        "assertions": 185,
+        "evidence": ".local/evidence/browser-results.json"
+      },
+      {
+        "name": "HTTP audit compatibility/security",
+        "status": "PASS",
+        "tests": 37,
+        "assertions": 121,
+        "evidence": ".local/evidence/http-results.json"
+      },
+      {
+        "name": "Live adapters with local SDK fulfillment",
+        "status": "PASS",
+        "tests": 11,
+        "assertions": 51,
+        "evidence": ".local/evidence/live-guard-results.json"
+      },
+      {
+        "name": "Provider parameter guards",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 18,
+        "evidence": ".local/evidence/provider-parameters-results.json"
+      },
+      {
+        "name": "Manager i18n",
+        "status": "PASS",
+        "tests": 17,
+        "assertions": 60,
+        "evidence": ".local/manager-i18n-evidence/results.json"
+      },
+      {
+        "name": "Pixel queues/revocation/legacy migration",
+        "status": "PASS",
+        "tests": 32,
+        "assertions": 175,
+        "evidence": ".local/beta31-evidence/pixels-results.json"
+      },
+      {
+        "name": "Pixel Manager",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 48,
+        "evidence": ".local/beta31-evidence/manager-results.json"
+      },
+      {
+        "name": "Callback API",
+        "status": "PASS",
+        "tests": 13,
+        "assertions": 44,
+        "evidence": ".local/beta32-evidence/callbacks-results.json"
+      },
+      {
+        "name": "Consent-aware custom map wrappers",
+        "status": "PASS",
+        "tests": 9,
+        "assertions": 42,
+        "evidence": ".local/beta32-evidence/maps-results.json"
+      },
+      {
+        "name": "Optional ClientID wrapper",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 13,
+        "evidence": ".local/beta33-evidence/clientid-results.json"
+      },
+      {
+        "name": "Manager category visibility",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 73,
+        "evidence": ".local/beta33-evidence/manager-results.json"
+      },
+      {
+        "name": "Category visibility/SSR/epochs",
+        "status": "PASS",
+        "tests": 23,
+        "assertions": 201,
+        "evidence": ".local/beta33-evidence/public-results.json"
+      },
+      {
+        "name": "SSR/split/legacy/assets",
+        "status": "PASS",
+        "tests": 9,
+        "assertions": 80,
+        "evidence": ".local/beta26-evidence/frontend-results.json"
+      },
+      {
+        "name": "Locale fallback",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 112,
+        "evidence": ".local/beta28-evidence/localization-results.json"
+      },
+      {
+        "name": "Audit Viewer/CSV/history",
+        "status": "PASS",
+        "tests": 11,
+        "assertions": 77,
+        "evidence": ".local/viewer-evidence/results.json"
+      },
+      {
+        "name": "Manager UX/native audit integration",
+        "status": "PASS",
+        "tests": 15,
+        "assertions": 113,
+        "evidence": ".local/manager-ux-evidence/results.json"
+      },
+      {
+        "name": "Manager permissions",
+        "status": "PASS",
+        "tests": 1,
+        "assertions": 4,
+        "evidence": ".local/evidence/manager-permissions-results.json"
+      },
+      {
+        "name": "Focused accept / final installed beta2",
+        "status": "PASS",
+        "tests": 11,
+        "assertions": 129,
+        "evidence": ".local/beta1042-evidence/accept-results.json"
+      },
+      {
+        "name": "Native beta1 to final beta2 consent preservation",
+        "status": "PASS",
+        "tests": 1,
+        "assertions": 15,
+        "evidence": ".local/beta1042-evidence/upgrade-results.json"
+      },
+      {
+        "name": "Native fresh/upgrade/reinstall/uninstall",
+        "status": "PASS",
+        "tests": 7,
+        "assertions": 220,
+        "evidence": ".local/beta1042-evidence/native/native-results.json"
+      }
+    ]
+  },
+  "focused": {
+    "results": [
+      {
+        "name": "native-accept-immediate-SDK-init-storage-audit-reload-once",
+        "result": "PASS",
+        "assertions": 26
+      },
+      {
+        "name": "native-accept-all-immediate-SDK-init-storage-audit-reload-once",
+        "result": "PASS",
+        "assertions": 26
+      },
+      {
+        "name": "legacy-reject",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-hidden",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-disabled",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-configure",
+        "result": "PASS",
+        "assertions": 8
+      },
+      {
+        "name": "legacy-previous-refusal",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-moved",
+        "result": "PASS",
+        "assertions": 8
+      },
+      {
+        "name": "legacy-all-analytics-members-remote-custom-and-reassigned-map",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "Manager-package-version-tooltip-hidden-diagnostic-remote-URL-validation-save-preview",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "PHP-JS-remote-URL-validation-parity",
+        "result": "PASS",
+        "assertions": 3
+      }
+    ],
+    "proofs": [
+      {
+        "action": "accept",
+        "categories": {
+          "analytics": true,
+          "marketing": true,
+          "external_content": true
+        },
+        "category_versions": {
+          "analytics": 33,
+          "marketing": 53,
+          "external_content": 33
+        },
+        "sdkAttempts": 1,
+        "ymInit": [
+          12345678,
+          "init"
+        ],
+        "auditSchema": 3,
+        "auditStatus": 200,
+        "serverUTC": "2026-10-15T17:56:33Z",
+        "bundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=6ba0dff5be883d3de431"
+      },
+      {
+        "action": "accept-all",
+        "categories": {
+          "analytics": true,
+          "marketing": true,
+          "external_content": true
+        },
+        "category_versions": {
+          "analytics": 33,
+          "marketing": 53,
+          "external_content": 33
+        },
+        "sdkAttempts": 1,
+        "ymInit": [
+          12345678,
+          "init"
+        ],
+        "auditSchema": 3,
+        "auditStatus": 200,
+        "serverUTC": "2026-10-15T17:56:36Z",
+        "bundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=6ba0dff5be883d3de431"
+      }
+    ],
+    "bundle_bytes_compared_to_current_source": true
+  },
+  "php82": {
+    "suites": 16,
+    "assertions": 4024,
+    "failed": 0,
+    "base_suites": 12,
+    "base_assertions": 756,
+    "additional": {
+      "universal": 114,
+      "audit_schema3": 7,
+      "exhaustive_visibility": 3115,
+      "https_urls": 32
+    }
+  },
+  "php81": {
+    "suites": 13,
+    "assertions": 802,
+    "failed": 0
+  },
+  "syntax": {
+    "php": 106,
+    "js_mjs": 109,
+    "failed": 0
+  },
+  "upgrade": {
+    "suite": "Native beta1 -> beta2 with existing legacy-button consent",
+    "tests": 1,
+    "assertions": 15,
+    "failed": 0,
+    "result": "PASS",
+    "oldSha": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e",
+    "targetSha": "b434196505b56ae3bdd470a6b23e4228dcd6b60827aceba5d61dfcb24a1507b4",
+    "oldBundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=71d18eb5b2b37e01c6d8",
+    "newBundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=6ba0dff5be883d3de431"
+  },
+  "artifact": {
+    "path": ".local/artifacts/cookieconsent-1.0.4-beta2.transport.zip",
+    "sha256": "b434196505b56ae3bdd470a6b23e4228dcd6b60827aceba5d61dfcb24a1507b4",
+    "bytes": 198016,
+    "native_vehicles": 73,
+    "runtime_files": 57,
+    "zip_entries": 140,
+    "verifier": "PASS",
+    "all_runtime_hashes_match_final_sources": true,
+    "frontend_sha256": "6ba0dff5be883d3de431a30c363981c786a8082dfe17901bbb2dd41e0d9953e3",
+    "beta1_immutable_sha256": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e"
+  },
+  "checks": {
+    "generated_guide": "PASS",
+    "generated_runtime_version": "PASS",
+    "diff_check": "PASS"
+  },
+  "resolved_test_run_failures": [
+    "Narrowed old category field selector to select/input; tooltip is not a category field",
+    "Repeated Manager UX sequentially after native reset finished; documented shared clean fixture"
+  ],
+  "skip": [
+    "Customer site installation and templates/CSP",
+    "Real SDK delivery to vendor accounts",
+    "Published GTM container tag consent checks",
+    "Safari and Firefox"
+  ],
+  "push_merge_release_deployment": false
+}

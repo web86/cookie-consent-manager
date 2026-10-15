@@ -49,11 +49,26 @@ final class CookieConsentServiceRegistry
         }
         return ['schema'=>1,'services'=>$services];
     }
-    /** Canonical root-relative local file. No decoding/normalization can change its identity. */
+    /** Root-relative JS or explicit HTTPS JS URL. Validation never fetches remote data. */
     public static function validScriptPath(mixed $path): bool
     {
-        return is_string($path) && strlen($path)<=1024 &&
-            preg_match('~^/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$~D',$path)===1;
+        if(!is_string($path)||strlen($path)>2048||preg_match('/[\x00-\x20\x7f<>"\'`\\\\]/',$path))return false;
+        $local=static fn(string $value): bool=>preg_match('~^/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$~D',$value)===1;
+        if(str_starts_with($path,'/'))return $local($path);
+        if(!str_starts_with($path,'https://'))return false;
+        $parts=parse_url($path);
+        if(!$parts||($parts['scheme']??'')!=='https'||isset($parts['user'])||isset($parts['pass'])||isset($parts['fragment'])||!$local($parts['path']??''))return false;
+        $host=$parts['host']??'';if($host===''||strlen($host)>253||($parts['port']??null)===0)return false;
+        $labels=explode('.',$host);if(ctype_digit(end($labels))&&!filter_var($host,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4))return false;
+        foreach(explode('.',$host) as $label)if(!preg_match('/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/iD',$label))return false;
+        $query=$parts['query']??'';
+        return preg_match('~^[A-Za-z0-9._!$&()*+,;=:@/?%\[\]\x7e-]*$~D',$query)===1&&!preg_match('/%(?![0-9a-f]{2})/i',$query);
+    }
+    public static function scriptIdentity(string $path): string
+    {
+        if(str_starts_with($path,'/'))return $path;
+        $parts=parse_url($path);$port=isset($parts['port'])&&$parts['port']!==443?':'.$parts['port']:'';
+        return 'https://'.strtolower($parts['host']).$port.$parts['path'].(array_key_exists('query',$parts)?'?'.$parts['query']:'');
     }
     public static function validateJson(string $json): array
     {
@@ -96,7 +111,7 @@ final class CookieConsentServiceRegistry
         foreach($data['services'] as $service){
             $service['config']=(array)$service['config'];
             if($service['loader']==='custom_js'){
-                $path=$service['config']['path'];
+                $path=self::scriptIdentity($service['config']['path']);
                 if(isset($paths[$path]))throw new InvalidArgumentException('Duplicate script path');
                 $paths[$path]=true;
             }

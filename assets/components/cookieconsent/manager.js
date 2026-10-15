@@ -34,9 +34,10 @@
       footer.append(document.createTextNode(t('developer')+' '),el('a','www.web86.site',{href:'https://www.web86.site/',target:'_blank',rel:'noopener noreferrer'}));
       root.append(footer);
     };
+    const pageTitle = () => { const title=el('div',null,{class:'ccm-title'}); title.append(el('h2',t('title')),el('small',t('package_version')+' '+(data.packageVersion || '—'),{id:'ccm-package-version'}));return title; };
     if(!data.canManage){
       document.body.classList.add('ccm-manager');root.closest('.x-panel-body')?.classList.add('ccm-scroll-host');
-      root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(el('h2',t('title')));
+      root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(pageTitle());
       const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
       window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();appendFooter();return;
     }
@@ -62,8 +63,8 @@
       return clone(texts);
     };
     const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
-    const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path) && !/[\r\n]/.test(path);
-    const invalidCustom = service => service.loader === 'custom_js' && (!validScriptPath(service.config.path) || draft.registry.services.some(other => other !== service && other.loader === 'custom_js' && other.config.path === service.config.path));
+    const validScriptPath = window.web86ScriptUrl.valid;
+    const invalidCustom = service => service.loader === 'custom_js' && (!validScriptPath(service.config.path) || draft.registry.services.some(other => other !== service && other.loader === 'custom_js' && window.web86ScriptUrl.identity(other.config.path) === window.web86ScriptUrl.identity(service.config.path)));
     const existingProvider = service => data.registry.services.some(original => original.key === service.key && original.enabled && original.loader === service.loader && original.config.id?.replace(/^0+(?=\d)/, '') === service.config.id?.replace(/^0+(?=\d)/, ''));
     const duplicateId = service => service.enabled && service.config.id && draft.registry.services.some(other => other !== service && other.enabled && other.loader === service.loader && other.config.id?.replace(/^0+(?=\d)/, '') === service.config.id.replace(/^0+(?=\d)/, '') && (!existingProvider(service) || !existingProvider(other)));
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
@@ -75,7 +76,7 @@
     const scrollHost = root.closest('.x-panel-body'); if (scrollHost) scrollHost.classList.add('ccm-scroll-host');
     let savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});
     root.removeAttribute('aria-busy'); root.className = 'ccm-page';
-    const header = el('header'); header.append(el('h2', t('title')));
+    const header = el('header'); header.append(pageTitle());
     const save = el('button', t('save'), { type: 'button', id: 'ccm-save', class: 'ccm-primary' });
     const status = el('span', t('unchanged'), { id: 'ccm-status', role: 'status', 'aria-live': 'polite' }); header.append(status, save);
     const layout = el('div', null, { class: 'ccm-layout' }), main = el('div', null, { class: 'ccm-main' }), aside = el('aside', null, { class: 'ccm-preview' });
@@ -154,7 +155,7 @@
     const groupExpanded = { analytics: true, marketing: true, external_content: true };
     function renderServices() {
       const addButton = el('button',t('add_service'),{type:'button',id:'ccm-add-service',class:'ccm-primary'});
-      panels.services.replaceChildren(addButton,el('p',t('category_visibility_help'),{class:'ccm-help ccm-services-intro'}),el('p',t('category_responsibility'),{class:'ccm-help'}));
+      const intro=el('p',t('category_visibility_help')+' ',{class:'ccm-help ccm-services-intro'}),info=el('button','i',{type:'button',class:'ccm-info','aria-label':t('category_responsibility'),title:t('category_responsibility'),'aria-describedby':'ccm-category-tip'}),tip=el('span',t('category_responsibility'),{id:'ccm-category-tip',role:'tooltip',class:'ccm-tooltip'}),infoWrap=el('span',null,{class:'ccm-info-wrap'});infoWrap.append(info,tip);intro.append(infoWrap);panels.services.replaceChildren(addButton,intro);
       for (const category of ['analytics', 'marketing', 'external_content']) {
         const group = el('section', null, { class: 'ccm-service-group', 'data-group': category });
         const name=data.managerStrings[category + '_name'];
@@ -165,7 +166,9 @@
         const visible=field(heading,t('category_visible'),draft.options.categories[category],v=>draft.options.categories[category]=v,'checkbox','ccm-category-visible-'+category);
         visible.parentElement.classList.add('ccm-category-visibility');
         toggle.onclick=()=>{groupExpanded[category]=!groupExpanded[category];content.hidden=!groupExpanded[category];toggle.setAttribute('aria-expanded',String(groupExpanded[category]));toggle.setAttribute('aria-label',t(groupExpanded[category]?'collapse':'expand')+' — '+name);};
-        group.append(heading,content);
+        const visibilityNote=el('p',t('hidden_services_help'),{class:'ccm-help ccm-category-blocked','data-category-blocked':category});
+        const updateVisibilityNote=()=>visibilityNote.hidden=draft.options.categories[category]||!draft.registry.services.some(s=>s.enabled&&s.category===category);
+        visible.addEventListener('change',updateVisibilityNote);updateVisibilityNote();group.append(heading,visibilityNote,content);
         for (const service of draft.registry.services.filter(s => s.category === category)) {
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
           const cardHeading=el('div',null,{class:'ccm-service-heading'}),identity=el('div',null,{class:'ccm-service-identity'});
@@ -173,11 +176,11 @@
           const validity = el('span', null, { class: 'ccm-config-status' });
           let idInput, idError, pathInput;
           const updateValidity = () => {
-            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict || duplicateId(service) || invalidCustom(service); validity.textContent = invalid ? t('needs_id') : service.enabled ? t('configured') : t('service_disabled');
+            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict || duplicateId(service) || invalidCustom(service); validity.textContent = invalid ? t(invalidCustom(service)?'script_invalid':duplicateId(service)?'service_invalid':'needs_id') : service.enabled ? t('configured') : t('service_disabled');
             validity.dataset.state=invalid?'invalid':service.enabled?'ready':'off';
             if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (conflict ? t('pixel_id_conflict') : !service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
           };
-          const enable=field(cardHeading,t('enable'),service.enabled,v=>{service.enabled=v;updateValidity();},'checkbox','ccm-enable-'+service.key);enable.parentElement.classList.add('ccm-service-enable');identity.append(validity); updateValidity();
+          const enable=field(cardHeading,t('enable'),service.enabled,v=>{service.enabled=v;updateValidity();updateVisibilityNote();},'checkbox','ccm-enable-'+service.key);enable.parentElement.classList.add('ccm-service-enable');identity.append(validity); updateValidity();
           const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); details.open=settingsExpanded.has(service.key);details.ontoggle=()=>{if(details.open)settingsExpanded.add(service.key);else settingsExpanded.delete(service.key);};card.append(details);
           field(details,t('name'),textSource(data.managerLanguage,'service.'+service.key+'.name'),v=>{service.name=v;draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+service.key+'.name']=v;identity.querySelector('h4').textContent=v;},'text','ccm-name-'+service.key);
           if(service.loader==='custom_js')field(details,t('purpose'),service.purpose,v=>service.purpose=v,'textarea','ccm-purpose-text-'+service.key,t('purpose_help'));
@@ -192,6 +195,7 @@
             idError = el('small', '', { id: 'ccm-id-error-' + service.key, class: 'ccm-field-error', role: 'status' });
             idInput.setAttribute('aria-describedby', idError.id); idInput.parentElement.append(idError); updateValidity();
           }
+          if(pathInput){const pathError=el('small','',{id:'ccm-path-error-'+service.key,class:'ccm-field-error',role:'status'});pathInput.setAttribute('aria-describedby',pathError.id);pathInput.parentElement.append(pathError);const pathValidity=()=>{const invalid=invalidCustom(service);pathInput.setAttribute('aria-invalid',String(invalid));pathError.hidden=!invalid;pathError.textContent=invalid?t('script_invalid'):'';};pathInput.addEventListener('input',pathValidity);pathValidity();}
           for (const [key, fallback] of Object.entries(data.booleanOptions[service.loader] || {})) field(details, t(key), service.config[key] ?? fallback, v => service.config[key] = v, 'checkbox', 'ccm-' + service.key + '-' + key);
           const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help' }[service.loader];
           if (note) details.append(el('p', t(note), { class: 'ccm-help' }));
@@ -224,8 +228,10 @@
       addButton.onclick=()=>{add.showModal();adapter.focus();};cancel.onclick=()=>add.close();add.addEventListener('close',()=>addButton.focus());
       add.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();add.close();}});
       button.onclick=()=>{
+        if(adapter.value==='custom_js'&&!validScriptPath(path.value)){error.textContent=t('script_invalid');path.setAttribute('aria-invalid','true');path.focus();return;}
+        path.removeAttribute('aria-invalid');
         const validText=(value,max)=>value.trim()&&new TextEncoder().encode(value.trim()).length<=max&&!/[<>\x00-\x1f\x7f]/.test(value);
-        if(!validText(name.value,100)||!validText(purpose.value,500)||draft.registry.services.length>=32||(idPatterns[adapter.value]&&!idPatterns[adapter.value].test(counterId.value))||(adapter.value==='custom_js'&&(!validScriptPath(path.value)||draft.registry.services.some(s=>s.loader==='custom_js'&&s.config.path===path.value)))||draft.registry.services.some(s=>s.loader===adapter.value&&s.config.id&&s.config.id.replace(/^0+(?=\d)/,'')===counterId.value.replace(/^0+(?=\d)/,''))){error.textContent=t('service_invalid');return;}
+        if(!validText(name.value,100)||!validText(purpose.value,500)||draft.registry.services.length>=32||(idPatterns[adapter.value]&&!idPatterns[adapter.value].test(counterId.value))||(adapter.value==='custom_js'&&(!validScriptPath(path.value)||draft.registry.services.some(s=>s.loader==='custom_js'&&window.web86ScriptUrl.identity(s.config.path)===window.web86ScriptUrl.identity(path.value))))||draft.registry.services.some(s=>s.loader===adapter.value&&s.config.id&&s.config.id.replace(/^0+(?=\d)/,'')===counterId.value.replace(/^0+(?=\d)/,''))){error.textContent=t('service_invalid');return;}
         let key=adapter.value,n=2;while(draft.registry.services.some(s=>s.key===key))key=adapter.value+'_'+n++;
         const config=idPatterns[adapter.value]?{id:counterId.value}:adapter.value==='custom_js'?{path:path.value}:{};
         draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:category.value,enabled:false,name:name.value.trim(),purpose:purpose.value.trim(),config});

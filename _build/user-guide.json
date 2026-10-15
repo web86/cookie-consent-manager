@@ -13,6 +13,10 @@
             {
               "type": "paragraph",
               "text": "После установки откройте «Компоненты → Cookie Consent Manager». Изменения применяются общей кнопкой «Сохранить»."
+            },
+            {
+              "type": "paragraph",
+              "text": "Под заголовком показана версия активного пакета. Кнопки «Принять» и «Принять все» одинаково разрешают все видимые категории. Скрытые категории и выключенные сервисы не запускаются; на вкладке «Сервисы» есть объяснение для скрытой группы. Кнопка i раскрывает подсказку о классификации при наведении или фокусе с клавиатуры."
             }
           ]
         },
@@ -29,7 +33,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Запуск любого сервиса требует только enabled и разрешений назначенной категории и экземпляра. Consent Mode рассчитывает права обработки отдельно. При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику."
+              "text": "Запуск любого сервиса требует только service.enabled === true и consent.categories[service.category] === true. Индивидуального согласия на сервис нет. Consent Mode рассчитывает права обработки отдельно. При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику."
             }
           ]
         },
@@ -113,7 +117,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Для простого локального JS используйте «+ Добавить сервис → + Создать пользовательский сервис». Укажите название, назначение, категорию и путь от корня сайта, например /assets/js/integrations/bitrix24.js, с учётом фактического assets_url. Сам файл подготавливает программист: до согласия он не запрашивается; после разрешения загружается один раз. Изменение пути, категории или назначения обновляет версию затронутой категории и требует нового согласия на категорию. Общий и индивидуальные тексты заглушек карт редактируются во вкладке «Тексты», {provider} подставляет имя карты. Исходный код готовых адаптеров: assets/js/cookie-consent/provider-registry.js, функция start(); публичный bundle собирается через npm run build:frontend. Не редактируйте минифицированный bundle вручную."
+              "text": "Для JavaScript используйте «+ Добавить сервис → + Создать пользовательский сервис». Укажите название, назначение, категорию и путь от корня сайта с учётом assets_url либо полный HTTPS-адрес .js, например https://cdn.example.com/chat.js?v=2. Внешний адрес также загружается только после согласия категории; проверку кода и источника выполняет программист. Сам файл подготавливает программист: до согласия он не запрашивается; после разрешения загружается один раз. Изменение пути, категории или назначения обновляет версию затронутой категории и требует нового согласия на категорию. Общий и индивидуальные тексты заглушек карт редактируются во вкладке «Тексты», {provider} подставляет имя карты. Исходный код готовых адаптеров: assets/js/cookie-consent/provider-registry.js, функция start(); публичный bundle собирается через npm run build:frontend. Не редактируйте минифицированный bundle вручную."
             },
             {
               "type": "paragraph",
@@ -156,6 +160,10 @@
             {
               "type": "paragraph",
               "text": "After installation, open Extras → Cookie Consent Manager. Apply changes with the shared Save button."
+            },
+            {
+              "type": "paragraph",
+              "text": "The active package version appears below the heading. Accept and Accept all grant all visible categories equally. Hidden categories and disabled services stay blocked; Services explains hidden groups. The i button shows classification help on hover or keyboard focus."
             }
           ]
         },
@@ -172,7 +180,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Every service launches only when enabled and its assigned category and instance are permitted. Consent Mode calculates processing rights separately. For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent."
+              "text": "Every service launches only when service.enabled === true and consent.categories[service.category] === true. There is no individual service consent. Consent Mode calculates processing rights separately. For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent."
             }
           ]
         },
@@ -256,7 +264,7 @@
             },
             {
               "type": "paragraph",
-              "text": "For a local JS file, use + Add service → + Create custom service. Enter its name, purpose, category and a root-relative path such as /assets/js/integrations/bitrix24.js using the actual assets_url. A developer prepares the file: no request before consent; one load after permission. Changing path, category or purpose updates affected category versions and requires new category consent. Edit general and per-map placeholder texts in Texts; {provider} inserts the map name. Ready adapters live in assets/js/cookie-consent/provider-registry.js, start(); build with npm run build:frontend. Do not edit the minified bundle manually."
+              "text": "For a JavaScript file, use + Add service → + Create custom service. Enter its name, purpose, category and a root-relative path using the actual assets_url or a full HTTPS .js URL such as https://cdn.example.com/chat.js?v=2. External URLs also load only after category consent; a developer reviews their source and code. A developer prepares the file: no request before consent; one load after permission. Changing path, category or purpose updates affected category versions and requires new category consent. Edit general and per-map placeholder texts in Texts; {provider} inserts the map name. Ready adapters live in assets/js/cookie-consent/provider-registry.js, start(); build with npm run build:frontend. Do not edit the minified bundle manually."
             },
             {
               "type": "paragraph",

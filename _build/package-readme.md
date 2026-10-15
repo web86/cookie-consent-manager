@@ -10,13 +10,15 @@ Cookie Consent Manager показывает настройки cookie, подк�
 
 После установки откройте «Компоненты → Cookie Consent Manager». Изменения применяются общей кнопкой «Сохранить».
 
+Под заголовком показана версия активного пакета. Кнопки «Принять» и «Принять все» одинаково разрешают все видимые категории. Скрытые категории и выключенные сервисы не запускаются; на вкладке «Сервисы» есть объяснение для скрытой группы. Кнопка i раскрывает подсказку о классификации при наведении или фокусе с клавиатуры.
+
 ### 2. Выберите категории и сервисы
 
 На вкладке «Сервисы» отметьте «Показывать в настройках cookie» для нужных категорий. Видимость категории не зависит от количества сервисов; необходимые cookie всегда доступны. На новой установке необязательные категории и сервисы выключены.
 
 Нажмите «+ Добавить сервис» сверху вкладки: готовый адаптер или «+ Создать пользовательский сервис». При наличии сервиса перейдите к нему либо создайте дополнительный экземпляр с другим ID. Выберите любую необязательную категорию по реальному назначению, включите сервис и сохраните. Посетитель выбирает только категории: разрешение запускает все включённые сервисы группы. Изменение состава или назначения обновляет версию затронутой категории и требует нового выбора. Видимость включается отдельно.
 
-Запуск любого сервиса требует только enabled и разрешений назначенной категории и экземпляра. Consent Mode рассчитывает права обработки отдельно. При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику.
+Запуск любого сервиса требует только service.enabled === true и consent.categories[service.category] === true. Индивидуального согласия на сервис нет. Consent Mode рассчитывает права обработки отдельно. При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику.
 
 ### 3. Настройте журнал согласий
 
@@ -98,7 +100,7 @@ const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
 unsubscribe();
 ```
 
-Для простого локального JS используйте «+ Добавить сервис → + Создать пользовательский сервис». Укажите название, назначение, категорию и путь от корня сайта, например /assets/js/integrations/bitrix24.js, с учётом фактического assets_url. Сам файл подготавливает программист: до согласия он не запрашивается; после разрешения загружается один раз. Изменение пути, категории или назначения обновляет версию затронутой категории и требует нового согласия на категорию. Общий и индивидуальные тексты заглушек карт редактируются во вкладке «Тексты», {provider} подставляет имя карты. Исходный код готовых адаптеров: assets/js/cookie-consent/provider-registry.js, функция start(); публичный bundle собирается через npm run build:frontend. Не редактируйте минифицированный bundle вручную.
+Для JavaScript используйте «+ Добавить сервис → + Создать пользовательский сервис». Укажите название, назначение, категорию и путь от корня сайта с учётом assets_url либо полный HTTPS-адрес .js, например https://cdn.example.com/chat.js?v=2. Внешний адрес также загружается только после согласия категории; проверку кода и источника выполняет программист. Сам файл подготавливает программист: до согласия он не запрашивается; после разрешения загружается один раз. Изменение пути, категории или назначения обновляет версию затронутой категории и требует нового согласия на категорию. Общий и индивидуальные тексты заглушек карт редактируются во вкладке «Тексты», {provider} подставляет имя карты. Исходный код готовых адаптеров: assets/js/cookie-consent/provider-registry.js, функция start(); публичный bundle собирается через npm run build:frontend. Не редактируйте минифицированный bundle вручную.
 
 Отзыв сразу блокирует штатные загрузчики и consent guards, затем перезагружает страницу. Уже выполненный произвольный JS и отправленные им запросы нельзя отменить автоматически. Для SDK с асинхронным жизненным циклом используйте wrapper с onAllowed и stillAllowed(). Это управление согласием, а не sandbox или замена CSP. В Network проверьте отказ, разрешение, reload и отзыв; действующий сохранённый выбор не должен вызывать лишних запросов. Таблица журнала показывает МСК (UTC+03:00), детали и CSV остаются UTC.
 
@@ -124,13 +126,15 @@ Cookie Consent Manager displays cookie preferences, loads third-party services a
 
 After installation, open Extras → Cookie Consent Manager. Apply changes with the shared Save button.
 
+The active package version appears below the heading. Accept and Accept all grant all visible categories equally. Hidden categories and disabled services stay blocked; Services explains hidden groups. The i button shows classification help on hover or keyboard focus.
+
 ### 2. Choose categories and services
 
 On Services, select Show in cookie settings for the categories you use. Visibility is independent of the number of services; necessary cookies are always available. Optional categories and services start disabled on a new installation.
 
 Click + Add service at the top: choose an adapter or + Create custom service. Open an existing instance or create another with a different ID. Assign any optional category according to the actual purpose, enable and Save. Visitors choose only categories: permission launches every enabled service in the category. Changes to processing composition or purpose update affected category versions and require a new choice. Enable category visibility separately.
 
-Every service launches only when enabled and its assigned category and instance are permitted. Consent Mode calculates processing rights separately. For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent.
+Every service launches only when service.enabled === true and consent.categories[service.category] === true. There is no individual service consent. Consent Mode calculates processing rights separately. For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent.
 
 ### 3. Configure consent logging
 
@@ -212,7 +216,7 @@ const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
 unsubscribe();
 ```
 
-For a local JS file, use + Add service → + Create custom service. Enter its name, purpose, category and a root-relative path such as /assets/js/integrations/bitrix24.js using the actual assets_url. A developer prepares the file: no request before consent; one load after permission. Changing path, category or purpose updates affected category versions and requires new category consent. Edit general and per-map placeholder texts in Texts; {provider} inserts the map name. Ready adapters live in assets/js/cookie-consent/provider-registry.js, start(); build with npm run build:frontend. Do not edit the minified bundle manually.
+For a JavaScript file, use + Add service → + Create custom service. Enter its name, purpose, category and a root-relative path using the actual assets_url or a full HTTPS .js URL such as https://cdn.example.com/chat.js?v=2. External URLs also load only after category consent; a developer reviews their source and code. A developer prepares the file: no request before consent; one load after permission. Changing path, category or purpose updates affected category versions and requires new category consent. Edit general and per-map placeholder texts in Texts; {provider} inserts the map name. Ready adapters live in assets/js/cookie-consent/provider-registry.js, start(); build with npm run build:frontend. Do not edit the minified bundle manually.
 
 Withdrawal blocks managed loaders and consent guards immediately, then reloads the page. Already executed arbitrary JS and previously dispatched requests cannot be undone automatically. Use an onAllowed/stillAllowed wrapper for asynchronous SDK lifecycles. Consent management is not a sandbox or a CSP replacement. Verify rejection, permission, reload and withdrawal in Network. The audit table displays Moscow time (UTC+03:00); details and CSV remain UTC.
 

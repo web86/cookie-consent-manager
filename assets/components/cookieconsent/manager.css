@@ -39,3 +39,7 @@ body.ccm-manager #modx-content>.x-panel-bwrap{display:none!important}
 #ccm-add-service-dialog::backdrop { background: rgb(15 23 42 / 45%); }
 #ccm-add-service-dialog button { margin: 8px 8px 0 0; }
 #ccm-service-error { color: #a51d2d; }
+
+.ccm-title{flex:1;min-width:0}.ccm-title h2{margin-bottom:3px}.ccm-title #ccm-package-version{display:block;font-size:11px;font-weight:400;color:#64748b;margin-bottom:5px}
+.ccm-info-wrap{position:relative;display:inline-block}.ccm-info{display:inline-flex!important;align-items:center;justify-content:center;box-sizing:border-box;width:18px;height:18px;min-width:18px;padding:0!important;border:1px solid #64748b!important;border-radius:50%!important;font-family:serif;font-size:12px;font-weight:700;vertical-align:middle}
+.ccm-tooltip{display:none;position:absolute;z-index:20;right:0;top:24px;width:min(360px,70vw);padding:10px 12px;background:#243746;color:#fff;border-radius:5px;box-shadow:0 3px 12px #0003;font-size:12px;line-height:1.5}.ccm-info-wrap:hover .ccm-tooltip,.ccm-info-wrap:focus-within .ccm-tooltip{display:block}.ccm-category-blocked{color:#805c14}
