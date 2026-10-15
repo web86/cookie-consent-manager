@@ -15,9 +15,9 @@ source-file replacement are used during native package acceptance.
 4. Commit the combined runtime and beta metadata. Build in two new output paths:
 
 ```sh
-docker exec cookie-consent-acceptance-web-1 php /opt/cc-source/_build/build.php /var/www/html /opt/cc-source/.local/beta102/build-a
+docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml -f tests/transport/compose.yaml -f tests/beta102/compose.yaml run --rm --no-deps beta-builder php /opt/cc-source/_build/build.php /var/www/html /opt/cc-beta/build-a
 python3 _build/normalize.py .local/beta102/build-a/cookieconsent-1.0.2-beta1.transport.zip
-docker exec cookie-consent-acceptance-web-1 php /opt/cc-source/_build/verify.php /opt/cc-source/.local/beta102/build-a/cookieconsent-1.0.2-beta1.transport.zip
+docker compose --env-file .local/private/compose.env -f tests/local/compose.yaml -f tests/transport/compose.yaml -f tests/beta102/compose.yaml run --rm --no-deps beta-builder php /opt/cc-source/_build/verify.php /opt/cc-beta/build-a/cookieconsent-1.0.2-beta1.transport.zip /opt/cc-clean/core
 # Repeat in build-b and compare archive SHA256 and both inventories.
 ```
 
