@@ -1,0 +1,12 @@
+name: cookie-consent-acceptance
+services:
+  audit-visibility:
+    image: cookie-consent-acceptance-web:latest
+    ports: ['127.0.0.1:18989:80']
+    volumes:
+      - ../../.local/audit-visibility/site:/var/www/html
+      - ../../.local/audit-visibility/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+      COOKIE_CONSENT_LOCAL_HTTP: '1'

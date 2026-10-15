@@ -2,7 +2,7 @@
 declare(strict_types=1);
 /** Public wrapper at /assets/components/cookieconsent/audit.php.
  * Private config path comes from webserver environment; code stays in private MODX core.
- * Both settings are read from SYSTEM settings (never context/user/request overrides).
+ * Settings are read from SYSTEM settings (never context/user/request overrides).
  */
 $level=ob_get_level();
 ob_start();
@@ -20,6 +20,10 @@ try {
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentServiceRegistry.php';
     $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.services']);
     $GLOBALS['cookieConsentServiceRegistry']=CookieConsentServiceRegistry::validateJson($setting ? (string)$setting->get('value') : '');
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    $setting=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.options']);
+    $options=CookieConsentSettings::options($setting && $setting->get('value')!=='' ? json_decode((string)$setting->get('value'),true,16,JSON_THROW_ON_ERROR) : CookieConsentSettings::defaults());
+    $GLOBALS['cookieConsentCategoryVisibility']=CookieConsentSettings::categoryOptions($options,$GLOBALS['cookieConsentServiceRegistry']['services'])['categories'];
     while (ob_get_level()>$level) ob_end_clean();
     require MODX_CORE_PATH.'components/cookieconsent/public/audit.php';
 } catch (Throwable $e) {
