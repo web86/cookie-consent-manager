@@ -11,7 +11,7 @@ final class CookieConsentEventValidator
         'external_content_allow'=>'draft','external_content_deny'=>'draft',
         'provider_allow'=>'draft','provider_deny'=>'draft','map_allow'=>'committed','map_deny'=>'committed'
     ];
-    public static function validate(array $input, ?array $registry = null): array
+    public static function validate(array $input, ?array $registry = null, ?array $categoryVisibility = null): array
     {
         $required = ['event_id','consent_id','event','stage','analytics','marketing','policy_version','page','timestamp'];
         $v2=array_key_exists('schema',$input);
@@ -32,7 +32,7 @@ final class CookieConsentEventValidator
             throw new InvalidArgumentException('Invalid event/stage combination');
         }
         if (!is_bool($input['analytics']) || !is_bool($input['marketing'])) throw new InvalidArgumentException('Invalid categories');
-        if (in_array($input['event'], ['accept','accept_all'], true) && (!$input['analytics'] || !$input['marketing'])) {
+        if (!$v2 && in_array($input['event'], ['accept','accept_all'], true) && (!$input['analytics'] || !$input['marketing'])) {
             throw new InvalidArgumentException('Invalid accept action');
         }
         if ($input['event'] === 'reject' && ($input['analytics'] || $input['marketing'])) throw new InvalidArgumentException('Invalid reject action');
@@ -45,6 +45,14 @@ final class CookieConsentEventValidator
         if (!$v2 && in_array($input['event'],['external_content_allow','external_content_deny','provider_allow','provider_deny','map_allow','map_deny'],true)) throw new InvalidArgumentException('Schema 2 required');
         if ($v2) {
             if (!is_bool($input['external_content']) || !is_array($input['providers']) || count($input['providers'])>32) throw new InvalidArgumentException('Invalid provider permissions');
+            // Only the caller's trusted server configuration can relax the historical all-visible contract.
+            $visible=$categoryVisibility ?? ['analytics'=>true,'marketing'=>true,'external_content'=>true];
+            if (count($visible)!==3 || array_diff(array_keys($visible),['analytics','marketing','external_content'])) throw new RuntimeException('Invalid category visibility');
+            foreach ($visible as $category=>$shown) {
+                if (!is_bool($shown)) throw new RuntimeException('Invalid category visibility');
+                if (!$shown && $input[$category]) throw new InvalidArgumentException('Hidden category granted');
+                if (in_array($input['event'],['accept','accept_all'],true) && $input[$category]!==$shown) throw new InvalidArgumentException('Incomplete accept all');
+            }
             $services=[];
             foreach ($registry['services']??[] as $s) if ($s['enabled']) $services[$s['key']]=$s;
             foreach ($input['providers'] as $key=>$permission) {
@@ -60,8 +68,7 @@ final class CookieConsentEventValidator
             } elseif ($target!==null) throw new InvalidArgumentException('Unexpected provider target');
             if ($input['event']==='reject' && ($input['external_content'] || in_array(true,$input['providers'],true))) throw new InvalidArgumentException('Invalid reject');
             if (in_array($input['event'],['accept','accept_all'],true)) {
-                if (!$input['external_content']) throw new InvalidArgumentException('Invalid accept');
-                foreach ($services as $key=>$s) if (($input['providers'][$key]??false)!==true) throw new InvalidArgumentException('Incomplete accept all');
+                foreach ($services as $key=>$s) if ($visible[$s['category']] && ($input['providers'][$key]??false)!==true) throw new InvalidArgumentException('Incomplete accept all');
             }
             if (in_array($input['event'],['external_content_allow','external_content_deny'],true) && $input['external_content']!==($input['event']==='external_content_allow')) throw new InvalidArgumentException('Invalid external toggle');
         }

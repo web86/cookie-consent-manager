@@ -2,14 +2,14 @@
 
 Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
 
-Текущий кандидат: **`cookieconsent3-0.1.0-beta2`**, native transport, **неопубликованный beta для review**. [Техническая приёмка](docs/modx3-implementation-acceptance.md), [машиночитаемые результаты](docs/evidence/modx3-implementation-results.json). Compatibility audit сохранён как историческое исследование исходной базы 1.0.2; принятое решение — независимые ветки/сборки.
+Текущий кандидат: **`cookieconsent3-0.1.0-beta3`**, native transport, **неопубликованный beta для review**. **NO-GO для staging с compiled Fenom cache:** официальный pdoTools3 3.1.0 падает при чтении прогретого кеша даже без Cookie Consent. [Приёмка beta3](docs/modx3-beta3-acceptance.md), [результаты beta3](docs/evidence/modx3-beta3-results.json); [историческая приёмка beta2](docs/modx3-implementation-acceptance.md). Compatibility audit сохранён как историческое исследование исходной базы 1.0.2; принятое решение — независимые ветки/сборки.
 
 Реальная локальная приёмка: MODX 3.2.4-pl, PHP 8.1.34, xPDO 3.1.7, MariaDB 11.8.9, Apache/Chromium. Все установки работают с `load_deprecated_global_class_aliases=false`. PHP использует настоящие namespaces MODX/xPDO; Manager следует `cultureKey` текущей сессии. Frontend JS/CSS и consent-форматы сохранены из проверенной базы 1.0.2.
 
 ## Установка и обновление
 
 1. Сделайте backup БД, runtime, пользовательских/static исходников элементов, private audit config и журналов.
-2. Проверьте SHA256 точного ZIP. Для beta2: `e55c66e9dceca74881b0568a9ebd7a6707f52e1571368cf8176247aac0a7fe87`.
+2. Проверьте SHA256 точного ZIP. Для beta3: `b762e36d19449f76b4cac1ac4a9fa82aad9e80757875959d778806b2a9d6687f`.
 3. Загрузите ZIP в штатный MODX Package Management и выполните Install/Upgrade. Setup Options отсутствуют.
 4. Откройте Cookie Consent Manager в меню Extras. Включите нужные сервисы с вашими IDs и независимые флаги видимости категорий. На свежей установке необязательные категории и сервисы выключены, IDs в package defaults отсутствуют.
 5. На «Основных» выберите существующий каталог журнала и нажмите Save. Default — `MODX_CORE_PATH . 'cache/logs/'`. Save проверяет локальную запись/чтение; при необходимости создаёт managed audit configuration в существующей MODX registry. Пустой путь отключает новые записи. Ошибка каталога сохраняет другие корректные настройки и прежний рабочий путь.
@@ -70,6 +70,6 @@ Managed secret хранится в options существующей native regis
 
 `npm ci` использует pinned esbuild 0.28.2 и Playwright 1.62.1. Frontend минифицируется при сборке, без runtime npm/Composer dependency компонента. `_build/build.php` использует MODX 3 modPackageBuilder и namespaced xPDO vehicles; normalization и verifier проверяют ZIP/SHA256/состав/отсутствие secrets. Два разных ZIP не должны иметь одну signature.
 
-[Изолированная fixture и команды приёмки](tests/modx3/README.md). Project `cookie-consent-modx3-acceptance`, отдельные DB/volume/credentials/logs, loopback 18888/18889/18890. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
+[Изолированная fixture и команды приёмки](tests/modx3/README.md). Project `cookie-consent-modx3-beta3`, отдельные DB/volume/credentials/logs, loopback 18888/18889/18890, дополнительный PHP 8.2 на 18891. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
 
 Фактически принята 3.2.4-pl/PHP 8.1.34. Package requires ограничен `>=3.2.4,<3.3.0`; другие PHP/MODX versions, nginx/proxy/client hosting, полный CMS migration и тяжёлые failure/load cases ещё NOT RUN. Следующий этап — review и расширение release gates; GitHub Release/production deployment не выполнены.

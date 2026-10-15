@@ -1,6 +1,6 @@
 # MODX 3 native acceptance
 
-Only the explicitly marked disposable `cookie-consent-modx3-acceptance` project.
+Only the explicitly marked disposable `cookie-consent-modx3-beta3` project.
 Do not point the helpers at customer sites or reuse MODX 2 DBs/volumes.
 
 ```sh
@@ -10,10 +10,10 @@ node _build/user-guide.mjs --check
 node _build/frontend.mjs
 docker compose --env-file .local/modx3/private/compose.env -f tests/modx3/compose.yaml \
   exec -T web php /opt/cc-source/_build/build.php /var/www/html /opt/cc-artifacts/new-build
-python3 _build/normalize.py .local/modx3/artifacts/new-build/cookieconsent3-0.1.0-beta2.transport.zip
+python3 _build/normalize.py .local/modx3/artifacts/new-build/cookieconsent3-0.1.0-beta3.transport.zip
 docker compose --env-file .local/modx3/private/compose.env -f tests/modx3/compose.yaml \
-  exec -T web php /opt/cc-source/_build/verify.php /opt/cc-artifacts/new-build/cookieconsent3-0.1.0-beta2.transport.zip
-node tests/modx3/install.mjs cookieconsent3-0.1.0-beta2 .local/modx3/artifacts/new-build
+  exec -T web php /opt/cc-source/_build/verify.php /opt/cc-artifacts/new-build/cookieconsent3-0.1.0-beta3.transport.zip
+node tests/modx3/install.mjs cookieconsent3-0.1.0-beta3 .local/modx3/artifacts/new-build
 docker compose --env-file .local/modx3/private/compose.env -f tests/modx3/compose.yaml \
   exec -T web php /opt/cc-source/tests/modx3/control.php provision
 node tests/browser.mjs

@@ -6,7 +6,7 @@ export const cli=(service,args,input)=>execFileSync('docker',[...compose,'exec',
 export const control=(service,action,...args)=>JSON.parse(cli(service,['php','/opt/cc-source/tests/modx3/control.php',action,...args]));
 export async function manager(browser,service='web',language='en'){
   cli(service,['php','/opt/cc-source/tests/modx3/guard.php']);
-  const origin='http://127.0.0.1:'+({web:18888,clean:18889,fresh:18890}[service]);
+  const origin='http://127.0.0.1:'+({web:18888,clean:18889,fresh:18890,php82:18891}[service]);
   const ctx=await browser.newContext({locale:language,viewport:{width:1440,height:1000}});
   await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
   const p=await ctx.newPage(),credentials=control(service,'credentials');

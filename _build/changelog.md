@@ -1,3 +1,10 @@
+# Cookie Consent Manager for MODX 3 — 0.1.0-beta3
+
+- Register service registry JSON through native MODX 3 startup HTML blocks after resource parsing, preserving Fenom split/legacy rendering and consent fingerprints.
+- Validate schema 2 consent grants against trusted persisted system category visibility and enabled services; hidden categories remain false while forged or incomplete grants are rejected.
+- Preserve legacy audit schema, origin/replay/rate protection and native package lifecycle semantics.
+- Beta candidate for manual staging acceptance on MODX 3.2.4; no stable release or production deployment.
+
 # Cookie Consent Manager for MODX 3 — 0.1.0-beta2
 
 ## Возможности
