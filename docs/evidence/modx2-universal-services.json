@@ -1,0 +1,1463 @@
+{
+  "date": "2026-10-15",
+  "base_main": "0c5e2fe8a0d9cac67fb7a3e83bd3976fc6b87fd6",
+  "branch": "codex/modx2-universal-services",
+  "model": "categories_v2 / category-only launch / audit schema 3",
+  "environment": {
+    "modx": "2.8.8-pl",
+    "php_primary": "8.2.34",
+    "php_minimum": "8.1.34",
+    "browser": "Playwright Chromium",
+    "network": "All third-party SDK/map traffic fulfilled locally or blocked; no real vendor delivery"
+  },
+  "browser_native": {
+    "suites": 23,
+    "scenarios": 301,
+    "assertions": 2196,
+    "failed": 0,
+    "results": [
+      {
+        "name": "Universal Manager/frontend",
+        "status": "PASS",
+        "tests": 21,
+        "assertions": 173,
+        "evidence": ".local/universal-evidence/browser-results.json",
+        "cases": [
+          {
+            "name": "Manager-ru-category-draft-move-add-existing-unique-instances-custom-preview",
+            "result": "PASS"
+          },
+          {
+            "name": "Manager-en-category-draft-move-add-existing-unique-instances-custom-preview",
+            "result": "PASS"
+          },
+          {
+            "name": "server-validation-necessary-unsafe-paths-duplicate-paths-and-stale-revision",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-duplicate-IDs-stay-editable-new-duplicate-creation-rejected",
+            "result": "PASS"
+          },
+          {
+            "name": "native-Save-composition-category-versions-and-cosmetic-stability",
+            "result": "PASS"
+          },
+          {
+            "name": "custom-live-no-network-before-consent-reject-once-restored-revoke-scoped-guard",
+            "result": "PASS"
+          },
+          {
+            "name": "custom-path-invalidates-affected-categories",
+            "result": "PASS"
+          },
+          {
+            "name": "custom-category-invalidates-affected-categories",
+            "result": "PASS"
+          },
+          {
+            "name": "custom-purpose-invalidates-affected-categories",
+            "result": "PASS"
+          },
+          {
+            "name": "failed-custom-script-isolated-from-other-services-and-JS-PHP-path-parity",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-analytics-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-analytics-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-marketing-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-marketing-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-external_content-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-external_content-map-button-opens-category-preferences-never-bypasses-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "texts-general-specific-RU-EN-provider-substitution-preview-save-no-category-version-change",
+            "result": "PASS"
+          },
+          {
+            "name": "universal-GTM-Ads-launch-in-selected-category-without-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "live-Google-launch-and-independent-Consent-Mode-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "live-Google-launch-and-independent-Consent-Mode-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "live-Google-launch-and-independent-Consent-Mode-external_content",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Audit Moscow RU/EN",
+        "status": "PASS",
+        "tests": 2,
+        "assertions": 14,
+        "evidence": ".local/universal-evidence/audit-results.json",
+        "cases": []
+      },
+      {
+        "name": "All adapter/category combinations",
+        "status": "PASS",
+        "tests": 30,
+        "assertions": 300,
+        "evidence": ".local/universal-evidence/matrix-results.json",
+        "cases": [
+          {
+            "name": "yandex-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "mailru-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ga4-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "google_gtm-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ads-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "vk_ads-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "meta_pixel-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "custom_js-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "mailru-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ga4-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "google_gtm-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ads-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "vk_ads-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "meta_pixel-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "custom_js-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "mailru-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ga4-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "google_gtm-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ads-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "vk_ads-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "meta_pixel-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "google_maps-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "custom_js-external_content",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Frontend persistence and categories",
+        "status": "PASS",
+        "tests": 33,
+        "assertions": 185,
+        "evidence": ".local/evidence/browser-results.json",
+        "cases": [
+          {
+            "name": "first-visit",
+            "result": "PASS"
+          },
+          {
+            "name": "reject",
+            "result": "PASS"
+          },
+          {
+            "name": "category-0",
+            "result": "PASS"
+          },
+          {
+            "name": "category-1",
+            "result": "PASS"
+          },
+          {
+            "name": "category-2",
+            "result": "PASS"
+          },
+          {
+            "name": "category-3",
+            "result": "PASS"
+          },
+          {
+            "name": "category-4",
+            "result": "PASS"
+          },
+          {
+            "name": "category-5",
+            "result": "PASS"
+          },
+          {
+            "name": "category-6",
+            "result": "PASS"
+          },
+          {
+            "name": "category-7",
+            "result": "PASS"
+          },
+          {
+            "name": "map-google_maps",
+            "result": "PASS"
+          },
+          {
+            "name": "map-yandex_maps",
+            "result": "PASS"
+          },
+          {
+            "name": "accept-all-revoke",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-accept",
+            "result": "PASS"
+          },
+          {
+            "name": "provider-only",
+            "result": "PASS"
+          },
+          {
+            "name": "expiry-ttl",
+            "result": "PASS"
+          },
+          {
+            "name": "expiry-policy",
+            "result": "PASS"
+          },
+          {
+            "name": "expiry-old-m2",
+            "result": "PASS"
+          },
+          {
+            "name": "expiry-popup-yurist",
+            "result": "PASS"
+          },
+          {
+            "name": "draft-not-committed",
+            "result": "PASS"
+          },
+          {
+            "name": "failed-audit",
+            "result": "PASS"
+          },
+          {
+            "name": "invalid-200-acknowledgement",
+            "result": "PASS"
+          },
+          {
+            "name": "mobile-keyboard-modal",
+            "result": "PASS"
+          },
+          {
+            "name": "dynamic-add-disable",
+            "result": "PASS"
+          },
+          {
+            "name": "unsafe-admin-config",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-0",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-1",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-2",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-3",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-4",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-5",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-6",
+            "result": "PASS"
+          },
+          {
+            "name": "category-only-persistence-7",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "HTTP audit compatibility/security",
+        "status": "PASS",
+        "tests": 37,
+        "assertions": 121,
+        "evidence": ".local/evidence/http-results.json",
+        "cases": [
+          {
+            "name": "positive-server-jsonl",
+            "result": "PASS"
+          },
+          {
+            "name": "schema2-map",
+            "result": "PASS"
+          },
+          {
+            "name": "wrong-origin",
+            "result": "PASS"
+          },
+          {
+            "name": "missing-origin",
+            "result": "PASS"
+          },
+          {
+            "name": "null-origin",
+            "result": "PASS"
+          },
+          {
+            "name": "cross-site",
+            "result": "PASS"
+          },
+          {
+            "name": "same-site",
+            "result": "PASS"
+          },
+          {
+            "name": "wrong-method",
+            "result": "PASS"
+          },
+          {
+            "name": "wrong-content-type",
+            "result": "PASS"
+          },
+          {
+            "name": "malformed-json",
+            "result": "PASS"
+          },
+          {
+            "name": "list-json",
+            "result": "PASS"
+          },
+          {
+            "name": "excess-payload",
+            "result": "PASS"
+          },
+          {
+            "name": "no-fetch-metadata-same-origin",
+            "result": "PASS"
+          },
+          {
+            "name": "extra-ip",
+            "result": "PASS"
+          },
+          {
+            "name": "extra-config",
+            "result": "PASS"
+          },
+          {
+            "name": "invalid-uuid",
+            "result": "PASS"
+          },
+          {
+            "name": "wrong-stage",
+            "result": "PASS"
+          },
+          {
+            "name": "wrong-type",
+            "result": "PASS"
+          },
+          {
+            "name": "invalid-calendar",
+            "result": "PASS"
+          },
+          {
+            "name": "query-pii",
+            "result": "PASS"
+          },
+          {
+            "name": "map-wrong-category",
+            "result": "PASS"
+          },
+          {
+            "name": "unknown-provider",
+            "result": "PASS"
+          },
+          {
+            "name": "replay",
+            "result": "PASS"
+          },
+          {
+            "name": "concurrent-append-and-replay",
+            "result": "PASS"
+          },
+          {
+            "name": "setting-change-preserves-archives",
+            "result": "PASS"
+          },
+          {
+            "name": "webroot-path-without-HTTP-protection",
+            "result": "PASS"
+          },
+          {
+            "name": "relative-path",
+            "result": "PASS"
+          },
+          {
+            "name": "document-root",
+            "result": "PASS"
+          },
+          {
+            "name": "missing-path",
+            "result": "PASS"
+          },
+          {
+            "name": "traversal-path",
+            "result": "PASS"
+          },
+          {
+            "name": "empty-path",
+            "result": "PASS"
+          },
+          {
+            "name": "symlink-directory",
+            "result": "PASS"
+          },
+          {
+            "name": "permission-denied-directory",
+            "result": "PASS"
+          },
+          {
+            "name": "symlink-monthly-file",
+            "result": "PASS"
+          },
+          {
+            "name": "unwritable-monthly-file",
+            "result": "PASS"
+          },
+          {
+            "name": "rate-limit",
+            "result": "PASS"
+          },
+          {
+            "name": "upgrade-preserves-settings",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Live adapters with local SDK fulfillment",
+        "status": "PASS",
+        "tests": 11,
+        "assertions": 51,
+        "evidence": ".local/evidence/live-guard-results.json",
+        "cases": [
+          {
+            "name": "google_maps",
+            "result": "PASS"
+          },
+          {
+            "name": "yandex_maps",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ga4",
+            "result": "PASS"
+          },
+          {
+            "name": "google_ads",
+            "result": "PASS"
+          },
+          {
+            "name": "gtm-marketing-only",
+            "result": "PASS"
+          },
+          {
+            "name": "all-google-shared-library",
+            "result": "PASS"
+          },
+          {
+            "name": "map-url-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "audit-url-0",
+            "result": "PASS"
+          },
+          {
+            "name": "audit-url-1",
+            "result": "PASS"
+          },
+          {
+            "name": "audit-url-2",
+            "result": "PASS"
+          },
+          {
+            "name": "audit-url-3",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Provider parameter guards",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 18,
+        "evidence": ".local/evidence/provider-parameters-results.json",
+        "cases": [
+          {
+            "name": "yandex-options",
+            "result": "PASS"
+          },
+          {
+            "name": "ga-privacy-without-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "ga-ads-options",
+            "result": "PASS"
+          },
+          {
+            "name": "gtm-marketing-only",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Manager i18n",
+        "status": "PASS",
+        "tests": 17,
+        "assertions": 60,
+        "evidence": ".local/manager-i18n-evidence/results.json",
+        "cases": [
+          {
+            "name": "fresh-component-install-and-preserve-upgrade",
+            "result": "PASS"
+          },
+          {
+            "name": "ru-component-menu-tabs-and-system-language",
+            "result": "PASS"
+          },
+          {
+            "name": "services-three-groups-individual-settings",
+            "result": "PASS"
+          },
+          {
+            "name": "service-map-translations-editable-and-existing-texts-retained",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-mode-preview-and-preserved-values",
+            "result": "PASS"
+          },
+          {
+            "name": "languages-from-modx-single-select-and-preserved-draft",
+            "result": "PASS"
+          },
+          {
+            "name": "html-source-sanitization-preview-and-parser-tags",
+            "result": "PASS"
+          },
+          {
+            "name": "context-culturekey-and-fallback",
+            "result": "PASS"
+          },
+          {
+            "name": "translation-does-not-revoke-consent",
+            "result": "PASS"
+          },
+          {
+            "name": "privacy-parameter-invalidates-category-consent",
+            "result": "PASS"
+          },
+          {
+            "name": "new-service-through-group-controls",
+            "result": "PASS"
+          },
+          {
+            "name": "failed-save-keeps-draft",
+            "result": "PASS"
+          },
+          {
+            "name": "preview-no-service-network-or-audit",
+            "result": "PASS"
+          },
+          {
+            "name": "responsive-preview-stacks-below-main",
+            "result": "PASS"
+          },
+          {
+            "name": "unauthenticated-and-csrf-refused",
+            "result": "PASS"
+          },
+          {
+            "name": "english-manager-and-default-edit-locale",
+            "result": "PASS"
+          },
+          {
+            "name": "no-runtime-errors-or-external-public-hosts",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Pixel queues/revocation/legacy migration",
+        "status": "PASS",
+        "tests": 32,
+        "assertions": 175,
+        "evidence": ".local/beta31-evidence/pixels-results.json",
+        "cases": [
+          {
+            "name": "marketing-consent-state-0",
+            "result": "PASS"
+          },
+          {
+            "name": "marketing-consent-state-1",
+            "result": "PASS"
+          },
+          {
+            "name": "marketing-consent-state-2",
+            "result": "PASS"
+          },
+          {
+            "name": "marketing-consent-state-3",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-0",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-1",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-2",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-3",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-4",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-5",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-6",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-7",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-8",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-9",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-10",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-11",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-12",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-13",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-14",
+            "result": "PASS"
+          },
+          {
+            "name": "legacy-pixel-powerset-conservative-category-migration-15",
+            "result": "PASS"
+          },
+          {
+            "name": "browser-registry-rejects-shared-Mail-VK-ID-before-start",
+            "result": "PASS"
+          },
+          {
+            "name": "explicit-reject-no-SDK-or-pixel",
+            "result": "PASS"
+          },
+          {
+            "name": "single-duplicate-and-multiple-ID-once-SDK-once-PageView",
+            "result": "PASS"
+          },
+          {
+            "name": "Mail-analytics-first-VK-later-no-shared-SDK-reload",
+            "result": "PASS"
+          },
+          {
+            "name": "revocation-immediate-Meta-consent-revoke-reload-and-reconsent",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-during-pending-meta-SDK-no-late-ad-event",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-during-pending-tmr-SDK-no-late-ad-event",
+            "result": "PASS"
+          },
+          {
+            "name": "ID-change-and-new-ID-fingerprint-do-not-inherit-grant",
+            "result": "PASS"
+          },
+          {
+            "name": "no-automatic-opener-initializes-split-none",
+            "result": "PASS"
+          },
+          {
+            "name": "no-automatic-opener-initializes-legacy-none",
+            "result": "PASS"
+          },
+          {
+            "name": "maps-general-settings-revoke-no-buttons-cold-warm-ru",
+            "result": "PASS"
+          },
+          {
+            "name": "maps-general-settings-revoke-no-buttons-cold-warm-en",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Pixel Manager",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 48,
+        "evidence": ".local/beta31-evidence/manager-results.json",
+        "cases": [
+          {
+            "name": "new-disabled-cards-ID-labels-save-reload-ru",
+            "result": "PASS"
+          },
+          {
+            "name": "new-disabled-cards-ID-labels-save-reload-en",
+            "result": "PASS"
+          },
+          {
+            "name": "additional-VK-and-Meta-instances-via-existing-counter-form",
+            "result": "PASS"
+          },
+          {
+            "name": "same-active-Mail-VK-ID-local-error-no-POST-and-server-rejection",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Callback API",
+        "status": "PASS",
+        "tests": 13,
+        "assertions": 44,
+        "evidence": ".local/beta32-evidence/callbacks-results.json",
+        "cases": [
+          {
+            "name": "register-before-initialization-and-consent-isolated-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "register-before-initialization-and-consent-isolated-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "register-before-initialization-and-consent-isolated-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "late-registration-saved-consent-and-unsubscribe-split",
+            "result": "PASS"
+          },
+          {
+            "name": "late-registration-saved-consent-and-unsubscribe-legacy",
+            "result": "PASS"
+          },
+          {
+            "name": "draft-and-forged-audit-do-not-run-and-storage-copy-cannot-grant",
+            "result": "PASS"
+          },
+          {
+            "name": "multiple-callbacks-sync-and-async-errors-isolated-and-cancel-pending",
+            "result": "PASS"
+          },
+          {
+            "name": "service-absent-or-wrong-category-not_existing",
+            "result": "PASS"
+          },
+          {
+            "name": "service-absent-or-wrong-category-mailru",
+            "result": "PASS"
+          },
+          {
+            "name": "category-version-change-invalidates-scoped-and-category-callbacks",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-invalidates-live-guard-before-reload-and-no-restored-callback",
+            "result": "PASS"
+          },
+          {
+            "name": "new-service-and-expired-or-invalid-stored-state-cannot-authorize-callback",
+            "result": "PASS"
+          },
+          {
+            "name": "invalid-API-arguments-throw-without-altering-CMP",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Consent-aware custom map wrappers",
+        "status": "PASS",
+        "tests": 9,
+        "assertions": 42,
+        "evidence": ".local/beta32-evidence/maps-results.json",
+        "cases": [
+          {
+            "name": "no-local-or-Yandex-before-consent-draft-and-analytics-only",
+            "result": "PASS"
+          },
+          {
+            "name": "allowed-after-DOMContentLoaded-multiple-point-polygon-line-and-fallback-once",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-reload-does-not-resume-local-script-or-SDK",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-while-pending-Local-no-late-operations",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-while-pending-SDK-no-late-operations",
+            "result": "PASS"
+          },
+          {
+            "name": "withdraw-while-pending-Data-no-late-operations",
+            "result": "PASS"
+          },
+          {
+            "name": "authorized-geometry-matches-owner-source-functional-baseline",
+            "result": "PASS"
+          },
+          {
+            "name": "changed-category-version-and-disabled-service-block-custom-script-after-reload",
+            "result": "PASS"
+          },
+          {
+            "name": "existing-ready-API-and-duplicate-rescan-do-not-hang-or-double-init",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Optional ClientID wrapper",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 13,
+        "evidence": ".local/beta33-evidence/clientid-results.json",
+        "cases": [
+          {
+            "name": "core-no-getClientID-or-form-writing-after-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "user-chunk-denied-no-request-allowed-once-scoped-ID",
+            "result": "PASS"
+          },
+          {
+            "name": "user-chunk-missing-target-does-not-block-consent",
+            "result": "PASS"
+          },
+          {
+            "name": "user-chunk-late-callback-disconnected-target-safe",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Manager category visibility",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 73,
+        "evidence": ".local/beta33-evidence/manager-results.json",
+        "cases": [
+          {
+            "name": "ru-visibility-label-keyboard-collapse-preserved-preview-Save",
+            "result": "PASS"
+          },
+          {
+            "name": "en-visibility-label-keyboard-collapse-preserved-preview-Save",
+            "result": "PASS"
+          },
+          {
+            "name": "collapsed-error-group-revealed-and-add-preserves-other-section",
+            "result": "PASS"
+          },
+          {
+            "name": "visibility-independent-service-toggle-preview-and-strict-save-conflict",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Category visibility/SSR/epochs",
+        "status": "PASS",
+        "tests": 23,
+        "assertions": 201,
+        "evidence": ".local/beta33-evidence/public-results.json",
+        "cases": [
+          {
+            "name": "SSR-and-browser-analytics-0-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-analytics-0-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-analytics-1-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-analytics-1-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-analytics-2-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-analytics-2-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-0-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-0-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-1-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-1-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-2-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-marketing-2-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-0-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-0-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-1-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-1-true",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-2-false",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-and-browser-external_content-2-true",
+            "result": "PASS"
+          },
+          {
+            "name": "hide-show-only-affected-grant-invalidated-analytics",
+            "result": "PASS"
+          },
+          {
+            "name": "hide-show-only-affected-grant-invalidated-marketing",
+            "result": "PASS"
+          },
+          {
+            "name": "hide-show-only-affected-grant-invalidated-external_content",
+            "result": "PASS"
+          },
+          {
+            "name": "offline-hide-show-does-not-resurrect-old-grant",
+            "result": "PASS"
+          },
+          {
+            "name": "map-hidden-cannot-bypass-category-visible-category-controls-all-maps",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "SSR/split/legacy/assets",
+        "status": "PASS",
+        "tests": 9,
+        "assertions": 80,
+        "evidence": ".local/beta26-evidence/frontend-results.json",
+        "cases": [
+          {
+            "name": "SSR-no-static-rewrite-en",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-no-static-rewrite-ru",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-no-static-rewrite-tr",
+            "result": "PASS"
+          },
+          {
+            "name": "one-call-contract-independent-split",
+            "result": "PASS"
+          },
+          {
+            "name": "one-call-contract-independent-legacy",
+            "result": "PASS"
+          },
+          {
+            "name": "one-call-contract-independent-assets-only",
+            "result": "PASS"
+          },
+          {
+            "name": "one-call-contract-independent-banner-only",
+            "result": "PASS"
+          },
+          {
+            "name": "localized-runtime-ACK-error-is-minimal-server-message",
+            "result": "PASS"
+          },
+          {
+            "name": "head-bundle-hashes-and-simple-repeat-JS-initialization-guard",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Locale fallback",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 112,
+        "evidence": ".local/beta28-evidence/localization-results.json",
+        "cases": [
+          {
+            "name": "stock-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+            "result": "PASS"
+          },
+          {
+            "name": "stock-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+            "result": "PASS"
+          },
+          {
+            "name": "overrides-ru-real-SSR-no-JS-cold-warm-and-no-rewrite",
+            "result": "PASS"
+          },
+          {
+            "name": "overrides-en-real-SSR-no-JS-cold-warm-and-no-rewrite",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Audit Viewer/CSV/history",
+        "status": "PASS",
+        "tests": 11,
+        "assertions": 77,
+        "evidence": ".local/viewer-evidence/results.json",
+        "cases": [
+          {
+            "name": "default-filters-four-columns-no-storage-or-diagnostics",
+            "result": "PASS"
+          },
+          {
+            "name": "changing-filters-does-not-fetch-find-applies",
+            "result": "PASS"
+          },
+          {
+            "name": "pagination-newest-first-only-50",
+            "result": "PASS"
+          },
+          {
+            "name": "details-schema2-XSS-and-consent-history",
+            "result": "PASS"
+          },
+          {
+            "name": "all-actions-searches-unknown-and-empty",
+            "result": "PASS"
+          },
+          {
+            "name": "CSV-all-matches-UTF8-escaping-injection-applied-filters",
+            "result": "PASS"
+          },
+          {
+            "name": "direct-traversal-invalid-filters-and-unauthenticated-requests",
+            "result": "PASS"
+          },
+          {
+            "name": "manager-without-log-permission-denied-read-detail-export",
+            "result": "PASS"
+          },
+          {
+            "name": "view-only-manager-can-read-export-cannot-save-settings",
+            "result": "PASS"
+          },
+          {
+            "name": "RU-lexicon-screenshot",
+            "result": "PASS"
+          },
+          {
+            "name": "read-only-source-hashes-and-no-runtime-errors",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Manager UX/native audit integration",
+        "status": "PASS",
+        "tests": 15,
+        "assertions": 113,
+        "evidence": ".local/manager-ux-evidence/results.json",
+        "cases": [
+          {
+            "name": "desktop-long-texts-and-services-scroll-with-sticky-preview",
+            "result": "PASS"
+          },
+          {
+            "name": "mobile-long-tabs-scroll-and-preview-below-form",
+            "result": "PASS"
+          },
+          {
+            "name": "technical-fields-hidden-one-language-select-short-integration",
+            "result": "PASS"
+          },
+          {
+            "name": "two-counters-generated-keys-confirmation-save-only-and-auto-preview-locale",
+            "result": "PASS"
+          },
+          {
+            "name": "diagnostic-HTTP-invalid-JSON-and-draft-preserved",
+            "result": "PASS"
+          },
+          {
+            "name": "backend-validation-correlated-id-and-no-MODAUTH-refused",
+            "result": "PASS"
+          },
+          {
+            "name": "policy-reconsent-confirmation-and-explicit-change",
+            "result": "PASS"
+          },
+          {
+            "name": "unified-uncached-snippet-order-cache-culture-duplicates-inert-maps",
+            "result": "PASS"
+          },
+          {
+            "name": "managed-audit-init-idempotent-key-never-in-CMP-public-config",
+            "result": "PASS"
+          },
+          {
+            "name": "native-registry-read-send-cannot-read-or-mutate-private-key",
+            "result": "PASS"
+          },
+          {
+            "name": "public-log-directory-JSONL-rate-and-real-POST",
+            "result": "PASS"
+          },
+          {
+            "name": "managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall",
+            "result": "PASS"
+          },
+          {
+            "name": "disabled-AllowOverride-no-block-real-POST",
+            "result": "PASS"
+          },
+          {
+            "name": "public-log-symlink-traversal-refused-proxy-allowed-old-logs-retained",
+            "result": "PASS"
+          },
+          {
+            "name": "runtime-no-errors-or-unexpected-Manager-external-hosts",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Manager permissions",
+        "status": "PASS",
+        "tests": 1,
+        "assertions": 4,
+        "evidence": ".local/evidence/manager-permissions-results.json",
+        "cases": [
+          {
+            "name": "authenticated-mgr-without-component-permission-denied",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Legacy System Settings compatibility",
+        "status": "PASS",
+        "tests": 4,
+        "assertions": 13,
+        "evidence": ".local/evidence/manager-results.json",
+        "cases": [
+          {
+            "name": "native-manager-add",
+            "result": "PASS"
+          },
+          {
+            "name": "native-manager-disable",
+            "result": "PASS"
+          },
+          {
+            "name": "unauthenticated-admin-mutation",
+            "result": "PASS"
+          },
+          {
+            "name": "manager-profile-avatar-blocked-by-test",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Actual stable 1.0.0 upgrade/browser migration",
+        "status": "PASS",
+        "tests": 6,
+        "assertions": 59,
+        "evidence": ".local/public-registry-evidence/browser-results.json",
+        "cases": [
+          {
+            "name": "real-cookieconsent-1.0.0-to-cookieconsent-1.0.4-beta1-no-reconsent-exact-fingerprints-and-data",
+            "result": "PASS"
+          },
+          {
+            "name": "minimal-and-cached-full-contract-same-v2-fingerprint-strict-rejection",
+            "result": "PASS"
+          },
+          {
+            "name": "scoped-onAllowed-and-user-owned-ClientID-example-with-minimal-data",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-localized-full-texts-and-map-templates-cold-warm-ru",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-localized-full-texts-and-map-templates-cold-warm-en",
+            "result": "PASS"
+          },
+          {
+            "name": "SSR-localized-full-texts-and-map-templates-cold-warm-tr",
+            "result": "PASS"
+          }
+        ]
+      },
+      {
+        "name": "Native fresh/upgrade/reinstall/uninstall",
+        "status": "PASS",
+        "tests": 7,
+        "assertions": 220,
+        "evidence": ".local/universal-evidence/native/native-results.json",
+        "cases": [
+          {
+            "name": "fresh-without-category-native-creation",
+            "result": "PASS"
+          },
+          {
+            "name": "reinstall-no-duplicates-category-ID-preserved",
+            "result": "PASS"
+          },
+          {
+            "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+            "result": "PASS"
+          },
+          {
+            "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+            "result": "PASS"
+          },
+          {
+            "name": "reinstall-five-sources-custom-categories-retained",
+            "result": "PASS"
+          },
+          {
+            "name": "native-uninstall-retains-elements-categories-settings-and-data",
+            "result": "PASS"
+          },
+          {
+            "name": "split-and-legacy-never-call-retained-Registry",
+            "result": "PASS"
+          }
+        ]
+      }
+    ]
+  },
+  "php82": {
+    "existing_suites": 12,
+    "existing_assertions": 756,
+    "visibility_assertions": 3115,
+    "new_contract_assertions": 121,
+    "failed": 0
+  },
+  "php81": {
+    "suites": 12,
+    "assertions": 770,
+    "failed": 0
+  },
+  "syntax": {
+    "php_files": 104,
+    "js_mjs_files": 105,
+    "status": "PASS"
+  },
+  "transport": {
+    "signature": "cookieconsent-1.0.4-beta1",
+    "path": ".local/artifacts/cookieconsent-1.0.4-beta1.transport.zip",
+    "sha256": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e",
+    "bytes": 191889,
+    "vehicles": 71,
+    "runtime_files": 55,
+    "zip_entries": 136,
+    "verification": "PASS"
+  },
+  "skipped": [
+    {
+      "name": "Real vendor SDK delivery/account-side tracking and GTM workspace checks",
+      "reason": "Only controlled local SDK responses used; requires owner staging configuration."
+    },
+    {
+      "name": "Safari/Firefox and production template/CDN/CSP environment",
+      "reason": "Not available as a verified target in this local acceptance."
+    }
+  ],
+  "production_ready": false,
+  "deployment_performed": false,
+  "main_or_modx3_merge_performed": false
+}

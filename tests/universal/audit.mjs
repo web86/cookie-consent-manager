@@ -1,0 +1,13 @@
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
+const b=await chromium.launch();let n=0;const eq=(a,c)=>{n++;assert.deepEqual(a,c)};
+try{for(const [lang,timeZone]of [['ru','Asia/Tokyo'],['en','America/New_York']]){const ctx=await b.newContext({locale:lang,timezoneId:timeZone}),p=await ctx.newPage();await p.setContent('<section id="logs"></section>');await p.addScriptTag({content:readFileSync('assets/components/cookieconsent/audit-viewer.js','utf8')});await p.evaluate(async lang=>{
+ const el=(tag,text,attrs={})=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n};
+ const row={server_time:'2026-10-15T11:25:30Z',ip:'192.0.2.1',event:'reject',locator:'test'};
+ const api=async action=>action==='logs_detail'?{record:{...row,categories:{necessary:true},consent_id:'fixture'}}:{items:[row,{...row,server_time:'invalid'}],next:null,total:2,years:['2026'],actions:['reject']};
+ const t=k=>k==='log_date'?(lang==='ru'?'МСК (UTC+03:00)':'MSK (UTC+03:00)'):k==='log_field_server_time'?(lang==='ru'?'Дата и время сервера (UTC)':'Server date and time (UTC)'):k;
+ window.CookieConsentAuditViewer.mount(document.getElementById('logs'),{api,t,el,boot:{},data:{canViewLogs:true,currentLogYear:'2026',managerStrings:{}}}).loadInitial();
+},lang);await p.locator('.ccm-log-view').first().waitFor();eq(await p.locator('tbody tr').first().locator('td').first().textContent(),'15.10.2026 14:25:30');eq(await p.locator('tbody tr').last().locator('td').first().textContent(),'—');eq(await p.locator('th').first().textContent(),lang==='ru'?'МСК (UTC+03:00)':'MSK (UTC+03:00)');await p.locator('.ccm-log-view').first().click();eq(await p.locator('dd').first().textContent(),'2026-10-15T11:25:30Z');eq(await p.locator('dt').first().textContent(),lang==='ru'?'Дата и время сервера (UTC)':'Server date and time (UTC)');eq(await p.evaluate(()=>[null,undefined,123,'2026-02-30T11:25:30Z','2026-10-15T11:25:30+03:00','not-a-date'].map(CookieConsentAuditViewer.formatMoscow)),Array(6).fill('—'));eq(await p.evaluate(()=>CookieConsentAuditViewer.formatMoscow('2026-10-15T11:25:30.123456Z')),'15.10.2026 14:25:30');await ctx.close();}
+ console.log(JSON.stringify({suite:'Audit Moscow table / unchanged UTC details / RU EN / invalid values / browser timezone independence',tests:2,assertions:n,failed:0,result:'PASS'}));mkdirSync('.local/universal-evidence',{recursive:true});writeFileSync('.local/universal-evidence/audit-results.json',JSON.stringify({tests:2,assertions:n,failed:0,result:'PASS'})+'\n');
+}finally{await b.close()}

@@ -1,5 +1,7 @@
 # Cookie Consent Manager for MODX 2
 
+В этой feature-ветке — кандидат **1.0.4-beta1**: универсальные категории, единое добавление сервисов, локальный `custom_js`, тексты заглушек карт и МСК в таблице журнала. [Инструкция](docs/modx2-universal-services.md), [проверки и release gates](docs/modx2-universal-services-acceptance.md). Исторические отчёты ниже относятся к неизменённому main.
+
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
 **Опубликованный стабильный релиз — [v1.0.0](https://github.com/web86/cookie-consent-manager/releases/tag/v1.0.0)**: `cookieconsent-1.0.0.transport.zip`, [Release Notes](docs/release-1.0.0.md) и [приёмка](docs/modx2-1.0.0-acceptance.md). Исторический transport 1.0.2 использован как база проверки обновления; нового стабильного GitHub Release нет.

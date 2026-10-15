@@ -3,16 +3,16 @@
   "version": "0.28.2",
   "inputs": {
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
-    "assets/js/cookie-consent/provider-registry.js": "8c6bf1fd011f2af7f9b4aee2f386693cd9566f5c005c4c46f76014abf51bb4dd",
-    "assets/js/cookie-consent/consent-manager.js": "ba6db6f44a4be4efaf4fa9840caf057e5d3eed6029afe312bd503e87eeea6729",
+    "assets/js/cookie-consent/provider-registry.js": "2ec7a77d6c2184f1560b1b3b74c2e21d4575d40e0ab7bf321ef32105f702e4ef",
+    "assets/js/cookie-consent/consent-manager.js": "4e74ae29eb68813a9cd480d9681ace90e500a1c080a31026db42390dfe9ca93f",
     "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
     "_build/frontend.mjs": "1c75fc71ff773c7564fde47541a64ea7250699bfad1bd7d62f8f0384eb734abe"
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "2adee12c7b5928c9a093dea198d9449a3831a4ea614e43dab9d200e276c297af",
-      "bytes": 20095
+      "sha256": "71d18eb5b2b37e01c6d8908704a09f9c853f27dcd76eb9075ae5a00eba3e3e1b",
+      "bytes": 20216
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",

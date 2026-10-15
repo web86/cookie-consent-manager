@@ -6,7 +6,8 @@
         if (!cc) return;
         cc.onAllowed('analytics', function () { console.log('Analytics consent granted'); });
         cc.onAllowed('marketing', function () { console.log('Marketing consent granted'); });
-        cc.onAllowed('external_content', async function (stillAllowed) {
+        const mapService = window.web86Providers?.services.find(s => s.key === 'yandex_maps');
+        if (mapService) cc.onAllowed(mapService.category, async function (stillAllowed) {
             if (!document.querySelector('.js-yandex-map') || !stillAllowed()) return;
             // This MUST be the consent-adapted copy, never the original auto-start script.
             if (typeof window.YMAP_RESCAN !== 'function') {
@@ -21,7 +22,7 @@
             if (!stillAllowed()) return;
             // Existing public function, inspected in the owner-supplied source.
             window.YMAP_RESCAN(stillAllowed);
-        }, { service: 'yandex_maps' });
+        }, { service: mapService.key });
     }
     if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', register, { once: true });
     else register();

@@ -14,9 +14,9 @@ Cookie Consent Manager показывает настройки cookie, подк�
 
 На вкладке «Сервисы» отметьте «Показывать в настройках cookie» для нужных категорий. Видимость категории не зависит от количества сервисов; необходимые cookie всегда доступны. На новой установке необязательные категории и сервисы выключены.
 
-Включите нужные сервисы и укажите принадлежащие вам ID. Для нескольких счётчиков используйте «Добавить ещё один счётчик». Тексты и переводы настраиваются во вкладке «Тексты».
+Нажмите «+ Добавить сервис» сверху вкладки: готовый адаптер или «+ Создать пользовательский сервис». При наличии сервиса перейдите к нему либо создайте дополнительный экземпляр с другим ID. Выберите любую необязательную категорию по реальному назначению, включите сервис и сохраните. Посетитель выбирает только категории: разрешение запускает все включённые сервисы группы. Изменение состава или назначения обновляет версию затронутой категории и требует нового выбора. Видимость включается отдельно.
 
-При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику.
+Запуск любого сервиса требует только enabled и разрешений назначенной категории и экземпляра. Consent Mode рассчитывает права обработки отдельно. При использовании GTM настройте consent checks для тегов внутри контейнера. Аналитические теги должны требовать analytics_storage: разрешение маркетинга само по себе не разрешает аналитику.
 
 ### 3. Настройте журнал согласий
 
@@ -52,9 +52,9 @@ Cookie Consent Manager показывает настройки cookie, подк�
 
 Удалите старые прямые подключения счётчиков, пикселей, GTM и noscript-пиксели, которые могут обходить согласие. CookieConsentMap используется для iframe-карт, onAllowed() — для собственных JavaScript-интеграций. Такие интеграции проверяйте отдельно.
 
-### 5. Подключение собственных JavaScript-сервисов
+### 5. Подключение JavaScript и категорийные согласия
 
-API onAllowed(category, callback, options) поддерживает analytics, marketing и external_content. Без options проверяется только согласие на видимую категорию, даже если в ней нет сервисов. Включите «Показывать в настройках cookie» для такой категории. Это не разрешение на отдельный зарегистрированный провайдер.
+API onAllowed(category, callback, options) поддерживает analytics, marketing и external_content. Без options проверяется только согласие на видимую категорию, даже если в ней нет сервисов. Включите «Показывать в настройках cookie» для такой категории. Индивидуальных разрешений сервисов нет.
 
 Регистрируйте callback после инициализации публичного bundle. Он вызывается один раз для каждой регистрации после подтверждённого разрешения; действующее сохранённое согласие также запускает callback, включая позднюю регистрацию. Пример A — собственная интеграция категории:
 
@@ -76,7 +76,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 custom-map.js — пример принадлежащего сайту модуля. Импорт не должен сам загружать сторонние API. initMap(stillAllowed) обязан проверять guard перед каждым внешним SDK/запросом и после каждой асинхронной операции, прежде чем продолжать работу. Отзыв или unsubscribe делают guard ложным и останавливают последующие действия; уже отправленные запросы отменить задним числом нельзя.
 
-Пример B — разрешение конкретного сервиса. В B/C cmp — window.web86CookieConsent; регистрируйте их после инициализации, как в A. Для управляемого SDK используйте { service: «ключ_экземпляра» }, если экземпляр зарегистрирован. yandex здесь — key, который может отличаться от loader: нужен включённый, настроенный экземпляр той же категории с действующим совпадающим fingerprint. Одно согласие на категорию не заменяет его разрешение.
+Пример B — привязка callback к включённому сервису. В B/C cmp — window.web86CookieConsent; регистрируйте их после инициализации, как в A. Для управляемого SDK используйте { service: «ключ_экземпляра» }, если экземпляр зарегистрирован. yandex здесь — key, который может отличаться от loader: нужен включённый, настроенный экземпляр той же категории с разрешённой назначенной категорией. Параметр service проверяет существование и включение сервиса, а не отдельное согласие.
 
 ```javascript
 cmp.onAllowed('analytics', function (stillAllowed) {
@@ -98,7 +98,11 @@ const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
 unsubscribe();
 ```
 
-Размещайте код в собственном чанке или JS-файле сайта, а не в ядре компонента. API не создаёт сервисы в Manager; редактора произвольного JavaScript нет. Для интеграций нужен отдельный тест: отказ, разрешение, восстановление после reload, отзыв во время import/fetch и отсутствие дальнейших запросов после ложного guard.
+Для простого локального JS используйте «+ Добавить сервис → + Создать пользовательский сервис». Укажите название, назначение, категорию и путь от корня сайта, например /assets/js/integrations/bitrix24.js, с учётом фактического assets_url. Сам файл подготавливает программист: до согласия он не запрашивается; после разрешения загружается один раз. Изменение пути, категории или назначения обновляет версию затронутой категории и требует нового согласия на категорию. Общий и индивидуальные тексты заглушек карт редактируются во вкладке «Тексты», {provider} подставляет имя карты. Исходный код готовых адаптеров: assets/js/cookie-consent/provider-registry.js, функция start(); публичный bundle собирается через npm run build:frontend. Не редактируйте минифицированный bundle вручную.
+
+Отзыв сразу блокирует штатные загрузчики и consent guards, затем перезагружает страницу. Уже выполненный произвольный JS и отправленные им запросы нельзя отменить автоматически. Для SDK с асинхронным жизненным циклом используйте wrapper с onAllowed и stillAllowed(). Это управление согласием, а не sandbox или замена CSP. В Network проверьте отказ, разрешение, reload и отзыв; действующий сохранённый выбор не должен вызывать лишних запросов. Таблица журнала показывает МСК (UTC+03:00), детали и CSV остаются UTC.
+
+Карты используют ту же модель категорий. Кнопка карты открывает настройки, ничего не разрешает сама; после выбора категории запускаются все её включённые сервисы. Новый выбор хранится как categories_v2 без providers. Новый аудит schema 3 не содержит индивидуальных разрешений; прежние schema 1/2 остаются читаемыми и не переписываются.
 
 ### 6. Проверьте сайт перед публикацией
 
@@ -124,9 +128,9 @@ After installation, open Extras → Cookie Consent Manager. Apply changes with t
 
 On Services, select Show in cookie settings for the categories you use. Visibility is independent of the number of services; necessary cookies are always available. Optional categories and services start disabled on a new installation.
 
-Enable the required services and enter IDs owned by you. Use Add another counter for multiple instances. Configure texts and translations on Texts.
+Click + Add service at the top: choose an adapter or + Create custom service. Open an existing instance or create another with a different ID. Assign any optional category according to the actual purpose, enable and Save. Visitors choose only categories: permission launches every enabled service in the category. Changes to processing composition or purpose update affected category versions and require a new choice. Enable category visibility separately.
 
-For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent.
+Every service launches only when enabled and its assigned category and instance are permitted. Consent Mode calculates processing rights separately. For GTM, configure consent checks for tags inside the container. Analytics tags must require analytics_storage: marketing consent alone does not grant analytics consent.
 
 ### 3. Configure consent logging
 
@@ -162,9 +166,9 @@ Alternatively, retain one legacy CookieConsent call. Never combine both integrat
 
 Remove old direct counter, pixel and GTM scripts and noscript pixels that could bypass consent. Use CookieConsentMap for iframe maps and onAllowed() for your own JavaScript integrations. Verify custom integrations separately.
 
-### 5. Integrating custom JavaScript services
+### 5. JavaScript and category consent
 
-The onAllowed(category, callback, options) API supports analytics, marketing and external_content. Without options it checks only permission for a visible category, even when no services are registered in it. Enable Show in cookie settings for that category. This is not permission for a particular registered provider.
+The onAllowed(category, callback, options) API supports analytics, marketing and external_content. Without options it checks only permission for a visible category, even when no services are registered in it. Enable Show in cookie settings for that category. There are no individual service permissions.
 
 Register callbacks after the public bundle initializes. Each registration runs once after confirmed permission; valid restored consent also triggers it, including late registrations. Example A — a category-based custom integration:
 
@@ -186,7 +190,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 custom-map.js is an illustrative website-owned module. Importing it must not automatically load third-party APIs. initMap(stillAllowed) must check the guard before each external SDK/request and after every asynchronous operation before continuing. Revocation or unsubscribe makes the guard false and prevents subsequent work; already-dispatched requests cannot be undone.
 
-Example B — permission for a specific service. In B/C, cmp is window.web86CookieConsent; register after initialization as in A. For controlled SDKs, use { service: "instance_key" } when an instance is registered. Here yandex is an instance key, which can differ from its loader: an enabled, configured instance in the same category with valid matching fingerprint permission is required. Category-level consent does not replace that permission.
+Example B — a callback bound to an enabled service. In B/C, cmp is window.web86CookieConsent; register after initialization as in A. For controlled SDKs, use { service: "instance_key" } when an instance is registered. Here yandex is an instance key, which can differ from its loader: an enabled, configured instance in the same category with an allowed assigned category is required. The service option checks existence and enabling, not separate consent.
 
 ```javascript
 cmp.onAllowed('analytics', function (stillAllowed) {
@@ -208,7 +212,11 @@ const unsubscribe = cmp.onAllowed('external_content', function (stillAllowed) {
 unsubscribe();
 ```
 
-Keep code in website-owned chunks or JS files rather than the component core. The API does not create services in Manager; there is no free-form JavaScript editor. Test custom integrations independently: rejection, permission, restored consent after reload, revocation during import/fetch and no further requests after a false guard.
+For a local JS file, use + Add service → + Create custom service. Enter its name, purpose, category and a root-relative path such as /assets/js/integrations/bitrix24.js using the actual assets_url. A developer prepares the file: no request before consent; one load after permission. Changing path, category or purpose updates affected category versions and requires new category consent. Edit general and per-map placeholder texts in Texts; {provider} inserts the map name. Ready adapters live in assets/js/cookie-consent/provider-registry.js, start(); build with npm run build:frontend. Do not edit the minified bundle manually.
+
+Withdrawal blocks managed loaders and consent guards immediately, then reloads the page. Already executed arbitrary JS and previously dispatched requests cannot be undone automatically. Use an onAllowed/stillAllowed wrapper for asynchronous SDK lifecycles. Consent management is not a sandbox or a CSP replacement. Verify rejection, permission, reload and withdrawal in Network. The audit table displays Moscow time (UTC+03:00); details and CSV remain UTC.
+
+Maps use the same category model. Their button opens preferences and never grants permission itself; selecting a category launches all its enabled services. New choices use categories_v2 without providers. New audit schema 3 omits individual permissions; historical schemas 1/2 remain readable and unchanged.
 
 ### 6. Verify before publishing
 

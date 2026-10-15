@@ -10,7 +10,8 @@
     "test:parameters": "node tests/provider-parameters.mjs",
     "test:permissions": "node tests/manager-permissions.mjs",
     "build:frontend": "node _build/frontend.mjs",
-    "build:guide": "node _build/user-guide.mjs"
+    "build:guide": "node _build/user-guide.mjs",
+    "test:universal": "node tests/universal/regression.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",

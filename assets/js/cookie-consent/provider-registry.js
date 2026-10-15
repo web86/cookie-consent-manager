@@ -49,7 +49,7 @@
           Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid provider options');
       if (s.loader === 'custom_js' && !validScriptPath(s.config.path)) throw Error('Invalid script path');
       const config = Object.fromEntries(Object.entries({ ...(booleanOptions[s.loader] || {}), ...s.config }).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
-      // Permission binds to the exact disclosure and reviewed adapter configuration.
+      // Legacy v2 identity is used only for one-time storage migration, never to launch a service.
       const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
       if (s.loader === 'custom_js') privacy.purpose = s.purpose;
       const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);

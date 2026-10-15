@@ -1,3 +1,11 @@
+# Cookie Consent Manager 1.0.4-beta1 — category-only staging candidate
+
+- Visitors choose only analytics, marketing and external_content. Every enabled adapter follows its assigned category; no individual provider grants or mandatory original-category dependencies.
+- Native Save versions changed category processing composition. Preserve complete legacy grants conservatively; archive the original browser choice locally. Historical JSONL schemas 1/2 remain unchanged; new category-only events use schema 3.
+- Add one service dialog, editable categories, validated local custom_js files, map placeholder text controls, dynamic-category map templates and modal-safe category preferences.
+- Keep Google Consent Mode processing signals separate from adapter launch. Display Moscow time in the audit table; details, JSONL and CSV retain UTC.
+- Beta for staging acceptance; no production deployment or vendor-delivery claim.
+
 # Cookie Consent Manager 1.0.3-beta1 — staging candidate
 
 - Rebuild the combined MODX 2 fixes with version 1.0.3, release beta, index 1 so native Package Manager ranks this candidate above installed stable 1.0.2.
