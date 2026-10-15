@@ -6,7 +6,7 @@ if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_t
 $private=$argv[2];$action=$argv[1];
 if($action==='credentials'){echo file_get_contents($private.'/manager.json');exit;}
 if($action==='archive-extracted'){
- $signature=$argv[3];if(!preg_match('/^cookieconsent-(?:0\.1\.0-beta[0-9]+|1\.0\.[0-9]{1,4})$/D',$signature))exit(1);$path=MODX_CORE_PATH.'packages/'.$signature;
+ $signature=$argv[3];if(!preg_match('/^cookieconsent-(?:0\.1\.0-beta[0-9]+|1\.0\.[0-9]{1,4}(?:-beta[0-9]{1,3})?)$/D',$signature))exit(1);$path=MODX_CORE_PATH.'packages/'.$signature;
  if(is_dir($path)){rename($path,MODX_CORE_PATH.'packages/'.$signature.'.development-archive-'.time());}echo 'Extracted development package archived';exit;
 }
 if($action==='get'){echo $modx->getObject('modSystemSetting',['key'=>$argv[3]])->get('value');exit;}

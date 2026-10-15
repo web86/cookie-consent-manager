@@ -1,3 +1,10 @@
+# Cookie Consent Manager 1.0.2-beta1 — staging candidate
+
+- Fix MODX 2 pdoTools/Fenom blank pages by registering the service registry JSON after resource parsing; preserve split and legacy integration.
+- Validate schema 2 accept/accept_all against persisted system category visibility and enabled providers; hidden categories remain false and forged grants remain rejected.
+- Preserve consent schemas/fingerprints, service configuration, translations, element metadata and existing audit data.
+- Beta only: install on staging and verify templates, consent restoration and the actual audit endpoint before any production rollout.
+
 # Cookie Consent Manager 1.0.0
 
 ## Возможности
