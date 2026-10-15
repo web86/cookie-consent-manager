@@ -1,7 +1,15 @@
 /* Read-only Manager audit UI. Records are rendered exclusively with textContent. */
 (() => {
   'use strict';
+  const formatMoscow = raw => {
+    if (typeof raw !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(raw)) return '—';
+    const date = new Date(raw);
+    if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0,19) !== raw.slice(0,19)) return '—';
+    const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(date).map(p => [p.type, p.value]));
+    return `${parts.day}.${parts.month}.${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
+  };
   window.CookieConsentAuditViewer = {
+    formatMoscow,
     mount(container, { api, t, el, boot, data }) {
       if (!data.canViewLogs) { container.append(el('p', t('log_permission'), { id: 'ccm-log-denied' })); return { loadInitial() {} }; }
       const filters = el('form', null, { id: 'ccm-log-filters', class: 'ccm-log-filters' });
@@ -50,7 +58,7 @@
           body.replaceChildren();
           for (const row of result.items) {
             const tr = el('tr'), cell = el('td'), button = el('button', t('log_view'), { type: 'button', class: 'ccm-log-view' }); button.onclick = () => detail(row.locator); cell.append(button);
-            tr.append(el('td', row.server_time.replace('T', ' ').replace('Z', ' UTC')), el('td', row.ip), el('td', actionLabel(row.event)), cell); body.append(tr);
+            tr.append(el('td', formatMoscow(row.server_time)), el('td', row.ip), el('td', actionLabel(row.event)), cell); body.append(tr);
           }
           if (!result.items.length) { const tr = el('tr'); tr.append(el('td', t('log_empty'), { colspan: '4' })); body.append(tr); }
           const pendingYear = year.value, pendingEvent = event.value;

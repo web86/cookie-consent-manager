@@ -336,3 +336,6 @@ $_lang['m.adapter_source'] = 'Adapter source:';
 $_lang['m.script_owned'] = 'Website JS file at the configured path; code preparation is a developer task.';
 $_lang['m.map_notice'] = 'Map placeholder text ({provider} — service name)';
 $_lang['map_category_confirm'] = 'Allow the {category} category for this map. Other services stay unchanged.';
+
+$_lang['m.log_date'] = 'Date and time — MSK (UTC+03:00)';
+$_lang['m.log_field_server_time'] = 'Server date and time (UTC)';
