@@ -1,0 +1,329 @@
+{
+  "signature": "cookieconsent-1.0.2-beta1",
+  "recommendation": "GO for manual staging acceptance only",
+  "result": "PASS",
+  "build": {
+    "signature": "cookieconsent-1.0.2-beta1",
+    "buildSourceCommit": "e8919a5d68fadaa8495571417446faf8bc874e20",
+    "sha256": "4dcd257d5c09ff10b0e57b9fb43b8227c7a5a5d68094c12f3d7c1abcd0657e21",
+    "bytes": 183118,
+    "archivesIdentical": true,
+    "inventoryIdentical": true,
+    "runtimeFilesMatchCurrentSource": 55,
+    "nativeVehicles": 71,
+    "vehicleClasses": {
+      "xPDOObjectVehicle": 14,
+      "xPDOFileVehicle": 55,
+      "xPDOScriptVehicle": 2
+    },
+    "zipEntries": 136,
+    "stable100SHA256": "0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b"
+  },
+  "checks": [
+    {
+      "name": "Combined Fenom source",
+      "result": "PASS",
+      "tests": 31,
+      "assertions": 764
+    },
+    {
+      "name": "Combined visibility source",
+      "result": "PASS",
+      "tests": 20,
+      "assertions": 742
+    },
+    {
+      "name": "Native ZIP install/upgrade/reinstall/browser",
+      "result": "PASS",
+      "tests": 24,
+      "assertions": 840
+    },
+    {
+      "name": "browser",
+      "result": "PASS",
+      "tests": 281,
+      "assertions": 1423
+    },
+    {
+      "name": "categories",
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 200
+    },
+    {
+      "name": "managerCategories",
+      "result": "PASS",
+      "tests": 4,
+      "assertions": 73
+    },
+    {
+      "name": "callbacks",
+      "result": "PASS",
+      "tests": 13,
+      "assertions": 44
+    },
+    {
+      "name": "maps",
+      "result": "PASS",
+      "tests": 9,
+      "assertions": 42
+    },
+    {
+      "name": "clientIdExample",
+      "result": "PASS",
+      "tests": 4,
+      "assertions": 13
+    },
+    {
+      "name": "localization",
+      "result": "PASS",
+      "tests": 4,
+      "assertions": 112
+    },
+    {
+      "name": "publicJson",
+      "result": "PASS",
+      "tests": 3,
+      "assertions": 84
+    },
+    {
+      "name": "liveGuard",
+      "result": "PASS",
+      "tests": 11,
+      "assertions": 51
+    },
+    {
+      "name": "providerParameters",
+      "result": "PASS",
+      "tests": 4,
+      "assertions": 18
+    },
+    {
+      "name": "pixels",
+      "result": "PASS",
+      "tests": 32,
+      "assertions": 175
+    },
+    {
+      "name": "frontend",
+      "result": "PASS",
+      "tests": 9,
+      "assertions": 77
+    },
+    {
+      "name": "viewer",
+      "result": "PASS",
+      "tests": 11,
+      "assertions": 77
+    },
+    {
+      "name": "managerUI",
+      "result": "PASS",
+      "tests": 7,
+      "assertions": 227
+    },
+    {
+      "name": "managerPermissions",
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 4
+    },
+    {
+      "name": "http",
+      "result": "PASS",
+      "tests": 37,
+      "assertions": 121
+    },
+    {
+      "name": "Native Package Manager beta metadata UI",
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 20
+    },
+    {
+      "name": "PHP 8.1",
+      "result": "PASS",
+      "phpSuites": 11,
+      "assertions": 3764
+    },
+    {
+      "name": "PHP 8.2 and syntax",
+      "result": "PASS",
+      "phpSuites": 11,
+      "assertions": 3764,
+      "phpLinted": 100,
+      "jsChecked": 98
+    },
+    {
+      "name": "Final installed file/canonical hashes on PHP 8.1, 8.2 and main",
+      "result": "PASS",
+      "runtimeFilesPerInstance": 55,
+      "canonicalElementsPerInstance": 5
+    }
+  ],
+  "notRun": [
+    "Customer production or affected-site staging/Safari acceptance: no access provided",
+    "Live vendor delivery / published GTM container execution: no real analytics events authorized",
+    "Full cross-webserver/TLS/CDN/CSP matrix for this beta"
+  ],
+  "originalPullRequests": "#4 and #6 remain open/unmerged; integration is Draft PR #7",
+  "nativeLifecycle": [
+    {
+      "name": "fresh-native-beta-install",
+      "result": "PASS",
+      "assertions": 70,
+      "runtimeFiles": 55,
+      "php": "8.2.34"
+    },
+    {
+      "name": "fresh-package-configure-HTTP-ACK-and-JSONL",
+      "result": "PASS",
+      "assertions": 18,
+      "status": 200,
+      "event_id": "c98ed6b9-94a7-4667-8209-b58ed24a57b0",
+      "file": "2026-10-cookie-consent.log"
+    },
+    {
+      "name": "install-published-stable-1.0.0",
+      "result": "PASS",
+      "assertions": 3
+    },
+    {
+      "name": "configured-stable-to-beta-native-upgrade-preserves-all-data",
+      "result": "PASS",
+      "assertions": 83,
+      "php": "8.2.34",
+      "settings": 6,
+      "canonicalElements": 5,
+      "historicalLogPreserved": true
+    },
+    {
+      "name": "native-upgrade-restores-original-consent-fingerprints-and-maps",
+      "result": "PASS",
+      "assertions": 11
+    },
+    {
+      "name": "same-beta-native-reinstallation-preserves-data-and-sources",
+      "result": "PASS",
+      "assertions": 81
+    },
+    {
+      "name": "installed-beta-ru-standard-split-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-ru-fenom-split-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-ru-fenom-legacy-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-en-standard-split-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-en-fenom-split-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-en-fenom-legacy-cold-warm",
+      "result": "PASS",
+      "assertions": 39,
+      "sources": [
+        "database",
+        "cache"
+      ]
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-0",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-1",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-2",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-3",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-4",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-5",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-6",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-beta-Fenom-visibility-7",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "installed-receiver-rejects-forgeries-and-replay-with-no-duplicates",
+      "result": "PASS",
+      "assertions": 14
+    },
+    {
+      "name": "existing-configured-installation-native-upgrade",
+      "result": "PASS",
+      "assertions": 83
+    },
+    {
+      "name": "PHP81-native-same-beta-reinstall",
+      "result": "PASS",
+      "assertions": 82,
+      "php": "8.1.34"
+    },
+    {
+      "name": "PHP81-installed-Fenom-HTTP-and-monthly-log",
+      "result": "PASS",
+      "assertions": 16,
+      "status": 200,
+      "event_id": "0c4e1183-b509-4cad-80d8-aa75e498eceb",
+      "file": "2026-10-cookie-consent.log"
+    }
+  ]
+}

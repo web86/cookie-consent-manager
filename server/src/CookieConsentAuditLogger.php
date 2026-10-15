@@ -8,7 +8,8 @@ final class CookieConsentAuditLogger
     private string $rateLimitKey;
     private int $rateLimit;
     private ?array $registry;
-    public function __construct(string $logDir, string $rateLimitKey, int $rateLimit = 60, ?array $registry = null)
+    private ?array $categoryVisibility;
+    public function __construct(string $logDir, string $rateLimitKey, int $rateLimit = 60, ?array $registry = null, ?array $categoryVisibility = null)
     {
         if ($rateLimit < 1 || strlen($rateLimitKey) < 32) throw new RuntimeException('Invalid audit configuration');
         require_once __DIR__.'/CookieConsentPrivatePath.php';
@@ -19,11 +20,12 @@ final class CookieConsentAuditLogger
         $this->rateLimitKey = $rateLimitKey;
         $this->rateLimit = $rateLimit;
         $this->registry = $registry;
+        $this->categoryVisibility = $categoryVisibility;
     }
     public function append(array $input, string $remoteAddr, string $userAgent): array
     {
         if (filter_var($remoteAddr, FILTER_VALIDATE_IP) === false) throw new InvalidArgumentException('Invalid client address');
-        $validated = CookieConsentEventValidator::validate($input,$this->registry);
+        $validated = CookieConsentEventValidator::validate($input,$this->registry,$this->categoryVisibility);
         $userAgent = substr(preg_replace('/[\x00-\x1F\x7F]/', ' ', $userAgent), 0, 512);
         $record = [
             'schema' => $validated['schema'] ?? 1,

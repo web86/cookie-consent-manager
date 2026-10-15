@@ -1,0 +1,20 @@
+services:
+  beta81:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:18981:80']
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html
+      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../:/opt/cc-source:ro
+    environment:
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  beta-builder:
+    image: cookie-consent-acceptance-web:latest
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html
+      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../:/opt/cc-source:ro
+      - ../../.local/beta102:/opt/cc-beta
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}

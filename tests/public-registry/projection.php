@@ -1,7 +1,7 @@
 <?php
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
-if($modx->getOption('dbname')!=='cookie_consent_test')exit(1);
+if(!in_array($modx->getOption('dbname'),['cookie_consent_test','cookie_consent_fenom'],true))exit(1);
 require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
 $n=0;function eq($a,$b,$m){global$n;$n++;if($a!==$b)throw new RuntimeException($m);}
 $full=CookieConsentServiceRegistry::validateJson(json_encode(CookieConsentServiceRegistry::defaults()));
@@ -17,6 +17,8 @@ foreach($full['services'] as$i=>$service){
 eq($public['services'][0]['purpose_id'],'owner.analytics','Stable purpose retained');
 eq(json_decode(CookieConsentServiceRegistry::publicJson(json_encode($full)),true),json_decode(json_encode($public),true),'Public JSON helper uses projection');
 $data=CookieConsentSettings::read($modx);$public=CookieConsentServiceRegistry::publicRegistry($data['registry']);
-eq(str_contains($modx->runSnippet('CookieConsentAssets'),CookieConsentTexts::safeJson($public)),true,'Native Assets snippet uses projection');
+$assets=$modx->runSnippet('CookieConsentAssets');
+eq(str_contains($assets,'cc-service-registry'),false,'Returned Assets contain no inline registry for Fenom to parse');
+eq(str_contains($modx->getRegisteredClientStartupScripts(),CookieConsentTexts::safeJson($public)),true,'Registered Assets registry uses projection');
 foreach($data['registry']['services']as$service){eq(isset($service['name'],$service['purpose']),true,'Settings read remains full');}
 echo json_encode(['suite'=>'Native PHP public registry projection and full internal settings','tests'=>1,'assertions'=>$n,'failed'=>0,'result'=>'PASS'])."\n";
