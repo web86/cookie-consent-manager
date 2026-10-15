@@ -1,0 +1,106 @@
+{
+  "date": "2026-10-15",
+  "repository": "web86/cookie-consent-manager",
+  "integration": "independent branches; no main/modx3 cross-merge",
+  "merged_prs": {
+    "main": [
+      7,
+      9
+    ],
+    "modx3": [
+      8,
+      10
+    ]
+  },
+  "superseded_prs": [
+    4,
+    6
+  ],
+  "blocker_issue": 11,
+  "release_status": {
+    "published_stable": "v1.0.0",
+    "main_candidate": "cookieconsent-1.0.3-beta1",
+    "main_gate": "GO for manual staging acceptance only",
+    "modx3_candidate": "cookieconsent3-0.1.0-beta3",
+    "modx3_historical_acceptance": {
+      "PASS": 510,
+      "FAIL": 4
+    },
+    "modx3_full_staging_release_gate": "NO-GO"
+  },
+  "rerun": {
+    "MODX2_PHP": {
+      "suites": 13,
+      "assertions": 3871,
+      "failed": 0
+    },
+    "MODX2_browser": {
+      "scenarios": 281,
+      "assertions": 1423,
+      "failed": 0
+    },
+    "MODX2_syntax": {
+      "PHP": 101,
+      "JS_MJS": 99,
+      "failed": 0
+    },
+    "MODX3_PHP": {
+      "suites": 22,
+      "assertions": 7528,
+      "failed": 0,
+      "versions": [
+        "8.1.34",
+        "8.2.34"
+      ]
+    },
+    "MODX3_browser": {
+      "scenarios": 281,
+      "assertions": 1423,
+      "failed": 0
+    },
+    "MODX3_focus": {
+      "cases": 26,
+      "PASS": 22,
+      "FAIL": 4,
+      "assertions": 466,
+      "failures": [
+        "ru-fenom-split-warm",
+        "ru-fenom-legacy-warm",
+        "en-fenom-split-warm",
+        "en-fenom-legacy-warm"
+      ]
+    },
+    "MODX3_syntax": {
+      "result": "PASS",
+      "PHP": 100,
+      "JS_MJS": 108,
+      "Python": 19
+    },
+    "upstream_independent_probe": {
+      "PHP81": "cold PASS / warm FAIL",
+      "PHP82": "cold PASS / warm FAIL"
+    }
+  },
+  "artifacts": {
+    "MODX2": {
+      "signature": "cookieconsent-1.0.3-beta1",
+      "sha256": "3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b",
+      "bytes": 183286,
+      "native_verifier": "PASS"
+    },
+    "MODX3": {
+      "signature": "cookieconsent3-0.1.0-beta3",
+      "sha256": "b762e36d19449f76b4cac1ac4a9fa82aad9e80757875959d778806b2a9d6687f",
+      "bytes": 188950,
+      "native_verifier": "PASS"
+    }
+  },
+  "transports_rebuilt": false,
+  "runtime_changes_beyond_reviewed_integration": false,
+  "credentials_local_artifacts_customer_data_added": false,
+  "deployment_or_stable_publication": false,
+  "rollback_tags": {
+    "rollback/consolidation-2026-10-15/main": "44e4fef8891202512c12f5c0d1a4c4d649b3fcdc",
+    "rollback/consolidation-2026-10-15/modx3": "23cff8760e3a1c565ec6a8952d73b0e2aa53630c"
+  }
+}

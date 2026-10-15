@@ -1,15 +1,17 @@
-# Cookie Consent Manager 1.0.0
+# Cookie Consent Manager for MODX 2
 
-> В этой review-ветке готовится непубликуемый кандидат 1.0.2: [полировка](docs/modx2-commercial-polish-guide.md) и [frontend/руководство onAllowed](docs/modx2-locale-guide.md). Стабильные main/v1.0.0 и опубликованный ZIP остаются прежними.
+Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
-Стабильный native transport для **MODX Revolution 2.8.8**, PHP **8.1+**. Канонический источник — ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main). [Release Notes](docs/release-1.0.0.md), [приёмка PASS/FAIL/NOT RUN](docs/modx2-1.0.0-acceptance.md).
+**Опубликованный стабильный релиз — [v1.0.0](https://github.com/web86/cookie-consent-manager/releases/tag/v1.0.0)**: `cookieconsent-1.0.0.transport.zip`, [Release Notes](docs/release-1.0.0.md) и [приёмка](docs/modx2-1.0.0-acceptance.md). Исторический transport 1.0.2 использован как база проверки обновления; нового стабильного GitHub Release нет.
+
+**Текущий протестированный beta-кандидат в main — `cookieconsent-1.0.3-beta1`**. Интегрированы Fenom JSON fix (#4) и visibility-aware audit fix (#6) через #7; CSP FAQ — через #9. [Приёмка beta](docs/modx2-1.0.3-beta1-acceptance.md): **25 PASS / 778 assertions / 0 FAIL**, включая настоящую native установку и upgrade с 1.0.2. SHA256 неизменённого проверенного ZIP: `3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b`. **GO только для ручной staging-приёмки**; merge в main не публикует стабильный релиз и не означает production acceptance. [Отчёт о консолидации](docs/repository-consolidation-2026-10-15.md).
 
 Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, без MODX plugins и отдельного lifecycle ledger.
 
 ## Установка и обновление
 
 1. Сделайте backup DB, runtime, пользовательских/static исходников элементов, audit-конфигурации и журналов.
-2. Проверьте SHA256 опубликованного `cookieconsent-1.0.0.transport.zip` по Release Notes.
+2. Выберите опубликованный стабильный 1.0.0 или beta-кандидат 1.0.3-beta1 для staging. Проверьте SHA256 точного ZIP по соответствующему отчёту выше; не переименовывайте пакеты.
 3. В MODX Manager → Package Management загрузите ZIP, найдите локальный пакет и выполните Install/Upgrade. Setup Options отсутствуют.
 4. Откройте Components → Cookie Consent Manager. Включите нужные сервисы с принадлежащими вам IDs и отметьте «Показывать в настройках cookie» для используемых категорий. На новой установке сервисы и необязательные категории выключены.
 5. На вкладке «Основные» задайте каталог журнала и нажмите общий Save. Предлагается `MODX_CORE_PATH . 'cache/logs/'`, даже при core вне webroot. Локальная проверка записи/чтения не требует HTTP self-request. Если путь очищен — новые записи выключены; старые журналы остаются. Ошибка каталога сохраняет остальные корректные настройки и прежний рабочий путь.
@@ -34,7 +36,7 @@
 </body>
 ```
 
-Assets выводит минимальный JSON, один CSS и один JS с `defer` и content-hash cache busting; Banner — уже локализованный HTML. Тексты берутся из вкладки «Тексты», cultureKey и stock-лексиконов с fallback; JS не переписывает статические переводы. Настройки открываются пользовательской ссылкой/кнопкой в любом месте или `window.web86CookieConsent.openSettings()`; автоматической кнопки нет.
+Assets регистрирует минимальный JSON через `regClientStartupHTMLBlock()` после разбора resource/Fenom и возвращает один CSS и один JS с `defer` и content-hash cache busting; Banner — уже локализованный HTML. Тексты берутся из вкладки «Тексты», cultureKey и stock-лексиконов с fallback; JS не переписывает статические переводы. Настройки открываются пользовательской ссылкой/кнопкой в любом месте или `window.web86CookieConsent.openSettings()`; автоматической кнопки нет.
 
 Для прежней интеграции оставьте единственный `[[!CookieConsent]]` вместо обоих новых сниппетов. **Не смешивайте legacy и split и не повторяйте теги.** Автоматическое исправление ошибочной интеграции не входит в контракт. MODX plugins/OnParseDocument не используются.
 
@@ -141,4 +143,4 @@ CSP полезна как дополнительная защита от вне�
 [Полный release harness](tests/release/run.mjs), [новые focused тесты](tests/beta33/README.md), [transport tests](tests/transport/). Только локальные именованные disposable DB и loopback fixtures. Shared main suites запускаются последовательно. Независимые beta-отчёты и immutable архивы сохранены в `docs/`; они описывают соответствующие исторические версии. Production deployment выполняется владельцем отдельно после staging.
 ## Публичный реестр
 
-В review-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
+В текущем beta-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
