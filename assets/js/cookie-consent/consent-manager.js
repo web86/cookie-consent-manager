@@ -186,7 +186,7 @@
   function applyConsent(value) {
     registry?.apply(value, mode);
     for (const map of maps) {
-      const allowed = categoryVisibility.external_content && value.external_content && value.providers?.[map.service.key] === map.service.fingerprint;
+      const allowed = categoryVisibility[map.service.category] && value[map.service.category] && value.providers?.[map.service.key] === map.service.fingerprint;
       if (allowed && !map.frame) {
         const frame = document.createElement('iframe'); frame.title = map.title;
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -257,16 +257,17 @@
   }
 
   function mapChoice(service, allowed) {
-    if (!categoryVisibility.external_content) return;
+    if (!categoryVisibility[service.category]) return;
     const permissions = Object.fromEntries(services.map(s => [s.key, consent?.providers?.[s.key] === s.fingerprint]));
     permissions[service.key] = allowed;
-    const external = services.some(s => s.category === 'external_content' && permissions[s.key]);
-    commit(allowed ? 'map_allow' : 'map_deny', consent?.analytics || false, consent?.marketing || false, external, permissions, service.key);
+    const categories = Object.fromEntries(Object.keys(inputs).map(c => [c, consent?.[c] === true]));
+    if (allowed) categories[service.category] = true;
+    commit(allowed ? 'map_allow' : 'map_deny', categories.analytics, categories.marketing, categories.external_content, permissions, service.key);
   }
 
   function setupMaps() {
     for (const node of document.querySelectorAll('[data-cc-map-provider]')) {
-      const service = services.find(s => s.key === node.dataset.ccMapProvider && s.category === 'external_content');
+      const service = services.find(s => s.key === node.dataset.ccMapProvider && ['google_maps','yandex_maps'].includes(s.loader));
       const template = Array.from(root.querySelectorAll('template[data-cc-map-template]')).find(t => t.dataset.ccMapTemplate === node.dataset.ccMapProvider);
       const headingSource = template?.content.querySelector('h3');
       const title = node.dataset.ccMapTitle || headingSource?.textContent || t('map_title');
@@ -281,8 +282,20 @@
       const heading = fragment.querySelector('h3');
       if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
       const load = fragment.querySelector('[data-cc-map-load]');
-      load.hidden = !categoryVisibility.external_content; load.disabled = !categoryVisibility.external_content;
-      load.addEventListener('click', () => { returnFocus = load; mapChoice(service, true); });
+      load.hidden = !categoryVisibility[service.category]; load.disabled = !categoryVisibility[service.category];
+      // An unusual map classification needs an explicit category confirmation, scoped to this map.
+      const confirm = document.createElement('div'); confirm.hidden = true;
+      const label = document.createElement('label'), check = document.createElement('input'); check.type = 'checkbox';
+      const categoryName = root.querySelector('[data-cc-category="'+service.category+'"]')?.closest('label')?.querySelector('strong')?.textContent || service.category;
+      label.append(check, document.createTextNode(t('map_category_confirm', { category: categoryName })));
+      const confirmLoad = document.createElement('button'); confirmLoad.type = 'button'; confirmLoad.textContent = load.textContent; confirmLoad.disabled = true;
+      check.onchange = () => { confirmLoad.disabled = !check.checked; };
+      confirmLoad.onclick = () => { if (!check.checked || !categoryVisibility[service.category]) return; returnFocus = load; mapChoice(service, true); confirm.hidden = true; };
+      confirm.append(label, confirmLoad); placeholder.append(confirm);
+      load.addEventListener('click', () => {
+        if (service.category !== 'external_content' && consent?.[service.category] !== true) { confirm.hidden = false; check.focus(); return; }
+        returnFocus = load; mapChoice(service, true);
+      });
       node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });
     }
   }

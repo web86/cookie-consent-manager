@@ -48,6 +48,11 @@ final class CookieConsentTexts
             $result[$key]=$requestedOverrides[$key] ?? $requested[$key] ?? $baseOverrides[$key] ??
                 ($language!==$base && $s['key']===$s['loader'] ? ($requested[$stock]??null) : null) ?? ($field==='name' ? $s['name'] : $s['purpose']);
         }
+        foreach($services as $service)if(in_array($service['loader'],['google_maps','yandex_maps'],true)){
+            $key='service.'.$service['key'].'.map_notice';
+            // Do not leak a different language's service override over this language's general text.
+            $result[$key]=$requestedOverrides[$key] ?? $requestedOverrides['map_notice'] ?? $requested['map_notice'] ?? $result['map_notice'];
+        }
         return array_filter($result,static fn($key)=>!str_starts_with($key,'m.') && $key!=='cookie_consent.upgrade_elements',ARRAY_FILTER_USE_KEY);
     }
     /** Encode user string delimiters so later MODX/Fenom passes cannot see template tags. */
