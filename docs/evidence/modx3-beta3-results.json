@@ -3,7 +3,7 @@
   "recommendation": "NO-GO for requested full manual staging acceptance",
   "reason": "Unmodified official pdoTools3 3.1.0 compiled-cache eval has an undefined $fenom variable; four warm Fenom cases fail with HTTP 500. Same failure reproduced without Cookie Consent on PHP 8.1 and 8.2.",
   "branch": "fix/modx3-fenom-audit-beta3",
-  "baseCommit": "23cff87",
+  "baseCommit": "23cff8760e3a1c565ec6a8952d73b0e2aa53630c",
   "build": {
     "signature": "cookieconsent3-0.1.0-beta3",
     "buildSourceCommit": "5f0cb17685c4bf9a3ad3d8dca956a45b5a3883cf",
@@ -7369,5 +7369,6 @@
       "resolution": "Test route.fetch captures actual backend ACK bytes before forwarding them; every forwarded event verified exactly once in physical JSONL. All PHP82 installed cases pass."
     }
   ],
-  "selectionMethod": "Native first run preserves genuine beta2 upgrade/fresh/reinstall/second-site evidence. Matching runtime matrix cases are replaced only by the later focused rerun; initial report remains under ignored local evidence. Four warm failures are retained."
+  "selectionMethod": "Native first run preserves genuine beta2 upgrade/fresh/reinstall/second-site evidence. Matching runtime matrix cases are replaced only by the later focused rerun; initial report remains under ignored local evidence. Four warm failures are retained.",
+  "pullRequest": "https://github.com/web86/cookie-consent-manager/pull/8"
 }

@@ -1,6 +1,7 @@
 # MODX 3 beta3: оба исправления перенесены, полный staging gate — NO-GO
 
-15 октября 2026. Ветка `fix/modx3-fenom-audit-beta3`, база `origin/modx3`
+15 октября 2026. Draft PR: [#8](https://github.com/web86/cookie-consent-manager/pull/8), target `modx3`.
+Ветка `fix/modx3-fenom-audit-beta3`, база `origin/modx3`
 (`23cff87`). Исходники и история MODX 2 не менялись; работа выполнена в отдельном
 checkout. Пакет MODX 3 остаётся самостоятельным семейством `cookieconsent3`.
 
