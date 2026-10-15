@@ -14,13 +14,17 @@ function setting(string $key,$value):void {
     $s->fromArray(['key'=>$key,'value'=>is_string($value)?$value:json_encode($value,JSON_THROW_ON_ERROR)],'',true,true);
     if(!$s->save())throw new RuntimeException('Setting save');
 }
-function refresh():void {global $modx;$modx->cacheManager->refresh();}
+function refresh():void {global $modx;$modx->cacheManager->refresh();$modx->cacheManager->refresh(['pdotools'=>[]]);}
 function logFiles():array {
     global $modx;
     $s=$modx->getObject(modSystemSetting::class,['key'=>'cookie_consent.log_dir']);
     return $s?glob(rtrim($s->get('value'),'/').'/*-cookie-consent.log'):[];
 }
 $action=$argv[1]??'';
+if($action==='manager-baseline'){
+    if($modx->query('SELECT DATABASE()')->fetchColumn()!=='cookie_consent_modx3_fresh')throw new RuntimeException('Fresh fixture required');
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';setting('cookie_consent.options',CookieConsentSettings::defaults());setting('cookie_consent.texts',CookieConsentTexts::defaults());refresh();echo json_encode(['baseline'=>true]);exit;
+}
 if($action==='configure'){
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
     $r=CookieConsentServiceRegistry::defaults();
@@ -50,6 +54,7 @@ if($action==='pages'){
     file_put_contents('/var/www/html/beta3.php',"<?php require __DIR__.'/config.core.php';require MODX_CORE_PATH.'vendor/autoload.php';\$c=\$_GET['ctx']??'beta3-en';if(!in_array(\$c,['beta3-en','beta3-ru'],true))exit;\$modx=new \\MODX\\Revolution\\modX();\$modx->initialize(\$c);\$modx->handleRequest();");refresh();echo json_encode($out);exit;
 }
 if($action==='parser'){
+    setting('cache_resource_handler',xPDO\Cache\xPDOFileCache::class);
     setting('modParser.class',($argv[2]??'')==='standard'?MODX\Revolution\modParser::class:ModxPro\PdoTools\Parsing\Parser::class);
     foreach(['default','parser','cache'] as $key)setting('pdotools_fenom_'.$key,'1');
     setting('pdotools_fenom_syntax',($argv[3]??'')==='all'?'#\\{#':'');refresh();echo json_encode(['configured'=>true]);exit;
@@ -68,8 +73,16 @@ if($action==='extra'){
     foreach($out as &$v)ksort($v);unset($v);echo json_encode($out);exit;
 }
 if($action==='metadata'){
-    $pdo=$modx->services->get('pdotools');$pdo->getFenom();echo json_encode(['modx'=>$modx->getVersionData()['full_version'],'php'=>PHP_VERSION,'aliases'=>class_exists('modX',false),'parser'=>get_class($modx->getParser()),'fenom'=>Fenom::VERSION,'fenomCache'=>$modx->getOption('pdotools_fenom_cache'),'compiledCacheFiles'=>count(glob(MODX_CORE_PATH.'cache/default/pdotools/*')?:[])]);exit;
+    $pdo=$modx->services->get('pdotools');$pdo->getFenom();echo json_encode(['modx'=>$modx->getVersionData()['full_version'],'php'=>PHP_VERSION,'aliases'=>class_exists('modX',false),'parser'=>get_class($modx->getParser()),'fenom'=>Fenom::VERSION,'fenomCache'=>$modx->getOption('pdotools_fenom_cache'),'compiledCacheFiles'=>is_dir(MODX_CORE_PATH.'cache/pdotools')?iterator_count(new RecursiveIteratorIterator(new RecursiveDirectoryIterator(MODX_CORE_PATH.'cache/pdotools',FilesystemIterator::SKIP_DOTS))):0]);exit;
 }
 if($action==='log-size'){echo json_encode(is_file(MODX_CORE_PATH.'cache/logs/error.log')?filesize(MODX_CORE_PATH.'cache/logs/error.log'):0);exit;}
 if($action==='log'){echo json_encode(is_file(MODX_CORE_PATH.'cache/logs/error.log')?substr(file_get_contents(MODX_CORE_PATH.'cache/logs/error.log'),(int)$argv[2]):'');exit;}
+if($action==='upstream-cache-probe'){echo json_encode($modx->services->get('pdotools')->getFenom()->process('Hello {$name}',['name'=>'world']));exit;}
+if($action==='watch'){
+    $path='/opt/cc-private/beta3-native-events.jsonl';file_put_contents($path,'');chown($path,'www-data');chmod($path,0600);
+    $p=$modx->getObject(MODX\Revolution\modPlugin::class,['name'=>'Beta3 native observer'])?:$modx->newObject(MODX\Revolution\modPlugin::class);
+    $p->fromArray(['name'=>'Beta3 native observer','plugincode'=>'if($modx->event->name==="OnPackageInstall")file_put_contents("/opt/cc-private/beta3-native-events.jsonl",json_encode(["signature"=>$package->get("signature"),"action"=>$action])."\\n",FILE_APPEND);'],'',true,true);$p->save();
+    $e=$modx->getObject(MODX\Revolution\modPluginEvent::class,['pluginid'=>$p->get('id'),'event'=>'OnPackageInstall'])?:$modx->newObject(MODX\Revolution\modPluginEvent::class);$e->fromArray(['pluginid'=>$p->get('id'),'event'=>'OnPackageInstall'],'',true,true);$e->save();refresh();echo json_encode(['watch'=>true]);exit;
+}
+if($action==='events'){echo json_encode(array_map(fn($s)=>json_decode($s,true),file('/opt/cc-private/beta3-native-events.jsonl',FILE_IGNORE_NEW_LINES|FILE_SKIP_EMPTY_LINES)));exit;}
 throw new RuntimeException('Unknown beta3 control action');
