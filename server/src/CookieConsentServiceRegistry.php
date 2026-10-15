@@ -12,6 +12,7 @@ final class CookieConsentServiceRegistry
         // Container loads with marketing consent; the administrator must configure consent checks for its tags.
         'google_gtm' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
         'google_ads' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
+        'custom_js' => ['recommended_category'=>'marketing', 'hosts'=>[]],
         'mock_marketing' => ['recommended_category'=>'marketing', 'hosts'=>[]],
         'google_maps' => ['recommended_category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
         'yandex_maps' => ['recommended_category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
@@ -48,6 +49,12 @@ final class CookieConsentServiceRegistry
         }
         return ['schema'=>1,'services'=>$services];
     }
+    /** Canonical root-relative local file. No decoding/normalization can change its identity. */
+    public static function validScriptPath(mixed $path): bool
+    {
+        return is_string($path) && strlen($path)<=1024 &&
+            preg_match('~^/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$~D',$path)===1;
+    }
     public static function validateJson(string $json): array
     {
         if (strlen($json)>32768) throw new InvalidArgumentException('Registry too large');
@@ -72,7 +79,7 @@ final class CookieConsentServiceRegistry
                 if (!is_bool($s['config']['clientId'])) throw new InvalidArgumentException('Invalid legacy boolean option');
                 unset($s['config']['clientId']);
             }
-            $allowed=array_merge(in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
+            $allowed=array_merge($s['loader']==='custom_js' ? ['path'] : [],in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
             if (array_diff(array_keys($s['config']),$allowed)) throw new InvalidArgumentException('Unknown config');
             $pattern=match($s['loader']) {
                 'google_ga4'=>'/^G-[A-Z0-9]{4,20}$/D', 'google_gtm'=>'/^GTM-[A-Z0-9]{4,20}$/D',
@@ -81,9 +88,24 @@ final class CookieConsentServiceRegistry
             if (array_key_exists('id',$s['config']) && (!is_string($s['config']['id']) || !preg_match($pattern,$s['config']['id']))) throw new InvalidArgumentException('Invalid provider ID');
             if (in_array('id',$allowed,true) && $s['enabled'] && !array_key_exists('id',$s['config'])) throw new InvalidArgumentException('Enabled provider needs ID');
             foreach (self::BOOL_OPTIONS[$s['loader']]??[] as $key=>$default) if (array_key_exists($key,$s['config']) && !is_bool($s['config'][$key])) throw new InvalidArgumentException('Invalid boolean option');
+            if ($s['loader']==='custom_js' && (!self::validScriptPath($s['config']['path']??null))) throw new InvalidArgumentException('Invalid script path');
             $s['config']=$s['config'] ?: new stdClass();
         }
         unset($s);
+        $paths=[];$ids=[];
+        foreach($data['services'] as $service){
+            $service['config']=(array)$service['config'];
+            if($service['loader']==='custom_js'){
+                $path=$service['config']['path'];
+                if(isset($paths[$path]))throw new InvalidArgumentException('Duplicate script path');
+                $paths[$path]=true;
+            }
+            if($service['enabled'] && isset($service['config']['id'])){
+                $id=$service['loader'].':'.preg_replace('/^0+(?=\d)/','',$service['config']['id']);
+                if(isset($ids[$id]))throw new InvalidArgumentException('Duplicate provider ID');
+                $ids[$id]=true;
+            }
+        }
         $analyticsIds=[];foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='mailru')$analyticsIds[ltrim($service['config']['id'],'0')?:'0']=true;
         foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='vk_ads'&&isset($analyticsIds[ltrim($service['config']['id'],'0')?:'0']))throw new InvalidArgumentException('pixel_id_conflict');
         return $data;
@@ -97,6 +119,8 @@ final class CookieConsentServiceRegistry
             foreach (['key','category','enabled','loader','config','purpose_id'] as $field) {
                 if (array_key_exists($field,$service)) $public[$field]=$service[$field];
             }
+            // A custom integration's declared purpose is part of its permission identity.
+            if($service['loader']==='custom_js')$public['purpose']=$service['purpose'];
             $services[]=$public;
         }
         return ['schema'=>$registry['schema'],'services'=>$services];

@@ -56,7 +56,7 @@
     let cancelled = false, called = false;
     // Read only the CMP's validated committed state. Also stops work before reload.
     const stillAllowed = () => !cancelled && callbacksReady && !reloading && categoryVisibility[category] && consent?.[category] === true &&
-      (!needsService || Boolean(service && consent.providers?.[service.key] === service.fingerprint));
+      (!needsService || Boolean(service && registry?.allowed(service, consent)));
     const run = () => {
       if (called || !stillAllowed()) return;
       called = true;

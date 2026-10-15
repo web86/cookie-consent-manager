@@ -1,4 +1,4 @@
-/** Reviewed loaders only. Settings contain data, never script URLs or executable code. */
+/** Reviewed adapters and validated local custom script paths. Never inline executable settings. */
 (() => {
   'use strict';
   const base = new URL('./', document.currentScript.src);
@@ -8,14 +8,14 @@
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
     google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing', mock_marketing: 'marketing',
-    google_maps: 'external_content', yandex_maps: 'external_content'
+    google_maps: 'external_content', yandex_maps: 'external_content', custom_js: 'marketing'
   });
   const hostPatterns = Object.freeze({
     yandex: ['mc.yandex.ru', 'mc.yandex.com'], mailru: ['top-fwz1.mail.ru', 'top.mail.ru'],
     google_ga4: ['www.googletagmanager.com', '*.google-analytics.com'],
     google_ads: ['www.googletagmanager.com', 'www.googleadservices.com', '*.doubleclick.net', 'www.google.com'],
     vk_ads: ['top-fwz1.mail.ru', 'top.mail.ru'], meta_pixel: ['connect.facebook.net', 'www.facebook.com'],
-    google_gtm: ['www.googletagmanager.com'], mock_marketing: [],
+    google_gtm: ['www.googletagmanager.com'], mock_marketing: [], custom_js: [],
     google_maps: ['www.google.com', 'maps.googleapis.com', 'maps.gstatic.com'],
     yandex_maps: ['yandex.ru', 'api-maps.yandex.ru', '*.maps.yandex.net']
   });
@@ -23,14 +23,16 @@
   const scripts = new Map();
   const started = new Set(), metaIds = new Set(), vkIds = new Set();
   let currentValue, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
+  const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path);
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
     const result = data.services.map(s => {
       // Accept cached pre-projection HTML as well as the minimal public contract.
       const fields = s && Object.keys(s).filter(k => k !== 'purpose_id').sort().join();
+      const custom = s?.loader === 'custom_js' && fields === 'category,config,enabled,key,loader,purpose';
       const legacy = fields === 'category,config,enabled,key,loader,name,purpose';
-      if (!s || (!legacy && fields !== 'category,config,enabled,key,loader') ||
+      if (!s || (!legacy && !custom && fields !== 'category,config,enabled,key,loader') ||
           typeof s.key !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(s.key) || keys.has(s.key) ||
           !Object.hasOwn(catalog, s.loader) || !Object.hasOwn(categories, s.category) || typeof s.enabled !== 'boolean') throw Error('Invalid service');
       keys.add(s.key);
@@ -38,21 +40,30 @@
       if (legacy) for (const [k, max] of [['name', 100], ['purpose', 500]]) {
         if (typeof s[k] !== 'string' || !s[k] || new TextEncoder().encode(s[k]).length > max || /[\x00-\x1f\x7f<>]/.test(s[k])) throw Error('Invalid text');
       }
-      const allowed = [...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
+      if (s.loader === 'custom_js' && (typeof s.purpose !== 'string' || !s.purpose || new TextEncoder().encode(s.purpose).length > 500 || /[\x00-\x1f\x7f<>]/.test(s.purpose))) throw Error('Invalid purpose');
+      const allowed = [...(s.loader === 'custom_js' ? ['path'] : []), ...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
       if (!s.config || typeof s.config !== 'object' || Array.isArray(s.config) || Object.keys(s.config).some(k => !allowed.includes(k))) throw Error('Invalid config');
       const pattern = { google_ga4: /^G-[A-Z0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/ }[s.loader] || /^[0-9]{1,20}$/;
       if ((s.enabled && allowed.includes('id') && !Object.hasOwn(s.config, 'id')) ||
           (Object.hasOwn(s.config, 'id') && (typeof s.config.id !== 'string' || !pattern.test(s.config.id))) ||
           Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid provider options');
+      if (s.loader === 'custom_js' && !validScriptPath(s.config.path)) throw Error('Invalid script path');
       const config = Object.fromEntries(Object.entries({ ...(booleanOptions[s.loader] || {}), ...s.config }).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
       // Permission binds to the exact disclosure and reviewed adapter configuration.
       const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
+      if (s.loader === 'custom_js') privacy.purpose = s.purpose;
       const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);
       return Object.freeze({ key: s.key, category: s.category, enabled: s.enabled, loader: s.loader, ...(Object.hasOwn(s, 'purpose_id') ? { purpose_id: s.purpose_id } : {}), config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
-    }).filter(s => s.enabled);
-    const analyticsIds = new Set(result.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));
-    if (result.some(s => s.loader === 'vk_ads' && analyticsIds.has(s.config.id.replace(/^0+(?=\d)/, '')))) throw Error('pixel_id_conflict');
-    return result;
+    });
+    const paths = new Set(), ids = new Set();
+    for (const s of result) {
+      if (s.loader === 'custom_js') { if (paths.has(s.config.path)) throw Error('Duplicate script path'); paths.add(s.config.path); }
+      if (s.enabled && s.config.id) { const id = s.loader + ':' + s.config.id.replace(/^0+(?=\d)/, ''); if (ids.has(id)) throw Error('Duplicate provider ID'); ids.add(id); }
+    }
+    const enabled = result.filter(s => s.enabled);
+    const analyticsIds = new Set(enabled.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));
+    if (enabled.some(s => s.loader === 'vk_ads' && analyticsIds.has(s.config.id.replace(/^0+(?=\d)/, '')))) throw Error('pixel_id_conflict');
+    return enabled;
   }
   let services = [];
   try {
@@ -106,13 +117,21 @@
       ad_storage: marketing ? 'granted' : 'denied', ad_user_data: marketing ? 'granted' : 'denied',
       ad_personalization: marketing ? 'granted' : 'denied' });
   }
+  function allowed(s, value) {
+    return !stopping && visibility[s.category] && value?.[s.category] === true && value.providers?.[s.key] === s.fingerprint &&
+      (!['google_gtm', 'google_ads'].includes(s.loader) || (visibility.marketing && value.marketing === true));
+  }
   async function start(s, mode, value) {
     if (stopping || ['google_maps', 'yandex_maps'].includes(s.loader)) return;
     // SDK-specific consent remains additional to the selected service category.
     if (['google_gtm', 'google_ads'].includes(s.loader) && (!visibility.marketing || value.marketing !== true)) return;
-    const token = `${s.loader}:${s.config.id || ''}`;
+    const token = s.loader === 'custom_js' ? s.key : `${s.loader}:${s.config.id || ''}`;
     if (started.has(token)) return;
     started.add(token);
+    if (s.loader === 'custom_js') {
+      if (allowed(s, currentValue)) await script(s.config.path);
+      return;
+    }
     if (mode === 'mock') {
       await script(new URL(`mock/${s.loader === 'mock_marketing' ? 'marketing' : s.loader}.js`, base));
       return;
@@ -168,10 +187,10 @@
     return u.href;
   }
   window.web86Providers = Object.freeze({ services: Object.freeze(services), categories: Object.freeze(categories),
-    validate, safeMapUrl, revoke, apply(value, mode) {
+    validate, validScriptPath, allowed, safeMapUrl, revoke, apply(value, mode) {
       currentValue = value;
       if (mode === 'live' && googleDefaults) googleConsent(value);
-      for (const s of services) if (visibility[s.category] && value[s.category] === true && value.providers?.[s.key] === s.fingerprint) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
+      for (const s of services) if (allowed(s, value)) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
     }
   });
 })();
