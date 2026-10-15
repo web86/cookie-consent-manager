@@ -66,6 +66,68 @@ Managed secret хранится в options существующей native regis
 
 `cookie_consent_manage` управляет settings/preview/reconsent; `cookie_consent_view_logs` отдельно разрешает просмотр/details/CSV. Для logs-only роли есть `/manager/?a=logs&namespace=cookie_consent`; обычный component menu имеет manage permission.
 
+## Вопросы и ошибки: CSP, аналитика и карты
+
+### Нужно ли настраивать Content Security Policy (CSP), если установлен Cookie Consent Manager?
+
+Да, если сайт использует CSP. Это **разные механизмы**: Cookie Consent Manager контролирует согласие посетителя и запуск сервисов, а CSP задаёт, с каких адресов браузер *в принципе* вправе загружать скрипты, изображения, iframe и отправлять запросы. После согласия CSP всё равно может заблокировать ресурс. Компонент **не изменяет CSP и не редактирует `.htaccess`**.
+
+CSP полезна как дополнительная защита от внедрения скриптов, но слишком строгая политика может нарушить работу карт, аналитики и форм. Рекомендуется начинать с проверенной рабочей политики и тестировать ужесточения через `Content-Security-Policy-Report-Only`. Не добавляйте непроверенные домены только ради устранения предупреждений в консоли. `'unsafe-inline'` и `'unsafe-eval'` существенно ослабляют ограничения JavaScript; их необходимость следует проверять отдельно.
+
+### Какие разрешения могут понадобиться поддерживаемым сервисам?
+
+Это **ориентиры для настройки** (не готовый полный HTTP-заголовок и не исчерпывающие списки всех запросов SDK). Добавляйте адреса к *существующим* директивам только для реально включённых сервисов. Конкретные адреса зависят от версии SDK и дополнительных функций.
+
+| Сервис | Основные источники и директивы |
+| --- | --- |
+| Яндекс.Метрика / Вебвизор | `script-src`: `https://mc.yandex.ru`, `https://mc.yandex.com`; `img-src`: `https://mc.yandex.ru`, `https://mc.yandex.com`; `connect-src`: те же источники |
+| Top.Mail.Ru / VK Ads Pixel | `script-src`: `https://top-fwz1.mail.ru`; `img-src`: `https://top-fwz1.mail.ru`, при необходимости `https://top.mail.ru`; сетевые endpoints проверять в Network |
+| Google Analytics 4 | `script-src`: `https://www.googletagmanager.com`; `img-src` и `connect-src`: `https://www.googletagmanager.com`, `https://*.google-analytics.com`; дополнительные Google-домены — по активным функциям |
+| Google Tag Manager | `script-src`: `https://www.googletagmanager.com`; дополнительные домены определяются **содержимым контейнера**, а не только самим GTM; отдельные интеграции могут использовать iframe |
+| Google Ads | `script-src`: `https://www.googletagmanager.com`, `https://www.googleadservices.com`, `https://www.google.com`; `img-src`/`connect-src` могут потребовать `https://googleads.g.doubleclick.net`, `https://pagead2.googlesyndication.com` и другие адреса Google |
+| Meta Pixel | `script-src`: `https://connect.facebook.net`; `img-src`/`connect-src`: `https://www.facebook.com` |
+| Google Maps (штатный iframe) | `frame-src`: `https://www.google.com`; для **отдельно подключаемого Maps JavaScript API** нужен другой, расширенный CSP-профиль |
+| Яндекс.Карты (штатный iframe) | `frame-src`: `https://yandex.ru`; для **отдельного JavaScript API 2.1** — см. следующий вопрос |
+
+Встроенный VK Ads Pixel использует тот же загрузчик `top-fwz1.mail.ru/js/code.js`, что и Top.Mail.Ru: автоматически разрешать все домены VK не нужно. Для GTM одного разрешения загрузки контейнера недостаточно: администратор обязан настроить consent checks для каждого тега. При строгой CSP потребуется учесть сетевые endpoints тегов отдельно.
+
+### Почему Яндекс.Карты запрашивают скрипты и изображения с разных доменов?
+
+Полноценный **Yandex Maps JavaScript API 2.1**, подключённый кодом сайта, отличается от штатного iframe в `CookieConsentMap`. API использует JavaScript/JSONP, изображения тайлов, курсоры и иногда дополнительные iframe. Возможные источники:
+
+- `script-src`: `https://api-maps.yandex.ru`, `https://*.api-maps.yandex.ru`, `https://suggest-maps.yandex.ru`, `https://*.maps.yandex.net`, `https://yandex.ru`, `https://yastatic.net`.
+- `img-src`: `data:`, `https://api-maps.yandex.ru` (например, `/images/cursor/grab.cur`), `https://*.api-maps.yandex.ru`, `https://*.maps.yandex.net`, `https://yandex.ru` (например, `/clck/counter/`).
+- `connect-src`: соответствующие фактически используемые API-endpoints.
+- `frame-src`: `https://api-maps.yandex.ru` для встроенных компонентов API.
+
+Запрос `https://core-renderer-tiles.maps.yandex.net/tiles?l=mapj&callback=...` обрабатывается как *скрипт*, несмотря на слово «tiles», поэтому одного `img-src` недостаточно. Для режима совместимости CSP документация JavaScript API 2.1 предусматривает параметр `csp=true` и дополнительные требования к стилям/шаблонам. Не переносите эти разрешения на обычный iframe без необходимости.
+
+### Почему `mc.yandex.com/clmap` блокируется по `img-src`?
+
+Метрика может отправлять информацию о кликах через URL, который браузер классифицирует как изображение. Если счётчик уже разрешён посетителем, проверьте наличие `https://mc.yandex.com` в **`img-src`**, а не только в `script-src`. Это отдельная CSP-блокировка, не ошибка записи согласия.
+
+### Почему Вебвизор показывает CORS-ошибку при HTTP 204?
+
+Например: `Access-Control-Allow-Origin` отсутствует в ответе `https://mc.yandex.com/webvisor/...` при статусе `204`. Это **CORS**, а не CSP. Добавление `Access-Control-Allow-Origin` в `.htaccess` *вашего* сайта не изменит ответ **сервера Яндекса**. HTTP 204 подтверждает ответ сервера, но сам по себе не доказывает успешное сохранение записи. Проверьте появление и воспроизведение визита в кабинете Метрики; если не работает — передайте пример запроса в поддержку Яндекса.
+
+### Почему `mdd.yandex.net` сообщает о недействительном сертификате?
+
+Это ошибка проверки **TLS-сертификата**, а не CSP. Нельзя исправить её добавлением домена в `script-src` или отключением проверки сертификатов. Проверьте дату/время устройства, воспроизведение в других сетях/браузерах и при необходимости обратитесь к поставщику ресурса.
+
+### Нужно ли разрешать `ymbmlf55en.ru/wsync/`?
+
+Если браузер сообщает об отсутствии домена в `script-src`, технически разрешение этого адреса может убрать **именно эту** блокировку. Но это даёт домену право выполнять JavaScript на сайте. Пока назначение домена не подтверждено надёжными данными поставщика, **не добавляйте его в постоянную CSP**. Даже экспериментальное разрешение не исправит независимые ошибки CORS или TLS. Не используйте `script-src https:` или `script-src *` как обход проблемы.
+
+### Как проверять CSP после подключения сервиса?
+
+1. В новом профиле браузера отклоните необязательные категории: в Network не должно быть запросов сервисов без согласия.
+2. Разрешите нужную категорию и конкретный сервис. Проверяйте **Network**, статус запросов, журнал согласий (`audit.php`/ACK и JSONL), а также фактическую работу сервиса в его кабинете.
+3. Если блокируется `script-src-elem`, проверьте сначала явную директиву `script-src-elem`, а при её отсутствии — `script-src`. Для карт/пикселей отдельно проверяйте `img-src`, `connect-src` и `frame-src`.
+4. Добавляйте лишь проверенные адреса; после правки сбрасывайте HTTP/CDN-кэш и проверяйте фактический заголовок ответа. CSP действует и при восстановленном согласии после перезагрузки.
+5. Для дальнейшего усиления используйте `Content-Security-Policy-Report-Only` и отдельно тестируйте отказ от `'unsafe-inline'` / `'unsafe-eval'`; без проверки не отключайте работающие интеграции.
+
+Полезные первоисточники: [Yandex Maps JavaScript API 2.1 — CSP](https://yandex.com/dev/jsapi-v2-1/doc/en/v2-1/dg/concepts/load), [Google Tag Platform — CSP (GTM, GA4, Ads)](https://developers.google.com/tag-platform/security/guides/csp), [MDN — CSP](https://developer.mozilla.org/en-US/docs/Web/HTTP/Guides/CSP).
+
 ## Сборка и локальная проверка
 
 `npm ci` использует pinned esbuild 0.28.2 и Playwright 1.62.1. Frontend минифицируется при сборке, без runtime npm/Composer dependency компонента. `_build/build.php` использует MODX 3 modPackageBuilder и namespaced xPDO vehicles; normalization и verifier проверяют ZIP/SHA256/состав/отсутствие secrets. Два разных ZIP не должны иметь одну signature.
