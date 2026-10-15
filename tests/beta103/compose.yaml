@@ -1,0 +1,10 @@
+services:
+  beta103-builder:
+    image: cookie-consent-acceptance-web:latest
+    volumes:
+      - ../../.local/transport-clean/public:/var/www/html
+      - ../../.local/transport-clean/private:/opt/cc-clean
+      - ../../:/opt/cc-source:ro
+      - ../../.local/beta103:/opt/cc-beta
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}

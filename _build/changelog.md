@@ -1,3 +1,9 @@
+# Cookie Consent Manager 1.0.3-beta1 — staging candidate
+
+- Rebuild the combined MODX 2 fixes with version 1.0.3, release beta, index 1 so native Package Manager ranks this candidate above installed stable 1.0.2.
+- Preserve the exact runtime and canonical element sources from 1.0.2-beta1; no functional changes to Fenom handling, consent permissions or audit validation.
+- Supersedes 1.0.2-beta1 for staging upgrades; independently rebuilt from native package metadata, not renamed.
+
 # Cookie Consent Manager 1.0.2-beta1 — staging candidate
 
 - Fix MODX 2 pdoTools/Fenom blank pages by registering the service registry JSON after resource parsing; preserve split and legacy integration.
