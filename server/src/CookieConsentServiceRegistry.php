@@ -4,17 +4,17 @@ declare(strict_types=1);
 final class CookieConsentServiceRegistry
 {
     public const CATALOG = [
-        'yandex' => ['category'=>'analytics', 'hosts'=>['mc.yandex.ru','mc.yandex.com']],
-        'mailru' => ['category'=>'analytics', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
-        'vk_ads' => ['category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
-        'meta_pixel' => ['category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
-        'google_ga4' => ['category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
+        'yandex' => ['recommended_category'=>'analytics', 'hosts'=>['mc.yandex.ru','mc.yandex.com']],
+        'mailru' => ['recommended_category'=>'analytics', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'vk_ads' => ['recommended_category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'meta_pixel' => ['recommended_category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
+        'google_ga4' => ['recommended_category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
         // Container loads with marketing consent; the administrator must configure consent checks for its tags.
-        'google_gtm' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
-        'google_ads' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
-        'mock_marketing' => ['category'=>'marketing', 'hosts'=>[]],
-        'google_maps' => ['category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
-        'yandex_maps' => ['category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
+        'google_gtm' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
+        'google_ads' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
+        'mock_marketing' => ['recommended_category'=>'marketing', 'hosts'=>[]],
+        'google_maps' => ['recommended_category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
+        'yandex_maps' => ['recommended_category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
     ];
     public const BOOL_OPTIONS = [
         'yandex'=>['webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true],
@@ -43,7 +43,7 @@ final class CookieConsentServiceRegistry
             ['google_maps','Google Maps','Внешние интерактивные карты',false,[]],
             ['yandex_maps','Яндекс.Карты','Внешние интерактивные карты',false,[]],
         ] as [$loader,$name,$purpose,$enabled,$config]) {
-            $services[]=['key'=>$loader,'name'=>$name,'purpose'=>$purpose,'category'=>self::CATALOG[$loader]['category'],
+            $services[]=['key'=>$loader,'name'=>$name,'purpose'=>$purpose,'category'=>self::CATALOG[$loader]['recommended_category'],
                 'enabled'=>$enabled,'loader'=>$loader,'config'=>$config ?: new stdClass()];
         }
         return ['schema'=>1,'services'=>$services];
@@ -65,7 +65,7 @@ final class CookieConsentServiceRegistry
             foreach (['name'=>100,'purpose'=>500] as $field=>$max) {
                 if (!is_string($s[$field]) || $s[$field]==='' || strlen($s[$field])>$max || preg_match('/[\x00-\x1f\x7f<>]/',$s[$field])) throw new InvalidArgumentException('Invalid service text');
             }
-            if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || $s['category']!==self::CATALOG[$s['loader']]['category'] || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
+            if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || !in_array($s['category'],['analytics','marketing','external_content'],true) || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
             // Retired integration option: accept only its historic boolean shape, then remove.
             // No fingerprint alias: browsers must explicitly approve the changed Yandex config.
             if ($s['loader']==='yandex' && array_key_exists('clientId',$s['config'])) {

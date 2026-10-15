@@ -64,7 +64,7 @@ final class CookieConsentEventValidator
             if ($providerEvent) {
                 if (!is_string($target) || !isset($services[$target]) || !array_key_exists($target,$input['providers']) ||
                     $input['providers'][$target]!==str_ends_with($input['event'],'_allow')) throw new InvalidArgumentException('Invalid provider action');
-                if (str_starts_with($input['event'],'map_') && $services[$target]['category']!=='external_content') throw new InvalidArgumentException('Invalid map provider');
+                if (str_starts_with($input['event'],'map_') && !in_array($services[$target]['loader'],['google_maps','yandex_maps'],true)) throw new InvalidArgumentException('Invalid map provider');
             } elseif ($target!==null) throw new InvalidArgumentException('Unexpected provider target');
             if ($input['event']==='reject' && ($input['external_content'] || in_array(true,$input['providers'],true))) throw new InvalidArgumentException('Invalid reject');
             if (in_array($input['event'],['accept','accept_all'],true)) {

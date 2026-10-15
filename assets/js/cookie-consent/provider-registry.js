@@ -32,7 +32,7 @@
       const legacy = fields === 'category,config,enabled,key,loader,name,purpose';
       if (!s || (!legacy && fields !== 'category,config,enabled,key,loader') ||
           typeof s.key !== 'string' || !/^[a-z][a-z0-9_]{0,31}$/.test(s.key) || keys.has(s.key) ||
-          !Object.hasOwn(catalog, s.loader) || s.category !== catalog[s.loader] || typeof s.enabled !== 'boolean') throw Error('Invalid service');
+          !Object.hasOwn(catalog, s.loader) || !Object.hasOwn(categories, s.category) || typeof s.enabled !== 'boolean') throw Error('Invalid service');
       keys.add(s.key);
       if (Object.hasOwn(s, 'purpose_id') && (typeof s.purpose_id !== 'string' || !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) throw Error('Stable purpose');
       if (legacy) for (const [k, max] of [['name', 100], ['purpose', 500]]) {
@@ -107,7 +107,9 @@
       ad_personalization: marketing ? 'granted' : 'denied' });
   }
   async function start(s, mode, value) {
-    if (stopping || s.category === 'external_content') return;
+    if (stopping || ['google_maps', 'yandex_maps'].includes(s.loader)) return;
+    // SDK-specific consent remains additional to the selected service category.
+    if (['google_gtm', 'google_ads'].includes(s.loader) && (!visibility.marketing || value.marketing !== true)) return;
     const token = `${s.loader}:${s.config.id || ''}`;
     if (started.has(token)) return;
     started.add(token);
@@ -131,13 +133,13 @@
         fbq('set', 'autoConfig', false, s.config.id);
         fbq('init', s.config.id);
         await script('https://connect.facebook.net/en_US/fbevents.js');
-        if (!stopping && currentValue?.marketing === true && currentValue.providers?.[s.key] === s.fingerprint) fbq('trackSingle', s.config.id, 'PageView');
+        if (!stopping && visibility[s.category] && currentValue?.[s.category] === true && currentValue.providers?.[s.key] === s.fingerprint) fbq('trackSingle', s.config.id, 'PageView');
         break;
       }
       case 'google_ga4': case 'google_ads':
         googleConsent(value);
         window.gtag('js', new Date());
-        window.gtag('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && value.marketing === true, allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && value.marketing === true } : {}) });
+        window.gtag('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && visibility.marketing && value.marketing === true, allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && visibility.marketing && value.marketing === true } : {}) });
         // One shared library; separate consent/config for each selected service.
         if (!started.has('gtag-library')) { started.add('gtag-library'); await script(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(s.config.id)}`); }
         break;
