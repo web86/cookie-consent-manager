@@ -55,10 +55,9 @@
       const fingerprint = JSON.stringify([2, s.loader, s.category, s.purpose_id || s.key, privacy]);
       return Object.freeze({ key: s.key, category: s.category, enabled: s.enabled, loader: s.loader, ...(Object.hasOwn(s, 'purpose_id') ? { purpose_id: s.purpose_id } : {}), config: Object.freeze(config), hosts: Object.freeze([...hostPatterns[s.loader]]), fingerprint });
     });
-    const paths = new Set(), ids = new Set();
+    const paths = new Set();
     for (const s of result) {
       if (s.loader === 'custom_js') { if (paths.has(s.config.path)) throw Error('Duplicate script path'); paths.add(s.config.path); }
-      if (s.enabled && s.config.id) { const id = s.loader + ':' + s.config.id.replace(/^0+(?=\d)/, ''); if (ids.has(id)) throw Error('Duplicate provider ID'); ids.add(id); }
     }
     const enabled = result.filter(s => s.enabled);
     const analyticsIds = new Set(enabled.filter(s => s.loader === 'mailru').map(s => s.config.id.replace(/^0+(?=\d)/, '')));

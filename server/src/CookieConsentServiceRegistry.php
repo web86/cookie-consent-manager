@@ -92,18 +92,13 @@ final class CookieConsentServiceRegistry
             $s['config']=$s['config'] ?: new stdClass();
         }
         unset($s);
-        $paths=[];$ids=[];
+        $paths=[];
         foreach($data['services'] as $service){
             $service['config']=(array)$service['config'];
             if($service['loader']==='custom_js'){
                 $path=$service['config']['path'];
                 if(isset($paths[$path]))throw new InvalidArgumentException('Duplicate script path');
                 $paths[$path]=true;
-            }
-            if($service['enabled'] && isset($service['config']['id'])){
-                $id=$service['loader'].':'.preg_replace('/^0+(?=\d)/','',$service['config']['id']);
-                if(isset($ids[$id]))throw new InvalidArgumentException('Duplicate provider ID');
-                $ids[$id]=true;
             }
         }
         $analyticsIds=[];foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='mailru')$analyticsIds[ltrim($service['config']['id'],'0')?:'0']=true;
