@@ -318,3 +318,26 @@ $_lang['m.invalid_texts'] = 'Некорректный словарь перев�
 $_lang['m.developer'] = 'Разработчик:';
 
 $_lang['m.service_disabled'] = 'Выключен';
+
+// Universal service administration.
+$_lang['m.add_service'] = '+ Добавить сервис';
+$_lang['m.ready_adapter'] = 'Готовый адаптер';
+$_lang['m.create_custom_service'] = '+ Создать пользовательский сервис';
+$_lang['m.go_existing'] = 'Перейти к существующему';
+$_lang['m.existing_service'] = 'Этот адаптер уже настроен. Перейдите к нему или создайте дополнительный экземпляр с другим ID.';
+$_lang['m.create_additional'] = 'Создать дополнительный экземпляр';
+$_lang['m.create_service'] = 'Создать сервис';
+$_lang['m.close'] = 'Закрыть';
+$_lang['m.category'] = 'Категория';
+$_lang['m.purpose'] = 'Описание / назначение';
+$_lang['m.purpose_help'] = 'Изменение назначения пользовательского JS требует нового согласия на этот сервис.';
+$_lang['m.category_responsibility'] = 'Выбирайте категорию по реальному назначению интеграции. За правильную классификацию отвечает администратор. Перенос требует нового согласия только на этот сервис.';
+$_lang['m.script_path'] = 'Путь к JavaScript';
+$_lang['m.script_help'] = 'Локальный путь от корня сайта к .js, например /assets/js/integrations/bitrix24.js. Используйте фактический assets_url сайта. Без URL, query, кодировок и inline JS.';
+$_lang['m.script_invalid'] = 'Неверный или повторно используемый путь JavaScript.';
+$_lang['m.service_invalid'] = 'Проверьте название, назначение, ID и путь. ID и путь не должны повторяться.';
+$_lang['m.service_added'] = 'Сервис добавлен в черновик. Включите его и нажмите «Сохранить».';
+$_lang['m.adapter_source'] = 'Исходный код адаптера:';
+$_lang['m.script_owned'] = 'JS-файл сайта по указанному пути; подготовка кода — задача программиста.';
+$_lang['m.map_notice'] = 'Текст заглушки карты ({provider} — имя сервиса)';
+$_lang['map_category_confirm'] = 'Разрешаю категорию «{category}» для этой карты. Другие сервисы не включаются.';

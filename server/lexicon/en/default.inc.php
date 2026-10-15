@@ -313,3 +313,26 @@ $_lang['m.invalid_texts'] = 'Invalid translation dictionary. Settings were not c
 $_lang['m.developer'] = 'Developer:';
 
 $_lang['m.service_disabled'] = 'Disabled';
+
+// Universal service administration.
+$_lang['m.add_service'] = '+ Add service';
+$_lang['m.ready_adapter'] = 'Ready adapter';
+$_lang['m.create_custom_service'] = '+ Create custom service';
+$_lang['m.go_existing'] = 'Go to existing service';
+$_lang['m.existing_service'] = 'This adapter already exists. Open it or create an additional instance with a different ID.';
+$_lang['m.create_additional'] = 'Create additional instance';
+$_lang['m.create_service'] = 'Create service';
+$_lang['m.close'] = 'Close';
+$_lang['m.category'] = 'Category';
+$_lang['m.purpose'] = 'Description / purpose';
+$_lang['m.purpose_help'] = 'Changing a custom script purpose requires new consent for this service.';
+$_lang['m.category_responsibility'] = 'Choose the category according to the actual purpose. The administrator is responsible for classification. Moving a service requires new consent for that service.';
+$_lang['m.script_path'] = 'JavaScript path';
+$_lang['m.script_help'] = 'Root-relative local .js path, e.g. /assets/js/integrations/bitrix24.js. Use your actual assets_url. No external URLs, query, encoded paths or inline JS.';
+$_lang['m.script_invalid'] = 'Invalid or duplicate JavaScript path.';
+$_lang['m.service_invalid'] = 'Check name, purpose, ID and path. IDs and paths must be unique.';
+$_lang['m.service_added'] = 'Service added to draft. Enable it and click Save.';
+$_lang['m.adapter_source'] = 'Adapter source:';
+$_lang['m.script_owned'] = 'Website JS file at the configured path; code preparation is a developer task.';
+$_lang['m.map_notice'] = 'Map placeholder text ({provider} — service name)';
+$_lang['map_category_confirm'] = 'Allow the {category} category for this map. Other services stay unchanged.';
