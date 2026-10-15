@@ -16,7 +16,7 @@ if($action==='snapshot'||$action==='installed'){
  $s=$modx->getObject('modSystemSetting',['key'=>'beta102.sentinel']);$out['other']['setting']= $s?hash('sha256',json_encode($s->toArray())):null;
  $s=$modx->getObject('modSystemSetting',['key'=>'cookie_consent.log_dir']);$dir=$s?(string)$s->get('value'):'';
  if($dir!=='')foreach(glob(rtrim($dir,'/').'/*-cookie-consent.log')?:[] as $p)$out['logs'][basename($p)]=hash_file('sha256',$p);
- try{require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditConfiguration.php';$cfg=CookieConsentAuditConfiguration::forModx($modx);$out['audit']=['key'=>hash('sha256',$cfg['rate_limit_key']),'config'=>hash('sha256',json_encode($cfg))];}catch(Throwable $e){}
+ try{if(!is_file(MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditConfiguration.php'))throw new RuntimeException('Not installed');require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditConfiguration.php';$cfg=CookieConsentAuditConfiguration::forModx($modx);$out['audit']=['key'=>hash('sha256',$cfg['rate_limit_key']),'config'=>hash('sha256',json_encode($cfg))];}catch(Throwable $e){}
  if($action==='installed'){$spec=json_decode(file_get_contents($argv[2]),true);foreach($spec['files'] as $file){[$kind,$path]=explode('/',$file['target'],2);$p=$modx->getOption($kind.'_path').$path;$out['files'][$file['target']]=is_file($p)?hash_file('sha256',$p):null;}}
  foreach($out as &$v)if(is_array($v))ksort($v);unset($v);echo json_encode($out);exit;
 }

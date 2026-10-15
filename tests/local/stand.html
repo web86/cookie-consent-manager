@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Disposable consent acceptance stand</title></head>
+<body>
+<h1>Consent acceptance fixture</h1>
+<button type="button" data-cookie-settings-open>Settings</button>
+<form id="optional-client-form" onsubmit="event.preventDefault();document.getElementById('form-result').textContent='Отправлено'">
+  <input id="clientid" name="clientid" data-clientid="" aria-label="Optional ClientID">
+  <button type="submit">Submit without ClientID</button>
+</form>
+<p id="form-result"></p>
+<div data-cc-map-provider="google_maps" data-cc-map-src="/assets/js/cookie-consent/mock/google_maps.html"></div>
+<div data-cc-map-provider="yandex_maps" data-cc-map-src="/assets/js/cookie-consent/mock/yandex_maps.html"></div>
+<button id="open-map-modal" type="button" onclick="document.getElementById('map-modal').showModal()">Open map dialog</button>
+<dialog id="map-modal">
+  <button type="button" onclick="document.getElementById('map-modal').close()">Close</button>
+  <div data-cc-map-provider="google_maps" data-cc-map-src="/assets/js/cookie-consent/mock/google_maps.html"></div>
+</dialog>
+</body></html>

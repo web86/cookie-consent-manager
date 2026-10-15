@@ -6,12 +6,12 @@ source-file replacement are used during native package acceptance.
 
 1. Run the preserved `tests/fenom` and `tests/audit-visibility` source suites
    against the combined branch (each README describes its separate fixture).
-2. Reset **only** `clean` and `publiccore` using
-   `python3 tests/transport/reset.py clean publiccore`. This archives their prior
-   files. Existing main fixture `web` is used as a configured upgrade target.
-3. Provision the unmodified pinned pdoTools dependency from the source-suite
-   README into the clean/private and publiccore/public core component paths.
-   Do not copy Cookie Consent runtime or canonical element sources.
+2. Run `python3 tests/beta102/prepare.py`. It resets **only** `clean` and
+   `publiccore`, archives their prior files, provisions pinned upstream pdoTools
+   and starts the PHP 8.1 worker. The existing main fixture `web` is used as a
+   configured upgrade target. No Cookie Consent runtime is copied.
+3. The fixture workers use `opcache.revalidate_freq=0` for generated test context
+   files; native MODX resource and compiled Fenom caches remain enabled.
 4. Commit the combined runtime and beta metadata. Build in two new output paths:
 
 ```sh
@@ -47,8 +47,20 @@ strict forgery/replay checks. PHP 8.1 is verified through native reinstall and
 HTTP/Fenom/audit execution. The test front controller and pdoTools are fixture
 infrastructure; Cookie Consent files and snippets come only from the ZIP.
 
-After native installation, run applicable existing main browser/Manager/viewer,
-translation, permission, public-API and HTTP regression suites sequentially.
+After native installation, prepare only synthetic regression settings/pages and run
+the applicable browser/Manager/Viewer, translation, permission, API and HTTP
+suites sequentially:
+
+```sh
+docker exec cookie-consent-acceptance-web-1 php /opt/cc-source/tests/beta102/regression-setup.php
+docker exec cookie-consent-acceptance-web-1 php /opt/cc-source/tests/beta26/provision.php
+node tests/beta102/regression.mjs
+```
+
+The stand in `tests/local/stand.html` is independent of the marketing demo and
+contains no static registry. `summarize.py` aggregates required reports and fails
+on missing/failed checks; it also compares final installed runtime/canonical
+hashes with the archive inventory.
 Evidence is under `.local/beta102/evidence`. Test helpers may seed synthetic
 settings/pages/logs but must not replace installed component runtime files.
 Final artifact and acceptance details belong in the release report under docs.
