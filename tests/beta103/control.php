@@ -5,7 +5,7 @@ define('MODX_API_MODE', true);
 ob_start(); require '/var/www/html/index.php'; while (ob_get_level()) ob_end_clean();
 if ($modx->query('SELECT DATABASE()')->fetchColumn() !== 'cookie_consent_transport_publiccore'
     || $modx->getVersionData()['full_version'] !== '2.8.8-pl') exit(1);
-$path = '/opt/cc-publiccore/beta103-package-events.jsonl';
+$path = '/opt/cc-publiccore/logs/beta103-package-events.jsonl';
 switch ($argv[1] ?? '') {
 case 'versions':
     $modx->addPackage('modx.transport', MODX_CORE_PATH.'model/');

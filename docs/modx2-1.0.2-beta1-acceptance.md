@@ -1,5 +1,8 @@
 # MODX 2 1.0.2-beta1 combined transport candidate
 
+> Historical evidence, superseded by [1.0.3-beta1](modx2-1.0.3-beta1-acceptance.md).
+> Do not use this older candidate for stable 1.0.2 upgrades: its prerelease version ranks below stable 1.0.2.
+
 Date: 2026-10-15. Integration branch: `release/modx2-1.0.2-beta1`.
 Draft integration PR: [#7](https://github.com/web86/cookie-consent-manager/pull/7).
 Base: `origin/main` at `44e4fef8891202512c12f5c0d1a4c4d649b3fcdc`.
