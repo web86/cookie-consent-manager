@@ -25,7 +25,7 @@ final class CookieConsentBannerRenderer
             foreach($xpath->query('//*[@data-cc-action]') as $button){$key=str_replace('-','_',$button->getAttribute('data-cc-action'));if(array_key_exists($key,$buttons)){if($buttons[$key])$button->removeAttribute('hidden');else $button->setAttribute('hidden','');}}
             // Only messages and templates needed for dynamic UI; no full dictionary in JSON.
             $messages=$doc->createElement('div');$messages->setAttribute('hidden','');$messages->setAttribute('data-cc-runtime-messages','');
-            foreach(['error_ack','error_audit','error_storage','error_preference','error_random','error_registry','error_provider','error_buttons','map_title','map_disabled','map_rejected','map_category_confirm'] as $key){$node=$doc->createElement('span');$node->setAttribute('data-cc-message',$key);$node->appendChild($doc->createTextNode((string)($strings[$key]??$key)));$messages->appendChild($node);}$root->appendChild($messages);
+            foreach(['error_ack','error_audit','error_storage','error_preference','error_random','error_registry','error_provider','error_buttons','map_title','map_disabled','map_rejected'] as $key){$node=$doc->createElement('span');$node->setAttribute('data-cc-message',$key);$node->appendChild($doc->createTextNode((string)($strings[$key]??$key)));$messages->appendChild($node);}$root->appendChild($messages);
             foreach($services as $service){
                 if(($service['enabled']??false)!==true||!in_array($service['loader']??'',['google_maps','yandex_maps'],true))continue;
                 $key=$service['key'];$provider=(string)($strings['service.'.$key.'.name']??$service['name']);

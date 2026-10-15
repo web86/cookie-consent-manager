@@ -32,7 +32,6 @@
   const externalInput = root.querySelector('[data-cc-category="external_content"]');
   if (!analyticsInput || !marketingInput || !externalInput || !settings) return;
   const inputs = { analytics: analyticsInput, marketing: marketingInput, external_content: externalInput };
-  let draftPermissions = Object.create(null);
   let returnFocus = null;
   // Remove legacy provider controls. Public preferences expose categories only.
   for (const input of settings.querySelectorAll('[data-cc-provider]')) (input.closest('label') || input).remove();
@@ -55,7 +54,7 @@
     const needsService = Object.hasOwn(options, 'service');
     let cancelled = false, called = false;
     // Read only the CMP's validated committed state. Also stops work before reload.
-    const stillAllowed = () => !cancelled && callbacksReady && !reloading && categoryVisibility[category] && consent?.[category] === true &&
+    const stillAllowed = () => !cancelled && callbacksReady && !reloading && categoryVisibility[category] && consent?.categories?.[category] === true &&
       (!needsService || Boolean(service && registry?.allowed(service, consent)));
     const run = () => {
       if (called || !stillAllowed()) return;
@@ -122,25 +121,32 @@
 
   function readConsent() {
     try {
-      const storage = getStorage();
-      const data = storage && JSON.parse(storage.getItem(STORAGE_KEY) || 'null');
+      const storage = getStorage(), raw = storage?.getItem(STORAGE_KEY), data = JSON.parse(raw || 'null');
       if (!data || data.version !== version || data.necessary !== true ||
-          typeof data.analytics !== 'boolean' || typeof data.marketing !== 'boolean' ||
           typeof data.savedAt !== 'number' || !Number.isFinite(data.savedAt) ||
-          data.savedAt > Date.now() || Date.now() - data.savedAt > ttlDays * 86400000) {
-        return null;
+          data.savedAt > Date.now() || Date.now() - data.savedAt > ttlDays * 86400000) return null;
+      const current = data.model === 'categories_v2';
+      if (current && (!data.categories || Object.keys(inputs).some(c => typeof data.categories[c] !== 'boolean'))) return null;
+      if (!current && (typeof data.analytics !== 'boolean' || typeof data.marketing !== 'boolean')) return null;
+      const categories = {}, versions = { ...(data.category_versions || {}) };
+      for (const category of Object.keys(inputs)) {
+        const sameVersion = (data.category_versions?.[category] ?? 0) === categoryVersions[category];
+        let granted = current ? data.categories[category] === true : data[category] === true;
+        // One-time conservative conversion of legacy individual permissions into a whole category.
+        // Never use provider permissions for execution after this migration.
+        const completeLegacy = current || services.filter(s => s.category === category).every(s => data.providers?.[s.key] === s.fingerprint);
+        if (!current && granted && !completeLegacy) { granted = false; versions[category] = -1; }
+        categories[category] = categoryVisibility[category] && sameVersion && granted;
+        if (categoryVisibility[category] && (!sameVersion || versions[category] === -1)) needsChoice = true;
       }
-      // M2 preference retains its ID, but cannot authorize newly disclosed providers.
-      needsChoice = data.model !== 'categories_v1' || services.some(service => data.disclosed?.[service.key] !== service.fingerprint);
-      const granted = Object.fromEntries(Object.keys(categoryVisibility).map(c => [c, categoryVisibility[c] && data[c] === true && (data.category_versions?.[c] ?? 0) === categoryVersions[c]]));
-      needsChoice ||= Object.keys(categoryVisibility).some(c => categoryVisibility[c] && (data.category_versions?.[c] ?? 0) !== categoryVersions[c]);
-      const providers = Object.create(null);
-      for (const service of services) if (data.providers?.[service.key] === service.fingerprint && granted[service.category] === true) providers[service.key] = service.fingerprint;
-      return { ...data, ...granted, providers };
-    } catch (error) {
-      console.warn(t('error_preference'), error);
-      return null;
-    }
+      const value = { model: 'categories_v2', version, necessary: true, categories, category_versions: versions, savedAt: data.savedAt, consentId: data.consentId };
+      if (!current && storage) {
+        // Preserve the exact original locally for reversible migration, never consult it for launches.
+        if (!storage.getItem(STORAGE_KEY + '_legacy_v2')) storage.setItem(STORAGE_KEY + '_legacy_v2', raw);
+        saveConsent(value);
+      }
+      return value;
+    } catch (error) { console.warn(t('error_preference'), error); return null; }
   }
 
   function saveConsent(data) {
@@ -157,7 +163,7 @@
 
   function emitAudit(event, extra = {}) {
     const details = {
-      schema: 2,
+      schema: 3,
       event_id: newUuid(),
       consent_id: consentId,
       event,
@@ -165,8 +171,6 @@
       analytics: typeof extra.analytics === 'boolean' ? extra.analytics : analyticsInput.checked,
       marketing: typeof extra.marketing === 'boolean' ? extra.marketing : marketingInput.checked,
       external_content: typeof extra.external_content === 'boolean' ? extra.external_content : externalInput.checked,
-      providers: extra.providers || Object.fromEntries(services.map(s => [s.key, draftPermissions[s.key] === true])),
-      provider: extra.provider || null,
       policy_version: version,
       timestamp: new Date().toISOString(),
       page: location.pathname // Never include query params with possible personal data.
@@ -186,7 +190,7 @@
   function applyConsent(value) {
     registry?.apply(value, mode);
     for (const map of maps) {
-      const allowed = categoryVisibility[map.service.category] && value[map.service.category] && value.providers?.[map.service.key] === map.service.fingerprint;
+      const allowed = categoryVisibility[map.service.category] && value.categories[map.service.category] === true;
       if (allowed && !map.frame) {
         const frame = document.createElement('iframe'); frame.title = map.title;
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -215,54 +219,31 @@
   function openSettings() {
     clearTimeout(hideTimer);
     returnFocus = document.activeElement;
-    for (const [category, input] of Object.entries(inputs)) input.checked = consent?.[category] === true;
-    draftPermissions = Object.fromEntries(services.map(s => [s.key, consent?.providers?.[s.key] === s.fingerprint]));
-    for (const [category,input] of Object.entries(inputs)) {
-      const members=services.filter(s=>s.category===category);
-      input.indeterminate=members.some(s=>draftPermissions[s.key])&&!members.every(s=>draftPermissions[s.key]);
-    }
+    for (const [category, input] of Object.entries(inputs)) input.checked = consent?.categories?.[category] === true;
     main.hidden = true;
     settings.hidden = false;
     root.classList.remove('closed', 'done');
     settingsHeading.focus({ preventScroll: true });
   }
 
-  function commit(action, analytics, marketing, external = false, permissions = {}, provider = null) {
+  function commit(action, analytics, marketing, external = false) {
     callbacksReady = false;
     const previous = consent;
-    const value = { model:'categories_v1', disclosed: provider ? {...(previous?.disclosed || {}), [provider]:services.find(s=>s.key===provider).fingerprint} : Object.fromEntries(services.map(s=>[s.key,s.fingerprint])), version, necessary: true, analytics: categoryVisibility.analytics && Boolean(analytics), marketing: categoryVisibility.marketing && Boolean(marketing),
-      external_content: categoryVisibility.external_content && Boolean(external), category_versions: { ...categoryVersions }, providers: Object.create(null), savedAt: Date.now(), consentId };
-    for (const s of services) if (value[s.category] && permissions[s.key]) value.providers[s.key] = s.fingerprint;
-    const persisted = saveConsent(value);
-    consent = value;
-    const providers = Object.fromEntries(services.map(s => [s.key, value.providers[s.key] === s.fingerprint]));
-    const auditDelivery = emitAudit(action, { stage: 'committed', analytics: value.analytics, marketing: value.marketing,
-      external_content: value.external_content, providers, provider });
+    const categories = { analytics: categoryVisibility.analytics && Boolean(analytics), marketing: categoryVisibility.marketing && Boolean(marketing), external_content: categoryVisibility.external_content && Boolean(external) };
+    const value = { model: 'categories_v2', version, necessary: true, categories, category_versions: { ...categoryVersions }, savedAt: Date.now(), consentId };
+    const persisted = saveConsent(value); consent = value;
+    const auditDelivery = emitAudit(action, { stage: 'committed', ...categories });
     hideBanner();
     if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
-    const revoked = previous && (Object.keys(inputs).some(k => previous[k] && !value[k]) ||
-      services.some(s => previous.providers?.[s.key] === s.fingerprint && !value.providers[s.key]));
-    // Remove frames synchronously on revocation before waiting for an audit response.
+    const revoked = previous && Object.keys(inputs).some(k => previous.categories[k] && !categories[k]);
     if (revoked) {
-      reloading = true;
-      registry?.revoke(mode, value);
-      for (const map of maps) if (!value.providers[map.service.key] && map.frame) { map.frame.remove(); map.frame = null; }
+      reloading = true; registry?.revoke(mode, value);
+      for (const map of maps) if (!categories[map.service.category] && map.frame) { map.frame.remove(); map.frame = null; }
       if (!persisted) console.warn(t('error_storage'));
       Promise.race([auditDelivery, new Promise(resolve => setTimeout(resolve, 900))]).finally(() => location.reload());
       return;
     }
-    applyConsent(value);
-    needsChoice=services.some(s=>value.disclosed[s.key]!==s.fingerprint);if(needsChoice)showBanner();
-    runAllowedCallbacks();
-  }
-
-  function mapChoice(service, allowed) {
-    if (!categoryVisibility[service.category]) return;
-    const permissions = Object.fromEntries(services.map(s => [s.key, consent?.providers?.[s.key] === s.fingerprint]));
-    permissions[service.key] = allowed;
-    const categories = Object.fromEntries(Object.keys(inputs).map(c => [c, consent?.[c] === true]));
-    if (allowed) categories[service.category] = true;
-    commit(allowed ? 'map_allow' : 'map_deny', categories.analytics, categories.marketing, categories.external_content, permissions, service.key);
+    applyConsent(value); needsChoice = false; runAllowedCallbacks();
   }
 
   function setupMaps() {
@@ -283,18 +264,9 @@
       if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
       const load = fragment.querySelector('[data-cc-map-load]');
       load.hidden = !categoryVisibility[service.category]; load.disabled = !categoryVisibility[service.category];
-      // An unusual map classification needs an explicit category confirmation, scoped to this map.
-      const confirm = document.createElement('div'); confirm.hidden = true;
-      const label = document.createElement('label'), check = document.createElement('input'); check.type = 'checkbox';
-      const categoryName = root.querySelector('[data-cc-category="'+service.category+'"]')?.closest('label')?.querySelector('strong')?.textContent || service.category;
-      label.append(check, document.createTextNode(t('map_category_confirm', { category: categoryName })));
-      const confirmLoad = document.createElement('button'); confirmLoad.type = 'button'; confirmLoad.textContent = load.textContent; confirmLoad.disabled = true;
-      check.onchange = () => { confirmLoad.disabled = !check.checked; };
-      confirmLoad.onclick = () => { if (!check.checked || !categoryVisibility[service.category]) return; returnFocus = load; mapChoice(service, true); confirm.hidden = true; };
-      confirm.append(label, confirmLoad); placeholder.append(confirm);
+      // A map button only opens category preferences. It never grants an individual permission.
       load.addEventListener('click', () => {
-        if (service.category !== 'external_content' && consent?.[service.category] !== true) { confirm.hidden = false; check.focus(); return; }
-        returnFocus = load; mapChoice(service, true);
+        returnFocus = load; openSettings(); inputs[service.category].focus();
       });
       node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });
     }
@@ -334,13 +306,13 @@
         commit('reject', false, false);
         return;
       case 'accept-all':
-        commit('accept_all', true, true, true, Object.fromEntries(services.map(s => [s.key, true])));
+        commit('accept_all', true, true, true);
         return;
       case 'accept':
-        commit('accept', true, true, true, Object.fromEntries(services.map(s => [s.key, true])));
+        commit('accept', true, true, true);
         return;
       case 'save':
-        commit('save_settings', analyticsInput.checked, marketingInput.checked, externalInput.checked, draftPermissions);
+        commit('save_settings', analyticsInput.checked, marketingInput.checked, externalInput.checked);
         return;
       default:
         return;
@@ -358,7 +330,7 @@
     setupButtonVisibility();
     root.addEventListener('click', onClick);
     for (const [category, input] of Object.entries(inputs)) input.addEventListener('change', () => {
-      input.indeterminate=false;for (const s of services) if (s.category === category) draftPermissions[s.key] = input.checked;
+      input.indeterminate=false;
       emitAudit(category + (input.checked ? '_allow' : '_deny'));
     });
     root.addEventListener('keydown', event => {
@@ -386,7 +358,7 @@
   }
 
   window.web86CookieConsent = Object.freeze({
-    getConsent: () => consent ? { ...consent, providers: { ...consent.providers } } : null,
+    getConsent: () => consent ? { ...consent, categories: { ...consent.categories }, category_versions: { ...consent.category_versions } } : null,
     openSettings,
     onAllowed,
     // Expose reset only for the mock testing stand, not for production.

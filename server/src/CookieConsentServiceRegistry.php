@@ -9,7 +9,7 @@ final class CookieConsentServiceRegistry
         'vk_ads' => ['recommended_category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
         'meta_pixel' => ['recommended_category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
         'google_ga4' => ['recommended_category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
-        // Container loads with marketing consent; the administrator must configure consent checks for its tags.
+        // Category recommends a default only; the administrator must configure tag-level consent checks.
         'google_gtm' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
         'google_ads' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
         'custom_js' => ['recommended_category'=>'marketing', 'hosts'=>[]],
@@ -37,7 +37,7 @@ final class CookieConsentServiceRegistry
             ['yandex','Яндекс.Метрика','Статистика посещений',false,['id'=>'23643118','webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true]],
             ['mailru','Top.Mail.Ru','Статистика посещений',false,['id'=>'3265404']],
             ['google_ga4','Google Analytics 4','Статистика посещений',false,[]],
-            ['google_gtm','Google Tag Manager','Контейнер тегов: запускается после согласия на маркетинг',false,[]],
+            ['google_gtm','Google Tag Manager','Контейнер тегов с отдельными consent checks для тегов',false,[]],
             ['google_ads','Google Ads','Рекламные измерения',false,[]],
             ['vk_ads','VK Реклама — пиксель','Рекламные измерения VK',false,[]],
             ['meta_pixel','Meta Pixel (Facebook / Instagram)','Рекламные измерения Meta',false,[]],

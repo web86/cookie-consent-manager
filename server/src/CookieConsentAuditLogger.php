@@ -41,8 +41,8 @@ final class CookieConsentAuditLogger
             'page' => $validated['page'],
             'client_time' => $validated['timestamp']
         ];
+        if (($validated['schema']??1)>=2) $record['categories']['external_content']=$validated['external_content'];
         if (($validated['schema']??1)===2) {
-            $record['categories']['external_content']=$validated['external_content'];
             $record['providers']=$validated['providers'] ?: new stdClass();
             $record['provider']=$validated['provider'];
         }

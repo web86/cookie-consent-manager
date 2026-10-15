@@ -23,7 +23,7 @@
   const scripts = new Map();
   const started = new Set(), metaIds = new Set(), vkIds = new Set();
   let currentValue, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
-  const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path);
+  const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path) && !/[\r\n]/.test(path);
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
     const keys = new Set();
@@ -105,10 +105,10 @@
   function googleConsent(value) {
     window.dataLayer = window.dataLayer || [];
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-    const allowed = loader => services.some(s => s.loader === loader && visibility[s.category] && value[s.category] === true && value.providers?.[s.key] === s.fingerprint);
-    const container = allowed('google_gtm') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`));
-    const analytics = visibility.analytics && value.analytics === true && (container || allowed('google_ga4'));
-    const marketing = visibility.marketing && value.marketing === true && (container || allowed('google_ads'));
+    const permitted = loader => services.some(s => s.loader === loader && allowed(s, value));
+    const container = permitted('google_gtm') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`));
+    const analytics = visibility.analytics && value.categories?.analytics === true && (container || permitted('google_ga4'));
+    const marketing = visibility.marketing && value.categories?.marketing === true && (container || permitted('google_ads'));
     if (!googleDefaults) {
       window.gtag('consent', 'default', { analytics_storage: 'denied', ad_storage: 'denied', ad_user_data: 'denied', ad_personalization: 'denied' });
       googleDefaults = true;
@@ -118,13 +118,10 @@
       ad_personalization: marketing ? 'granted' : 'denied' });
   }
   function allowed(s, value) {
-    return !stopping && visibility[s.category] && value?.[s.category] === true && value.providers?.[s.key] === s.fingerprint &&
-      (!['google_gtm', 'google_ads'].includes(s.loader) || (visibility.marketing && value.marketing === true));
+    return !stopping && s.enabled === true && visibility[s.category] && value?.categories?.[s.category] === true;
   }
   async function start(s, mode, value) {
     if (stopping || ['google_maps', 'yandex_maps'].includes(s.loader)) return;
-    // SDK-specific consent remains additional to the selected service category.
-    if (['google_gtm', 'google_ads'].includes(s.loader) && (!visibility.marketing || value.marketing !== true)) return;
     const token = s.loader === 'custom_js' ? s.key : `${s.loader}:${s.config.id || ''}`;
     if (started.has(token)) return;
     started.add(token);
@@ -152,20 +149,20 @@
         fbq('set', 'autoConfig', false, s.config.id);
         fbq('init', s.config.id);
         await script('https://connect.facebook.net/en_US/fbevents.js');
-        if (!stopping && visibility[s.category] && currentValue?.[s.category] === true && currentValue.providers?.[s.key] === s.fingerprint) fbq('trackSingle', s.config.id, 'PageView');
+        if (!stopping && allowed(s, currentValue)) fbq('trackSingle', s.config.id, 'PageView');
         break;
       }
       case 'google_ga4': case 'google_ads':
         googleConsent(value);
         window.gtag('js', new Date());
-        window.gtag('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && visibility.marketing && value.marketing === true, allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && visibility.marketing && value.marketing === true } : {}) });
+        window.gtag('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && visibility.marketing && value.categories?.marketing === true } : {}), allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && visibility.marketing && value.categories?.marketing === true });
         // One shared library; separate consent/config for each selected service.
         if (!started.has('gtag-library')) { started.add('gtag-library'); await script(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(s.config.id)}`); }
         break;
       case 'google_gtm':
-        // Container consent is marketing + its fingerprint. Tag-level checks belong to its administrator.
+        // Launch follows this instance's category; tag-level consent checks remain mandatory.
         googleConsent(value);
-        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js', cookie_consent: { analytics: value.analytics === true, marketing: value.marketing === true, external_content: value.external_content === true } });
+        window.dataLayer.push({ 'gtm.start': Date.now(), event: 'gtm.js', cookie_consent: { analytics: value.categories?.analytics === true, marketing: value.categories?.marketing === true, external_content: value.categories?.external_content === true } });
         await script(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(s.config.id)}`); break;
     }
   }

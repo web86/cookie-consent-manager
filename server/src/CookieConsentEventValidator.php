@@ -14,10 +14,10 @@ final class CookieConsentEventValidator
     public static function validate(array $input, ?array $registry = null, ?array $categoryVisibility = null): array
     {
         $required = ['event_id','consent_id','event','stage','analytics','marketing','policy_version','page','timestamp'];
-        $v2=array_key_exists('schema',$input);
+        $v2=array_key_exists('schema',$input);$categoryOnly=($input['schema']??null)===3;
         if ($v2) {
-            if ($input['schema']!==2) throw new InvalidArgumentException('Unsupported schema');
-            $required=array_merge($required,['schema','external_content','providers','provider']);
+            if (!in_array($input['schema'],[2,3],true)) throw new InvalidArgumentException('Unsupported schema');
+            $required=array_merge($required,$categoryOnly?['schema','external_content']:['schema','external_content','providers','provider']);
         }
         if (count($input) !== count($required) || array_diff($required,array_keys($input)) || array_diff(array_keys($input),$required)) {
             throw new InvalidArgumentException('Invalid field set');
@@ -43,7 +43,18 @@ final class CookieConsentEventValidator
             if ($input[$field] !== $value) throw new InvalidArgumentException('Invalid toggle action');
         }
         if (!$v2 && in_array($input['event'],['external_content_allow','external_content_deny','provider_allow','provider_deny','map_allow','map_deny'],true)) throw new InvalidArgumentException('Schema 2 required');
-        if ($v2) {
+        if($categoryOnly){
+            if(!is_bool($input['external_content'])||str_starts_with($input['event'],'provider_')||str_starts_with($input['event'],'map_'))throw new InvalidArgumentException('Category-only event required');
+            $visible=$categoryVisibility??['analytics'=>true,'marketing'=>true,'external_content'=>true];
+            foreach(['analytics','marketing','external_content'] as $category){
+                if(!is_bool($visible[$category]??null))throw new RuntimeException('Invalid category visibility');
+                if(!$visible[$category]&&$input[$category])throw new InvalidArgumentException('Hidden category');
+                if(in_array($input['event'],['accept','accept_all'],true)&&$input[$category]!==$visible[$category])throw new InvalidArgumentException('Incomplete accept all');
+            }
+            if($input['event']==='reject'&&$input['external_content'])throw new InvalidArgumentException('Invalid reject');
+            if(in_array($input['event'],['external_content_allow','external_content_deny'],true)&&$input['external_content']!==($input['event']==='external_content_allow'))throw new InvalidArgumentException('Invalid external toggle');
+        }
+        if ($v2 && !$categoryOnly) {
             if (!is_bool($input['external_content']) || !is_array($input['providers']) || count($input['providers'])>32) throw new InvalidArgumentException('Invalid provider permissions');
             // Only the caller's trusted server configuration can relax the historical all-visible contract.
             $visible=$categoryVisibility ?? ['analytics'=>true,'marketing'=>true,'external_content'=>true];
