@@ -33,6 +33,7 @@
   if (!analyticsInput || !marketingInput || !externalInput || !settings) return;
   const inputs = { analytics: analyticsInput, marketing: marketingInput, external_content: externalInput };
   let returnFocus = null;
+  let pendingMapDialog = null;
   // Remove legacy provider controls. Public preferences expose categories only.
   for (const input of settings.querySelectorAll('[data-cc-provider]')) (input.closest('label') || input).remove();
   let consent = null;
@@ -244,6 +245,10 @@
       return;
     }
     applyConsent(value); needsChoice = false; runAllowedCallbacks();
+    if (pendingMapDialog) {
+      const { dialog, category } = pendingMapDialog; pendingMapDialog = null;
+      if (categories[category] && dialog.isConnected && !dialog.open) dialog.showModal();
+    }
   }
 
   function setupMaps() {
@@ -266,6 +271,9 @@
       load.hidden = !categoryVisibility[service.category]; load.disabled = !categoryVisibility[service.category];
       // A map button only opens category preferences. It never grants an individual permission.
       load.addEventListener('click', () => {
+        // A native modal makes the rest of the page inert; close it while editing consent.
+        const dialog = node.closest('dialog');
+        if (dialog?.open) { pendingMapDialog = { dialog, category: service.category }; dialog.close(); }
         returnFocus = load; openSettings(); inputs[service.category].focus();
       });
       node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });

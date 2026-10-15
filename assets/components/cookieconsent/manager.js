@@ -62,7 +62,7 @@
       return clone(texts);
     };
     const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
-    const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path);
+    const validScriptPath = path => typeof path === 'string' && path.length <= 1024 && /^\/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*\/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$/.test(path) && !/[\r\n]/.test(path);
     const invalidCustom = service => service.loader === 'custom_js' && (!validScriptPath(service.config.path) || draft.registry.services.some(other => other !== service && other.loader === 'custom_js' && other.config.path === service.config.path));
     const duplicateId = service => service.enabled && service.config.id && draft.registry.services.some(other => other !== service && other.enabled && other.loader === service.loader && other.config.id?.replace(/^0+(?=\d)/, '') === service.config.id.replace(/^0+(?=\d)/, ''));
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
@@ -141,7 +141,7 @@
     function textSource(language, key) {
       const base = draft.texts.base_language;
       const service = draft.registry.services.find(s => key.startsWith('service.' + s.key + '.'));
-      if(key.endsWith('.map_notice'))return draft.texts.locales[language]?.[key] ?? draft.texts.locales[language]?.map_notice ?? data.lexicons[language]?.map_notice ?? draft.texts.locales[base]?.map_notice ?? data.lexicons[base]?.map_notice ?? data.lexicons.en.map_notice;
+      if(key==='map_notice'||key.endsWith('.map_notice'))return [draft.texts.locales[language]?.[key],draft.texts.locales[language]?.map_notice,data.lexicons[language]?.map_notice,draft.texts.locales[base]?.map_notice,data.lexicons[base]?.map_notice,data.lexicons.en.map_notice].find(v=>typeof v==='string'&&v.length>0)||'';
       const serviceFallback = service ? (key.endsWith('.name') ? service.name : service.purpose) : '';
       return draft.texts.locales[language]?.[key] ?? data.lexicons[language]?.[key] ?? draft.texts.locales[base]?.[key] ?? data.lexicons[base]?.[key] ?? data.lexicons.en[key] ?? serviceFallback;
     }
@@ -183,7 +183,7 @@
           const categorySelect=el('select',null,{id:'ccm-category-'+service.key,'aria-label':t('category')});
           for(const c of ['analytics','marketing','external_content'])categorySelect.append(el('option',data.managerStrings[c+'_name'],{value:c}));
           categorySelect.value=service.category;const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),categorySelect);details.append(categoryRow);
-          categorySelect.onchange=()=>{service.category=categorySelect.value;groupExpanded[service.category]=true;document.getElementById('ccm-group-content-'+service.category).hidden=false;const toggle=document.getElementById('ccm-group-toggle-'+service.category);toggle.setAttribute('aria-expanded','true');document.getElementById('ccm-group-content-'+service.category).append(card);changed();categorySelect.focus();};
+          categorySelect.onchange=()=>{service.category=categorySelect.value;groupExpanded[service.category]=true;document.getElementById('ccm-group-content-'+service.category).hidden=false;const toggle=document.getElementById('ccm-group-toggle-'+service.category);toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label',t('collapse')+' — '+data.managerStrings[service.category+'_name']);document.getElementById('ccm-group-content-'+service.category).append(card);changed();categorySelect.focus();};
           if(service.loader==='custom_js')pathInput=field(details,t('script_path'),service.config.path,v=>{service.config.path=v;pathInput.setCustomValidity(invalidCustom(service)?t('script_invalid'):'');updateValidity();},'text','ccm-path-'+service.key,t('script_help'));
           details.append(el('p',t('adapter_source')+' '+(service.loader==='custom_js'?t('script_owned'):'assets/js/cookie-consent/provider-registry.js → start() / '+service.loader),{class:'ccm-help'}));
           if (idPatterns[service.loader]) {

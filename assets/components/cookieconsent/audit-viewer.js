@@ -2,8 +2,9 @@
 (() => {
   'use strict';
   const formatMoscow = raw => {
-    if (typeof raw !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{3})?Z$/.test(raw)) return '—';
-    const date = new Date(raw);
+    if (typeof raw !== 'string' || !/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(?:\.\d{1,6})?Z$/.test(raw)) return '—';
+    const source = raw.replace(/\.(\d{1,6})Z$/, (_, fraction) => '.' + fraction.padEnd(3,'0').slice(0,3) + 'Z');
+    const date = new Date(source);
     if (!Number.isFinite(date.getTime()) || date.toISOString().slice(0,19) !== raw.slice(0,19)) return '—';
     const parts = Object.fromEntries(new Intl.DateTimeFormat('en-GB', { timeZone: 'Europe/Moscow', year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit', second: '2-digit', hourCycle: 'h23' }).formatToParts(date).map(p => [p.type, p.value]));
     return `${parts.day}.${parts.month}.${parts.year} ${parts.hour}:${parts.minute}:${parts.second}`;
