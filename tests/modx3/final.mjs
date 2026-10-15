@@ -8,6 +8,6 @@ for(const language of ['en','ru']){const s=await manager(browser,'web',language)
  await s.p.screenshot({path:'.local/modx3/evidence/final-manager-'+language+'.png',fullPage:true});
  const pkg=await s.core('workspace/packages/get',{signature});assert.ok(pkg.success&&pkg.object.installed);assertions++;
  cli('web',['php','/opt/cc-source/tests/modx3/guard.php']);assertions++;
- results.push({name:'final-beta2-manager-preview-'+language+'-aliases-off',result:'PASS'});console.log('PASS '+language);
+ results.push({name:signature+'-manager-preview-'+language+'-aliases-off',result:'PASS'});console.log('PASS '+language);
 }catch(e){results.push({name:language,result:'FAIL',error:e.message});console.error(e.message);process.exitCode=1;}finally{await s.ctx.close();}}
 await browser.close();writeFileSync('.local/modx3/evidence/final.json',JSON.stringify({signature,tests:results.length,assertions,failed:results.filter(x=>x.result==='FAIL').length,results},null,2));
