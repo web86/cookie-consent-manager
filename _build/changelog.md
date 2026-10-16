@@ -3,7 +3,7 @@
 Unreleased adapter-cache work (package version unchanged):
 - Build the shared frontend bundle on authenticated Manager OnSiteRefresh and package install, from the release builder’s ordered manifest.
 - Ship pinned PHP Peast 1.17.6 AST minification; no Node/npm/Composer required on the host.
-- Lock builds, skip unchanged content, atomically commit JS with success metadata, retain the previous/prebuilt file on failures and version ready static assets.
+- Lock builds, skip unchanged content and atomically publish JS. After publication save cookie_consent.bundle_version as a Unix timestamp; frontend selects cached/prebuilt from loaded MODX config without reading JS. Preserve previous file/version on errors and invalidate settings/resource caches without OnSiteRefresh recursion.
 - Add the existing-ACL RU/EN build status, last success time and force-rebuild button.
 - Extend the canonical short RU/EN guide with adapter editing and snippet/template/onAllowed video examples.
 

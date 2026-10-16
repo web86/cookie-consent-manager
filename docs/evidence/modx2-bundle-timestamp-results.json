@@ -1,0 +1,696 @@
+{
+  "task": "MODX 2 KISS bundle timestamp",
+  "base_commit": "573274b4fe56b70ae1fd39c455addc19dba5426d",
+  "branch": "codex/modx2-adapter-cache-build",
+  "package_version": "1.0.5-beta1",
+  "result": "PASS",
+  "setting": "cookie_consent.bundle_version",
+  "source_sha256": {
+    "server/src/CookieConsentBundleManager.php": "73c5439bf6bcb1cdd1c97a7a14ba56fcfaa5f52ab8f7f90447cba8e1df7521b2",
+    "server/modx2-assets-snippet.php": "28b9c3e009a44df45d1a84f05cc42ff08e82535a5337353056e9914797c1be19",
+    "tests/adapter-cache/php.php": "ef4b6efc7f154d5ebfe472a81a36ea8d56affe4b4a6fb4be76d65b8b3b33299b",
+    "tests/adapter-cache/native.php": "ec83f642e944e691cfe32efbf454db65942320d111de8122bb818e96adb7f6b1",
+    "tests/adapter-cache/native.mjs": "8b1b890e30f3c8e32f4d158fecea02916b06c4ea9e59320b49e9a9cb9880ec03",
+    "tests/frontend-asset.mjs": "fdb0c1b361987a6cfc2ddfc4542ccc93e1dd33f532df7894a96a49baa5914bc6"
+  },
+  "php_fixture": [
+    {
+      "php": "8.1.34",
+      "result": "PASS",
+      "assertions": 70,
+      "node_available_during_build": false
+    },
+    {
+      "php": "8.2.34",
+      "result": "PASS",
+      "assertions": 70,
+      "node_available_during_build": false
+    },
+    {
+      "php": "8.5.10",
+      "result": "PASS",
+      "assertions": 70,
+      "node_available_during_build": false
+    }
+  ],
+  "native_environment": {
+    "modx": "2.8.8",
+    "php": "8.2.34",
+    "database": "cookie_consent_test",
+    "disposable": true
+  },
+  "installed_source_after_manager_reinstall": {
+    "result": "PASS",
+    "bundle_manager_sha256": "73c5439bf6bcb1cdd1c97a7a14ba56fcfaa5f52ab8f7f90447cba8e1df7521b2",
+    "after_manager_reinstall": true
+  },
+  "native_manager": {
+    "tests": 11,
+    "assertions": 79,
+    "failed": 0,
+    "results": [
+      {
+        "name": "prebuilt-before-first-success-and-no-frontend-version-read",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "installed-plugin-event-and-successful-warmup",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "cache-clear-unchanged-skips-write",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "adapter-edit-native-cache-clear-updates-static-URL",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "syntax-error-keeps-prior-file-and-metadata",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "write-permission-failure-keeps-prior-file",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "web-process-event-never-builds",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "public-request-cannot-force-build",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "Manager-build-guide-draft-ru",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "Manager-build-guide-draft-en",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "force-invalidates-cached-HTML-and-delivers-current-JS",
+        "result": "PASS",
+        "assertions": 8
+      }
+    ]
+  },
+  "regression": {
+    "tests": 20,
+    "failed": 0,
+    "results": [
+      {
+        "path": "tests/universal/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/audit.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/http.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/callbacks.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta26/frontend.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta28/localization.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-i18n.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-permissions.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/viewer/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/matrix.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/maps.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/provider-parameters.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/pixels.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/clientid.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-ux.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/live-guard.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/public.mjs",
+        "result": "PASS"
+      }
+    ]
+  },
+  "differential": {
+    "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+    "candidateSHA256": "6240aa0ff298b1e172b8e6a1781be1f7c89280d91f12c04a90b5594d8644ebcd",
+    "tests": 49,
+    "assertions": 253,
+    "failed": 0,
+    "results": [
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":false,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"dialog\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":true}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"csp\":true}",
+        "result": "PASS",
+        "assertions": 10
+      },
+      {
+        "name": "{\"legacy\":true,\"csp\":true}",
+        "result": "PASS",
+        "assertions": 10
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+        "result": "PASS",
+        "assertions": 5
+      }
+    ]
+  },
+  "invariants": {
+    "result": "PASS",
+    "unchanged_files": 197,
+    "files": [
+      "_build/frontend-manifest.json",
+      "_build/frontend.mjs",
+      "_build/package.json",
+      "_build/user-guide-manifest.json",
+      "_build/user-guide.json",
+      "_build/user-guide.mjs",
+      "assets/js/cookie-consent/consent-manager.js",
+      "assets/js/cookie-consent/cookie-consent.min.js",
+      "assets/js/cookie-consent/embeds.js",
+      "assets/js/cookie-consent/embeds/rutube.js",
+      "assets/js/cookie-consent/embeds/vk-video.js",
+      "assets/js/cookie-consent/embeds/youtube.js",
+      "assets/js/cookie-consent/mock/google_ads.js",
+      "assets/js/cookie-consent/mock/google_ga4.js",
+      "assets/js/cookie-consent/mock/google_gtm.js",
+      "assets/js/cookie-consent/mock/google_maps.html",
+      "assets/js/cookie-consent/mock/mailru.js",
+      "assets/js/cookie-consent/mock/marketing.js",
+      "assets/js/cookie-consent/mock/meta_pixel.js",
+      "assets/js/cookie-consent/mock/vk_ads.js",
+      "assets/js/cookie-consent/mock/yandex.js",
+      "assets/js/cookie-consent/mock/yandex_maps.html",
+      "assets/js/cookie-consent/provider-registry.js",
+      "assets/js/cookie-consent/runtime.js",
+      "assets/js/cookie-consent/script-url.js",
+      "assets/js/cookie-consent/service-loaders.js",
+      "assets/js/cookie-consent/service-runtime.js",
+      "assets/js/cookie-consent/services/custom-js.js",
+      "assets/js/cookie-consent/services/google-ads.js",
+      "assets/js/cookie-consent/services/google-common.js",
+      "assets/js/cookie-consent/services/google-ga4.js",
+      "assets/js/cookie-consent/services/google-gtm.js",
+      "assets/js/cookie-consent/services/mailru-common.js",
+      "assets/js/cookie-consent/services/mailru.js",
+      "assets/js/cookie-consent/services/meta-pixel.js",
+      "assets/js/cookie-consent/services/mock-marketing.js",
+      "assets/js/cookie-consent/services/vk-ads.js",
+      "assets/js/cookie-consent/services/yandex.js",
+      "server/src/CookieConsentGuide.php",
+      "server/src/CookieConsentServiceRegistry.php",
+      "server/vendor/peast/LICENSE",
+      "server/vendor/peast/README.md",
+      "server/vendor/peast/autoload.php",
+      "server/vendor/peast/lib/Peast/Formatter/Base.php",
+      "server/vendor/peast/lib/Peast/Formatter/Compact.php",
+      "server/vendor/peast/lib/Peast/Formatter/Expanded.php",
+      "server/vendor/peast/lib/Peast/Formatter/PrettyPrint.php",
+      "server/vendor/peast/lib/Peast/Peast.php",
+      "server/vendor/peast/lib/Peast/Query.php",
+      "server/vendor/peast/lib/Peast/Renderer.php",
+      "server/vendor/peast/lib/Peast/Selector/Exception.php",
+      "server/vendor/peast/lib/Peast/Selector/Matches.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Combinator.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Group.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/Attribute.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/Part.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/Pseudo.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoIndex.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoSelector.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoSimple.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Part/Type.php",
+      "server/vendor/peast/lib/Peast/Selector/Node/Selector.php",
+      "server/vendor/peast/lib/Peast/Selector/Parser.php",
+      "server/vendor/peast/lib/Peast/Syntax/CommentsRegistry.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2015/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2016/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2017/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2018/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2019/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2020/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2021/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2022/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2023/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2024/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/ES2025/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/EncodingException.php",
+      "server/vendor/peast/lib/Peast/Syntax/EventsEmitter.php",
+      "server/vendor/peast/lib/Peast/Syntax/Exception.php",
+      "server/vendor/peast/lib/Peast/Syntax/Features.php",
+      "server/vendor/peast/lib/Peast/Syntax/JSX/Parser.php",
+      "server/vendor/peast/lib/Peast/Syntax/JSX/Scanner.php",
+      "server/vendor/peast/lib/Peast/Syntax/LSM.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ArrayExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ArrayPattern.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ArrowFunctionExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentPattern.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentProperty.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/AwaitExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/BigIntLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/BinaryExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/BlockStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/BooleanLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/BreakStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/CallExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/CatchClause.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ChainElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ChainExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ClassBody.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ClassDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ClassExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Class_.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Comment.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ConditionalExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ContinueStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/DebuggerStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Declaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/DoWhileStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/EmptyStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ExportAllDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ExportDefaultDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ExportNamedDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ExportSpecifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Expression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ExpressionStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ForInStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ForOfStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ForStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/FunctionDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/FunctionExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Function_.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Identifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/IfStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportAttribute.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportDefaultSpecifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportNamespaceSpecifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ImportSpecifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXAttribute.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXBoundaryElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXClosingElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXClosingFragment.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXEmptyExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXExpressionContainer.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXFragment.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXIdentifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXMemberExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXNamespacedName.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXOpeningElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXOpeningFragment.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXSpreadAttribute.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXSpreadChild.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXText.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/LabeledStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Literal.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/LogicalExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/MemberExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/MetaProperty.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/MethodDefinition.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ModuleDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ModuleSpecifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/NewExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Node.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/NullLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/NumericLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ObjectExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ObjectPattern.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ParenthesizedExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Pattern.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/PrivateIdentifier.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Program.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Property.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/PropertyDefinition.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/RegExpLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/RestElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ReturnStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/SequenceExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/SpreadElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Statement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/StaticBlock.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/StringLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/Super.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/SwitchCase.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/SwitchStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/TaggedTemplateExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/TemplateElement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/TemplateLiteral.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ThisExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/ThrowStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/TryStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/UnaryExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/UpdateExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/VariableDeclaration.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/VariableDeclarator.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/WhileStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/WithStatement.php",
+      "server/vendor/peast/lib/Peast/Syntax/Node/YieldExpression.php",
+      "server/vendor/peast/lib/Peast/Syntax/Parser.php",
+      "server/vendor/peast/lib/Peast/Syntax/ParserAbstract.php",
+      "server/vendor/peast/lib/Peast/Syntax/Position.php",
+      "server/vendor/peast/lib/Peast/Syntax/Scanner.php",
+      "server/vendor/peast/lib/Peast/Syntax/SourceLocation.php",
+      "server/vendor/peast/lib/Peast/Syntax/Token.php",
+      "server/vendor/peast/lib/Peast/Syntax/Utils.php",
+      "server/vendor/peast/lib/Peast/Traverser.php"
+    ]
+  },
+  "source_build": {
+    "result": "PASS",
+    "assertions": 67,
+    "transport_rebuilt": false
+  },
+  "javascript_semantics": {
+    "result": "PASS",
+    "cases": [
+      "regex",
+      "division",
+      "ASI",
+      "templates",
+      "optional chaining",
+      "nullish",
+      "Unicode"
+    ]
+  },
+  "syntax_and_whitespace": {
+    "result": "PASS",
+    "checks": [
+      "PHP lint for changed PHP",
+      "node --check for changed JS",
+      "git diff --check"
+    ]
+  },
+  "runtime_assertions": [
+    "No JS/manifest reads, file checks, time generation or SQL in frontend asset selection",
+    "Fixed release fallback before first successful administrative build",
+    "Timestamp saved after atomic publication only",
+    "Unchanged sources keep timestamp",
+    "Immediate force advances timestamp",
+    "Save and commit failures roll back prior JS and version",
+    "Cached resource HTML invalidated after force",
+    "New timestamp URL returns exact current minified JS",
+    "Normal native refresh emits exactly one OnSiteRefresh; force emits none"
+  ],
+  "test_fixture_notes": [
+    "Event probe initialization refreshes Manager context event map",
+    "Final regression rerun uses updated original checkout for Manager i18n reinstall"
+  ],
+  "not_run": [
+    "New transport packaging, release, push, merge, deployment",
+    "Real YouTube/RUTUBE/VK playback: prior SKIPs remain SKIP"
+  ]
+}

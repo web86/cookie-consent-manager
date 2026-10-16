@@ -1,5 +1,7 @@
 # MODX 2 — Adapter cache build acceptance
 
+Исторический снимок приёмки `573274b`. Версионирование впоследствии упрощено: [timestamp acceptance](modx2-bundle-timestamp-acceptance.md).
+
 Дата: 16.10.2026. Версия пакета сохранена: **1.0.5-beta1**. Это локальная feature-ветка, не новый release.
 
 ## Исходное состояние и результат

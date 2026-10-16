@@ -27,19 +27,27 @@ partial install as a pass. The transport is a test fixture, not a release artifa
 
 Copy this source checkout to an isolated container directory (default
 `/tmp/cc-adapter-source-clean`, override `CC_ADAPTER_CONTAINER_SOURCE`) so
-`native.php` can restore exactly the original adapter after mutations. Then:
+`native.php` can restore exactly the original adapter after mutations. For a
+timestamp-only follow-up on an already installed fixture, `native.php sync`
+updates just BundleManager and CookieConsentAssets from that snapshot; a new
+transport is unnecessary. The web container’s `/opt/cc-source` must also point
+to the candidate checkout: `manager-i18n.mjs` reinstalls directly from it. Set
+`saved_bundle_timestamp` to the installed `cookie_consent.bundle_version` value
+after the native test. Then:
 
 ```sh
 CC_ADAPTER_CONTAINER_SOURCE=/tmp/cc-adapter-final node tests/adapter-cache/native.mjs
-CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js node tests/universal/regression.mjs
-CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js node tests/legacy-autoload/browser.mjs
-CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js node tests/legacy-autoload/matrix.mjs
+CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js CC_FRONTEND_VERSION="$saved_bundle_timestamp" node tests/universal/regression.mjs
+CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js CC_FRONTEND_VERSION="$saved_bundle_timestamp" node tests/legacy-autoload/browser.mjs
+CC_FRONTEND_EXPECTED=.local/adapter-cache/production.js CC_FRONTEND_VERSION="$saved_bundle_timestamp" node tests/legacy-autoload/matrix.mjs
 ```
 
 `frontend-asset.mjs` retains exact deployed-code and version assertions for either
 the default esbuild prebuilt or the explicit PHP candidate. For PHP it verifies
 the complete JS body, its content hash and the exact ordered source fingerprint;
-only the successful-build timestamp is allowed to differ. It never accepts any
+the administrative header is used only to compare source fingerprints. URL versions
+come from `CC_FRONTEND_VERSION` (the saved MODX timestamp), or the fixed release
+version for the prebuilt. It never accepts any
 arbitrary bundle as an alternative.
 
 Native lifecycle: reset only `clean`/`publiccore`, run

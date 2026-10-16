@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-/** Administrative builder. Visitors read only the first line of the ready asset. */
+/** Administrative builder. Frontend selection uses only MODX cached settings. */
 final class CookieConsentBundleManager
 {
+    private const VERSION_KEY = 'cookie_consent.bundle_version';
     private const FILE = 'js/cookie-consent/cached-cookie-consent.min.js';
     private const HEADER = '// CookieConsentBundle ';
     private const RECIPE = 'peast-1.17.6-compact-es2020-v1';
@@ -33,35 +34,26 @@ final class CookieConsentBundleManager
         try { $line = fgets($stream, 512); } finally { fclose($stream); }
         if (!is_string($line) || !str_starts_with($line, self::HEADER)) return null;
         $meta = json_decode(substr($line, strlen(self::HEADER)), true);
-        if (!is_array($meta) || !preg_match('/^[a-f0-9]{64}$/D', $meta['fingerprint'] ?? '') ||
-            !preg_match('/^[a-f0-9]{64}$/D', $meta['version'] ?? '') ||
-            !preg_match('/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}Z$/D', $meta['built_at'] ?? '')) return null;
+        if (!is_array($meta) || !is_string($meta['fingerprint'] ?? null) || !preg_match('/^[a-f0-9]{64}$/D', $meta['fingerprint'])) return null;
         return $meta;
     }
 
-    /** No source reads, fingerprints, locks or writes on this frontend path. */
+    /** No JS/manifest access, file checks or SQL: use MODX's already loaded config. */
     public static function asset($modx): string
     {
-        $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
-        $meta = self::metadata($assets . self::FILE);
-        if ($meta) return self::FILE . '?v=' . $meta['version'];
-        // The shipped prebuilt is always usable, including on read-only hosting.
-        $manifest = json_decode((string)@file_get_contents(self::manifest($modx)), true);
-        $hash = $manifest['outputs']['assets/js/cookie-consent/cookie-consent.min.js']['sha256'] ?? '';
-        if (!is_string($hash) || !preg_match('/^[a-f0-9]{64}$/D', $hash)) {
-            require_once __DIR__ . '/CookieConsentVersion.php';
-            $hash = CookieConsentVersion::VERSION;
-        }
-        return 'js/cookie-consent/cookie-consent.min.js?v=' . rawurlencode(substr($hash, 0, 20));
+        $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
+        if ($version > 0) return self::FILE . '?v=' . $version;
+        require_once __DIR__ . '/CookieConsentVersion.php';
+        return 'js/cookie-consent/cookie-consent.min.js?v=' . rawurlencode(CookieConsentVersion::VERSION);
     }
 
     public static function status($modx): array
     {
+        $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
         $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/js/cookie-consent/';
-        $meta = self::metadata($dir . 'cached-cookie-consent.min.js');
         $attempt = json_decode((string)@file_get_contents($dir . 'cookie-consent.last-error.json'), true);
-        return ['state' => is_array($attempt) ? 'error' : ($meta ? 'ready' : 'fallback'),
-            'built_at' => $meta['built_at'] ?? null, 'version' => $meta['version'] ?? null];
+        return ['state' => is_array($attempt) ? 'error' : ($version > 0 ? 'ready' : 'fallback'),
+            'built_at' => $version > 0 ? gmdate('Y-m-d\TH:i:s\Z', $version) : null, 'version' => $version > 0 ? $version : null];
     }
 
     private static function manifest($modx): string
@@ -105,7 +97,7 @@ final class CookieConsentBundleManager
             $fingerprint = hash_final($hash);
             $file = $assets . self::FILE;
             $old = self::metadata($file);
-            if (!$force && $old && $old['fingerprint'] === $fingerprint) {
+            if (!$force && $old && $old['fingerprint'] === $fingerprint && (int)$modx->getOption(self::VERSION_KEY, null, 0) > 0) {
                 @unlink($dir . 'cookie-consent.last-error.json');
                 return self::status($modx) + ['rebuilt' => false];
             }
@@ -117,9 +109,35 @@ final class CookieConsentBundleManager
             $output = $renderer->render($ast) . "\n";
             // Fail closed if a renderer produces invalid JS. No regex minification.
             \Peast\Peast::ES2020($output, ['strictEncoding' => true])->parse();
-            $meta = ['fingerprint' => $fingerprint, 'version' => hash('sha256', $output), 'built_at' => gmdate('Y-m-d\TH:i:s\Z')];
-            // Metadata and code commit together in ONE rename; no split-file window.
-            self::atomic($file, self::HEADER . json_encode($meta, JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR) . "\n" . $output);
+            // Keep only the administrative source fingerprint in the file header.
+            $meta = ['fingerprint' => $fingerprint];
+            $setting = $modx->getObject('modSystemSetting', ['key' => self::VERSION_KEY]);
+            $previousVersion = $setting ? (int)$setting->get('value') : 0;
+            $previous = is_file($file) ? file_get_contents($file) : null;
+            if ($previous === false) throw new RuntimeException('bundle_source');
+            if (!$modx->beginTransaction()) throw new RuntimeException('bundle_version');
+            try {
+                self::atomic($file, self::HEADER . json_encode($meta, JSON_THROW_ON_ERROR) . "\n" . $output);
+                $version = time(); // The file is already published before state can switch.
+                // time() has second precision: two immediate successful builds need distinct URLs.
+                if ($version === $previousVersion) { sleep(1); $version = time(); }
+                if (!$setting) {
+                    $setting = $modx->newObject('modSystemSetting');
+                    $setting->fromArray(['key' => self::VERSION_KEY, 'xtype' => 'textfield', 'namespace' => 'cookie_consent', 'area' => 'consent'], '', true, true);
+                }
+                $setting->set('value', (string)$version);
+                if (!$setting->save() || !$modx->commit()) throw new RuntimeException('bundle_version');
+            } catch (Throwable $e) {
+                $modx->rollBack();
+                if ($previous !== null) self::atomic($file, $previous);
+                else @unlink($file);
+                throw $e;
+            }
+            $modx->setOption(self::VERSION_KEY, $version);
+            // Native APIs, not the clearcache processor: neither invokes OnSiteRefresh.
+            $modx->cacheManager->refresh(['system_settings' => []]);
+            $modx->cacheManager->clean(['cache_key' => $modx->getOption('cache_resource_key', null, 'resource'),
+                'cache_handler' => $modx->getOption('cache_resource_handler', null, $modx->getOption('cache_handler'))]);
             @unlink($dir . 'cookie-consent.last-error.json');
             return self::status($modx) + ['rebuilt' => true];
         } catch (Throwable $e) {

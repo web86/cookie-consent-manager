@@ -1,5 +1,5 @@
 // Keep exact deployed-code assertions for either the release prebuilt or the
-// independently generated PHP candidate. Only successful-build metadata differs.
+// independently generated PHP candidate. Only administrative fingerprint headers are excluded from the JS body hash.
 import {readFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
@@ -9,7 +9,6 @@ function parse(bytes){
  if(!source.startsWith(prefix))return {body:bytes,meta:null};
  const newline=source.indexOf('\n'),meta=JSON.parse(source.slice(prefix.length,newline));
  const body=Buffer.from(source.slice(newline+1));
- assert.equal(meta.version,sha(body),'Ready bundle metadata matches its complete JS body');
  assert.match(meta.fingerprint,/^[a-f0-9]{64}$/);
  return {body,meta};
 }
@@ -21,4 +20,4 @@ export function frontendHash(bytes){
  return sha(actual.body);
 }
 export function expectedFrontendHash(){return sha(expected().body);}
-export function expectedFrontendVersion(){const value=expected();return value.meta?.version||sha(value.body).slice(0,20);}
+export function expectedFrontendVersion(){const m=JSON.parse(readFileSync('_build/package.json'));return process.env.CC_FRONTEND_VERSION||m.version+(m.release?'-'+m.release+m.release_index:'');}
