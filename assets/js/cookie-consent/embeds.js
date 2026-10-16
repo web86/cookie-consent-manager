@@ -81,8 +81,8 @@ const web86Embeds = (() => {
         state.placeholder = children(node,'[data-cc-placeholder]');
         if (!state.placeholder) {
           const placeholder = document.createElement('div'); placeholder.setAttribute('data-cc-placeholder',''); placeholder.className = 'cc-embed-placeholder';
-          const notice = document.createElement('p'); notice.textContent = t('embed_notice');
-          const button = document.createElement('button'); button.type = 'button'; button.setAttribute('data-cc-settings',''); button.textContent = t('embed_settings');
+          const notice = document.createElement('p'); notice.textContent = t('service.' + service?.key + '.embed_notice');
+          const button = document.createElement('button'); button.type = 'button'; button.setAttribute('data-cc-settings',''); button.textContent = t('map_load', { provider: t('service.' + service?.key + '.name') });
           placeholder.append(notice,button); node.append(placeholder); state.placeholder = placeholder;
         }
         if (!service || !state.template) {

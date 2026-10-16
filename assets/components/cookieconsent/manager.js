@@ -150,7 +150,10 @@
     function textSource(language, key) {
       const base = draft.texts.base_language;
       const service = draft.registry.services.find(s => key.startsWith('service.' + s.key + '.'));
-      if(key==='map_notice'||key.endsWith('.map_notice'))return [draft.texts.locales[language]?.[key],draft.texts.locales[language]?.map_notice,data.lexicons[language]?.map_notice,draft.texts.locales[base]?.map_notice,data.lexicons[base]?.map_notice,data.lexicons.en.map_notice].find(v=>typeof v==='string'&&v.length>0)||'';
+      if(key==='map_notice'||key==='map_load'||key.endsWith('.map_notice')) {
+        const common=key==='map_load'?'map_load':'map_notice',legacy=common==='map_load'?'embed_settings':'embed_notice';
+        return [draft.texts.locales[language]?.[key],draft.texts.locales[language]?.[common],draft.texts.locales[language]?.[legacy],data.lexicons[language]?.[common],draft.texts.locales[base]?.[common],draft.texts.locales[base]?.[legacy],data.lexicons[base]?.[common],data.lexicons.en[common]].find(v=>typeof v==='string'&&v.length>0)||'';
+      }
       const serviceFallback = service ? (key.endsWith('.name') ? service.name : service.purpose) : '';
       return draft.texts.locales[language]?.[key] ?? data.lexicons[language]?.[key] ?? draft.texts.locales[base]?.[key] ?? data.lexicons[base]?.[key] ?? data.lexicons.en[key] ?? serviceFallback;
     }
@@ -252,12 +255,12 @@
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
       languages(editSelect, editLanguage, true);textFields.replaceChildren();
-      const keys=['notice_html','map_notice',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
+      const keys=['notice_html','map_notice','map_load',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
       for(const key of keys) {
         const overrides=draft.texts.locales[editLanguage];
         const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
         const service=draft.registry.services.find(s=>key==='service.'+s.key+'.map_notice');
-        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):key==='map_notice'?t('map_notice'):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
+        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):['map_notice','map_load'].includes(key)?t(key):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
         const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'||key.endsWith('map_notice')?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='notice_html'?t('html_help'):undefined);
         input.dataset.textKey=key;textFields.append(row);
       }
@@ -284,7 +287,7 @@
         const replace = str => (str || '').split('{provider}').join(provider);
         return `<div class="cc-map-placeholder" data-preview-map="${escape(s.key)}">${s.config.show_title === false ? '' : '<h3>' + escape(strings.map_title) + '</h3>'}<p>${escape(replace(strings['service.' + s.key + '.map_notice'] || strings.map_notice))}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(replace(strings.map_load))}</button></div>`;
       }).join('');
-      if (previewState === 'map') content += services.filter(s => ['youtube','rutube','vk_video'].includes(s.loader)).map(s => `<div class="cc-embed-placeholder" data-preview-embed="${escape(s.key)}"><h3>${escape(strings['service.' + s.key + '.name'] || s.name)}</h3><p>${escape(strings.embed_notice)}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(strings.embed_settings)}</button></div>`).join('');
+      if (previewState === 'map') content += services.filter(s => ['youtube','rutube','vk_video'].includes(s.loader)).map(s => `<div class="cc-embed-placeholder" data-preview-embed="${escape(s.key)}"><h3>${escape(strings['service.' + s.key + '.name'] || s.name)}</h3><p>${escape(strings.map_notice.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(strings.map_load.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</button></div>`).join('');
       const parsed = new DOMParser().parseFromString(content, 'text/html');
       for (const a of parsed.querySelectorAll('a')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
       frame.srcdoc = '<!doctype html><html lang="' + escape(previewLanguage) + '"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'"><style>' + String(result.publicCss || '').replace(/<\/style/gi, '') + ' .cookie-warning{position:static;box-shadow:none}.cookie-warning .cookie-warning-settings{max-height:none} body{font:14px system-ui;margin:0;background:#edf0f3;color:#182231}main{padding:24px;height:70px;background:#dde4eb}section{background:white;padding:18px}button{padding:9px;margin:4px;border:1px solid #64748b;background:white;border-radius:4px}small{display:block;color:#536171;margin:4px 0}label{display:block;margin:10px 0}.map{padding:12px;border:1px solid #d3dbe4;margin:12px 0}a{color:#245ba0}</style></head><body><main>' + escape(t('site_mock')) + '</main><section class="cookie-warning">' + parsed.body.innerHTML + '</section></body></html>';

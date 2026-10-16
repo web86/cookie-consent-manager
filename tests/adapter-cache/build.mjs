@@ -12,12 +12,13 @@ const old=JSON.parse(original('_build/frontend-manifest.json'));
 eq(js,Object.keys(old.inputs).filter(p=>p.endsWith('.js')),'Exact beta1 dependency order, including all video adapters');
 for(const [p,h] of Object.entries(manifest.inputs))eq(sha(readFileSync(p)),h,'Release input hash '+p);
 for(const [p,info] of Object.entries(manifest.outputs)){eq(sha(readFileSync(p)),info.sha256,'Release output '+p);eq(readFileSync(p).length,info.bytes);}
-for(const p of js)eq(readFileSync(p),original(p),'Visitor runtime source preserved '+p);
+for(const p of js.filter(p=>!p.endsWith('/embeds.js')))eq(readFileSync(p),original(p),'Non-presentation visitor runtime source preserved '+p);
 eq(readFileSync('server/src/CookieConsentServiceRegistry.php'),original('server/src/CookieConsentServiceRegistry.php'),'Registry, SDK/category defaults unchanged');
 eq(readFileSync('server/modx2-map-snippet.php'),original('server/modx2-map-snippet.php'),'Map contract unchanged');
-eq(readFileSync('server/modx2-video-snippet.php'),original('server/modx2-video-snippet.php'),'Video contract unchanged');
+for(const file of ['CookieConsentVideoUrl.php','CookieConsentEmbedOptions.php'])eq(readFileSync('server/src/'+file),original('server/src/'+file),'Video URL/display contract unchanged');
 const meta=JSON.parse(readFileSync('_build/package.json')),baseMeta=JSON.parse(original('_build/package.json'));
-eq({...meta,release_index:baseMeta.release_index},baseMeta,'Only package beta index changes');
+eq({...meta,version:baseMeta.version,release:baseMeta.release,release_index:baseMeta.release_index},baseMeta,'Only release version fields change');
+execFileSync(process.execPath,['_build/version.mjs','--check']);
 execFileSync(process.execPath,['_build/user-guide.mjs','--check']);
 const guide=JSON.parse(readFileSync('_build/user-guide.json')).languages;
 for(const lang of ['ru','en']){eq(guide[lang].sections.length,6);const code=guide[lang].sections[5].blocks.filter(b=>b.type==='code');eq(code.map(b=>b.language),['modx','html','javascript']);for(const provider of ['youtube','rutube','vk_video'])eq(code[0].text.includes('&provider=`'+provider+'`'),true);eq(code[2].text.includes("{ service: 'youtube' }"),true);}

@@ -1,8 +1,8 @@
 # Cookie Consent Manager for MODX 2
 
-В этой feature-ветке — кандидат **1.0.5-beta2** ([transport для staging и аудит состава](docs/modx2-beta2-transport-acceptance.md)): YouTube, RUTUBE, VK Видео, доверенные template embeds и `mountEmbeds(root)` поверх архитектуры [beta5](docs/modx2-service-adapters-acceptance.md). Сохраняются единый bundle, категории, Strict/Legacy, SDK, карты и аудит. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
+Текущая стабильная версия компонента в этой ветке — **1.0.6**: YouTube, RUTUBE, VK Видео, доверенные template embeds, `mountEmbeds(root)` и административная PHP-сборка адаптеров. В «Текстах» доступны общий текст внешнего содержимого, отдельные тексты Google Maps и Яндекс Карт и единая подпись «Настройки cookie» / “Cookie settings”. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md), [HTML-примеры постеров и размеров RU/EN](docs/modx2-embed-display-examples.md), [состав transport и проверки 1.0.6](docs/modx2-1.0.6-placeholder-texts-acceptance.md). Установочный transport собирается native MODX builder; публикация GitHub Release и deployment не выполняются. Исторические отчёты ниже относятся к прежним версиям, в том числе [transport 1.0.5-beta2 для staging](docs/modx2-beta2-transport-acceptance.md).
 
-Ветка `codex/modx2-adapter-cache-build` добавляет административную пересборку адаптеров без Node.js: измените исходник по пути из настроек сервиса и очистите кеш MODX в Manager. Принудительная кнопка — «Основные → Сборка адаптеров → Пересобрать адаптеры». Встроенная инструкция RU/EN содержит редактирование адаптеров и три способа подключения видео. Версия пакета не изменена; [приёмка сборщика](docs/modx2-adapter-cache-build-acceptance.md).
+Ветка `codex/modx2-adapter-cache-build` добавляет административную пересборку адаптеров без Node.js: измените исходник по пути из настроек сервиса и очистите кеш MODX в Manager. Принудительная кнопка — «Основные → Сборка адаптеров → Пересобрать адаптеры». Встроенная инструкция RU/EN содержит редактирование адаптеров и три способа подключения видео. Историческая [приёмка сборщика](docs/modx2-adapter-cache-build-acceptance.md).
 
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
@@ -159,13 +159,13 @@ CSP полезна как дополнительная защита от вне�
 [Полный release harness](tests/release/run.mjs), [новые focused тесты](tests/beta33/README.md), [transport tests](tests/transport/). Только локальные именованные disposable DB и loopback fixtures. Shared main suites запускаются последовательно. Независимые beta-отчёты и immutable архивы сохранены в `docs/`; они описывают соответствующие исторические версии. Production deployment выполняется владельцем отдельно после staging.
 ## Публичный реестр
 
-В текущем beta-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
+В текущей версии браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
 
 
 Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-runtime.js` → `services/*.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: отдельные файлы в `services/`; dispatcher: `service-loaders.js`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).
 
 
-## Видео и универсальные встраивания (MODX 2, 1.0.5-beta2)
+## Видео и универсальные встраивания (MODX 2, 1.0.6)
 
 Новые типы `youtube`, `rutube`, `vk_video` выключены по умолчанию. Назначьте им любую видимую необязательную категорию в Manager. При upgrade существующий реестр сохраняется; добавьте новый тип из каталога. Категорийные согласия `categories_v2`, Strict/Legacy и audit schema 3 сохраняются.
 
@@ -179,4 +179,4 @@ Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` →
 
 `CookieConsentMap` сохраняет прежний вызов и получает необязательные `title`, `cssClass`, `width`, `height`, `aspectRatio`, `loading`, `poster`, `allowFullscreen`, `referrerPolicy`. До разрешения допускается только same-origin poster; внешняя обложка не запрашивается.
 
-[Полные RU примеры трёх способов, форматы YouTube/RUTUBE/VK, таблица параметров, AJAX, карты и CSP FAQ](docs/modx2-video-embeds.md). [Native acceptance и ограничения](docs/modx2-video-embeds-acceptance.md). Краткое руководство Manager RU/EN содержит пятый раздел «Видео и встраивания»; его источник — `_build/user-guide.json`.
+[Полные RU примеры трёх способов, форматы YouTube/RUTUBE/VK, таблица параметров, AJAX, карты и CSP FAQ](docs/modx2-video-embeds.md). [Native acceptance и ограничения](docs/modx2-video-embeds-acceptance.md). Краткое руководство Manager RU/EN содержит шестой раздел «Видео и встраивания»; его источник — `_build/user-guide.json`.

@@ -15,8 +15,10 @@ try {
     $p+=['title'=>$strings['video_title'],'aspectRatio'=>'16:9','allowFullscreen'=>true];
     $attrs=CookieConsentEmbedOptions::attributes($p,true);
     $e=static fn($v)=>CookieConsentEmbedOptions::escape((string)$v);
+    $providerName=(string)($strings['service.'.$key.'.name']??$service['name']);
+    $notice=str_replace('{provider}',$providerName,$strings['map_notice']);
     $fullscreen=CookieConsentEmbedOptions::boolean($p['allowFullscreen'])?' allowfullscreen':'';
     $allow='autoplay; encrypted-media; picture-in-picture'.($fullscreen?'; fullscreen':'');
     $frame='<iframe src="'.$e($src).'" title="'.$e($p['title']).'" allow="'.$allow.'" referrerpolicy="strict-origin-when-cross-origin"'.$fullscreen.'></iframe>';
-    return '<div data-cc-embed="'.$e($key).'" data-cc-video="'.$e($provider).'"'.$attrs.'><div data-cc-placeholder><p>'.$e($strings['embed_notice']).'</p><button type="button" data-cc-settings>'.$e($strings['embed_settings']).'</button></div><template>'.$frame.'</template></div>';
+    return '<div data-cc-embed="'.$e($key).'" data-cc-video="'.$e($provider).'"'.$attrs.'><div data-cc-placeholder><p>'.$e($notice).'</p><button type="button" data-cc-settings>'.$e(str_replace('{provider}',$providerName,$strings['map_load'])).'</button></div><template>'.$frame.'</template></div>';
 }catch(Throwable $e){return '';}

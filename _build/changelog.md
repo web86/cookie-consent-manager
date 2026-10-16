@@ -1,3 +1,11 @@
+# Cookie Consent Manager 1.0.6 — MODX 2
+
+- Set stable component metadata to 1.0.6 (no prerelease suffix).
+- Share editable RU/EN external-content placeholder text with safe {provider} substitution across videos and automatic generic embeds; retain visible Google Maps and Yandex Maps text overrides.
+- Use one editable Cookie settings / Настройки cookie button label for built-in map, video and generic placeholders; preserve category targeting and existing user translations on upgrade.
+- Update the RU/EN short guide and verify six HTML examples for local/inert external posters, landscape/portrait ratios, fixed iframe dimensions and responsive width.
+- Preserve consent lifecycle, iframe activation/revocation, SDKs, adapter URL policies and administrative timestamp versioning. Build the native installable transport for testing; no GitHub publication, push, merge or deployment.
+
 # Cookie Consent Manager 1.0.5-beta2 — MODX 2 staging candidate
 
 - Package the completed adapter cache builder and saved timestamp URL versioning for real-site staging tests. No production release or real video playback claim.

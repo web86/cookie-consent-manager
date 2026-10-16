@@ -21,7 +21,7 @@
     "assets/js/cookie-consent/embeds/youtube.js": "b92dbe0f1d235fb6504f6bd400571f911c0df08474c9eea25c7dee4fffea69a6",
     "assets/js/cookie-consent/embeds/rutube.js": "3e881f745f05cbeabc0fe08fc20ad0f8829f3ad3beac1c2e8b8216dd95c76bef",
     "assets/js/cookie-consent/embeds/vk-video.js": "4ab06bfae60bf56a142010e96deb4a7ccfab3e03b99fcb982166058a560b724d",
-    "assets/js/cookie-consent/embeds.js": "472f7275e6e32dfa0e22a377c995cc5beb9a75518a1d71dbc72719499b4ddc90",
+    "assets/js/cookie-consent/embeds.js": "4091377e070f3e3bb03dc8b55f5343749fc138f75bbfc0fc7da2d38e2b64d2d4",
     "assets/js/cookie-consent/consent-manager.js": "d6413ec0640abf47f309d66899070a8cde87866f7070061cf168e5b562e80236",
     "assets/css/cookie-consent.css": "ffb38f0f4312c4ed6901be83976ad5537afd4f370cb991fe5391850f0b826456",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
@@ -29,8 +29,8 @@
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "49fbf428d0fd61b456f5d322647a224f5076bf103d097db2a20f64c6cda5b897",
-      "bytes": 29435
+      "sha256": "a0ae7ceafcecdcb46ece95cf9c2be0e453e952d73d5e184c26d3f2e2ae69ae54",
+      "bytes": 29488
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9de4060edd4b0f23a5909b0260d681421710b55577543c3d25258dcb219b7912",

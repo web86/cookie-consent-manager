@@ -29,7 +29,7 @@ try{
  });
  await test('technical-fields-hidden-one-language-select-short-integration',async()=>{
   eq(await m.p.locator('#ccm-policy,#ccm-audit-config,#ccm-preview-language,#ccm-base-language,#ccm-stock-language,#ccm-custom-language,[id^=ccm-purpose-],[data-restore]').count(),0);
-  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||k==='map_notice'||/^service\.[a-z0-9_]+\.map_notice$/.test(k)||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
+  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||k==='map_notice'||k==='map_load'||/^service\.[a-z0-9_]+\.map_notice$/.test(k)||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
   await m.p.locator('#ccm-tab-logs').click();await m.p.locator('#ccm-tab-main').click();await m.p.locator('#ccm-guide-open').click();ok((await m.p.locator('#ccm-guide-dialog').textContent()).includes('[[!CookieConsent]]'));await m.p.locator('#ccm-guide-close').click();ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
  });
  await test('two-counters-generated-keys-confirmation-save-only-and-auto-preview-locale',async()=>{
@@ -74,7 +74,7 @@ try{
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);
-  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:(()=>{const m=JSON.parse(readFileSync('_build/package.json'));return m.name+'-'+m.version+'-'+m.release+m.release_index;})(),preexisting_mode:'0'}})).json();
+  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:(()=>{const m=JSON.parse(readFileSync('_build/package.json'));return process.env.CC_INSTALL_SIGNATURE||m.name+'-'+m.version+(m.release?'-'+m.release+m.release_index:'');})(),preexisting_mode:'0'}})).json();
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('uninstall')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);eq((await c.api('get')).object.auditStatus.state,'ready');

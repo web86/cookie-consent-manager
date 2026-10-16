@@ -50,7 +50,7 @@ try {
     await page.screenshot({path:`${dir}/services-yandex-settings.png`});
   });
   await test('service-map-translations-editable-and-existing-texts-retained',async()=>{
-    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),2);equal(await page.locator('[data-text-key]').count(),12);
+    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),2);equal(await page.locator('[data-text-key]').count(),13);equal(await page.locator('[data-text-key=map_load]').count(),1);
   });
   await test('legacy-mode-preview-and-preserved-values',async()=>{
     await page.locator('#ccm-tab-main').click();const configure=await page.locator('#ccm-show-configure').isChecked();

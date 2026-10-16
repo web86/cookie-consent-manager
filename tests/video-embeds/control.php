@@ -14,7 +14,7 @@ if($op==='prepare-native'){
         $copyStock($stock,$processorDir);
     }
     $dirs=[MODX_CORE_PATH.'packages',MODX_CORE_PATH.'cache','/opt/cc-private/logs'];
-    $meta=json_decode(file_get_contents('/opt/cc-source/_build/package.json'),true,8,JSON_THROW_ON_ERROR);$signature=$meta['name'].'-'.$meta['version'].'-'.$meta['release'].$meta['release_index'];$spec=json_decode(file_get_contents('/opt/cc-source/.local/artifacts/'.$signature.'.inventory.json'),true,64,JSON_THROW_ON_ERROR);
+    $meta=json_decode(file_get_contents('/opt/cc-source/_build/package.json'),true,8,JSON_THROW_ON_ERROR);$signature=$meta['name'].'-'.$meta['version'].($meta['release']?'-'.$meta['release'].$meta['release_index']:'');$spec=json_decode(file_get_contents('/opt/cc-source/.local/artifacts/'.$signature.'.inventory.json'),true,64,JSON_THROW_ON_ERROR);
     foreach($spec['files'] as $file){[$kind,$relative]=explode('/',$file['target'],2);$path=$modx->getOption($kind.'_path').$relative;$dirs[]=dirname($path);if(is_file($path))chown($path,'www-data');}
     foreach(array_unique($dirs) as $dir){if(!is_dir($dir)&&!mkdir($dir,0755,true))throw new RuntimeException('Fixture directory');chown($dir,'www-data');chmod($dir,$dir==='/opt/cc-private/logs'?0700:0755);}
     echo 'Native fixture paths prepared';exit;

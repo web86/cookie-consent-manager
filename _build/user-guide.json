@@ -91,6 +91,10 @@
             },
             {
               "type": "paragraph",
+              "text": "В «Текстах» редактируются общий текст внешнего содержимого, отдельные тексты Google Maps и Яндекс Карт и единая кнопка «Настройки cookie». Шаблон {provider} подставляет название сервиса. Пустой индивидуальный текст карты использует общий. Пользовательские переводы сохраняются."
+            },
+            {
+              "type": "paragraph",
               "text": "1. Через CookieConsentVideo. Замените ID своими. Для VK скопируйте значение src из официального «Поделиться → Код для встраивания», включая hash, если он выдан. Обычная ссылка на страницу VK не подходит; OWNER_ID и VIDEO_ID ниже замените числами."
             },
             {
@@ -118,7 +122,7 @@
             },
             {
               "type": "paragraph",
-              "text": "После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальная обложка допустима до выбора; внешняя остаётся инертной. Параметры сниппета и примеры — в docs/modx2-video-embeds.md."
+              "text": "После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальный poster загружается до выбора; внешний не загружается даже после согласия. aspectRatio задаёт пропорцию (16:9 по умолчанию, возможна 9:16), width — максимальную ширину в пикселях. height не отменяет адаптивную пропорцию. Проверенные HTML-примеры постеров, фиксированных размеров и адаптивной ширины — в docs/modx2-embed-display-examples.md."
             }
           ]
         }
@@ -214,6 +218,10 @@
             },
             {
               "type": "paragraph",
+              "text": "Texts provides a shared external content message, separate Google Maps and Yandex Maps messages, and one “Cookie settings” button label. The {provider} token inserts the service name. An empty individual map text uses the common message. Custom translations are preserved."
+            },
+            {
+              "type": "paragraph",
               "text": "1. Use CookieConsentVideo. Replace the sample IDs. For VK copy the src value from the official Share → Embed code, keeping hash if supplied. A regular VK page URL is not supported; replace OWNER_ID and VIDEO_ID below with numbers."
             },
             {
@@ -241,7 +249,7 @@
             },
             {
               "type": "paragraph",
-              "text": "After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster may appear before choice; an external poster stays inert. See docs/modx2-video-embeds.md for snippet options and examples."
+              "text": "After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster loads before choice; an external poster is not fetched even after consent. aspectRatio sets the ratio (16:9 by default, also 9:16); width caps the pixel width. height does not override responsive sizing. Tested HTML examples for posters, fixed dimensions and responsive width are in docs/modx2-embed-display-examples.md."
             }
           ]
         }

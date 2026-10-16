@@ -1,4 +1,4 @@
-# Видео и доверенные встраивания — MODX 2, 1.0.5-beta1
+# Видео и доверенные встраивания — MODX 2, 1.0.6
 
 В Manager включите сервис YouTube, RUTUBE или VK Видео, назначьте существующую необязательную категорию и включите её видимость. Рекомендуется `external_content`, но допустимы также `analytics` и `marketing`. Несколько экземпляров одного типа имеют разные ключи, например `youtube` и `youtube_help`. Выбор посетителя остаётся категорийным: кнопка на заглушке открывает настройки назначенной категории.
 
@@ -77,10 +77,6 @@
 
 ```html
 <div data-cc-embed="youtube" class="video-box">
-  <div data-cc-placeholder>
-    <p>Видео доступно после разрешения категории.</p>
-    <button type="button" data-cc-settings>Открыть настройки cookie</button>
-  </div>
   <template>
     <iframe src="https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
       title="Видео о компании" allow="fullscreen; picture-in-picture"
@@ -173,3 +169,15 @@ Same-origin poster показывается до разрешения; cross-ori
 **Нужны inline scripts/style?** Production использует один `cookie-consent.min.js` и штатный CSS. Runtime применяет проверенное `aspect-ratio`/размеры через CSSOM; HTML сниппета не содержит inline scripts/handlers. Доверенный template может содержать произвольные атрибуты/скрипты; согласуйте их с CSP своего сайта самостоятельно.
 
 **Почему autoplay не сработал?** Браузеры ограничивают автоматическое воспроизведение. Разрешение категории и iframe autoplay permission не отменяют эти ограничения. RUTUBE autoplay не обещается; используйте подтверждённый официальный код через template при необходимости.
+
+## Тексты заглушек / Placeholder texts
+
+В Manager → «Тексты» выберите язык. Поле «Текст заглушки внешнего содержимого» задаёт общий текст для видео и автоматических generic-заглушек. Отдельные видимые поля Google Maps и Яндекс Карт сохраняют индивидуальные тексты карт; пустое поле карты использует общий текст. `{provider}` заменяется локализованным названием экземпляра из реестра и выводится как текст. Единое поле «Подпись кнопки настроек cookie» используется всеми штатными заглушками; кнопка открывает назначенную категорию и сама не даёт согласия.
+
+In Manager → Texts choose the language. “External content placeholder text” controls videos and automatic generic placeholders. Separate visible Google Maps and Yandex Maps fields retain individual map texts; an empty map field uses the common text. `{provider}` becomes the localized instance display name and is rendered as text. “Cookie settings button label” controls all built-in placeholder buttons; each opens its assigned category without granting consent.
+
+Существующие настройки при обновлении не перезаписываются. Используются прежние ключи `map_notice`, `service.<key>.map_notice`, `map_load`. Исторические `embed_notice`/`embed_settings` служат совместимым fallback общего поля, только если соответствующий общий override отсутствует или пуст; значение видно в редакторе. После заполнения общего поля старый embed override его не переопределяет. Собственная заглушка внутри доверенного HTML остаётся авторским HTML: для автоматического перевода не задавайте `data-cc-placeholder`, как в примерах.
+
+Updates preserve existing settings. Existing `map_notice`, `service.<key>.map_notice`, `map_load` keys are reused. Historical `embed_notice`/`embed_settings` act as common-field compatibility fallbacks only when the corresponding common override is absent or empty; the editor displays that value. Editing the common field takes priority over the old embed override. A developer-supplied placeholder remains trusted author HTML: omit `data-cc-placeholder` to use automatic localization, as the examples do.
+
+[Шесть проверяемых HTML-примеров постеров и размеров / Six executable poster and sizing examples](modx2-embed-display-examples.md).

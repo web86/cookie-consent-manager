@@ -49,7 +49,11 @@ final class CookieConsentTexts
                 ($language!==$base && $s['key']===$s['loader'] ? ($requested[$stock]??null) : null) ?? ($field==='name' ? $s['name'] : $s['purpose']);
         }
         $nonempty=static function(array $values): string {foreach($values as $value)if(is_string($value)&&$value!=='')return $value;return '';};
-        $result['map_notice']=$nonempty([$requestedOverrides['map_notice']??null,$requested['map_notice']??null,$baseOverrides['map_notice']??null,$baseLex['map_notice']??null,self::lexicon('en')['map_notice']]);
+        // Reuse the existing shared keys. Old embed translations remain a fallback visible in Texts.
+        foreach(['map_notice'=>'embed_notice','map_load'=>'embed_settings'] as $key=>$legacy){
+            $result[$key]=$nonempty([$requestedOverrides[$key]??null,$requestedOverrides[$legacy]??null,$requested[$key]??null,$baseOverrides[$key]??null,$baseOverrides[$legacy]??null,$baseLex[$key]??null,self::lexicon('en')[$key]]);
+            $result[$legacy]=$result[$key];
+        }
         foreach($services as $service)if(in_array($service['loader'],['google_maps','yandex_maps'],true)){
             $key='service.'.$service['key'].'.map_notice';
             // Do not leak a different language's service override over this language's general text.

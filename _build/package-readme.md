@@ -67,6 +67,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 В «Сервисах» включите YouTube, RUTUBE или VK Видео и назначьте видимую необязательную категорию. В Strict видео ждёт её разрешения. В Legacy действует политика режима: первый визит без сохранённого выбора может загрузить видео до клика; сохранённый отказ, частичный выбор и устаревшее согласие не обходятся.
 
+В «Текстах» редактируются общий текст внешнего содержимого, отдельные тексты Google Maps и Яндекс Карт и единая кнопка «Настройки cookie». Шаблон {provider} подставляет название сервиса. Пустой индивидуальный текст карты использует общий. Пользовательские переводы сохраняются.
+
 1. Через CookieConsentVideo. Замените ID своими. Для VK скопируйте значение src из официального «Поделиться → Код для встраивания», включая hash, если он выдан. Обычная ссылка на страницу VK не подходит; OWNER_ID и VIDEO_ID ниже замените числами.
 
 ```modx
@@ -101,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 ```
 
-После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальная обложка допустима до выбора; внешняя остаётся инертной. Параметры сниппета и примеры — в docs/modx2-video-embeds.md.
+После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальный poster загружается до выбора; внешний не загружается даже после согласия. aspectRatio задаёт пропорцию (16:9 по умолчанию, возможна 9:16), width — максимальную ширину в пикселях. height не отменяет адаптивную пропорцию. Проверенные HTML-примеры постеров, фиксированных размеров и адаптивной ширины — в docs/modx2-embed-display-examples.md.
 
 ---
 
@@ -172,6 +174,8 @@ To force a rebuild, open General → Adapters build → Rebuild adapters. This b
 
 Enable YouTube, RUTUBE or VK Video in Services and assign a visible optional category. Strict waits for category permission. Legacy follows its mode policy: a first visit with no saved choice may load video before a click; saved refusals, partial choices and outdated consent are not bypassed.
 
+Texts provides a shared external content message, separate Google Maps and Yandex Maps messages, and one “Cookie settings” button label. The {provider} token inserts the service name. An empty individual map text uses the common message. Custom translations are preserved.
+
 1. Use CookieConsentVideo. Replace the sample IDs. For VK copy the src value from the official Share → Embed code, keeping hash if supplied. A regular VK page URL is not supported; replace OWNER_ID and VIDEO_ID below with numbers.
 
 ```modx
@@ -206,4 +210,4 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 ```
 
-After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster may appear before choice; an external poster stays inert. See docs/modx2-video-embeds.md for snippet options and examples.
+After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster loads before choice; an external poster is not fetched even after consent. aspectRatio sets the ratio (16:9 by default, also 9:16); width caps the pixel width. height does not override responsive sizing. Tested HTML examples for posters, fixed dimensions and responsive width are in docs/modx2-embed-display-examples.md.
