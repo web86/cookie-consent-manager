@@ -6,7 +6,7 @@ import {readFileSync, mkdirSync, writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 
-const baseline = JSON.parse(readFileSync('tests/frontend-refactor/baseline.json'));
+const baseline = JSON.parse(readFileSync(process.env.CC_REFACTOR_BASELINE||'tests/frontend-refactor/baseline.json'));
 const original = path => execFileSync('git', ['show', `${baseline.commit}:${path}`], {encoding:'utf8'});
 const bundlePath = 'assets/js/cookie-consent/cookie-consent.min.js';
 const bundles = [original(bundlePath), readFileSync(process.env.CC_REFACTOR_CANDIDATE||bundlePath, 'utf8')];
@@ -15,7 +15,7 @@ const demo = original('demo.html');
 const origin = 'https://cmp.example.test';
 const categories = ['analytics','marketing','external_content'];
 const timestamp = 1792108800000;
-const out = '.local/frontend-refactor';
+const out = process.env.CC_REFACTOR_EVIDENCE||'.local/frontend-refactor';
 mkdirSync(out, {recursive:true});
 const browser = await chromium.launch();
 const results = [];
