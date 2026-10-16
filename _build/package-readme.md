@@ -57,6 +57,16 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Метод stillAllowed() проверяет, разрешено ли продолжать работу; проверяйте его и после await. Файл custom-map.js — пример вашего модуля: он не должен сам запускать сторонние запросы при import. Можно указать { service: 'yandex_maps' }, чтобы дополнительно проверить включённый экземпляр с таким ключом и той же категорией (это не отдельное согласие).
 
+### 5. Видео и встраивания
+
+В «Сервисах» включите YouTube, RUTUBE или VK Видео и назначьте видимую необязательную категорию. Кнопка на заглушке открывает настройки этой категории. Для VK используйте URL из «Поделиться → Код для встраивания».
+
+```modx
+[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`Наше видео`]]
+```
+
+Для сложного HTML используйте data-cc-embed="ключ_сервиса" с доверенным <template>: безопасность его HTML обеспечивает разработчик. После AJAX-вставки вызовите web86CookieConsent.mountEmbeds(root). Локальная обложка допустима до выбора; внешняя остаётся инертной. Подробности и три способа подключения — в README и docs/modx2-video-embeds.md.
+
 ---
 
 ## EN — Instructions and guide
@@ -115,3 +125,13 @@ document.addEventListener('DOMContentLoaded', function () {
 ```
 
 stillAllowed() tells your code whether work may continue; check it again after await. custom-map.js is an example of your own module and must not start third-party requests merely from being imported. You may add { service: 'yandex_maps' } to also require an enabled instance with that key in the same category (not separate service consent).
+
+### 5. Videos and embeds
+
+Enable YouTube, RUTUBE or VK Video in Services and assign a visible optional category. The placeholder button opens that category’s settings. For VK use the URL from Share → Embed code.
+
+```modx
+[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`Our video`]]
+```
+
+For complex HTML use data-cc-embed="service_key" with a trusted <template>: its HTML security belongs to the developer. Call web86CookieConsent.mountEmbeds(root) after AJAX insertion. A same-origin poster may appear before choice; an external poster stays inert. See README and docs/modx2-video-embeds.md for all three integration paths.

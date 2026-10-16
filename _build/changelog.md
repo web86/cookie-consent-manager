@@ -1,3 +1,12 @@
+# Cookie Consent Manager 1.0.5-beta1 — MODX 2
+
+- Disabled-by-default YouTube, RUTUBE and VK Video service types in the existing category model.
+- Native CookieConsentVideo snippet with reviewed HTTPS URL contracts and privacy-enhanced YouTube embeds.
+- Trusted inert template embeds and explicit idempotent mountEmbeds(root) for AJAX/modal content.
+- Backwards-compatible CookieConsentMap display and iframe parameters; safe local posters.
+- RU/EN messages, inert Manager video previews, a short fifth guide section and provider/CSP reference.
+- Existing categories_v2 consent, legacy first-visit behavior, SDK dispatcher and schema 3 audit remain intact.
+
 # Cookie Consent Manager 1.0.4-beta4 — frontend module boundaries
 
 - Extract existing SDK loading, queues, deduplication and Google Consent Mode into service-loaders.js.

@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 2
 
-В этой feature-ветке — кандидат **1.0.4-beta5** ([приёмка](docs/modx2-service-adapters-acceptance.md)): встроенные SDK вынесены в отдельные [адаптеры](docs/modx2-service-adapters.md), сохраняя единый bundle и поведение beta4. Пользовательские контракты [проверенной beta3](docs/modx2-1.0.4-beta3-acceptance.md), Strict/Legacy, категории, custom_js, карты и аудит сохранены. [Инструкция](docs/modx2-universal-services.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
+В этой feature-ветке — кандидат **1.0.5-beta1** ([приёмка](docs/modx2-video-embeds-acceptance.md)): YouTube, RUTUBE, VK Видео, доверенные template embeds и `mountEmbeds(root)` поверх архитектуры [beta5](docs/modx2-service-adapters-acceptance.md). Сохраняются единый bundle, категории, Strict/Legacy, SDK, карты и аудит. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
 
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
@@ -21,7 +21,7 @@
 
 Журналы могут содержать IP-адреса и технические сведения о посетителях. Ограничение HTTP-доступа к каталогу обеспечивает администратор сайта. Компонент не создаёт `.htaccess` и не проверяет тип веб-сервера. При ручной очистке всего `core/cache/` сохраните журналы; включайте их в backup. Файлы `YYYY-MM-cookie-consent.log` отделены от `error.log`; автоматического удаления нет.
 
-При обновлении код пяти canonical элементов заменяется на месте с предупреждением: `CookiesPopup`, `CookieConsent`, `CookieConsentAssets`, `CookieConsentBanner`, `CookieConsentMap`. ID, category, properties и пользовательские метаданные сохраняются; stock-копии не создаются. Настройки, переводы, HTML, IDs сервисов, ключи и прежние журналы сохраняются. Старый `CookieConsentRegistry` может остаться на сайте, но больше не устанавливается и не вызывается. Uninstall удаляет поставляемые runtime-файлы и сохраняет DB-настройки, элементы, категории, ACL и пользовательские данные; предварительно уберите подключения из шаблонов. Не выполняйте uninstall старого пакета поверх обновлённой версии. Полный purge — отдельное решение владельца. При поздних файловых сбоях возможно частичное состояние; универсальный атомарный rollback не обещается, нужен backup/restore.
+При обновлении код шести canonical элементов заменяется на месте с предупреждением: `CookiesPopup`, `CookieConsent`, `CookieConsentAssets`, `CookieConsentBanner`, `CookieConsentMap`, `CookieConsentVideo`. ID, category, properties и пользовательские метаданные сохраняются; stock-копии не создаются. Настройки, переводы, HTML, IDs сервисов, ключи и прежние журналы сохраняются. Старый `CookieConsentRegistry` может остаться на сайте, но больше не устанавливается и не вызывается. Uninstall удаляет поставляемые runtime-файлы и сохраняет DB-настройки, элементы, категории, ACL и пользовательские данные; предварительно уберите подключения из шаблонов. Не выполняйте uninstall старого пакета поверх обновлённой версии. Полный purge — отдельное решение владельца. При поздних файловых сбоях возможно частичное состояние; универсальный атомарный rollback не обещается, нужен backup/restore.
 
 ## Публичное подключение
 
@@ -151,3 +151,20 @@ CSP полезна как дополнительная защита от вне�
 
 
 Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-runtime.js` → `services/*.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: отдельные файлы в `services/`; dispatcher: `service-loaders.js`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).
+
+
+## Видео и универсальные встраивания (MODX 2, 1.0.5-beta1)
+
+Новые типы `youtube`, `rutube`, `vk_video` выключены по умолчанию. Назначьте им любую видимую необязательную категорию в Manager. При upgrade существующий реестр сохраняется; добавьте новый тип из каталога. Категорийные согласия `categories_v2`, Strict/Legacy и audit schema 3 сохраняются.
+
+Три способа подключения:
+
+1. `[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`Наше видео`]]` — iframe с серверной проверкой URL, инертный до разрешения.
+2. `<div data-cc-embed="youtube"><template><!-- Доверенный официальный iframe --></template></div>` — HTML вебмастера, который CMP не проверяет и не переписывает. Без собственной заглушки появится локализованная кнопка настроек категории.
+3. `web86CookieConsent.onAllowed('external_content', async stillAllowed => { /* собственная интеграция */ }, {service:'youtube'})` — проверяйте `stillAllowed()` после await и перед внешним запросом.
+
+После AJAX-вставки вызовите `web86CookieConsent.mountEmbeds(root)`; без аргумента метод ищет новые обёртки в document. Повторный вызов безопасен. Уже активные обычные iframe автоматически не оборачиваются.
+
+`CookieConsentMap` сохраняет прежний вызов и получает необязательные `title`, `cssClass`, `width`, `height`, `aspectRatio`, `loading`, `poster`, `allowFullscreen`, `referrerPolicy`. До разрешения допускается только same-origin poster; внешняя обложка не запрашивается.
+
+[Полные RU примеры трёх способов, форматы YouTube/RUTUBE/VK, таблица параметров, AJAX, карты и CSP FAQ](docs/modx2-video-embeds.md). [Native acceptance и ограничения](docs/modx2-video-embeds-acceptance.md). Краткое руководство Manager RU/EN содержит пятый раздел «Видео и встраивания»; его источник — `_build/user-guide.json`.
