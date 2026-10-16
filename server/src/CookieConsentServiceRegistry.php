@@ -15,6 +15,9 @@ final class CookieConsentServiceRegistry
         'custom_js' => ['recommended_category'=>'marketing', 'hosts'=>[]],
         'mock_marketing' => ['recommended_category'=>'marketing', 'hosts'=>[]],
         'google_maps' => ['recommended_category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
+        'youtube' => ['recommended_category'=>'external_content', 'hosts'=>['www.youtube-nocookie.com','www.youtube.com']],
+        'rutube' => ['recommended_category'=>'external_content', 'hosts'=>['rutube.ru']],
+        'vk_video' => ['recommended_category'=>'external_content', 'hosts'=>['vk.com','vkvideo.ru']],
         'yandex_maps' => ['recommended_category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
     ];
     public const BOOL_OPTIONS = [
@@ -42,6 +45,9 @@ final class CookieConsentServiceRegistry
             ['vk_ads','VK Реклама — пиксель','Рекламные измерения VK',false,[]],
             ['meta_pixel','Meta Pixel (Facebook / Instagram)','Рекламные измерения Meta',false,[]],
             ['google_maps','Google Maps','Внешние интерактивные карты',false,[]],
+            ['youtube','YouTube','Внешние видеовстраивания YouTube',false,[]],
+            ['rutube','RUTUBE','Внешние видеовстраивания RUTUBE',false,[]],
+            ['vk_video','VK Видео','Внешние видеовстраивания VK',false,[]],
             ['yandex_maps','Яндекс.Карты','Внешние интерактивные карты',false,[]],
         ] as [$loader,$name,$purpose,$enabled,$config]) {
             $services[]=['key'=>$loader,'name'=>$name,'purpose'=>$purpose,'category'=>self::CATALOG[$loader]['recommended_category'],

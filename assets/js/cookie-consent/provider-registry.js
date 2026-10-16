@@ -7,9 +7,10 @@
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
     google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing', mock_marketing: 'marketing',
-    google_maps: 'external_content', yandex_maps: 'external_content', custom_js: 'marketing'
+    google_maps: 'external_content', yandex_maps: 'external_content', custom_js: 'marketing', youtube: 'external_content', rutube: 'external_content', vk_video: 'external_content'
   });
   const hostPatterns = Object.freeze({
+    youtube: ['www.youtube-nocookie.com', 'www.youtube.com'], rutube: ['rutube.ru'], vk_video: ['vk.com', 'vkvideo.ru'],
     yandex: ['mc.yandex.ru', 'mc.yandex.com'], mailru: ['top-fwz1.mail.ru', 'top.mail.ru'],
     google_ga4: ['www.googletagmanager.com', '*.google-analytics.com'],
     google_ads: ['www.googletagmanager.com', 'www.googleadservices.com', '*.doubleclick.net', 'www.google.com'],

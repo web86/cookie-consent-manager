@@ -4,7 +4,7 @@
   "inputs": {
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
     "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
-    "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
+    "assets/js/cookie-consent/provider-registry.js": "4c8fbb6f317dd6d2a570e26b00f976bd37a65bdcc70858d658cc436b1e4cc4c9",
     "assets/js/cookie-consent/service-runtime.js": "9cc6bd44faeb82cdbb3f9d99098216c50342771ea74fc594441574bf2ee38b30",
     "assets/js/cookie-consent/services/google-common.js": "ce1ec31d2a047498b204cbd717538fe7bb6456cb79ff54f2d13d99b44d6f53fb",
     "assets/js/cookie-consent/services/yandex.js": "af7f624ae569d5623f2fd1876954b031e215dc2f9bb4b29fe6cc2afa6b93338e",
@@ -26,8 +26,8 @@
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
-      "bytes": 23957
+      "sha256": "1906caf7adbfd5840b6d1a6a50ff3108f82bcb845ea0f570c2fce30ae9abe53f",
+      "bytes": 24147
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
