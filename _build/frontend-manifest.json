@@ -19,15 +19,15 @@
     "assets/js/cookie-consent/services/mock-marketing.js": "71c5aae121ea9a837cad453208f069364fcfc75ab891229430717380fe1e24c0",
     "assets/js/cookie-consent/service-loaders.js": "d91052e7c37f705197f5c39469f8d9f9b90870687e2f483dd0e98f3044981802",
     "assets/js/cookie-consent/embeds.js": "472f7275e6e32dfa0e22a377c995cc5beb9a75518a1d71dbc72719499b4ddc90",
-    "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
+    "assets/js/cookie-consent/consent-manager.js": "d6413ec0640abf47f309d66899070a8cde87866f7070061cf168e5b562e80236",
     "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
     "_build/frontend.mjs": "c842593b52dbb59c819d341578153a9b8a62284fcb1f9a1322e6817c83840af1"
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "5c6e9638ef48a49e35d9773b417805dcbd60afd27f83cb66171509931a76d934",
-      "bytes": 28260
+      "sha256": "4a9157a768cba2f8422081259fc424b498370cf836a3b612959410f26a6aade5",
+      "bytes": 28286
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",

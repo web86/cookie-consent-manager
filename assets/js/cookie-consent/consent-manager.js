@@ -343,6 +343,7 @@
     getConsent: () => consent ? { ...consent, categories: { ...consent.categories }, category_versions: { ...consent.category_versions } } : null,
     openSettings,
     onAllowed,
+    mountEmbeds: scope => embeds.mount(scope),
     // Expose reset only for the mock testing stand, not for production.
     ...(mode === 'mock' ? { resetForTesting: () => {
       const storage = getStorage();
