@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
 import {mkdirSync,writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
-const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','-f','tests/servers/compose.yaml','exec','-T'];
+const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/modx3/compose.yaml','-f','tests/transport/compose.yaml','-f','tests/servers/compose.yaml','exec','-T'];
 const cli=(args,input)=>execFileSync('docker',[...dc,'clean',...args],{encoding:'utf8',input}).trim();
 const ctl=(op,key,input)=>cli(['php','/opt/cc-source/tests/transport/control.php',op,'/opt/cc-clean',...(key?[key]:[])],input);
 const saved=Object.fromEntries(['cookie_consent.audit','cookie_consent.audit_config_file','cookie_consent.log_dir'].map(k=>[k,ctl('get',k)]));
@@ -12,7 +12,7 @@ try{
  ctl('set','cookie_consent.audit_config_file','');
  cli(['php','-r','define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();require MODX_CORE_PATH."components/cookieconsent/src/CookieConsentAuditConfiguration.php";CookieConsentAuditConfiguration::setup($modx);']);
  cli(['php','-r','foreach(["/var/www/html/logs/server-acceptance","/opt/cc-clean/server-acceptance"] as $d){if(!is_dir($d))mkdir($d,0700,true);chown($d,"www-data");chmod($d,str_starts_with($d,"/var/www/html/")?0755:0700);file_put_contents($d."/2000-01-cookie-consent.log","historical sentinel\n");chmod($d."/2000-01-cookie-consent.log",0644);}',]);
- for(const [server,port] of [['Apache',18889],['nginx-PHP-FPM',18891],['Apache-behind-nginx-proxy',18892]]) {
+ for(const [server,port] of [['Apache',20889],['nginx-PHP-FPM',20891],['Apache-behind-nginx-proxy',18892]]) {
   const origin='http://127.0.0.1:'+port;const metadata=JSON.parse(ctl('get','cookie_consent.audit'));metadata.site_origin=origin;ctl('set','cookie_consent.audit',JSON.stringify(metadata));
   const ctx=await browser.newContext(),p=await ctx.newPage(),requests=[];p.on('request',r=>requests.push({method:r.method(),path:new URL(r.url()).pathname}));
   await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());

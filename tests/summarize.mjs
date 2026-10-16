@@ -9,7 +9,7 @@ let harEntries = 0;
 for (const scenario of results.browser.results) {
   const har = JSON.parse(readFileSync(`.local/modx3/evidence/${scenario.name}.har`, 'utf8'));
   const entries = har.log.entries;
-  if (entries.some(entry => new URL(entry.request.url).origin !== 'http://127.0.0.1:18888')) throw Error('External mock HAR entry: ' + scenario.name);
+  if (entries.some(entry => new URL(entry.request.url).origin !== 'http://127.0.0.1:20888')) throw Error('External mock HAR entry: ' + scenario.name);
   scenario.observedRequestWindowCount = scenario.networkRequests;
   delete scenario.networkRequests;
   scenario.harEntryCount = entries.length;

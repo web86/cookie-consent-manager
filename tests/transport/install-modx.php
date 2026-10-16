@@ -1,7 +1,7 @@
 <?php
 if(PHP_SAPI!=='cli'||!is_dir('/opt/cc-source/tests/transport'))exit(1);
 $kind=$argv[1]??'';if(!in_array($kind,['clean','publiccore'],true))exit(1);
-$private=$kind==='clean'?'/opt/cc-clean':'/opt/cc-publiccore';$core=$kind==='clean'?$private.'/core/':'/var/www/html/core/';$port=$kind==='clean'?18889:18890;
+$private=$kind==='clean'?'/opt/cc-clean':'/opt/cc-publiccore';$core=$kind==='clean'?$private.'/core/':'/var/www/html/core/';$port=$kind==='clean'?20889:20890;
 if(is_file($core.'config/config.inc.php')&&filesize($core.'config/config.inc.php')>100){echo "Existing disposable MODX preserved\n";exit;}
 if($kind==='clean'&&!is_dir($core)){exec('cp -a /var/www/html/core /opt/cc-clean/core && rm -rf /var/www/html/core',$output,$status);if($status)throw new RuntimeException('Fixture core copy');}
 file_put_contents('/var/www/html/setup/includes/config.core.php',"<?php if(!defined('MODX_CORE_PATH'))define('MODX_CORE_PATH',".var_export($core,true).");if(!defined('MODX_CONFIG_KEY'))define('MODX_CONFIG_KEY','config');define('MODX_SETUP_KEY','@traditional@');");

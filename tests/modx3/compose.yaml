@@ -1,4 +1,4 @@
-name: cookie-consent-modx3-beta3
+name: cookie-consent-modx3-sync106
 services:
   db:
     image: mariadb:11.8
@@ -14,7 +14,7 @@ services:
   web:
     image: cookie-consent-modx3-php81:local
     build: .
-    ports: ['127.0.0.1:18888:80']
+    ports: ['127.0.0.1:20888:80']
     depends_on:
       db: {condition: service_healthy}
     volumes:
@@ -25,10 +25,11 @@ services:
     environment:
       CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+      CC_HTTP_PORT: '20888'
       COOKIE_CONSENT_LOCAL_HTTP: '1'
   clean:
     image: cookie-consent-modx3-php81:local
-    ports: ['127.0.0.1:18889:80']
+    ports: ['127.0.0.1:20889:80']
     depends_on:
       db: {condition: service_healthy}
     volumes:
@@ -39,11 +40,11 @@ services:
     environment:
       CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
       CC_DB_NAME: cookie_consent_modx3_clean
-      CC_HTTP_PORT: '18889'
+      CC_HTTP_PORT: '20889'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
   fresh:
     image: cookie-consent-modx3-php81:local
-    ports: ['127.0.0.1:18890:80']
+    ports: ['127.0.0.1:20890:80']
     depends_on:
       db: {condition: service_healthy}
     volumes:
@@ -54,12 +55,73 @@ services:
     environment:
       CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
       CC_DB_NAME: cookie_consent_modx3_fresh
-      CC_HTTP_PORT: '18890'
+      CC_HTTP_PORT: '20890'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  pristine:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:20892:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/pristine/site:/var/www/html
+      - ../../.local/modx3/pristine/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_pristine
+      CC_HTTP_PORT: '20892'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  finalclean:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:20893:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/finalclean/site:/var/www/html
+      - ../../.local/modx3/finalclean/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_finalclean
+      CC_HTTP_PORT: '20893'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  finalfresh:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:20894:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/finalfresh/site:/var/www/html
+      - ../../.local/modx3/finalfresh/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_finalfresh
+      CC_HTTP_PORT: '20894'
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+  finalpristine:
+    image: cookie-consent-modx3-php81:local
+    ports: ['127.0.0.1:20895:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/modx3/finalpristine/site:/var/www/html
+      - ../../.local/modx3/finalpristine/private:/opt/cc-private
+      - ../../:/opt/cc-source:ro
+      - ../../.local/modx3/artifacts:/opt/cc-artifacts
+    environment:
+      CC_MODX3_DISPOSABLE: cookie-consent-modx3-acceptance
+      CC_DB_NAME: cookie_consent_modx3_finalpristine
+      CC_HTTP_PORT: '20895'
       CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
   php82:
     image: cookie-consent-acceptance-web:latest
-    ports: ['127.0.0.1:18891:80']
+    ports: ['127.0.0.1:20891:80']
     volumes:
+      - ./php82.ini:/usr/local/etc/php/conf.d/cc3-sync.ini:ro
       - ../../.local/modx3/clean/site:/var/www/html
       - ../../.local/modx3/clean/private:/opt/cc-private
       - ../../:/opt/cc-source:ro

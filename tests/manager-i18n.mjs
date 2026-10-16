@@ -49,8 +49,8 @@ try {
     await page.locator('[data-settings=yandex] summary').click();equal(await page.locator('#ccm-yandex-webvisor').isChecked(),true);
     await page.screenshot({path:`${dir}/services-yandex-settings.png`});
   });
-  await test('service-translations-retained-but-not-editable',async()=>{
-    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),0);equal(await page.locator('[data-text-key]').count(),9);
+  await test('service-map-translations-editable-and-existing-texts-retained',async()=>{
+    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),2);equal(await page.locator('[data-text-key]').count(),13);equal(await page.locator('[data-text-key=map_load]').count(),1);
   });
   await test('legacy-mode-preview-and-preserved-values',async()=>{
     await page.locator('#ccm-tab-main').click();const configure=await page.locator('#ccm-show-configure').isChecked();
@@ -82,16 +82,16 @@ try {
   await test('translation-does-not-revoke-consent',async()=>{
     const p=await front('ru');await p.locator('[data-cc-action=accept-all]').click();await p.waitForTimeout(150);const before=await p.evaluate(()=>window.web86CookieConsent.getConsent());
     await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('[data-text-key=analytics_name]').fill('Новое название категории');await save();
-    await p.reload({waitUntil:'networkidle'});const after=await p.evaluate(()=>window.web86CookieConsent.getConsent());equal(after.consentId,before.consentId);equal(after.providers,before.providers,'Translate does not change fingerprint');
-    control(['context'],'en');await p.reload({waitUntil:'networkidle'});equal((await p.evaluate(()=>window.web86CookieConsent.getConsent())).providers,before.providers,'Language preserves fingerprint');await p.close();
+    await p.reload({waitUntil:'networkidle'});const after=await p.evaluate(()=>window.web86CookieConsent.getConsent());equal(after.consentId,before.consentId);equal(after.categories,before.categories,'Translation preserves category choices');
+    control(['context'],'en');await p.reload({waitUntil:'networkidle'});equal((await p.evaluate(()=>window.web86CookieConsent.getConsent())).categories,before.categories,'Language preserves category choices');await p.close();
   });
-  await test('privacy-parameter-invalidates-service-consent',async()=>{
+  await test('privacy-parameter-invalidates-category-consent',async()=>{
     const p=await front('ru');const requests=[];p.on('request',r=>requests.push(r.url()));
-    await page.locator('#ccm-tab-services').click();await page.locator('[data-settings=yandex] summary').click();await page.locator('#ccm-yandex-webvisor').uncheck();await save();
-    requests.length=0;await p.reload({waitUntil:'networkidle'});ok(!requests.some(u=>u.endsWith('/mock/yandex.js')),'Changed service blocked');equal(Boolean((await p.evaluate(()=>window.web86CookieConsent.getConsent())).providers.yandex),false);await p.close();
+    await page.locator('#ccm-tab-services').click();if(!await page.locator('[data-settings=yandex]').evaluate(x=>x.open))await page.locator('[data-settings=yandex] summary').click();await page.locator('#ccm-yandex-webvisor').uncheck();await save();
+    requests.length=0;await p.reload({waitUntil:'networkidle'});ok(!requests.some(u=>u.endsWith('/mock/yandex.js')),'Changed service blocked');equal(Boolean((await p.evaluate(()=>window.web86CookieConsent.getConsent())).categories.analytics),false);await p.close();
   });
   await test('new-service-through-group-controls',async()=>{
-    await page.locator('#ccm-add-counter summary').click();await page.locator('#ccm-counter-adapter').selectOption('google_ga4');await page.locator('#ccm-counter-name').fill('Extra counter');await page.locator('#ccm-counter-id').fill('G-EXTRA123');await page.locator('#ccm-counter-add').click();
+    await page.locator('#ccm-add-service').click();await page.locator('#ccm-service-adapter').selectOption('google_ga4');await page.locator('#ccm-service-name').fill('Extra counter');await page.locator('#ccm-service-id').fill('G-EXTRA123');await page.locator('#ccm-service-create').click();
     await page.locator('#ccm-enable-google_ga4_2').check();await save();
     const p=await front('en');equal(await p.locator('[data-cc-provider]').count(),0);equal(await p.locator('[data-cc-category=analytics]').isChecked(),false);await p.close();
   });

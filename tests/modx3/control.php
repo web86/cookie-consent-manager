@@ -4,7 +4,7 @@ require __DIR__.'/guard.php';
 $action=$argv[1]??'';
 if($action==='credentials'){echo file_get_contents('/opt/cc-private/manager.json');exit;}
 require __DIR__.'/guard.php';
-$canonical=['CookiesPopup'=>MODX\Revolution\modChunk::class,'CookieConsent'=>MODX\Revolution\modSnippet::class,'CookieConsentAssets'=>MODX\Revolution\modSnippet::class,'CookieConsentBanner'=>MODX\Revolution\modSnippet::class,'CookieConsentMap'=>MODX\Revolution\modSnippet::class];
+$canonical=['CookiesPopup'=>MODX\Revolution\modChunk::class,'CookieConsent'=>MODX\Revolution\modSnippet::class,'CookieConsentAssets'=>MODX\Revolution\modSnippet::class,'CookieConsentBanner'=>MODX\Revolution\modSnippet::class,'CookieConsentMap'=>MODX\Revolution\modSnippet::class,'CookieConsentVideo'=>MODX\Revolution\modSnippet::class];
 function snapshot($modx,array $canonical):array{
     $result=['elements'=>[],'settings'=>[],'relations'=>[],'data'=>[],'runtime'=>[]];
     foreach($canonical as $name=>$class){$row=$modx->getObject($class,['name'=>$name]);if(!$row)continue;$fields=$row->toArray('',true);$code=$fields['snippet'];unset($fields['snippet'],$fields['content'],$fields['static']);$result['elements'][$name]=['id'=>$row->get('id'),'count'=>$modx->getCount($class,['name'=>$name]),'metadata'=>$fields,'code_sha256'=>hash('sha256',$code),'static'=>(bool)$row->get('static')];}
@@ -31,7 +31,7 @@ if($action==='artifact-hash'){
     $signature=$argv[2]??'';if(!preg_match('/^cookieconsent3-0\.1\.0-beta[1-9][0-9]*$/D',$signature))throw new RuntimeException('Signature');$path=MODX_CORE_PATH.'packages/'.$signature.'.transport.zip';echo json_encode(is_file($path)?hash_file('sha256',$path):null);exit;
 }
 if($action==='external-config'){
-    $queue=$modx->getObject(MODX\Revolution\Registry\Db\modDbRegisterQueue::class,['name'=>'cookieconsent-audit-private']);$key=$queue->get('options')['rate_limit_key'];$file='/opt/cc-private/configs/external.json';file_put_contents($file,json_encode(['site_origin'=>$modx->getOption('site_url')?rtrim($modx->getOption('site_url'),'/'):'http://127.0.0.1:18889','rate_limit_key'=>$key,'rate_limit_per_minute'=>10000]));chown($file,'www-data');chmod($file,0600);$s=$modx->getObject(MODX\Revolution\modSystemSetting::class,['key'=>'cookie_consent.audit_config_file']);$s->set('value',$file);$s->save();$modx->cacheManager->refresh();echo json_encode(['config_sha256'=>hash_file('sha256',$file)]);exit;
+    $queue=$modx->getObject(MODX\Revolution\Registry\Db\modDbRegisterQueue::class,['name'=>'cookieconsent-audit-private']);$key=$queue->get('options')['rate_limit_key'];$file='/opt/cc-private/configs/external.json';file_put_contents($file,json_encode(['site_origin'=>$modx->getOption('site_url')?rtrim($modx->getOption('site_url'),'/'):'http://127.0.0.1:20889','rate_limit_key'=>$key,'rate_limit_per_minute'=>10000]));chown($file,'www-data');chmod($file,0600);$s=$modx->getObject(MODX\Revolution\modSystemSetting::class,['key'=>'cookie_consent.audit_config_file']);$s->set('value',$file);$s->save();$modx->cacheManager->refresh();echo json_encode(['config_sha256'=>hash_file('sha256',$file)]);exit;
 }
 if($action==='duplicate'){
     $row=$modx->newObject(MODX\Revolution\modChunk::class);$row->fromArray(['name'=>'CookiesPopup','snippet'=>'Duplicate fixture']);$saved=$row->save();if($saved)throw new RuntimeException('Unexpected duplicate accepted by MODX 3 schema');echo json_encode(['saved'=>false,'count'=>$modx->getCount(MODX\Revolution\modChunk::class,['name'=>'CookiesPopup'])]);exit;
@@ -45,7 +45,7 @@ if($action==='logs'){
 if($action==='snapshot'){echo json_encode(snapshot($modx,$canonical));exit;}
 if($action==='provision'){
     require '/opt/cc-source/server/src/CookieConsentSettings.php';
-    $registry=CookieConsentServiceRegistry::defaults();$registry['services']=array_values(array_filter($registry['services'],fn($s)=>!in_array($s['loader'],['vk_ads','meta_pixel'],true)));
+    $registry=CookieConsentServiceRegistry::defaults();$registry['services']=array_values(array_filter($registry['services'],fn($s)=>!in_array($s['loader'],['vk_ads','meta_pixel','youtube','rutube','vk_video'],true)));
     foreach($registry['services'] as &$service){$service['enabled']=true;if(in_array($service['loader'],['google_ga4','google_gtm','google_ads'],true))$service['config']=['id'=>match($service['loader']){'google_ga4'=>'G-MOCK1234','google_gtm'=>'GTM-MOCK1234','google_ads'=>'AW-12345678'}];}unset($service);
     $registry['services'][]=['key'=>'mock_marketing','loader'=>'mock_marketing','category'=>'marketing','name'=>'Mock marketing','purpose'=>'Local mock only','enabled'=>true,'config'=>new stdClass()];
     $registry=CookieConsentServiceRegistry::validateJson(json_encode($registry));file_put_contents('/opt/cc-private/base-registry.json',json_encode($registry));

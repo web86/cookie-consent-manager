@@ -3,13 +3,13 @@ import {execFileSync} from 'node:child_process';
 import {writeFileSync,readFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const target=JSON.parse(readFileSync('_build/package.json')).release_index;
-const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','exec','-T'];
+const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/modx3/compose.yaml','-f','tests/transport/compose.yaml','exec','-T'];
 const cli=(args,input)=>execFileSync('docker',[...dc,'publiccore',...args],{encoding:'utf8',input}).trim();
 const ctl=(op,key,input)=>cli(['php','/opt/cc-source/tests/transport/control.php',op,'/opt/cc-publiccore',...(key?[key]:[])],input);
 const original=Object.fromEntries(['cookie_consent.log_dir','cookie_consent.audit_config_file'].map(k=>[k,ctl('get',k)]));
 const legacyFile='/opt/cc-publiccore/configs/legacy-audit-'+Date.now()+'.json';
 const auditBefore=ctl('get','cookie_consent.audit'),registryBefore=JSON.parse(ctl('snapshot')).auditRegistry;
-const origin='http://127.0.0.1:18890',browser=await chromium.launch(),ctx=await browser.newContext(),p=await ctx.newPage();let assertions=0;const results=[];const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
+const origin='http://127.0.0.1:20890',browser=await chromium.launch(),ctx=await browser.newContext(),p=await ctx.newPage();let assertions=0;const results=[];const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
 await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
 try{
  cli(['sh','-c','mkdir -p /opt/cc-publiccore/logs /opt/cc-publiccore/configs; chown www-data:www-data /opt/cc-publiccore/logs /opt/cc-publiccore/configs']);

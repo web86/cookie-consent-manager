@@ -9,7 +9,7 @@ suites={n:read(root/(n+'.json'))for n in names}
 for n,r in suites.items():assert not r.get('failed',0)and r.get('result')!='FAIL'and not any(x.get('result')=='FAIL'for x in r.get('results',[])),n
 har_requests=0
 for c in suites['browser-results']['results']:
- h=read('.local/modx3/evidence/'+c['name']+'.har')['log']['entries'];assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:18888'for x in h);har_requests+=len(h);c.pop('networkRequests',None);c['har_requests']=len(h)
+ h=read('.local/modx3/evidence/'+c['name']+'.har')['log']['entries'];assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:20888'for x in h);har_requests+=len(h);c.pop('networkRequests',None);c['har_requests']=len(h)
 assert sum(c['name'].startswith('providers-')for c in suites['browser-results']['results'])==256
 before=read(root/'http-before.json');after=read(root/'http-after.json');network_before=read(root/'network-before.json');network_after=read(root/'network-after.json')
 assert all(before['groups'][k]['banner_hashes']==after['groups'][k]['banner_hashes'] and after['groups'][k]['registry_bytes']<before['groups'][k]['registry_bytes']and before['groups'][k]['sql_min']==16 and after['groups'][k]['sql_max']==8 for k in before['groups'])

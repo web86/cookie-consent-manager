@@ -114,6 +114,18 @@ final class CookieConsentSettings
         }catch(Throwable $e){$modx->rollBack();throw $e;}
         $modx->cacheManager->refresh(['system_settings'=>[]]);
     }
+    /** Effective category processing composition. Display text/options never affect its version. */
+    public static function categoryProcessing(array $registry,string $category): array
+    {
+        $result=[];
+        foreach($registry['services'] as $service){
+            if(!$service['enabled']||$service['category']!==$category)continue;
+            $config=array_replace(CookieConsentServiceRegistry::BOOL_OPTIONS[$service['loader']]??[],(array)$service['config']);
+            unset($config['show_title']);ksort($config);
+            $result[$service['key']]=[$service['loader'],$service['purpose_id']??$service['key'],$service['purpose'],$config];
+        }
+        ksort($result);return $result;
+    }
     public static function save($modx,array $draft,string $revision,?string $auditOrigin=null): array
     {
         if (!array_key_exists('audit_config_file',$draft)) $draft['audit_config_file']=self::read($modx)['audit_config_file'];
@@ -134,7 +146,7 @@ final class CookieConsentSettings
             $draft=self::validate($draft,$root,true,$unchanged);
             foreach(self::CATEGORIES as $category){
                 $version=$current['options']['category_versions'][$category];
-                if($draft['options']['categories'][$category]!==$current['options']['categories'][$category]){if($version===2147483647)throw new RuntimeException('Category version limit');$version++;}
+                if($draft['options']['categories'][$category]!==$current['options']['categories'][$category] || self::categoryProcessing($draft['registry'],$category)!==self::categoryProcessing($current['registry'],$category)){if($version===2147483647)throw new RuntimeException('Category version limit');$version++;}
                 $draft['options']['category_versions'][$category]=$version;
             }
             $journal=['saved'=>true,'checked'=>false];$needsSetup=false;

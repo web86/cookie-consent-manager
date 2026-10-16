@@ -1,7 +1,7 @@
 <?php
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
-if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_modx3_test','cookie_consent_modx3_transport_clean'],true))exit(1);
+if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_modx3_pristine','cookie_consent_modx3_test','cookie_consent_modx3_transport_clean'],true))exit(1);
 if(($argv[1]??'')==='activate-unified') {
  // Explicitly adopt stock in this development fixture; never update customer elements on install.
  foreach(['CookieConsent','CookieConsentMap'] as $name){$file=$name==='CookieConsent'?'modx3-consent-snippet.php':'modx3-map-snippet.php';$source=preg_replace('/^<\?php\s*/','',file_get_contents('/opt/cc-source/server/'.$file));$r=$modx->getObject('MODX\Revolution\modSnippet',['name'=>$name]);$r->set('snippet',trim($source));$r->save();}

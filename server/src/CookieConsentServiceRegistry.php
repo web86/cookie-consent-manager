@@ -4,17 +4,21 @@ declare(strict_types=1);
 final class CookieConsentServiceRegistry
 {
     public const CATALOG = [
-        'yandex' => ['category'=>'analytics', 'hosts'=>['mc.yandex.ru','mc.yandex.com']],
-        'mailru' => ['category'=>'analytics', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
-        'vk_ads' => ['category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
-        'meta_pixel' => ['category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
-        'google_ga4' => ['category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
-        // Container loads with marketing consent; the administrator must configure consent checks for its tags.
-        'google_gtm' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
-        'google_ads' => ['category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
-        'mock_marketing' => ['category'=>'marketing', 'hosts'=>[]],
-        'google_maps' => ['category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
-        'yandex_maps' => ['category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
+        'yandex' => ['recommended_category'=>'analytics', 'hosts'=>['mc.yandex.ru','mc.yandex.com']],
+        'mailru' => ['recommended_category'=>'analytics', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'vk_ads' => ['recommended_category'=>'marketing', 'hosts'=>['top-fwz1.mail.ru','top.mail.ru']],
+        'meta_pixel' => ['recommended_category'=>'marketing', 'hosts'=>['connect.facebook.net','www.facebook.com']],
+        'google_ga4' => ['recommended_category'=>'analytics', 'hosts'=>['www.googletagmanager.com','www.google-analytics.com','region1.google-analytics.com']],
+        // Category recommends a default only; the administrator must configure tag-level consent checks.
+        'google_gtm' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
+        'google_ads' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
+        'custom_js' => ['recommended_category'=>'marketing', 'hosts'=>[]],
+        'mock_marketing' => ['recommended_category'=>'marketing', 'hosts'=>[]],
+        'google_maps' => ['recommended_category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
+        'youtube' => ['recommended_category'=>'external_content', 'hosts'=>['www.youtube-nocookie.com','www.youtube.com']],
+        'rutube' => ['recommended_category'=>'external_content', 'hosts'=>['rutube.ru']],
+        'vk_video' => ['recommended_category'=>'external_content', 'hosts'=>['vk.com','vkvideo.ru']],
+        'yandex_maps' => ['recommended_category'=>'external_content', 'hosts'=>['yandex.ru','api-maps.yandex.ru','maps.yandex.net']],
     ];
     public const BOOL_OPTIONS = [
         'yandex'=>['webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true],
@@ -36,17 +40,41 @@ final class CookieConsentServiceRegistry
             ['yandex','Яндекс.Метрика','Статистика посещений',false,['id'=>'23643118','webvisor'=>true,'clickmap'=>true,'trackLinks'=>true,'accurateTrackBounce'=>true]],
             ['mailru','Top.Mail.Ru','Статистика посещений',false,['id'=>'3265404']],
             ['google_ga4','Google Analytics 4','Статистика посещений',false,[]],
-            ['google_gtm','Google Tag Manager','Контейнер тегов: запускается после согласия на маркетинг',false,[]],
+            ['google_gtm','Google Tag Manager','Контейнер тегов с отдельными consent checks для тегов',false,[]],
             ['google_ads','Google Ads','Рекламные измерения',false,[]],
             ['vk_ads','VK Реклама — пиксель','Рекламные измерения VK',false,[]],
             ['meta_pixel','Meta Pixel (Facebook / Instagram)','Рекламные измерения Meta',false,[]],
             ['google_maps','Google Maps','Внешние интерактивные карты',false,[]],
+            ['youtube','YouTube','Внешние видеовстраивания YouTube',false,[]],
+            ['rutube','RUTUBE','Внешние видеовстраивания RUTUBE',false,[]],
+            ['vk_video','VK Видео','Внешние видеовстраивания VK',false,[]],
             ['yandex_maps','Яндекс.Карты','Внешние интерактивные карты',false,[]],
         ] as [$loader,$name,$purpose,$enabled,$config]) {
-            $services[]=['key'=>$loader,'name'=>$name,'purpose'=>$purpose,'category'=>self::CATALOG[$loader]['category'],
+            $services[]=['key'=>$loader,'name'=>$name,'purpose'=>$purpose,'category'=>self::CATALOG[$loader]['recommended_category'],
                 'enabled'=>$enabled,'loader'=>$loader,'config'=>$config ?: new stdClass()];
         }
         return ['schema'=>1,'services'=>$services];
+    }
+    /** Root-relative JS or explicit HTTPS JS URL. Validation never fetches remote data. */
+    public static function validScriptPath(mixed $path): bool
+    {
+        if(!is_string($path)||strlen($path)>2048||preg_match('/[\x00-\x20\x7f<>"\'`\\\\]/',$path))return false;
+        $local=static fn(string $value): bool=>preg_match('~^/(?:[A-Za-z0-9_-][A-Za-z0-9_.-]*/)*[A-Za-z0-9_-][A-Za-z0-9_.-]*\.js$~D',$value)===1;
+        if(str_starts_with($path,'/'))return $local($path);
+        if(!str_starts_with($path,'https://'))return false;
+        $parts=parse_url($path);
+        if(!$parts||($parts['scheme']??'')!=='https'||isset($parts['user'])||isset($parts['pass'])||isset($parts['fragment'])||!$local($parts['path']??''))return false;
+        $host=$parts['host']??'';if($host===''||strlen($host)>253||($parts['port']??null)===0)return false;
+        $labels=explode('.',$host);if(ctype_digit(end($labels))&&!filter_var($host,FILTER_VALIDATE_IP,FILTER_FLAG_IPV4))return false;
+        foreach(explode('.',$host) as $label)if(!preg_match('/^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/iD',$label))return false;
+        $query=$parts['query']??'';
+        return preg_match('~^[A-Za-z0-9._!$&()*+,;=:@/?%\[\]\x7e-]*$~D',$query)===1&&!preg_match('/%(?![0-9a-f]{2})/i',$query);
+    }
+    public static function scriptIdentity(string $path): string
+    {
+        if(str_starts_with($path,'/'))return $path;
+        $parts=parse_url($path);$port=isset($parts['port'])&&$parts['port']!==443?':'.$parts['port']:'';
+        return 'https://'.strtolower($parts['host']).$port.$parts['path'].(array_key_exists('query',$parts)?'?'.$parts['query']:'');
     }
     public static function validateJson(string $json): array
     {
@@ -65,14 +93,14 @@ final class CookieConsentServiceRegistry
             foreach (['name'=>100,'purpose'=>500] as $field=>$max) {
                 if (!is_string($s[$field]) || $s[$field]==='' || strlen($s[$field])>$max || preg_match('/[\x00-\x1f\x7f<>]/',$s[$field])) throw new InvalidArgumentException('Invalid service text');
             }
-            if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || $s['category']!==self::CATALOG[$s['loader']]['category'] || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
+            if (!is_string($s['loader']) || !isset(self::CATALOG[$s['loader']]) || !in_array($s['category'],['analytics','marketing','external_content'],true) || !is_bool($s['enabled']) || !is_array($s['config'])) throw new InvalidArgumentException('Invalid loader/category');
             // Retired integration option: accept only its historic boolean shape, then remove.
             // No fingerprint alias: browsers must explicitly approve the changed Yandex config.
             if ($s['loader']==='yandex' && array_key_exists('clientId',$s['config'])) {
                 if (!is_bool($s['config']['clientId'])) throw new InvalidArgumentException('Invalid legacy boolean option');
                 unset($s['config']['clientId']);
             }
-            $allowed=array_merge(in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
+            $allowed=array_merge($s['loader']==='custom_js' ? ['path'] : [],in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
             if (array_diff(array_keys($s['config']),$allowed)) throw new InvalidArgumentException('Unknown config');
             $pattern=match($s['loader']) {
                 'google_ga4'=>'/^G-[A-Z0-9]{4,20}$/D', 'google_gtm'=>'/^GTM-[A-Z0-9]{4,20}$/D',
@@ -81,9 +109,19 @@ final class CookieConsentServiceRegistry
             if (array_key_exists('id',$s['config']) && (!is_string($s['config']['id']) || !preg_match($pattern,$s['config']['id']))) throw new InvalidArgumentException('Invalid provider ID');
             if (in_array('id',$allowed,true) && $s['enabled'] && !array_key_exists('id',$s['config'])) throw new InvalidArgumentException('Enabled provider needs ID');
             foreach (self::BOOL_OPTIONS[$s['loader']]??[] as $key=>$default) if (array_key_exists($key,$s['config']) && !is_bool($s['config'][$key])) throw new InvalidArgumentException('Invalid boolean option');
+            if ($s['loader']==='custom_js' && (!self::validScriptPath($s['config']['path']??null))) throw new InvalidArgumentException('Invalid script path');
             $s['config']=$s['config'] ?: new stdClass();
         }
         unset($s);
+        $paths=[];
+        foreach($data['services'] as $service){
+            $service['config']=(array)$service['config'];
+            if($service['loader']==='custom_js'){
+                $path=self::scriptIdentity($service['config']['path']);
+                if(isset($paths[$path]))throw new InvalidArgumentException('Duplicate script path');
+                $paths[$path]=true;
+            }
+        }
         $analyticsIds=[];foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='mailru')$analyticsIds[ltrim($service['config']['id'],'0')?:'0']=true;
         foreach($data['services'] as $service)if($service['enabled']&&$service['loader']==='vk_ads'&&isset($analyticsIds[ltrim($service['config']['id'],'0')?:'0']))throw new InvalidArgumentException('pixel_id_conflict');
         return $data;
@@ -97,6 +135,8 @@ final class CookieConsentServiceRegistry
             foreach (['key','category','enabled','loader','config','purpose_id'] as $field) {
                 if (array_key_exists($field,$service)) $public[$field]=$service[$field];
             }
+            // A custom integration's declared purpose is part of its permission identity.
+            if($service['loader']==='custom_js')$public['purpose']=$service['purpose'];
             $services[]=$public;
         }
         return ['schema'=>$registry['schema'],'services'=>$services];

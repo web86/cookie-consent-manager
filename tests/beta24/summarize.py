@@ -13,7 +13,7 @@ entries=0
 for case in suites['browser']['results']:
  har=load('.local/modx3/evidence/'+case['name']+'.har')['log']['entries']
  from urllib.parse import urlsplit
- if any(urlsplit(x['request']['url']).netloc!='127.0.0.1:18888' for x in har):raise RuntimeError('External mock origin')
+ if any(urlsplit(x['request']['url']).netloc!='127.0.0.1:20888' for x in har):raise RuntimeError('External mock origin')
  entries+=len(har);case['har_requests']=len(har);case.pop('networkRequests',None)
 assert sum(x['name'].startswith('providers-') for x in suites['browser']['results'])==256
 sig='cookieconsent-0.1.0-beta24';release=Path('.local/modx3/release');zipfile=release/(sig+'.transport.zip');sha=hashlib.sha256(zipfile.read_bytes()).hexdigest();artifact=load('.local/modx3/beta24-evidence/zip.json');assert sha==artifact['sha256'];assert zipfile.read_bytes()==Path('.local/modx3/private/beta24-journal-repro/'+zipfile.name).read_bytes()

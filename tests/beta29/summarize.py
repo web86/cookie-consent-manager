@@ -15,7 +15,7 @@ for n,r in suites.items():
 requests=0
 for case in suites['browser']['results']:
  har=load('.local/modx3/evidence/'+case['name']+'.har')['log']['entries']
- assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:18888' for x in har)
+ assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:20888' for x in har)
  requests+=len(har);case['har_requests']=len(har);case.pop('networkRequests',None)
 assert sum(x['name'].startswith('providers-') for x in suites['browser']['results'])==256
 sig='cookieconsent-0.1.0-beta29';artifact=Path('.local/modx3/artifacts')/(sig+'.transport.zip');sha=hashlib.sha256(artifact.read_bytes()).hexdigest();assert sha==suites['package']['sha256']

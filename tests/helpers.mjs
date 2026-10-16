@@ -1,6 +1,6 @@
 import { execFileSync } from 'node:child_process';
 import { readFileSync, mkdirSync, writeFileSync } from 'node:fs';
-export const origin = 'http://127.0.0.1:18888';
+export const origin = 'http://127.0.0.1:20888';
 export const compose = ['compose', '--env-file', '.local/modx3/private/compose.env', '-f', 'tests/modx3/compose.yaml'];
 let checked=false;
 export function docker(args, input) { if(!checked){execFileSync('docker',[...compose,'exec','-T','web','php','/opt/cc-source/tests/modx3/guard.php'],{stdio:'pipe'});checked=true;} return execFileSync('docker', [...compose, 'exec', '-T', ...args], { input, encoding: 'utf8', maxBuffer: 8 * 1024 * 1024 }); }

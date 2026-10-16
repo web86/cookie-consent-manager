@@ -13,7 +13,7 @@ requests=0
 for case in suites['browser']['results']:
  har=load('.local/modx3/evidence/'+case['name']+'.har')['log']['entries']
  from urllib.parse import urlsplit
- assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:18888' for x in har)
+ assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:20888' for x in har)
  requests+=len(har);case['har_requests']=len(har);case.pop('networkRequests',None)
 assert sum(x['name'].startswith('providers-') for x in suites['browser']['results'])==256
 sig='cookieconsent-0.1.0-beta26';root=Path('.local/modx3/release');archive=root/(sig+'.transport.zip');sha=hashlib.sha256(archive.read_bytes()).hexdigest();assert sha==load('.local/modx3/beta26-evidence/zip.json')['sha256'];assert archive.read_bytes()==Path('.local/modx3/private/beta26-frontend-repro/'+archive.name).read_bytes()

@@ -11,3 +11,12 @@
 .cookie-warning .cc-provider{padding-left:20px}.cc-map-placeholder{border:1px solid #bac2ca;padding:20px;background:#f5f6f9;color:#1d2836}
 [data-cc-map-provider] iframe{display:block;width:100%;height:320px;border:0}[data-cc-map-provider] button{padding:10px 14px;margin:8px 0;cursor:pointer}
 [data-cc-map-provider] [hidden]{display:none!important}[data-cc-map-provider] button:focus-visible{outline:2px solid #2666ce;outline-offset:2px}
+/* Consent-controlled videos and optional responsive maps. Trusted template layout belongs to its author. */
+.cc-video{width:100%}.cc-embed-responsive{position:relative;width:100%}
+.cc-embed-responsive>iframe{position:absolute;inset:0;display:block;width:100%;height:100%;border:0}
+.cc-video>iframe{display:block;border:0}.cc-embed-placeholder,.cc-video>[data-cc-placeholder]{box-sizing:border-box;border:1px solid #bac2ca;padding:20px;background:#f5f6f9;color:#1d2836}
+.cc-embed-responsive>[data-cc-placeholder],.cc-embed-responsive>.cc-map-placeholder{position:absolute;inset:0;overflow:auto}
+[data-cc-embed]>[data-cc-placeholder][hidden]{display:none!important}
+[data-cc-embed] [data-cc-settings]{font:inherit;min-height:40px;padding:10px 14px;cursor:pointer}
+[data-cc-embed] [data-cc-settings]:focus-visible{outline:2px solid #2666ce;outline-offset:2px}
+.cc-embed-poster{display:block;max-width:100%;max-height:160px;object-fit:contain;margin-bottom:12px}

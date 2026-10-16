@@ -17,7 +17,7 @@ entries=0
 for case in suites['browser']['results']:
  har=load('.local/modx3/evidence/'+case['name']+'.har')['log']['entries']
  from urllib.parse import urlsplit
- if any(urlsplit(x['request']['url']).netloc!='127.0.0.1:18888' for x in har):raise RuntimeError('External public request')
+ if any(urlsplit(x['request']['url']).netloc!='127.0.0.1:20888' for x in har):raise RuntimeError('External public request')
  case['har_requests']=len(har);entries+=len(har);case.pop('networkRequests',None)
 if sum(x['name'].startswith('providers-') for x in suites['browser']['results'])!=256:raise RuntimeError('Incomplete provider matrix')
 release=Path('.local/modx3/release');sig='cookieconsent-0.1.0-beta23';archive=release/(sig+'.transport.zip');sha=hashlib.sha256(archive.read_bytes()).hexdigest()

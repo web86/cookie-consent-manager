@@ -1,3 +1,13 @@
+# Cookie Consent Manager for MODX 3 — 0.1.0-beta4
+
+- Port the stable MODX 2 1.0.6 behavior into the independent native MODX 3 component.
+- Add category-only consent, flexible service instances/custom JS and audit schema 3 while retaining historical decisions and audit records.
+- Add CookieConsentVideo, YouTube/RUTUBE/VK adapters, generic inert templates, map instances, posters and display parameters.
+- Unify editable RU/EN external-content text, two map overrides and the cookie settings button; preserve saved translations.
+- Build the shared JavaScript with bundled PHP Peast on Manager cache clear or forced rebuild, with atomic publication, rollback and saved timestamp URLs. Keep frontend free of JS source checks/builds.
+- Retain native MODX 3 namespaces, requirements, canonical identities, ACL and lifecycle; package a closed runtime allowlist with no test mock directory.
+- Keep the pdoTools 3.1.0 compiled Fenom warm-cache failure and unconfirmed live playback as explicit release gates. Staging candidate only; no production deployment.
+
 # Cookie Consent Manager for MODX 3 — 0.1.0-beta3
 
 - Register service registry JSON through native MODX 3 startup HTML blocks after resource parsing, preserving Fenom split/legacy rendering and consent fingerprints.

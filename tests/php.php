@@ -18,7 +18,9 @@ symlink($logs,$root.'/alias');throws(fn()=>CookieConsentPrivatePath::directory($
 mkdir($root.'/locked',0500);if (posix_geteuid()!==0) throws(fn()=>CookieConsentPrivatePath::directory($root.'/locked',$webroot),RuntimeException::class);
 $fixture=CookieConsentServiceRegistry::defaults();foreach($fixture['services'] as &$s)if(in_array($s['loader'],['google_maps','yandex_maps'],true))$s['enabled']=true;unset($s);
 $registry=CookieConsentServiceRegistry::validateJson(json_encode($fixture));
-check(count($registry['services'])===9,'Default services');
+check(count($registry['services'])===12,'Default services');
+$expectedKeys=['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel','google_maps','yandex_maps','youtube','rutube','vk_video'];$actualKeys=array_column($registry['services'],'key');sort($expectedKeys);sort($actualKeys);check($actualKeys===$expectedKeys,'Exact standard service keys');
+foreach(['youtube','rutube','vk_video'] as $loader){$video=array_values(array_filter($registry['services'],static fn($s)=>$s['loader']===$loader))[0];check($video['enabled']===false,'Video default disabled');check($video['category']==='external_content','Video recommended category');}
 $bad=$registry;$bad['services'][0]['loader']='javascript:alert(1)';throws(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)),InvalidArgumentException::class);
 $bad=$registry;$bad['services'][0]['config']['script']='https://evil.test/x.js';throws(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)),InvalidArgumentException::class);
 $bad=$registry;$bad['services'][0]['name']='<img onerror=alert(1)>';throws(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)),InvalidArgumentException::class);

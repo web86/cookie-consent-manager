@@ -1,7 +1,7 @@
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
-import { origin, registry, setting, evidence } from './helpers.mjs';
+import { origin, registry, setting, evidence, docker } from './helpers.mjs';
 let assertions = 0;
 const results = [];
 function equal(a, b, message) { assertions++; assert.deepEqual(a, b, message); }
@@ -83,13 +83,13 @@ for (let mask = 0; mask < 8; mask++) await suite(`category-${mask}`, async ({ pa
 for (const key of ['google_maps', 'yandex_maps']) await suite(`map-${key}`, async ({ page, requests }) => {
   await page.locator('[data-cc-action="reject"]').click(); await page.waitForTimeout(500);
   await page.locator(`[data-cc-map-load="${key}"]`).first().click();
-  await page.waitForFunction(k => window.__audits.some(e => e.event === 'map_allow' && e.provider === k), key);
+  equal(await page.locator('[data-cc-map-provider] iframe').count(),0,'Map button only opens preferences');await page.locator('[data-cc-category=external_content]').check();await page.locator('[data-cc-action=save]').click();await page.waitForFunction(()=>window.__audits.some(e=>e.event==='save_settings'));
   await page.waitForTimeout(200);
-  equal(loads(requests), [`${key}.html`], 'Only selected provider map');
-  const c = await page.evaluate(() => window.web86CookieConsent.getConsent()); equal(c.analytics, false); equal(c.marketing, false);
-  requests.length = 0; await page.reload({ waitUntil: 'networkidle' }); equal(loads(requests), [`${key}.html`], 'Map permission persisted');
+  equal(loads(requests), ['google_maps.html','yandex_maps.html'], 'All maps in allowed category');
+  const c = await page.evaluate(() => window.web86CookieConsent.getConsent()); equal(c.categories.analytics, false); equal(c.categories.marketing, false);
+  requests.length = 0; await page.reload({ waitUntil: 'networkidle' }); equal(loads(requests), ['google_maps.html','yandex_maps.html'], 'Category permission persisted');
   requests.length = 0; await page.evaluate(()=>web86CookieConsent.openSettings()); await page.locator('[data-cc-category=external_content]').uncheck(); await page.locator('[data-cc-action=save]').click();
-  await page.waitForFunction(() => !window.web86CookieConsent.getConsent()?.external_content);
+  await page.waitForFunction(() => !window.web86CookieConsent.getConsent()?.categories.external_content);
   await page.waitForTimeout(600); equal(loads(requests), [], 'Revoked maps absent after reload');
   equal(await page.locator('[data-cc-map-provider] iframe').count(), 0, 'Frames removed');
 });
@@ -108,7 +108,7 @@ await suite('legacy-accept', async ({ page, requests }) => {
 });
 await suite('provider-only', async ({ page, requests }) => {
   await page.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_ga4');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:true,marketing:false,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});requests.length=0;await page.reload({waitUntil:'networkidle'});
-  equal(loads(requests),['google_ga4.js'],'Legacy partial remains exact');
+  equal(loads(requests),[],'Legacy partial cannot expand to full category');
 });
 for (const cause of ['ttl', 'policy', 'old-m2', 'popup-yurist']) await suite(`expiry-${cause}`, async ({ page, requests }) => {
   await page.locator('[data-cc-action="accept-all"]').click(); await page.waitForTimeout(200);
@@ -116,7 +116,7 @@ for (const cause of ['ttl', 'policy', 'old-m2', 'popup-yurist']) await suite(`ex
     const key = 'web86_cookie_consent', c = JSON.parse(localStorage.getItem(key));
     if (cause === 'ttl') c.savedAt = Date.now() - 91 * 86400000;
     if (cause === 'policy') c.version = 'old-policy';
-    if (cause === 'old-m2') { delete c.providers; delete c.external_content; }
+    if (cause === 'old-m2') { delete c.categories; delete c.external_content; }
     if (cause === 'popup-yurist') { localStorage.removeItem(key); localStorage.setItem('popup_yurist', 'true'); }
     else localStorage.setItem(key, JSON.stringify(c));
   }, cause);
@@ -152,8 +152,8 @@ await suite('mobile-keyboard-modal', async ({ page, requests }) => {
   equal(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), true, 'No horizontal overflow');
   await page.locator('[data-cc-action="save"]').click(); await page.waitForTimeout(500);
   await page.locator('#open-map-modal').click(); equal(loads(requests), [], 'Dialog map blocked');
-  await page.locator('#map-modal [data-cc-map-load="google_maps"]').click(); await page.waitForTimeout(200);
-  equal(loads(requests), ['google_maps.html'], 'Dialog permission');
+  await page.locator('#map-modal [data-cc-map-load="google_maps"]').click();await page.locator('[data-cc-category=external_content]').check();await page.locator('[data-cc-action=save]').click(); await page.waitForTimeout(200);
+  equal(loads(requests), ['google_maps.html','yandex_maps.html'], 'Dialog category permission');
   await page.locator('#map-modal > button').click(); await page.evaluate(()=>web86CookieConsent.openSettings()); await page.locator('[data-cc-category=external_content]').uncheck(); await page.locator('[data-cc-action=save]').click(); await page.waitForTimeout(600);
   equal(await page.locator('[data-cc-map-provider] iframe').count(), 0);
 }, { viewport: { width: 390, height: 844 } });
@@ -163,11 +163,11 @@ try {
     await choose(page, ['analytics']);
     const changed = structuredClone(registry);
     changed.services.push({ key: 'extra_ga', loader: 'google_ga4', category: 'analytics', name: 'Дополнительная аналитика', purpose: 'Новая явно раскрытая цель', enabled: true, config: { id: 'G-EXTRA123' } });
-    setting('cookie_consent.services', JSON.stringify(changed));
+    docker(['web','php','/opt/cc-source/tests/universal/set-registry.php'],JSON.stringify(changed));
     requests.length = 0; await page.reload({ waitUntil: 'networkidle' });
-    equal(await page.locator('[data-cc-provider]').count(),0);equal(await page.evaluate(()=>Boolean(web86CookieConsent.getConsent().providers.extra_ga)),false,'New provider not inherited');ok(await page.locator('[data-cc-action=reject]').isVisible(),'Re-consent requested');await page.locator('[data-cookie-settings-open]').click();await page.locator('[data-cc-category=analytics]').uncheck();await page.locator('[data-cc-category=analytics]').check(); await page.locator('[data-cc-action="save"]').click();
-    equal(await page.evaluate(() => Boolean(window.web86CookieConsent.getConsent().providers.extra_ga)), true, 'Explicit new permission');
-    changed.services.find(s => s.key === 'yandex').enabled = false; setting('cookie_consent.services', JSON.stringify(changed));
+    equal(await page.locator('[data-cc-provider]').count(),0);equal(await page.evaluate(()=>Boolean(web86CookieConsent.getConsent().categories.analytics)),false,'New provider not inherited');ok(await page.locator('[data-cc-action=reject]').isVisible(),'Re-consent requested');await page.locator('[data-cookie-settings-open]').click();await page.locator('[data-cc-category=analytics]').uncheck();await page.locator('[data-cc-category=analytics]').check(); await page.locator('[data-cc-action="save"]').click();
+    equal(await page.evaluate(() => Boolean(window.web86CookieConsent.getConsent().categories.analytics)), true, 'Explicit new permission');
+    changed.services.find(s => s.key === 'yandex').enabled = false; docker(['web','php','/opt/cc-source/tests/universal/set-registry.php'],JSON.stringify(changed));
     requests.length = 0; await page.reload({ waitUntil: 'networkidle' }); ok(!loads(requests).includes('yandex.js'), 'Disabled provider not loaded');
     await page.locator('[data-cookie-settings-open]').click(); equal(await page.locator('[data-cc-provider="yandex"]').count(), 0, 'Disabled UI');
   });
@@ -177,30 +177,15 @@ try {
     equal(await page.locator('[data-cc-provider]').count(), 0);
   });
 } finally { setting('cookie_consent.services', JSON.stringify(registry)); }
-// Exhaustive allow/deny powerset of all eight enabled service permissions.
-// Independent browser contexts/permissions/events: bounded concurrency, no setting mutations.
-for(let start=0;start<256;start+=4)await Promise.all(Array.from({length:Math.min(4,256-start)},(_,offset)=>{
-  const mask=start+offset;
-  return suite(`providers-${mask.toString().padStart(3, '0')}`, async ({ page, requests }) => {
-  await page.locator('[data-cc-action="configure"]').click();
-  const selected = registry.services.filter((service, i) => mask & (1 << i));
-  await page.evaluate(keys=>{const ss=web86Providers.services;const selected=ss.filter(s=>keys.includes(s.key));localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:selected.some(s=>s.category==='analytics'),marketing:selected.some(s=>s.category==='marketing'),external_content:selected.some(s=>s.category==='external_content'),providers:Object.fromEntries(selected.map(s=>[s.key,s.fingerprint])),savedAt:Date.now(),consentId:crypto.randomUUID()}));},selected.map(s=>s.key));requests.length=0;await page.reload({waitUntil:'networkidle'});await page.locator('[data-cc-action=configure]').click();equal(await page.locator('[data-cc-provider]').count(),0);
-  await page.locator('[data-cc-action="save"]').click();
-  await page.waitForFunction(() => window.__deliveries.some(e => e.ok));
-  await page.waitForTimeout(100);
-  const expected = [];
-  for (const service of selected) {
-    if (service.loader === 'google_gtm') expected.push('google_gtm.js');
-    else if (service.loader === 'yandex') expected.push('yandex.js');
-    else if (service.loader === 'mock_marketing') expected.push('marketing.js');
-    else expected.push(service.loader + (service.category === 'external_content' ? '.html' : '.js'));
-  }
-  equal(loads(requests), expected.sort(), 'Exact provider powerset network');
-  equal(Object.keys(await page.evaluate(() => window.web86CookieConsent.getConsent().providers)).sort(), selected.map(s => s.key).sort(), 'Only selected permission keys');
+// Current category powerset: every service in an allowed category runs; no individual grants.
+for(let mask=0;mask<8;mask++)await suite('category-only-persistence-'+mask,async({page,requests})=>{
+ const selected=['analytics','marketing','external_content'].filter((c,i)=>mask&(1<<i));await choose(page,selected);
+ const expected=registry.services.filter(s=>s.enabled&&selected.includes(s.category)).map(s=>s.loader==='mock_marketing'?'marketing.js':s.loader+(['google_maps','yandex_maps'].includes(s.loader)?'.html':'.js')).sort();
+ equal(loads(requests),expected,'All enabled members of allowed categories');
+ const c=await page.evaluate(()=>web86CookieConsent.getConsent());equal(c.categories,Object.fromEntries(['analytics','marketing','external_content'].map(k=>[k,selected.includes(k)])));equal(Object.hasOwn(c,'providers'),false);
 });
-}));
 await browser.close();
 const failed = results.filter(r => r.result === 'FAIL');
-evidence('browser-results', { suite: 'Playwright Chromium / real MODX 3.2.4', assertions, tests: results.length, failed: failed.length, results });
+evidence('browser-results', { suite: 'Playwright Chromium / real MODX 2.8.8', assertions, tests: results.length, failed: failed.length, results });
 console.log(`${results.length} browser scenarios, ${assertions} assertions, ${failed.length} failures`);
 if (failed.length) process.exitCode = 1;

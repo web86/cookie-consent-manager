@@ -13,7 +13,7 @@ with zipfile.ZipFile(archive) as z:
             raise RuntimeError('Archive traversal')
     source = archive.parent / 'modx-3.2.4-pl'
     if not source.exists(): z.extractall(archive.parent)
-for fixture in [local, local / 'clean', local / 'fresh']:
+for fixture in [local, local / 'clean', local / 'fresh', local / 'pristine']:
     (fixture / 'private').mkdir(parents=True, exist_ok=True)
     if not (fixture / 'site').exists(): shutil.copytree(source, fixture / 'site')
     (fixture / 'private/disposable-marker').write_text('cookie-consent-modx3-acceptance\n')

@@ -1,3 +1,3 @@
-name: cookie-consent-modx3-beta3
+name: cookie-consent-modx3-sync106
 include:
   - ../modx3/compose.yaml

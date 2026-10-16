@@ -3,10 +3,10 @@ import {cli,control} from '../modx3/helpers.mjs';
 import {readFileSync,writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 import {createHash} from 'node:crypto';
-const s='php82',origin='http://127.0.0.1:18891',ctl=(...a)=>JSON.parse(cli(s,['php','/opt/cc-source/tests/modx3-beta3/control.php',...a]));
+const s='php82',origin='http://127.0.0.1:20891',ctl=(...a)=>JSON.parse(cli(s,['php','/opt/cc-source/tests/modx3-beta3/control.php',...a]));
 const results=[];let assertions=0;const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m)},ok=(v,m)=>{assertions++;assert.ok(v,m)};
 const test=async(name,fn)=>{let start=assertions;try{const r=await fn();results.push({name,result:'PASS',assertions:assertions-start,...r});console.log('PASS '+name)}catch(e){results.push({name,result:'FAIL',error:e.message,assertions:assertions-start});console.error(e);process.exitCode=1;}};
-ctl('configure','18891');const ids=ctl('pages','18891'),browser=await chromium.launch(),contexts=[];
+ctl('configure','20891');const ids=ctl('pages','20891'),browser=await chromium.launch(),contexts=[];
 const url=(mode='standard-split')=>origin+'/beta3.php?ctx=beta3-en&id='+ids.en[mode];
 async function session(){const ctx=await browser.newContext(),external=[],acks=new Map();contexts.push(ctx);await ctx.route('**/*',r=>{if(new URL(r.request().url()).origin===origin)return r.continue();external.push(r.request().url());return r.fulfill({contentType:r.request().resourceType()==='document'?'text/html':'application/javascript',body:''});});await ctx.route('**/audit.php',async r=>{const response=await r.fetch(),bytes=await response.body();acks.set(r.request().postDataJSON().event_id,{body:JSON.parse(bytes.toString()),status:response.status()});await r.fulfill({response,body:bytes});});return{ctx,p:await ctx.newPage(),external,acks};}
 async function commit(m,action,click){const wait=m.p.waitForResponse(r=>r.url().endsWith('/audit.php')&&r.request().postDataJSON()?.event===action);await click();const r=await wait,payload=r.request().postDataJSON(),ack=m.acks.get(payload.event_id),body=ack.body;eq(ack.status,200);eq(r.status(),200);eq(body.event_id,payload.event_id);eq(ctl('record',body.event_id).records.length,1);return{payload,event_id:body.event_id,status:r.status()};}

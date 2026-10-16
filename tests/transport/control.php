@@ -2,7 +2,7 @@
 // Disposable database only; never installs component files or DB objects.
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
-if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_modx3_test','cookie_consent_modx3_clean','cookie_consent_modx3_transport_clean','cookie_consent_modx3_transport_publiccore'],true))exit(1);
+if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_modx3_pristine','cookie_consent_modx3_test','cookie_consent_modx3_clean','cookie_consent_modx3_transport_clean','cookie_consent_modx3_transport_publiccore'],true))exit(1);
 $private=$argv[2];$action=$argv[1];
 if($action==='credentials'){echo file_get_contents($private.'/manager.json');exit;}
 if($action==='archive-extracted'){

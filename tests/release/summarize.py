@@ -13,7 +13,7 @@ for name,r in suites.items():
  r.pop('snapshots',None)
 requests=0
 for case in suites['browser']['results']:
- har=read('.local/modx3/evidence/'+case['name']+'.har')['log']['entries'];assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:18888'for x in har)
+ har=read('.local/modx3/evidence/'+case['name']+'.har')['log']['entries'];assert all(urlsplit(x['request']['url']).netloc=='127.0.0.1:20888'for x in har)
  requests+=len(har);case['har_requests']=len(har);case.pop('networkRequests',None)
 assert sum(x['name'].startswith('providers-')for x in suites['browser']['results'])==256
 sig='cookieconsent-1.0.0';src=Path('.local/modx3/artifacts')/(sig+'.transport.zip');sha=hashlib.sha256(src.read_bytes()).hexdigest();assert sha=='0ed4563a2e92cf5e40ba1c269dc0d39bd0acdb6b3fb12a86f734983ce2f4b04b';assert sha==suites['package']['sha256'];assert src.read_bytes()==Path('.local/modx3/private/release100-final-d/'+src.name).read_bytes()

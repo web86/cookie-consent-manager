@@ -2,7 +2,7 @@
 // Named disposable MODX databases only; no production data.
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();
-if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_modx3_transport_clean','cookie_consent_modx3_transport_publiccore'],true))exit(1);
+if(!in_array($modx->query('SELECT DATABASE()')->fetchColumn(),['cookie_consent_transport_clean','cookie_consent_transport_publiccore'],true))exit(1);
 $elements=['MODX\Revolution\modChunk'=>['CookiesPopup'],'MODX\Revolution\modSnippet'=>['CookieConsent','CookieConsentAssets','CookieConsentBanner','CookieConsentRegistry','CookieConsentMap']];
 $action=$argv[1]??'';
 function category($name,$parent=0){global $modx;$c=$modx->getObject('MODX\Revolution\modCategory',['category'=>$name])?:$modx->newObject('MODX\Revolution\modCategory');$c->fromArray(['category'=>$name,'parent'=>$parent],'',true,true);if(!$c->save())throw new RuntimeException('Fixture category save');return $c->get('id');}

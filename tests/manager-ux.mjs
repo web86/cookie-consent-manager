@@ -4,9 +4,9 @@ import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {randomUUID} from 'node:crypto';
 import assert from 'node:assert/strict';
 const dir='.local/modx3/manager-ux-evidence';mkdirSync(dir,{recursive:true});
-const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','exec','-T'];
-const privateDir=s=>s==='web'?'/opt/cc-private':'/opt/cc-clean';
-const cli=(s,args,input)=>execFileSync('docker',[...dc,s,...args],{input,encoding:'utf8',maxBuffer:8*1024*1024}).trim();
+const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/modx3/compose.yaml','exec','-T'];
+const privateDir=s=>'/opt/cc-private';
+const cli=(s,args,input)=>execFileSync('docker',[...dc,s==='clean'?'pristine':s,...args],{input,encoding:'utf8',maxBuffer:8*1024*1024}).trim();
 const control=(s,op,key,input)=>cli(s,['php','/opt/cc-source/tests/transport/control.php',op,privateDir(s),...(key?[key]:[])],input);
 const fixture=(s,op,input,arg)=>cli(s,['php','/opt/cc-source/tests/local/ux-control.php',op,...(arg?[arg]:[])],input);
 let assertions=0;const results=[],external=[],errors=[];const browser=await chromium.launch();const contexts=[];const snapshots={};
@@ -18,23 +18,23 @@ for(const s of ['web','clean'])snapshots[s]=Object.fromEntries(keys.map(k=>[k,co
 const context=fixture('web','context',undefined,'get');
 const event=()=>({event_id:randomUUID(),consent_id:randomUUID(),event:'reject',stage:'committed',analytics:false,marketing:false,policy_version:'1',page:'/cookie-consent-audit-check',timestamp:new Date().toISOString()});
 try{
- const m=await manager('web',18888);
+ const m=await manager('web',20888);
  await test('desktop-long-texts-and-services-scroll-with-sticky-preview',async()=>{
   await m.p.locator('#ccm-tab-texts').click();await m.p.locator('[data-text-key]').last().scrollIntoViewIfNeeded();const last=await m.p.locator('[data-text-key]').last().boundingBox();ok(last.y>=0&&last.y+last.height<=900);ok(await m.p.evaluate(()=>document.body.scrollTop>0||document.documentElement.scrollTop>0));const aside=await m.p.locator('.ccm-preview').boundingBox();ok(aside.y>=0&&aside.y<100,'Preview stays visible');
   await m.p.screenshot({path:dir+'/desktop-texts-bottom.png'});
-  await m.p.locator('#ccm-tab-services').click();await m.p.locator('#ccm-add-counter summary').click();await m.p.locator('#ccm-counter-add').scrollIntoViewIfNeeded();const end=await m.p.locator('#ccm-counter-add').boundingBox();ok(end.y+end.height<=900);await m.p.screenshot({path:dir+'/desktop-services-bottom.png'});
+  await m.p.locator('#ccm-tab-services').click();await m.p.locator('#ccm-add-service').click();await m.p.locator('#ccm-service-create').scrollIntoViewIfNeeded();const end=await m.p.locator('#ccm-service-create').boundingBox();ok(end.y+end.height<=900);await m.p.screenshot({path:dir+'/desktop-services-bottom.png'});await m.p.locator('#ccm-add-service-dialog button').last().click();
  });
  await test('mobile-long-tabs-scroll-and-preview-below-form',async()=>{
   await m.p.setViewportSize({width:390,height:844});await m.p.waitForTimeout(250);await m.p.locator('#ccm-tab-texts').click();await m.p.locator('[data-text-key]').last().scrollIntoViewIfNeeded();const last=await m.p.locator('[data-text-key]').last().boundingBox();ok(last.y>=0&&last.y+last.height<=844);const main=await m.p.locator('.ccm-main').boundingBox(),aside=await m.p.locator('.ccm-preview').boundingBox();ok(aside.y>=main.y+main.height);ok(main.x>=0 && main.x+main.width<=390);await m.p.screenshot({path:dir+'/mobile-texts.png'});await m.p.setViewportSize({width:1440,height:900});
  });
  await test('technical-fields-hidden-one-language-select-short-integration',async()=>{
   eq(await m.p.locator('#ccm-policy,#ccm-audit-config,#ccm-preview-language,#ccm-base-language,#ccm-stock-language,#ccm-custom-language,[id^=ccm-purpose-],[data-restore]').count(),0);
-  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
-  await m.p.locator('#ccm-tab-logs').click();eq(await m.p.locator('#ccm-integration-help pre').textContent(),'[[!CookieConsent]]');ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
+  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||k==='map_notice'||k==='map_load'||/^service\.[a-z0-9_]+\.map_notice$/.test(k)||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
+  await m.p.locator('#ccm-tab-logs').click();await m.p.locator('#ccm-tab-main').click();await m.p.locator('#ccm-guide-open').click();ok((await m.p.locator('#ccm-guide-dialog').textContent()).includes('[[!CookieConsent]]'));await m.p.locator('#ccm-guide-close').click();ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
  });
  await test('two-counters-generated-keys-confirmation-save-only-and-auto-preview-locale',async()=>{
   await m.p.locator('#ccm-tab-services').click();const before=control('web','get','cookie_consent.services');
-  for(const [n,id]of [[2,'G-EXTRA1234'],[3,'G-NEXT1234']]){if(!(await m.p.locator('#ccm-add-counter').evaluate(x=>x.open)))await m.p.locator('#ccm-add-counter summary').click();await m.p.locator('#ccm-counter-adapter').selectOption('google_ga4');await m.p.locator('#ccm-counter-name').fill('Counter '+n);await m.p.locator('#ccm-counter-id').fill(id);await m.p.locator('#ccm-counter-add').click();eq(await m.p.locator('[data-service=google_ga4_'+n+']').count(),1);eq(await m.p.locator('#ccm-enable-google_ga4_'+n).isChecked(),false);ok((await m.p.locator('#ccm-status').textContent()).length>20);eq(control('web','get','cookie_consent.services'),before);}
+  for(const [n,id]of [[2,'G-EXTRA1234'],[3,'G-NEXT1234']]){if(!(await m.p.locator('#ccm-add-service-dialog').evaluate(x=>x.open)))await m.p.locator('#ccm-add-service').click();await m.p.locator('#ccm-service-adapter').selectOption('google_ga4');await m.p.locator('#ccm-service-name').fill('Counter '+n);await m.p.locator('#ccm-service-id').fill(id);await m.p.locator('#ccm-service-create').click();eq(await m.p.locator('[data-service=google_ga4_'+n+']').count(),1);eq(await m.p.locator('#ccm-enable-google_ga4_'+n).isChecked(),false);ok((await m.p.locator('#ccm-status').textContent()).length>20);eq(control('web','get','cookie_consent.services'),before);}
   const saved=m.p.waitForResponse(r=>new URLSearchParams(r.request().postData()).get('action')==='save');await m.p.locator('#ccm-save').click();eq((await(await saved).json()).success,true);const services=JSON.parse(control('web','get','cookie_consent.services')).services;for(const n of [2,3]){const s=services.find(x=>x.key==='google_ga4_'+n);eq(s.purpose_id,s.key);eq(s.category,'analytics');}
   await m.p.locator('#ccm-tab-texts').click();await m.p.locator('#ccm-edit-language').selectOption('ru');await m.p.waitForTimeout(500);eq(await m.p.frameLocator('#ccm-preview-frame').locator('html').getAttribute('lang'),'ru');
   for(const k of ['cookie_consent.services','cookie_consent.texts'])control('web','set',k,snapshots.web[k]);await m.p.reload();await m.p.locator('#ccm-save').waitFor();
@@ -57,7 +57,7 @@ try{
   for(const language of ['en','ru','en']){fixture('web','context',language);await p.waitForTimeout(2300);network.length=0;await p.goto(m.origin+'/?id='+id,{waitUntil:'networkidle'});eq(await p.locator('#cookie-block').count(),1);eq(await p.locator('#cc-service-registry').count(),1);eq(await p.locator('script[src*="cookie-consent.min.js"]').count(),1);eq(await p.locator('[data-cc-map-provider]').count(),2);eq(await p.locator('[data-cc-map-provider] iframe').count(),0);eq(await p.locator('#cookie-block').getAttribute('data-cc-mode'),'live');eq(await p.locator('#cc-public-config').count(),0);eq(await p.locator('[data-cc-action=reject]').textContent(),({en:'Reject',ru:'Отклонить'}[language]));ok(network.every(u=>new URL(u).origin===m.origin));const html=await p.content();ok(html.indexOf('cc-service-registry')<html.indexOf('cookie-consent.min.js'));eq((await p.locator('script[src]').evaluateAll(xs=>xs.map(x=>x.src))).filter(s=>/\/(i18n|provider-registry|consent-manager)\.js/.test(s)).length,0);}
   const cache=await p.reload({waitUntil:'networkidle'});eq(cache.status(),200);eq(await p.locator('#cookie-block').count(),1);await p.screenshot({path:dir+'/unified-map-placeholders.png'});await p.close();fixture('web','resource',undefined,'remove');
  });
- const c=await manager('clean',18889);
+ const c=await manager('clean',20892);
  await test('managed-audit-init-idempotent-key-never-in-CMP-public-config',async()=>{
   eq((await c.api('audit_setup')).success,true);const first=JSON.parse(fixture('clean','managed-check'));eq(first.key_length,64);eq(first.origin,c.origin);eq(first.limit,60);eq((await c.api('audit_setup')).success,true);eq(JSON.parse(fixture('clean','managed-check')).key_hash,first.key_hash);const raw=await c.api('get');ok(!JSON.stringify(raw).includes('rate_limit_key'));ok(!Object.hasOwn(raw.object,'audit'));await c.p.reload();await c.p.locator('#ccm-save').waitFor();ok(!(await c.p.evaluate(()=>JSON.stringify(window.MODx.config))).includes('rate_limit_key'));ok(!control('clean','get','cookie_consent.audit').includes('rate_limit_key'));
  });
@@ -74,7 +74,7 @@ try{
  });
  await test('managed-key-config-and-public-JSONL-retained-native-uninstall-reinstall',async()=>{
   const before=JSON.parse(fixture('clean','audit-state')),token=await c.p.evaluate(()=>MODx.siteId);
-  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:'cookieconsent-0.1.0-beta'+(JSON.parse(readFileSync('_build/package.json')).release_index+1)+'',preexisting_mode:'0'}})).json();
+  const native=async action=>(await c.ctx.request.post(c.origin+'/connectors/index.php',{headers:{modAuth:token},form:{action:'workspace/packages/'+action,HTTP_MODAUTH:token,signature:(()=>{const m=JSON.parse(readFileSync('_build/package.json'));return m.name+'-'+m.version+'-'+m.release+m.release_index;})(),preexisting_mode:'0'}})).json();
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('uninstall')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);
   eq((await native('install')).success,true);eq(JSON.parse(fixture('clean','audit-state')),before);eq((await c.api('get')).object.auditStatus.state,'ready');

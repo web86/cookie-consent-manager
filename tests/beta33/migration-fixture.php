@@ -1,6 +1,6 @@
 <?php
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
-define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();if($modx->query('SELECT DATABASE()')->fetchColumn()!=='cookie_consent_modx3_transport_publiccore')exit(1);
+define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(ob_get_level())ob_end_clean();if($modx->query('SELECT DATABASE()')->fetchColumn()!=='cookie_consent_transport_publiccore')exit(1);
 $mask=(int)$argv[1];$legacy=$argv[2];if($mask<0||$mask>7||!in_array($legacy,['true','false','absent'],true))exit(1);
 $services=[];foreach([['yandex','analytics',['id'=>'123456789','webvisor'=>false]],['mailru','analytics',['id'=>'987654321']],['mock_marketing','marketing',new stdClass()],['google_maps','external_content',new stdClass()]]as[$key,$cat,$cfg]){$services[]=['key'=>$key,'loader'=>$key,'category'=>$cat,'enabled'=>(bool)($mask&(1<<array_search($cat,['analytics','marketing','external_content']))),'name'=>$key,'purpose'=>'Migration fixture','purpose_id'=>'owner.'.$key,'config'=>$cfg];}
 if($legacy!=='absent')$services[0]['config']['clientId']=$legacy==='true';

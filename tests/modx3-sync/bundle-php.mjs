@@ -1,0 +1,4 @@
+import {cli} from '../modx3/helpers.mjs';import {writeFileSync} from 'node:fs';
+const results=[];
+for(const runtime of ['web','php82']){const command='set -eu\ntask_bundle_root=$(mktemp -d /tmp/cc3-bundle-XXXXXX)\ncp -a /opt/cc-source/server /opt/cc-source/assets /opt/cc-source/_build /opt/cc-source/tests "$task_bundle_root/"\ncd "$task_bundle_root"\nmkdir .local\nchown -R www-data "$task_bundle_root"\nrunuser -u www-data -- php tests/adapter-cache/php.php';try{const result=JSON.parse(cli(runtime,['sh','-c',command]));results.push({runtime,...result});console.log(JSON.stringify({runtime,...result}));}catch(e){results.push({runtime,result:'FAIL',error:e.message});process.exitCode=1;}}
+writeFileSync('.local/modx3/evidence/bundle-php.json',JSON.stringify({tests:results.length,assertions:results.reduce((n,r)=>n+(r.assertions||0),0),failed:results.filter(r=>r.result==='FAIL').length,results},null,2)+'\n');

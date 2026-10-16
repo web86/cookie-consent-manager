@@ -2,8 +2,8 @@
 declare(strict_types=1);
 if (PHP_SAPI !== 'cli' || getenv('CC_MODX3_DISPOSABLE') !== 'cookie-consent-modx3-acceptance' || trim(file_get_contents('/opt/cc-private/disposable-marker')) !== 'cookie-consent-modx3-acceptance') exit(1);
 $root='/var/www/html/';$core=$root.'core/';
-$database=getenv('CC_DB_NAME')?:'cookie_consent_modx3_test';$port=getenv('CC_HTTP_PORT')?:'18888';
-if(!in_array($database,['cookie_consent_modx3_test','cookie_consent_modx3_clean','cookie_consent_modx3_fresh'],true))throw new RuntimeException('Disposable DB required');
+$database=getenv('CC_DB_NAME')?:'cookie_consent_modx3_test';$port=getenv('CC_HTTP_PORT')?:'20888';
+if(!in_array($database,['cookie_consent_modx3_test','cookie_consent_modx3_clean','cookie_consent_modx3_fresh','cookie_consent_modx3_pristine','cookie_consent_modx3_finalclean','cookie_consent_modx3_finalfresh','cookie_consent_modx3_finalpristine'],true))throw new RuntimeException('Disposable DB required');
 if(is_file($core.'config/config.inc.php')&&filesize($core.'config/config.inc.php')>100){echo "Existing MODX 3 fixture preserved\n";exit;}
 $pdo=new PDO('mysql:host=db','root',getenv('CC_DB_PASSWORD'));$pdo->exec('CREATE DATABASE IF NOT EXISTS `'.$database.'` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');
 $xml=new SimpleXMLElement(file_get_contents($root.'setup/config.dist.new.xml'));

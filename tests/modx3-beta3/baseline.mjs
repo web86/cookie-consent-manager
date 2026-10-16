@@ -4,7 +4,7 @@ import {randomUUID} from 'node:crypto';
 import {writeFileSync} from 'node:fs';
 import {cli} from '../modx3/helpers.mjs';
 const ctl=(...a)=>JSON.parse(cli('clean',['php','/opt/cc-source/tests/modx3-beta3/control.php',...a]));
-const origin='http://127.0.0.1:18889',ids=ctl('pages','18889'),offset=ctl('log-size'),browser=await chromium.launch(),ctx=await browser.newContext();
+const origin='http://127.0.0.1:20889',ids=ctl('pages','20889'),offset=ctl('log-size'),browser=await chromium.launch(),ctx=await browser.newContext();
 await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
 const results=[];try{
  for(const mode of ['standard-split','fenom-split']){const p=await ctx.newPage();const r=await p.goto(`${origin}/beta3.php?ctx=beta3-en&id=${ids.en[mode]}`,{waitUntil:'networkidle'});const body=await r.text();results.push({name:'beta2-Fenom-full-brace-'+mode,http:r.status(),bytes:Buffer.byteLength(body),registryCount:await p.locator('#cc-service-registry').count(),readyCount:await p.locator('#fixture-ready').count()});await p.close();}

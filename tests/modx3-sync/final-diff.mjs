@@ -1,0 +1,5 @@
+import {readFileSync,writeFileSync} from 'node:fs';import assert from 'node:assert/strict';
+const signature='cookieconsent3-0.1.0-beta4',read=folder=>JSON.parse(readFileSync(`.local/modx3/artifacts/${folder}/${signature}.inventory.json`));
+const original=read('sync106-a'),final=read('sync106-final-a');let assertions=0;const eq=(a,b,msg)=>{assertions++;assert.deepEqual(a,b,msg)};
+eq(final.objects,original.objects,'Executable canonical sources identical to the fully tested candidate');eq(final.files.map(f=>f.target),original.files.map(f=>f.target));const changed=final.files.filter((f,i)=>f.sha256!==original.files[i].sha256).map(f=>f.target);eq(changed,['core/components/cookieconsent/src/CookieConsentGuide.php'],'Final payload changes only the generated guide wording');
+const report={result:'PASS',tests:1,assertions,changed,unchangedRuntimeFiles:final.files.length-changed.length,reason:'Correct Map provider instance wording and add current native package changelog; exact final ZIP receives fresh native lifecycle and RU/EN guide checks.'};writeFileSync('.local/modx3/evidence/final-diff.json',JSON.stringify(report,null,2)+'\n');console.log(JSON.stringify(report));

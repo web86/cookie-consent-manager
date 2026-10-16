@@ -6,9 +6,9 @@ import {canonical,sources} from '../elements/assertions.mjs';
 const target=JSON.parse(readFileSync('_build/package.json')).release_index;const baseline=Number(process.env.CC_UPGRADE_BASELINE||5);
 const service=process.env.CC_UPGRADE_SERVICE||'web';if(!['web','publiccore'].includes(service))throw Error('fixture name');const priv=service==='web'?'/opt/cc-private':'/opt/cc-publiccore';
 const dir='.local/modx3/manager-ux-evidence';mkdirSync(dir,{recursive:true});
-const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/local/compose.yaml','-f','tests/transport/compose.yaml','exec','-T',service];
+const dc=['compose','--env-file','.local/modx3/private/compose.env','-f','tests/modx3/compose.yaml','-f','tests/transport/compose.yaml','exec','-T',service];
 const ctl=(action,key)=>execFileSync('docker',[...dc,'php','/opt/cc-source/tests/transport/control.php',action,priv,...(key?[key]:[])],{encoding:'utf8'}).trim();
-const browser=await chromium.launch(),ctx=await browser.newContext(),p=await ctx.newPage(),origin='http://127.0.0.1:'+(service==='web'?18888:18890);const results=[];let assertions=0;
+const browser=await chromium.launch(),ctx=await browser.newContext(),p=await ctx.newPage(),origin='http://127.0.0.1:'+(service==='web'?20888:20890);const results=[];let assertions=0;
 const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
 await ctx.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
 try{

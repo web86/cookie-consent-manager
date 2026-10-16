@@ -2,16 +2,18 @@
 
 Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
 
-Текущий кандидат: **`cookieconsent3-0.1.0-beta3`**, native transport, **неопубликованный beta, интегрированный для разработки**. **NO-GO для staging с compiled Fenom cache:** официальный pdoTools3 3.1.0 падает при чтении прогретого кеша даже без Cookie Consent. [Приёмка beta3](docs/modx3-beta3-acceptance.md), [результаты beta3](docs/evidence/modx3-beta3-results.json); [историческая приёмка beta2](docs/modx3-implementation-acceptance.md). Compatibility audit сохранён как историческое исследование исходной базы 1.0.2; принятое решение — независимые ветки/сборки.
+Текущий кандидат этой feature-ветки: **`cookieconsent3-0.1.0-beta4`** — перенос проверенной MODX 2 **1.0.6** (`db0a722`) поверх актуальной MODX 3 beta3 (`1fd6872`). Новая ветка `codex/modx3-sync-1.0.6`; исходные ветки сохранены. [Приёмка и release gates](docs/modx3-1.0.6-parity-acceptance.md), [differential-аудит](docs/modx3-1.0.6-differential-audit.md).
 
-**Статус приёмки остаётся 510 PASS / 4 FAIL; полный staging/release gate — NO-GO.** Все четыре FAIL — RU/EN × split/legacy на прогретом compiled Fenom cache; независимое воспроизведение без Cookie Consent сохранено. Merge #8 и CSP FAQ #10 не меняет этот gate и не означает готовность к production. [Upstream-блокер и обязательная повторная проверка — #11](https://github.com/web86/cookie-consent-manager/issues/11). [Консолидация и rollback references](docs/repository-consolidation-2026-10-15.md).
+Добавлены произвольные категории и экземпляры сервисов, пользовательский JS, category-only consent/audit schema 3, YouTube/RUTUBE/VK Видео, CookieConsentVideo, универсальные инертные template, обновлённый CookieConsentMap, постеры/размеры и общие RU/EN тексты. PHP Peast пересобирает общий bundle при очистке кеша в Manager; принудительная пересборка находится на «Основных». Frontend использует сохранённый timestamp и не проверяет JS-исходники. На установленном сайте Node/npm/Composer не требуются.
 
-Реальная локальная приёмка: MODX 3.2.4-pl, PHP 8.1.34, xPDO 3.1.7, MariaDB 11.8.9, Apache/Chromium. Все установки работают с `load_deprecated_global_class_aliases=false`. PHP использует настоящие namespaces MODX/xPDO; Manager следует `cultureKey` текущей сессии. Frontend JS/CSS и consent-форматы сохранены из проверенной базы 1.0.2.
+**Полный staging/release gate остаётся NO-GO:** официальный pdoTools3 3.1.0 падает при чтении прогретого compiled Fenom cache. Standard и холодный Fenom проверяются отдельно; реальные ошибки не считаются успешными тестами. Подтверждённое live playback видео остаётся отдельным gate. Production deployment и публикация не выполнялись. [Историческая приёмка beta3](docs/modx3-beta3-acceptance.md), [beta2](docs/modx3-implementation-acceptance.md).
+
+Реальная приёмка: MODX 3.2.4-pl, PHP 8.1.34/8.2.34, xPDO 3.1.7, MariaDB 11.8.9, Apache/Chromium. Deprecated global aliases выключены. Сохранены native namespaces, lifecycle, canonical IDs/metadata и язык текущей Manager-сессии. Подробные команды и фактические результаты — в отчёте приёмки.
 
 ## Установка и обновление
 
 1. Сделайте backup БД, runtime, пользовательских/static исходников элементов, private audit config и журналов.
-2. Проверьте SHA256 точного ZIP. Для beta3: `b762e36d19449f76b4cac1ac4a9fa82aad9e80757875959d778806b2a9d6687f`.
+2. Проверьте SHA256 точного ZIP. Для beta4: `18eae9c7b331e213d637d872e8a1c4668c301b6fc1be6e309ef9f14a6001b69d`.
 3. Загрузите ZIP в штатный MODX Package Management и выполните Install/Upgrade. Setup Options отсутствуют.
 4. Откройте Cookie Consent Manager в меню Extras. Включите нужные сервисы с вашими IDs и независимые флаги видимости категорий. На свежей установке необязательные категории и сервисы выключены, IDs в package defaults отсутствуют.
 5. На «Основных» выберите существующий каталог журнала и нажмите Save. Default — `MODX_CORE_PATH . 'cache/logs/'`. Save проверяет локальную запись/чтение; при необходимости создаёт managed audit configuration в существующей MODX registry. Пустой путь отключает новые записи. Ошибка каталога сохраняет другие корректные настройки и прежний рабочий путь.

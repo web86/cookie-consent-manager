@@ -51,7 +51,7 @@ final class CookieConsentAuditReader
         krsort($files);$years=array_keys($years);rsort($years);return ['files'=>$files,'years'=>array_map('strval',$years)];
     }
     public static function record(array $data): array {
-        if(!in_array($data['schema']??null,[1,2],true))throw new InvalidArgumentException('invalid_schema');
+        if(!in_array($data['schema']??null,[1,2,3],true))throw new InvalidArgumentException('invalid_schema');
         foreach(['server_time','event_id','consent_id','ip','user_agent','event','stage','policy_version','page'] as $key)if(!is_string($data[$key]??null)||strlen($data[$key])>8192)throw new InvalidArgumentException('invalid_record');
         if(!preg_match('/^[a-z][a-z0-9_]{0,63}$/D',$data['event'])||!preg_match('/^[a-z][a-z0-9_]{0,63}$/D',$data['stage'])||!filter_var($data['ip'],FILTER_VALIDATE_IP))throw new InvalidArgumentException('invalid_record');
         foreach(['event_id','consent_id'] as $key)if(!preg_match('/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/iD',$data[$key]))throw new InvalidArgumentException('invalid_record');
@@ -62,6 +62,7 @@ final class CookieConsentAuditReader
         if(!is_array($data['categories']??null)||!$data['categories'])throw new InvalidArgumentException('invalid_record');
         foreach($data['categories'] as $key=>$value)if(!in_array($key,['necessary','analytics','marketing','external_content'],true)||!is_bool($value))throw new InvalidArgumentException('invalid_record');
         foreach(['necessary','analytics','marketing'] as $key)if(!array_key_exists($key,$data['categories']))throw new InvalidArgumentException('invalid_record');
+        if($data['schema']===3 && (!array_key_exists('external_content',$data['categories'])||array_key_exists('providers',$data)||array_key_exists('provider',$data)))throw new InvalidArgumentException('invalid_record');
         if($data['schema']===2) {
             if(!array_key_exists('external_content',$data['categories'])||!is_array($data['providers']??null)||count($data['providers'])>256)throw new InvalidArgumentException('invalid_record');
             foreach($data['providers'] as $key=>$value)if(!preg_match('/^[a-z][a-z0-9_]{0,31}$/D',(string)$key)||!is_bool($value))throw new InvalidArgumentException('invalid_record');

@@ -1,7 +1,7 @@
 services:
   clean:
     image: cookie-consent-acceptance-web:latest
-    ports: ['127.0.0.1:18889:80']
+    ports: ['127.0.0.1:20889:80']
     volumes:
       - ../../.local/modx3/transport-clean/public:/var/www/html
       - ../../.local/modx3/transport-clean/private:/opt/cc-clean
@@ -15,7 +15,7 @@ services:
         condition: service_healthy
   publiccore:
     image: cookie-consent-acceptance-web:latest
-    ports: ['127.0.0.1:18890:80']
+    ports: ['127.0.0.1:20890:80']
     volumes:
       - ../../.local/modx3/transport-publiccore/public:/var/www/html
       - ../../.local/modx3/transport-publiccore/private:/opt/cc-publiccore

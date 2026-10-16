@@ -1,0 +1,476 @@
+{
+  "equivalence.json": {
+    "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+    "candidateSHA256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+    "tests": 49,
+    "assertions": 206,
+    "failed": 0,
+    "results": [
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"dialog\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"csp\":true}",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "{\"legacy\":true,\"csp\":true}",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+        "result": "PASS",
+        "assertions": 4
+      }
+    ]
+  },
+  "acceptance/results.json": [
+    {
+      "name": "legacy-browser",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/legacy-browser-browser.json"
+      ]
+    },
+    {
+      "name": "legacy-matrix",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/legacy-matrix-matrix-results.json"
+      ]
+    },
+    {
+      "name": "beta1042",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/beta1042-accept-results.json"
+      ]
+    },
+    {
+      "name": "universal",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/universal-results.json"
+      ]
+    },
+    {
+      "name": "public-registry-upgrade",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/public-registry-upgrade-browser-results.json"
+      ]
+    },
+    {
+      "name": "examples",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/examples-examples.json"
+      ]
+    },
+    {
+      "name": "fenom-sync",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "fenom-browser",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/fenom-browser-results.json"
+      ]
+    },
+    {
+      "name": "fenom-modes",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/fenom-modes-fenom.json"
+      ]
+    },
+    {
+      "name": "beta-upgrades",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/beta-upgrades-upgrade.json"
+      ]
+    },
+    {
+      "name": "direct-vendors",
+      "result": "FAIL",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/direct-vendors-direct-vendors.json"
+      ]
+    },
+    {
+      "name": "manager",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php-and-syntax",
+      "result": "PASS",
+      "reports": [
+        ".local/video-embeds/baseline/acceptance/php-and-syntax-regression.json"
+      ]
+    },
+    {
+      "name": "native-verifier",
+      "result": "PASS",
+      "reports": []
+    }
+  ],
+  "acceptance/universal-results.json": {
+    "tests": 20,
+    "failed": 0,
+    "results": [
+      {
+        "path": "tests/universal/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/audit.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/http.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/callbacks.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta26/frontend.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta28/localization.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-i18n.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-permissions.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/viewer/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/matrix.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/maps.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/provider-parameters.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/pixels.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/clientid.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-ux.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/live-guard.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/public.mjs",
+        "result": "PASS"
+      }
+    ]
+  }
+}
