@@ -16,13 +16,15 @@ for(const p of js)eq(readFileSync(p),original(p),'Visitor runtime source preserv
 eq(readFileSync('server/src/CookieConsentServiceRegistry.php'),original('server/src/CookieConsentServiceRegistry.php'),'Registry, SDK/category defaults unchanged');
 eq(readFileSync('server/modx2-map-snippet.php'),original('server/modx2-map-snippet.php'),'Map contract unchanged');
 eq(readFileSync('server/modx2-video-snippet.php'),original('server/modx2-video-snippet.php'),'Video contract unchanged');
-eq(readFileSync('_build/package.json'),original('_build/package.json'),'Package version unchanged');
+const meta=JSON.parse(readFileSync('_build/package.json')),baseMeta=JSON.parse(original('_build/package.json'));
+eq({...meta,release_index:baseMeta.release_index},baseMeta,'Only package beta index changes');
 execFileSync(process.execPath,['_build/user-guide.mjs','--check']);
 const guide=JSON.parse(readFileSync('_build/user-guide.json')).languages;
 for(const lang of ['ru','en']){eq(guide[lang].sections.length,6);const code=guide[lang].sections[5].blocks.filter(b=>b.type==='code');eq(code.map(b=>b.language),['modx','html','javascript']);for(const provider of ['youtube','rutube','vk_video'])eq(code[0].text.includes('&provider=`'+provider+'`'),true);eq(code[2].text.includes("{ service: 'youtube' }"),true);}
 const before=readFileSync('_build/frontend-manifest.json');execFileSync(process.execPath,['_build/frontend.mjs']);eq(readFileSync('_build/frontend-manifest.json'),before,'Node release build reproducibility');
 if(process.argv.includes('--native')){
- const spec=JSON.parse(readFileSync('.local/artifacts/cookieconsent-1.0.5-beta1.inventory.json'));
+ const signature=meta.name+'-'+meta.version+(meta.release?'-'+meta.release+meta.release_index:'');
+ const spec=JSON.parse(readFileSync('.local/artifacts/'+signature+'.inventory.json'));
  for(const p of js)eq(spec.files.filter(f=>f.target===p).map(f=>f.sha256),[sha(readFileSync(p))],'All editable JS sources shipped exactly once');
  for(const p of ['src/CookieConsentBundleManager.php','src/CookieConsentBundleInstall.php','plugins/cache-build.php','processors/bundle_rebuild.class.php','vendor/peast/LICENSE','vendor/peast/autoload.php'])eq(spec.files.find(f=>f.target==='core/components/cookieconsent/'+p)?.sha256,sha(readFileSync('server/'+p)),'Native builder ships current '+p);
  eq(spec.files.find(f=>f.target==='core/components/cookieconsent/frontend-manifest.json')?.sha256,sha(readFileSync('_build/frontend-manifest.json')));

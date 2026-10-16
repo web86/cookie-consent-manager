@@ -62,6 +62,8 @@ foreach($inputs as $path=>$unused)if(str_ends_with($path,'.js')) {
     if(!is_dir(dirname($root.'/'.$path)))mkdir(dirname($root.'/'.$path),0755,true);
     copy($project.'/'.$path,$root.'/'.$path);
 }
+$package=json_decode(file_get_contents($project.'/_build/package.json'),true);
+$releaseVersion=$package['version'].($package['release']?'-'.$package['release'].$package['release_index']:'');
 $modx=new BundleFixture($root);$n=0;
 function eq($a,$b,$message=''):void{global $n;$n++;if($a!==$b)throw new RuntimeException($message.' '.json_encode([$a,$b]));}
 function rejects(callable $fn, ?string $message=null):void{global $n;try{$fn();}catch(Throwable $e){$n++;if($message!==null&&$e->getMessage()!==$message)throw $e;return;}throw new RuntimeException('Expected rejection');}
@@ -139,7 +141,7 @@ unlink($file);
 eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion,'Frontend does not track deletion of an active file');eq(is_file($file),false);
 eq($visitor->queries,0,'Frontend never queries system settings');
 unset($visitor->options['cookie_consent.bundle_version']);
-eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cookie-consent.min.js?v=1.0.5-beta1','No active version uses a fixed release version');
+eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cookie-consent.min.js?v='.$releaseVersion,'No active version uses a fixed release version');
 $method=new ReflectionMethod(CookieConsentBundleManager::class,'asset');
 $code=implode('',array_slice(file($method->getFileName()),$method->getStartLine()-1,$method->getEndLine()-$method->getStartLine()+1));
 eq((bool)preg_match('/\\b(?:filemtime|file_get_contents|fopen|fgets|hash_file|is_file|metadata|manifest|time)\\s*\\(/',$code),false,'Frontend selection has no file, freshness or time operations');

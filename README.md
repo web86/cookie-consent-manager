@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 2
 
-В этой feature-ветке — кандидат **1.0.5-beta1** ([приёмка](docs/modx2-video-embeds-acceptance.md)): YouTube, RUTUBE, VK Видео, доверенные template embeds и `mountEmbeds(root)` поверх архитектуры [beta5](docs/modx2-service-adapters-acceptance.md). Сохраняются единый bundle, категории, Strict/Legacy, SDK, карты и аудит. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
+В этой feature-ветке — кандидат **1.0.5-beta2** ([transport для staging и аудит состава](docs/modx2-beta2-transport-acceptance.md)): YouTube, RUTUBE, VK Видео, доверенные template embeds и `mountEmbeds(root)` поверх архитектуры [beta5](docs/modx2-service-adapters-acceptance.md). Сохраняются единый bundle, категории, Strict/Legacy, SDK, карты и аудит. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
 
 Ветка `codex/modx2-adapter-cache-build` добавляет административную пересборку адаптеров без Node.js: измените исходник по пути из настроек сервиса и очистите кеш MODX в Manager. Принудительная кнопка — «Основные → Сборка адаптеров → Пересобрать адаптеры». Встроенная инструкция RU/EN содержит редактирование адаптеров и три способа подключения видео. Версия пакета не изменена; [приёмка сборщика](docs/modx2-adapter-cache-build-acceptance.md).
 
@@ -165,7 +165,7 @@ CSP полезна как дополнительная защита от вне�
 Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-runtime.js` → `services/*.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: отдельные файлы в `services/`; dispatcher: `service-loaders.js`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).
 
 
-## Видео и универсальные встраивания (MODX 2, 1.0.5-beta1)
+## Видео и универсальные встраивания (MODX 2, 1.0.5-beta2)
 
 Новые типы `youtube`, `rutube`, `vk_video` выключены по умолчанию. Назначьте им любую видимую необязательную категорию в Manager. При upgrade существующий реестр сохраняется; добавьте новый тип из каталога. Категорийные согласия `categories_v2`, Strict/Legacy и audit schema 3 сохраняются.
 

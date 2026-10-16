@@ -28,7 +28,7 @@ $payload=$work.'/payload';$files=[];
 function addSource(string $source,string $target,array &$files,string $payload,string $root):void{
     if(!is_file($source)||is_link($source))throw new RuntimeException('Missing/symlink source');
     $relative=substr($source,strlen($root)+1);
-    if(preg_match('~(?:^|/)(?:\.git|\.local|node_modules|tests|config\.php|logs)(?:/|$)~',$relative)||preg_match('/\.(?:log|har|pem|env)$/',$relative))throw new RuntimeException('Excluded source');
+    if(preg_match('~(?:^|/)(?:\.git|\.github|\.local|node_modules|tests|fixtures|debug|docs|mock|mocks|mok|config\.php|logs)(?:/|$)~',$relative)||preg_match('/\.(?:log|har|pem|env|map|md)$/',$relative))throw new RuntimeException('Excluded source');
     $to=$payload.'/'.$target;if(!is_dir(dirname($to)))mkdir(dirname($to),0700,true);copy($source,$to);
     $files[]=['source'=>$target,'target'=>$target,'sha256'=>hash_file('sha256',$source)];
 }
@@ -37,20 +37,13 @@ $frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,
 if(($frontend['tool']??'')!=='esbuild'||($frontend['version']??'')!=='0.28.2')throw new RuntimeException('Run npm ci and npm run build:frontend');
 foreach($frontend['inputs'] as $path=>$hash)if(hash_file('sha256',$root.'/'.$path)!==$hash)throw new RuntimeException('Stale frontend inputs; run npm run build:frontend');
 foreach($frontend['outputs'] as $path=>$info)if(hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
-$coreParts=['src','public','controllers','templates','processors','lexicon','bin','vendor','plugins'];
-foreach($coreParts as $part){
-    $paths=[];foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/server/'.$part,FilesystemIterator::SKIP_DOTS)) as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);
-    foreach($paths as $source){if($part==='bin'&&basename($source)==='install-modx2.php')continue;addSource($source,'core/components/cookieconsent/'.$part.'/'.substr($source,strlen($root.'/server/'.$part.'/')),$files,$payload,$root);}
+// Closed, reviewed runtime inventory: never recurse through source directories.
+$runtime=json_decode(file_get_contents(__DIR__.'/transport-files.json'),true,16,JSON_THROW_ON_ERROR);
+foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js')&&($runtime[$path]??null)!==$path)throw new RuntimeException('Bundle source missing from transport allowlist');
+foreach($runtime as $target=>$source){
+    if(!is_string($source)||!preg_match('~^(?:assets/|core/components/cookieconsent/)[a-zA-Z0-9_./-]+$~D',$target)||str_contains($target,'..')||str_contains($source,'..'))throw new RuntimeException('Transport allowlist path');
+    addSource($root.'/'.$source,$target,$files,$payload,$root);
 }
-addSource($root.'/assets/js/cookie-consent/script-url.js','assets/components/cookieconsent/script-url.js',$files,$payload,$root);
-foreach(['audit-viewer.js','manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
-addSource($root.'/server/modx2-manager-connector.php','assets/components/cookieconsent/connector.php',$files,$payload,$root);
-addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/cookieconsent/audit.php',$files,$payload,$root);
-addSource($root.'/_build/frontend-manifest.json','core/components/cookieconsent/frontend-manifest.json',$files,$payload,$root);
-foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js'))addSource($root.'/'.$path,$path,$files,$payload,$root);
-foreach(['cookie-consent.min.js'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);
-$paths=[];foreach(new DirectoryIterator($root.'/assets/js/cookie-consent/mock') as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);foreach($paths as $source)addSource($source,'assets/js/cookie-consent/mock/'.basename($source),$files,$payload,$root);
-addSource($root.'/assets/css/cookie-consent.min.css','assets/css/cookie-consent.min.css',$files,$payload,$root);
 // HTTP access policy, including existing .htaccess files, belongs to the site owner.
 usort($files,static fn($a,$b)=>strcmp($a['target'],$b['target']));
 define('MODX_API_MODE',true);ob_start();require $site.'/index.php';while(ob_get_level())ob_end_clean();

@@ -19,8 +19,12 @@ when testing permissions. On macOS, old log-directory suites need canonical
 `TMPDIR=/private/tmp`, because `/var` is a symlink.
 
 For actual Manager/PM tests use only the existing named disposable MODX 2 fixtures.
-Build one development transport with the native `_build/build.php`, no version
-change, then normalize and verify it. Install through native Package Management.
+Build the candidate transport with the native `_build/build.php`, then normalize
+and verify it. `_build/transport-files.json` is the closed runtime allowlist;
+`tests/transport/composition.py <zip> [MODX-core]` tests its exact ZIP closure and
+rejects injected fixtures, debug files and modified runtime bytes. The test/demo
+`mock/` directory is repository-only. `tests/transport/production.mjs` proves
+live SDK/maps/video/Strict/Legacy/Preview on a clean installation without it. Install through native Package Management.
 A development ZIP rebuilt under the same signature and normalized timestamps may
 need the disposable Apache opcode cache reset before reinstall; never report a
 partial install as a pass. The transport is a test fixture, not a release artifact.

@@ -1,13 +1,16 @@
-# Cookie Consent Manager 1.0.5-beta1 — MODX 2
+# Cookie Consent Manager 1.0.5-beta2 — MODX 2 staging candidate
 
-Unreleased adapter-cache work (package version unchanged):
+- Package the completed adapter cache builder and saved timestamp URL versioning for real-site staging tests. No production release or real video playback claim.
+- Use an explicit runtime transport allowlist and reject unexpected ZIP content. Exclude the ten test/demo mock SDK/map assets and Peast developer README. Keep all 21 administrative build inputs, including the referenced mock-marketing factory; production live behavior is unchanged.
+
+Adapter-cache work included in beta2:
 - Build the shared frontend bundle on authenticated Manager OnSiteRefresh and package install, from the release builder’s ordered manifest.
 - Ship pinned PHP Peast 1.17.6 AST minification; no Node/npm/Composer required on the host.
 - Lock builds, skip unchanged content and atomically publish JS. After publication save cookie_consent.bundle_version as a Unix timestamp; frontend selects cached/prebuilt from loaded MODX config without reading JS. Preserve previous file/version on errors and invalidate settings/resource caches without OnSiteRefresh recursion.
 - Add the existing-ACL RU/EN build status, last success time and force-rebuild button.
 - Extend the canonical short RU/EN guide with adapter editing and snippet/template/onAllowed video examples.
 
-Existing video work:
+# Cookie Consent Manager 1.0.5-beta1 — MODX 2 video staging candidate
 
 - Disabled-by-default YouTube, RUTUBE and VK Video service types in the existing category model.
 - Native CookieConsentVideo snippet with reviewed HTTPS URL contracts and privacy-enhanced YouTube embeds.
