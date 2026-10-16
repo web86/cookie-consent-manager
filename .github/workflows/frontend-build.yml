@@ -1,0 +1,71 @@
+name: CMP — Frontend Build
+run-name: CMP frontend · ${{ github.ref_name }} · ${{ github.sha }}
+
+on:
+  push:
+    branches: ['codex/modx2-*']
+    paths:
+      - 'assets/js/cookie-consent/**'
+      - 'assets/css/cookie-consent*'
+      - '_build/frontend*'
+      - 'package.json'
+      - 'package-lock.json'
+      - 'tests/frontend-refactor/**'
+      - 'demo.html'
+      - '.github/workflows/frontend-build.yml'
+  # GitHub's Branch selector chooses the ref; github.sha freezes its event commit.
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  frontend:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    env:
+      CI: 'true'
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - name: Require a MODX 2 feature branch
+        shell: bash
+        run: |
+          case "$GITHUB_REF" in
+            refs/heads/codex/modx2-*) ;;
+            *) echo '::error::Select a codex/modx2-* branch in Run workflow (not main or modx3).'; exit 1 ;;
+          esac
+
+      - name: Checkout the exact event commit
+        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          ref: ${{ github.sha }}
+          fetch-depth: 0 # The differential test reads the immutable beta4 ancestor.
+          persist-credentials: false
+
+      - name: Verify checkout identity
+        shell: bash
+        run: test "$(git rev-parse HEAD)" = "$GITHUB_SHA"
+
+      - name: Set up pinned Node
+        uses: actions/setup-node@53b83947a5a98c8d113130e565377fae1a50d02f # v6.3.0
+        with:
+          node-version: '22.23.2'
+          package-manager-cache: false
+
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+
+      - name: Install Chromium for isolated frontend fixtures
+        run: npx --no-install playwright install --with-deps chromium
+
+      - name: Build, verify, test and prepare artifact
+        run: node _build/frontend-ci.mjs
+
+      - name: Upload verified JavaScript
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6.0.0
+        with:
+          name: cmp-frontend-${{ github.sha }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: .local/github-frontend-build/artifact/
+          include-hidden-files: true # Explicit generated directory under .local; contains only the four deliverables.
+          if-no-files-found: error
+          retention-days: 30
