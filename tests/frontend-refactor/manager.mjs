@@ -39,7 +39,9 @@ try {
   const managerUrl=await page.locator('script[src*="/cookieconsent/manager.js"]').getAttribute('src');
   const bytes=await(await context.request.get(new URL(managerUrl,origin).href)).body();
   eq(createHash('sha256').update(bytes).digest('hex'),spec.files.find(file=>file.target==='assets/components/cookieconsent/manager.js').sha256,'Exact delivered Manager source');
-  eq(outside,[],'Manager opens no remote SDK');eq(errors,[],'No browser errors');
-  writeFileSync(out+'/manager-final.json',JSON.stringify({result:'PASS',tests:1,assertions,failed:0,php:installed.php,modx:installed.modx,runtimeFiles:spec.files.length,signature},null,2)+'\n');
+  // MODX itself requests its configured Gravatar avatar. It is intercepted too;
+  // it is unrelated to the component's isolated SDK/Preview lifecycle.
+  eq(outside.filter(url=>new URL(url).hostname!=='www.gravatar.com'),[],'No component SDK/Preview request outside Manager');eq(errors,[],'No browser errors');
+  writeFileSync(out+'/manager-final.json',JSON.stringify({result:'PASS',tests:1,assertions,failed:0,php:installed.php,modx:installed.modx,runtimeFiles:spec.files.length,signature,interceptedCoreAvatarRequests:outside.filter(url=>new URL(url).hostname==='www.gravatar.com').length},null,2)+'\n');
   console.log('PASS final native payloads, Manager source links and Preview isolation ('+assertions+' assertions)');
 } finally {await browser.close();}
