@@ -3,7 +3,7 @@ import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 if(version!=='0.28.2')throw Error('Use pinned esbuild 0.28.2 / npm ci');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const js=['runtime.js','script-url.js','provider-registry.js','service-loaders.js','consent-manager.js'].map(n=>'assets/js/cookie-consent/'+n),css='assets/css/cookie-consent.css';
+const js=['runtime.js','script-url.js','provider-registry.js','service-loaders.js','embeds.js','consent-manager.js'].map(n=>'assets/js/cookie-consent/'+n),css='assets/css/cookie-consent.css';
 const inputs=Object.fromEntries([...js,css,'package-lock.json','_build/frontend.mjs'].map(p=>[p,sha(readFileSync(p))]));
 const options={minify:true,legalComments:'none',charset:'ascii',target:'es2020'};
 const output={

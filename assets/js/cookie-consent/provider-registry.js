@@ -64,28 +64,11 @@
     const node = document.getElementById('cc-service-registry');
     services = validate(node ? JSON.parse(node.textContent) : { schema: 1, services: [] });
   } catch (e) { console.warn(t('error_registry'), e.message); }
-  function mapUrl(s, raw) {
-    const url = new URL(raw, location.href);
-    if (url.username || url.password || url.hash || url.port || /[\x00-\x20\\]/.test(raw)) throw Error('Unsafe map URL');
-    if (url.protocol !== 'https:') throw Error('HTTPS map required');
-    const google = s.loader === 'google_maps' && url.hostname === 'www.google.com' && /^\/maps\/embed(?:\/v1\/(?:place|view|directions|search|streetview))?$/.test(url.pathname);
-    const yandex = s.loader === 'yandex_maps' && url.hostname === 'yandex.ru' && ['/map-widget/v1/', '/map-widget/v1'].includes(url.pathname);
-    if (!google && !yandex) throw Error('Map host/path rejected');
-    const allowed = google ? ['pb', 'key', 'q', 'center', 'zoom', 'maptype', 'language', 'region', 'origin', 'destination', 'waypoints', 'mode', 'avoid', 'units', 'location', 'heading', 'pitch', 'fov'] : ['um', 'source', 'll', 'z', 'l', 'pt', 'mode', 'oid', 'ol'];
-    if (raw.length > 4096 || [...url.searchParams.keys()].some(k => !allowed.includes(k))) throw Error('Map parameters rejected');
-    return url.href;
-  }
-  function safeMapUrl(s, raw, mode) {
-    if (mode !== 'mock') return mapUrl(s, raw);
-    const u = new URL(raw, location.href);
-    if (u.origin !== location.origin || u.username || u.password || u.search || u.hash || u.pathname !== `/assets/js/cookie-consent/mock/${s.loader}.html`) throw Error('Mock map must be first-party fixture');
-    return u.href;
-  }
   window.web86Providers = Object.freeze({ services: Object.freeze(services), categories: Object.freeze(categories),
     validate, validScriptPath,
     // Delegation is lazy: all module definitions exist before centralized startup.
     allowed: (service, value) => web86ServiceLoaders.allowed(service, value),
-    safeMapUrl,
+    safeMapUrl: (service, raw, mode) => web86Embeds.safeMapUrl(service, raw, mode),
     revoke: (mode, value) => web86ServiceLoaders.revoke(mode, value),
     apply: (value, mode, permission = null, legacy = false) => web86ServiceLoaders.apply(value, mode, permission, legacy)
   });

@@ -24,7 +24,6 @@
   const services = registry?.services || [];
   const categoryVisibility = Object.fromEntries(['analytics','marketing','external_content'].map(c => [c, root.getAttribute('data-cc-category-' + c.replaceAll('_','-')) === '1']));
   const categoryVersions = Object.fromEntries(Object.keys(categoryVisibility).map(c => [c, Number(root.getAttribute('data-cc-category-version-' + c.replaceAll('_','-')))]));
-  const maps = [];
   const main = root.querySelector('[data-cc-panel="main"]');
   const settings = root.querySelector('[data-cc-panel="settings"]');
   const analyticsInput = root.querySelector('[data-cc-category="analytics"]');
@@ -34,7 +33,6 @@
   if (!analyticsInput || !marketingInput || !externalInput || !settings) return;
   const inputs = { analytics: analyticsInput, marketing: marketingInput, external_content: externalInput };
   let returnFocus = null;
-  let pendingMapDialog = null;
   // Remove legacy provider controls. Public preferences expose categories only.
   for (const input of settings.querySelectorAll('[data-cc-provider]')) (input.closest('label') || input).remove();
   let consent = null;
@@ -46,6 +44,12 @@
   let reloading = false;
   let legacyAutoLoad = false;
   const allowedCallbacks = new Set();
+  const embeds = web86Embeds.create({
+    root, registry, services, mode, categoryVisibility, runtimeAllowed,
+    openSettings(load, category) {
+      returnFocus = load; openSettings(); inputs[category].focus();
+    }
+  });
 
   // One gate for SDKs, maps and callbacks; never serialize runtime permission as consent.
   function runtimeAllowed(category) {
@@ -201,17 +205,7 @@
 
   function applyConsent(value) {
     registry?.apply(value, mode, runtimeAllowed, legacyAutoLoad);
-    for (const map of maps) {
-      const allowed = runtimeAllowed(map.service.category) && registry?.allowed(map.service, value);
-      if (allowed && !map.frame) {
-        const frame = document.createElement('iframe'); frame.title = map.title;
-        frame.referrerPolicy = 'strict-origin-when-cross-origin';
-        frame.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-popups');
-        frame.setAttribute('allowfullscreen', ''); frame.src = map.url;
-        map.node.append(frame); map.frame = frame;
-      } else if (!allowed && map.frame) { map.frame.remove(); map.frame = null; }
-      map.placeholder.hidden = Boolean(allowed);
-    }
+    embeds.apply(value);
   }
 
   function showBanner() {
@@ -252,45 +246,13 @@
     const revoked = legacyRejection || Object.keys(inputs).some(k => previousPermissions[k] && !categories[k]);
     if (revoked) {
       reloading = true; registry?.revoke(mode, value);
-      for (const map of maps) if (!categories[map.service.category] && map.frame) { map.frame.remove(); map.frame = null; }
+      embeds.revoke(categories);
       if (!persisted) console.warn(t('error_storage'));
       Promise.race([auditDelivery, new Promise(resolve => setTimeout(resolve, 900))]).finally(() => location.reload());
       return;
     }
     applyConsent(value); needsChoice = false; runAllowedCallbacks();
-    if (pendingMapDialog) {
-      const { dialog, category } = pendingMapDialog; pendingMapDialog = null;
-      if (categories[category] && dialog.isConnected && !dialog.open) dialog.showModal();
-    }
-  }
-
-  function setupMaps() {
-    for (const node of document.querySelectorAll('[data-cc-map-provider]')) {
-      const service = services.find(s => s.key === node.dataset.ccMapProvider && ['google_maps','yandex_maps'].includes(s.loader));
-      const template = Array.from(root.querySelectorAll('template[data-cc-map-template]')).find(t => t.dataset.ccMapTemplate === node.dataset.ccMapProvider);
-      const headingSource = template?.content.querySelector('h3');
-      const title = node.dataset.ccMapTitle || headingSource?.textContent || t('map_title');
-      // All initial markup is inert until the common runtime gate permits this instance.
-      node.replaceChildren();
-      if (!service || !template) { node.textContent = t('map_disabled', { title }); continue; }
-      let url;
-      try { url = registry.safeMapUrl(service, node.dataset.ccMapSrc || '', mode); }
-      catch (_) { node.textContent = t('map_rejected', { title }); continue; }
-      const fragment = template.content.cloneNode(true);
-      const placeholder = fragment.querySelector('.cc-map-placeholder');
-      const heading = fragment.querySelector('h3');
-      if (node.dataset.ccMapTitle) heading.textContent = node.dataset.ccMapTitle;
-      const load = fragment.querySelector('[data-cc-map-load]');
-      load.hidden = !categoryVisibility[service.category]; load.disabled = !categoryVisibility[service.category];
-      // A map button only opens category preferences. It never grants an individual permission.
-      load.addEventListener('click', () => {
-        // A native modal makes the rest of the page inert; close it while editing consent.
-        const dialog = node.closest('dialog');
-        if (dialog?.open) { pendingMapDialog = { dialog, category: service.category }; dialog.close(); }
-        returnFocus = load; openSettings(); inputs[service.category].focus();
-      });
-      node.append(placeholder); maps.push({ node, placeholder, service, title, url, frame: null });
-    }
+    embeds.afterCommit(categories);
   }
 
   function setupButtonVisibility() {
@@ -371,7 +333,7 @@
     try { identity = getStorage()?.getItem(STORAGE_KEY + '_id'); } catch (_) { /* unavailable */ }
     consentId = consent && isUuid(consent.consentId) ? consent.consentId : isUuid(identity) ? identity : newUuid();
     try { if (consentId) getStorage()?.setItem(STORAGE_KEY + '_id', consentId); } catch (_) { /* unavailable */ }
-    setupMaps();
+    embeds.setup();
     applyConsent(consent);
     if (!consent || needsChoice) showBanner();
     runAllowedCallbacks();

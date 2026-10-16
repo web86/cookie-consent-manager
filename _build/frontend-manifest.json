@@ -4,17 +4,18 @@
   "inputs": {
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
     "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
-    "assets/js/cookie-consent/provider-registry.js": "c6285dbddc397cff7c6caf94468be7b968d1aa06784b65104264c8290f2f97ab",
+    "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
     "assets/js/cookie-consent/service-loaders.js": "df6c1e994413a71c0d259e271bbe2c33c56036c860606aafabe1c044c6dfa03a",
-    "assets/js/cookie-consent/consent-manager.js": "4b513bab532474abe5a241e1df8c089522576c4e97267f015513511dbc700c09",
+    "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+    "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
     "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
-    "_build/frontend.mjs": "9be0416bd1622d3f4ef819d9aa3ac19d7ed59d0e39b853b6c6959141c648e7ef"
+    "_build/frontend.mjs": "ed666887eb1320737303deb03d5545140f1cff87174c8f8ed96ea01a7ddf0361"
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "3d43f038834c1d7564bd12c616100c895a5248c66755c68ed7e1b64650b94aab",
-      "bytes": 22223
+      "sha256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+      "bytes": 22745
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",

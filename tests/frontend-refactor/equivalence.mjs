@@ -25,7 +25,7 @@ const eq = (a,b,m) => { assertions++; assert.deepEqual(a,b,m); };
 function fixture(scenario) {
   const registry = JSON.parse(demo.match(/<script id="cc-service-registry"[^>]*>(.*?)<\/script>/s)[1]);
   registry.services.push(
-    {key:'local',loader:'custom_js',purpose:'Local integration',category:'marketing',enabled:true,config:{path:'/assets/integration.js?v=1'}},
+    {key:'local',loader:'custom_js',purpose:'Local integration',category:'marketing',enabled:true,config:{path:'/assets/integration.js'}},
     {key:'remote',loader:'custom_js',purpose:'Remote integration',category:'marketing',enabled:true,config:{path:'https://cdn.example.test/integration.js?v=2'}},
     {key:'disabled',loader:'custom_js',purpose:'Disabled integration',category:'marketing',enabled:false,config:{path:'/disabled.js'}},
     {...structuredClone(registry.services.find(s=>s.loader==='meta_pixel')),key:'meta_duplicate'}
@@ -52,6 +52,12 @@ async function exercise(bundle, scenario) {
   const pending = new Promise(resolve=>{release=resolve;});
   const entered = new Promise(resolve=>{held=resolve;});
   await context.addInitScript(({timestamp, scenario}) => {
+    window.__settledScripts=new WeakSet();
+    window.__cspViolations=[];
+    document.addEventListener('securitypolicyviolation',event=>__cspViolations.push(event.violatedDirective));
+    for(const name of ['load','error']) document.addEventListener(name,event=>{
+      if(event.target.tagName==='SCRIPT') __settledScripts.add(event.target);
+    },true);
     const NativeDate = Date;
     window.Date = class extends NativeDate { constructor(...args){super(...(args.length?args:[timestamp]));} static now(){return timestamp;} };
     let byte = 0;
@@ -76,7 +82,7 @@ async function exercise(bundle, scenario) {
   }, {timestamp,scenario});
   await context.route('**/*',async route=>{
     const request=route.request(), url=new URL(request.url());
-    if(request.isNavigationRequest() && request.frame()===page.mainFrame()) return route.fulfill({contentType:'text/html',body:fixture(scenario)});
+    if(request.isNavigationRequest() && request.frame()===page.mainFrame()) return route.fulfill({contentType:'text/html',body:fixture(scenario),headers:scenario.csp?{'Content-Security-Policy':"default-src 'self'; script-src 'self' https://cdn.example.test https://mc.yandex.ru https://top-fwz1.mail.ru https://connect.facebook.net https://www.googletagmanager.com; frame-src 'self' https://www.google.com https://yandex.ru; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"}:{}});
     if(url.pathname.endsWith('cookie-consent.min.js')) return route.fulfill({contentType:'text/javascript',body:bundle});
     if(url.pathname.endsWith('cookie-consent.min.css')) return route.fulfill({contentType:'text/css',body:readFileSync('assets/css/cookie-consent.min.css','utf8')});
     if(url.pathname==='/audit.php') {
@@ -94,6 +100,7 @@ async function exercise(bundle, scenario) {
   // Minification changes function names/line numbers, never the warning message.
   page.on('console',m=>{if(m.type()==='warning') warnings.push(m.text().split('\n')[0]);});
   const snapshot=async label=>{
+    if(!scenario.pending) await page.waitForFunction(()=>[...document.querySelectorAll('script[src]')].every(s=>__settledScripts.has(s)));
     await page.waitForTimeout(25);
     checkpoints.push({label, state:await page.evaluate(()=>({
       consent:window.web86CookieConsent?.getConsent(),
@@ -108,11 +115,13 @@ async function exercise(bundle, scenario) {
       callbacks:window.__callbacks||[],guards:(window.__guards||[]).map(f=>f()),
       focus:document.activeElement?.outerHTML,dialog:document.getElementById('map-dialog')?.open,
       cookies:document.cookie
+      ,cspViolations:__cspViolations
     })),requests:[...requests].sort((a,b)=>a.url.localeCompare(b.url)),audits:structuredClone(audits)});
   };
   try {
     await page.goto(origin+'/',{waitUntil:scenario.pending?'domcontentloaded':'load'});
     if(scenario.pending) await entered;
+    eq(await page.evaluate(()=>web86Providers.services.length),12,'Fixture registry must be accepted');
     if(scenario.noRoot) return {api:await page.evaluate(()=>typeof window.web86CookieConsent),requests,errors};
     await page.evaluate(()=>{
       window.__callbacks=[];window.__guards=[];
@@ -167,14 +176,16 @@ try {
     for(const stored of ['all','reject','partial','expired','policy','stale','malformed']) scenarios.push({legacy,stored});
     for(const extra of [{archive:true},{storageError:true},{hidden:true},{fail:true},{siteConsent:'denied'},{siteConsent:'granted'},{noRoot:true}]) scenarios.push({legacy,...extra});
   }
-  scenarios.push({dialog:true},{legacy:true,pending:true});
+  scenarios.push({dialog:true},{legacy:true,pending:true},{csp:true},{legacy:true,csp:true});
   for(const scenario of scenarios) {
+    if(process.argv.includes('--dialog') && !scenario.dialog) continue;
     if(process.argv.includes('--focused') && !scenario.category && !scenario.pending && !scenario.dialog) continue;
     const name=JSON.stringify(scenario),before=assertions;
     const old=await exercise(bundles[0],scenario),candidate=await exercise(bundles[1],scenario);
     writeFileSync(out+'/comparison-last.json',JSON.stringify({scenario,baseline:old,candidate},null,2)+'\n');
     eq(candidate,old,name);
     eq(candidate.errors,[],name+' no uncaught errors');
+    if(scenario.csp) for(const point of candidate.checkpoints) eq(point.state.cspViolations,[],'CSP without inline execution/eval');
     results.push({name,result:'PASS',assertions:assertions-before});
     console.log('PASS '+name);
   }
