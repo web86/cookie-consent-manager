@@ -54,6 +54,7 @@ node tests/modx3-sync/final-diff.mjs
 node tests/modx3-sync/uninstall.mjs
 node tests/modx3-sync/guide-final.mjs
 node tests/modx3-sync/php-differential.mjs
+node tests/modx3-sync/php-vs-esbuild.mjs
 ```
 
 `final-diff` requires identical executable elements and 230 identical runtime

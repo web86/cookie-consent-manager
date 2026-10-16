@@ -1,0 +1,475 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/modx3-sync-1.0.6",
+  "source_modx2": "db0a7229715bcde08eef71894e08dd6526704954",
+  "target_modx3": "1fd687249fa474c2ce3ba21ddc64b0344d3f1b6a",
+  "implementation_commit": "89cca7540d3bc53384bf763064090fa77df1d29a",
+  "signature": "cookieconsent3-0.1.0-beta4",
+  "zip": "/Users/sonoma/Desktop/cookie-consent-manager/.local/modx3/artifacts/sync-1.0.6-beta4/cookieconsent3-0.1.0-beta4.transport.zip",
+  "sha256": "18eae9c7b331e213d637d872e8a1c4668c301b6fc1be6e309ef9f14a6001b69d",
+  "runtime_files": 231,
+  "native_vehicles": 248,
+  "zip_entries": 490,
+  "reproducible": true,
+  "baseline": {
+    "browser": {
+      "tests": 281,
+      "assertions": 1423,
+      "failed": 0
+    },
+    "regression": {
+      "suites": 15,
+      "tests": 187,
+      "assertions": 1243,
+      "failed": 0
+    },
+    "php": {
+      "tests": 22,
+      "assertions": 7528,
+      "failed": 0
+    },
+    "runtime": {
+      "tests": 26,
+      "assertions": 446,
+      "failed": 4
+    }
+  },
+  "web": {
+    "suites": 26,
+    "tests": 368,
+    "assertions": 2942,
+    "failed": 0,
+    "results": [
+      {
+        "name": "universal",
+        "evidence": ".local/modx3/universal-evidence/browser-results.json",
+        "tests": 21,
+        "assertions": 173,
+        "failed": 0
+      },
+      {
+        "name": "category-audit",
+        "evidence": ".local/modx3/universal-evidence/audit-results.json",
+        "tests": 2,
+        "assertions": 14,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "name": "http",
+        "evidence": ".local/modx3/evidence/http-results.json",
+        "tests": 37,
+        "assertions": 121,
+        "failed": 0
+      },
+      {
+        "name": "browser",
+        "evidence": ".local/modx3/evidence/browser-results.json",
+        "tests": 33,
+        "assertions": 185,
+        "failed": 0
+      },
+      {
+        "name": "callbacks",
+        "evidence": ".local/modx3/beta32-evidence/callbacks-results.json",
+        "tests": 13,
+        "assertions": 44,
+        "failed": 0
+      },
+      {
+        "name": "frontend",
+        "evidence": ".local/modx3/beta26-evidence/frontend-results.json",
+        "tests": 9,
+        "assertions": 80,
+        "failed": 0
+      },
+      {
+        "name": "localization",
+        "evidence": ".local/modx3/beta28-evidence/localization-results.json",
+        "tests": 4,
+        "assertions": 112,
+        "failed": 0
+      },
+      {
+        "name": "manager-categories",
+        "evidence": ".local/modx3/beta33-evidence/manager-results.json",
+        "tests": 4,
+        "assertions": 73,
+        "failed": 0
+      },
+      {
+        "name": "manager-pixels",
+        "evidence": ".local/modx3/beta31-evidence/manager-results.json",
+        "tests": 4,
+        "assertions": 48,
+        "failed": 0
+      },
+      {
+        "name": "manager-i18n",
+        "evidence": ".local/modx3/manager-i18n-evidence/results.json",
+        "tests": 17,
+        "assertions": 61,
+        "failed": 0
+      },
+      {
+        "name": "permissions",
+        "evidence": ".local/modx3/evidence/manager-permissions-results.json",
+        "tests": 1,
+        "assertions": 4,
+        "failed": 0
+      },
+      {
+        "name": "viewer",
+        "evidence": ".local/modx3/viewer-evidence/results.json",
+        "tests": 11,
+        "assertions": 77,
+        "failed": 0
+      },
+      {
+        "name": "adapter-category-matrix",
+        "evidence": ".local/modx3/universal-evidence/matrix-results.json",
+        "tests": 30,
+        "assertions": 300,
+        "failed": 0
+      },
+      {
+        "name": "maps",
+        "evidence": ".local/modx3/beta32-evidence/maps-results.json",
+        "tests": 9,
+        "assertions": 42,
+        "failed": 0
+      },
+      {
+        "name": "parameters",
+        "evidence": ".local/modx3/evidence/provider-parameters-results.json",
+        "tests": 4,
+        "assertions": 18,
+        "failed": 0
+      },
+      {
+        "name": "pixels",
+        "evidence": ".local/modx3/beta31-evidence/pixels-results.json",
+        "tests": 32,
+        "assertions": 175,
+        "failed": 0
+      },
+      {
+        "name": "clientid",
+        "evidence": ".local/modx3/beta33-evidence/clientid-results.json",
+        "tests": 4,
+        "assertions": 13,
+        "failed": 0
+      },
+      {
+        "name": "manager-ux",
+        "evidence": ".local/modx3/manager-ux-evidence/results.json",
+        "tests": 15,
+        "assertions": 113,
+        "failed": 0
+      },
+      {
+        "name": "live-guard",
+        "evidence": ".local/modx3/evidence/live-guard-results.json",
+        "tests": 11,
+        "assertions": 51,
+        "failed": 0
+      },
+      {
+        "name": "categories",
+        "evidence": ".local/modx3/beta33-evidence/public-results.json",
+        "tests": 23,
+        "assertions": 201,
+        "failed": 0
+      },
+      {
+        "name": "guide-ui",
+        "evidence": ".local/modx3/polish-evidence/ui-results.json",
+        "tests": 7,
+        "assertions": 231,
+        "failed": 0
+      },
+      {
+        "name": "texts-manager",
+        "evidence": ".local/placeholder-texts/manager.json",
+        "tests": 2,
+        "assertions": 44,
+        "failed": 0
+      },
+      {
+        "name": "native-cache",
+        "evidence": ".local/adapter-cache/native/results.json",
+        "tests": 11,
+        "assertions": 79,
+        "failed": 0
+      },
+      {
+        "name": "legacy-browser",
+        "evidence": ".local/legacy-autoload-evidence/browser.json",
+        "tests": 24,
+        "assertions": 176,
+        "failed": 0
+      },
+      {
+        "name": "legacy-matrix",
+        "evidence": ".local/legacy-autoload-evidence/matrix-results.json",
+        "tests": 30,
+        "assertions": 330,
+        "failed": 0
+      },
+      {
+        "name": "real-sdk-repeat",
+        "evidence": ".local/legacy-autoload-evidence/direct-vendors.json",
+        "tests": 10,
+        "assertions": 177,
+        "failed": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "reports": {
+    "php": {
+      "evidence": ".local/modx3/evidence/sync106-php.json",
+      "tests": 32,
+      "assertions": 8066,
+      "failed": 0
+    },
+    "bundle-php": {
+      "evidence": ".local/modx3/evidence/bundle-php.json",
+      "tests": 2,
+      "assertions": 140,
+      "failed": 0
+    },
+    "source-parity": {
+      "evidence": ".local/modx3/evidence/source-parity.json",
+      "tests": 1,
+      "assertions": 88,
+      "result": "PASS"
+    },
+    "php-differential": {
+      "evidence": ".local/modx3/evidence/php-differential.json",
+      "tests": 24,
+      "assertions": 24,
+      "failed": 0
+    },
+    "video": {
+      "evidence": ".local/video-embeds/browser.json",
+      "tests": 42,
+      "assertions": 646,
+      "failed": 0
+    },
+    "texts": {
+      "evidence": ".local/placeholder-texts/results.json",
+      "tests": 32,
+      "assertions": 779,
+      "failed": 0
+    },
+    "php-vs-esbuild": {
+      "evidence": ".local/video-embeds/differential/equivalence.json",
+      "tests": 49,
+      "assertions": 253,
+      "failed": 0
+    },
+    "runtime": {
+      "evidence": ".local/modx3/evidence/sync106-runtime.json",
+      "tests": 26,
+      "assertions": 462,
+      "failed": 4
+    },
+    "embeds-php81": {
+      "evidence": ".local/modx3/evidence/sync106-embeds-clean.json",
+      "tests": 16,
+      "assertions": 270,
+      "failed": 4
+    },
+    "embeds-php82": {
+      "evidence": ".local/modx3/evidence/sync106-embeds-php82.json",
+      "tests": 16,
+      "assertions": 270,
+      "failed": 4
+    },
+    "native-final": {
+      "evidence": ".local/modx3/evidence/sync106-native-final.json",
+      "tests": 3,
+      "assertions": 1967,
+      "failed": 0
+    },
+    "uninstall": {
+      "evidence": ".local/modx3/evidence/sync106-uninstall.json",
+      "tests": 1,
+      "assertions": 26,
+      "failed": 0
+    },
+    "guide-final": {
+      "evidence": ".local/modx3/evidence/final-guide.json",
+      "tests": 4,
+      "assertions": 24,
+      "failed": 0
+    },
+    "composition": {
+      "evidence": ".local/modx3/evidence/composition/composition.json",
+      "assertions": 473,
+      "result": "PASS"
+    },
+    "final-diff": {
+      "evidence": ".local/modx3/evidence/final-diff.json",
+      "tests": 1,
+      "assertions": 3,
+      "result": "PASS"
+    },
+    "php-vs-current-esbuild": {
+      "evidence": ".local/modx3/evidence/php-vs-current-esbuild/equivalence.json",
+      "tests": 49,
+      "assertions": 253,
+      "failed": 0
+    },
+    "syntax": {
+      "evidence": ".local/modx3/evidence/syntax.json",
+      "checks": 166,
+      "failed": 0,
+      "follow_up": "All subsequently changed/added scripts passed explicit syntax checks."
+    }
+  },
+  "live_playback": [
+    {
+      "provider": "youtube",
+      "result": "SKIP",
+      "playerMessages": [
+        "YouTube Developers Live: Embedded Web Player Customization\nGoogle for Developers\nGoogle for Developers\n2,68 Mn abone\nİzlemek için:"
+      ],
+      "reason": "Playback unavailable in this environment; iframe HTTP success alone is not playback proof.",
+      "responses": [
+        200
+      ],
+      "errors": []
+    },
+    {
+      "provider": "rutube",
+      "result": "SKIP",
+      "playerMessages": [
+        "Просмотр видео запрещен на этом сайте\n\nВы можете посмотреть его только на RUTUBE\n\nСмотреть"
+      ],
+      "reason": "Playback unavailable in this environment; iframe HTTP success alone is not playback proof.",
+      "responses": [
+        200
+      ],
+      "errors": [
+        {
+          "url": "https://rutube.ru/pangolin/api/web/serial/7716bd3e665725c3c008ae7ab4ff02e2",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://mdd.yandex.net/",
+          "error": "net::ERR_CERT_AUTHORITY_INVALID"
+        },
+        {
+          "url": "https://hdrc.yandex.net/",
+          "error": "net::ERR_ABORTED"
+        }
+      ]
+    },
+    {
+      "provider": "vk_video",
+      "result": "SKIP",
+      "playerMessages": [
+        ""
+      ],
+      "reason": "Playback unavailable in this environment; iframe HTTP success alone is not playback proof.",
+      "responses": [
+        200
+      ],
+      "errors": [
+        {
+          "url": "https://stats.vk-portal.net/",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://privacy-cs.mail.ru/fp/",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://privacy-cs.mail.ru/fp/",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://api.okcdn.ru/fb.do",
+          "error": "net::ERR_ABORTED"
+        }
+      ]
+    }
+  ],
+  "first_real_sdk_failure": {
+    "tests": 1,
+    "assertions": 15,
+    "failed": 1,
+    "skipped": 0,
+    "telemetry": "Locally answered; public JS downloaded over verified TLS and replayed unchanged",
+    "results": [
+      {
+        "name": "google_ga4-no-site-consent",
+        "result": "FAIL",
+        "assertions": 15,
+        "error": "AssertionError [ERR_ASSERTION]: Same processing request kinds (sporadic /td recorded separately)\n+ actual - expected\n\n  [\n    'www.google-analytics.com/g/collect:page_view',\n-   'www.googletagmanager.com/a:'\n  ]\n\n    at eq (file:///Users/sonoma/Desktop/cookie-consent-manager/.local/modx3-sync-1.0.6/tests/legacy-autoload/direct-vendors.mjs:15:31)\n    at file:///Users/sonoma/Desktop/cookie-consent-manager/.local/modx3-sync-1.0.6/tests/legacy-autoload/direct-vendors.mjs:76:3"
+      }
+    ]
+  },
+  "upstream": {
+    "probe": "Hello {$name}",
+    "dependency": "unmodified official pdotools-3.1.0-pl",
+    "results": [
+      {
+        "service": "clean",
+        "metadata": {
+          "modx": "3.2.4-pl",
+          "php": "8.1.34",
+          "aliases": false,
+          "parser": "ModxPro\\PdoTools\\Parsing\\Parser",
+          "fenom": "2.12",
+          "fenomCache": "1",
+          "compiledCacheFiles": 1
+        },
+        "cold": {
+          "exit": 0,
+          "stdout": "\"Hello world\""
+        },
+        "warm": {
+          "exit": 255,
+          "stdout": "",
+          "stderr": "PHP Fatal error:  Uncaught TypeError: Fenom\\Render::__construct(): Argument #1 ($fenom) must be of type Fenom, null given, called in /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116) : eval()'d code on line 8 and defined in /var/www/html/core/components/pdotools/vendor/fenom/fenom/src/Fenom/Render.php:83\nStack trace:\n#0 /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116) : eval()'d code(8): Fenom\\Render->__construct(NULL, Object(Closure), Array)\n#1 /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116): eval()\n#2 /opt/cc-source/tests/modx3-beta3/control.php(80): ModxPro\\PdoTools\\Parsing\\Fenom\\Fenom->process('Hello {$name}', Array)\n#3 {main}\n  thrown in /var/www/html/core/components/pdotools/vendor/fenom/fenom/src/Fenom/Render.php on line 83\n"
+        },
+        "result": "CONFIRMED_UPSTREAM_FAILURE"
+      },
+      {
+        "service": "php82",
+        "metadata": {
+          "modx": "3.2.4-pl",
+          "php": "8.2.34",
+          "aliases": false,
+          "parser": "ModxPro\\PdoTools\\Parsing\\Parser",
+          "fenom": "2.12",
+          "fenomCache": "1",
+          "compiledCacheFiles": 1
+        },
+        "cold": {
+          "exit": 0,
+          "stdout": "\"Hello world\""
+        },
+        "warm": {
+          "exit": 255,
+          "stdout": "",
+          "stderr": "PHP Fatal error:  Uncaught TypeError: Fenom\\Render::__construct(): Argument #1 ($fenom) must be of type Fenom, null given, called in /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116) : eval()'d code on line 3 and defined in /var/www/html/core/components/pdotools/vendor/fenom/fenom/src/Fenom/Render.php:83\nStack trace:\n#0 /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116) : eval()'d code(3): Fenom\\Render->__construct(NULL, Object(Closure), Array)\n#1 /var/www/html/core/components/pdotools/src/Parsing/Fenom/Fenom.php(116): eval()\n#2 /opt/cc-source/tests/modx3-beta3/control.php(80): ModxPro\\PdoTools\\Parsing\\Fenom\\Fenom->process('Hello {$name}', Array)\n#3 {main}\n  thrown in /var/www/html/core/components/pdotools/vendor/fenom/fenom/src/Fenom/Render.php on line 83\n"
+        },
+        "result": "CONFIRMED_UPSTREAM_FAILURE"
+      }
+    ]
+  },
+  "release_gate": "NO-GO: official pdoTools3 warm Fenom failure; live playback unconfirmed; intermittent real Google SDK /a difference retained for follow-up.",
+  "live_playback_vk_url_from_task": true,
+  "real_sdk_latest": {
+    "tests": 10,
+    "assertions": 177,
+    "failed": 0,
+    "skipped": 0,
+    "initial_failure_retained": true,
+    "cause_of_intermittent_failure": "Unresolved; SDK/timing/environment needs staging follow-up."
+  }
+}

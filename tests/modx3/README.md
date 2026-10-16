@@ -1,5 +1,7 @@
 # MODX 3 native acceptance
 
+Для текущей beta4 / parity с 1.0.6 используйте [guarded sync workflow](../modx3-sync/README.md). Команды beta2/beta3 ниже сохранены для воспроизведения исторического baseline.
+
 Only the explicitly marked disposable `cookie-consent-modx3-beta3` project.
 Do not point the helpers at customer sites or reuse MODX 2 DBs/volumes.
 

@@ -43,7 +43,7 @@ Native uninstall удаляет только перечисленные runtime 
 
 ## Согласие, callbacks и карты
 
-Сохраняются `window.web86CookieConsent`, `onAllowed()`, live `stillAllowed()` и возвращаемая `unsubscribe()`. Без service option callback требует согласия видимой категории; с `{service:'instance_key'}` — также enabled instance и совпадающий fingerprint. Не храните отдельный boolean вместо live guard; проверяйте его перед запросами и после каждого await.
+Сохраняются `window.web86CookieConsent`, `onAllowed()`, live `stillAllowed()` и возвращаемая `unsubscribe()`. Без service option callback требует согласия видимой категории; с `{service:'instance_key'}` — также включённый экземпляр, назначенный той же категории. Отдельного согласия на сервис нет; изменение состава обработки повышает версию затронутой категории. Не храните отдельный boolean вместо live guard; проверяйте его перед запросами и после каждого await.
 
 ```javascript
 document.addEventListener('DOMContentLoaded', function () {
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 `CookieConsentMap` поддерживает проверенные Google/Yandex HTTPS embed URLs; iframe отсутствует до разрешения. Собственные JS-карты подключайте через callbacks. [Примеры](examples/chunks/CookieConsentCustomScripts.html) и [контракт публичного реестра](docs/public-service-registry.md) сохраняют смысл исходной базы; исторические MODX 2 acceptance-отчёты не являются приёмкой MODX 3.
 
-Поддерживаются Яндекс.Метрика, Mail.Ru, GA4, GTM, Google Ads, VK Ads Pixel, Meta Pixel и карты. GTM запускается по marketing + fingerprint; consent checks тегов внутри контейнера настраивает владелец. Доставка в реальные рекламные кабинеты не заявляется локальными mock tests.
+Поддерживаются Яндекс.Метрика, Mail.Ru, GA4, GTM, Google Ads, VK Ads Pixel, Meta Pixel и карты. GTM запускается по разрешению назначенной категории (рекомендуемая — marketing); consent checks тегов внутри контейнера настраивает владелец. Доставка в реальные рекламные кабинеты не заявляется локальными mock tests.
 
 ## Аудит и права
 
@@ -136,6 +136,6 @@ CSP полезна как дополнительная защита от вне�
 
 `npm ci` использует pinned esbuild 0.28.2 и Playwright 1.62.1. Frontend минифицируется при сборке, без runtime npm/Composer dependency компонента. `_build/build.php` использует MODX 3 modPackageBuilder и namespaced xPDO vehicles; normalization и verifier проверяют ZIP/SHA256/состав/отсутствие secrets. Два разных ZIP не должны иметь одну signature.
 
-[Изолированная fixture и команды приёмки](tests/modx3/README.md). Project `cookie-consent-modx3-beta3`, отдельные DB/volume/credentials/logs, loopback 18888/18889/18890, дополнительный PHP 8.2 на 18891. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
+[Текущие fixtures и команды приёмки](tests/modx3-sync/README.md). Project `cookie-consent-modx3-sync106`, отдельные DB/volume/credentials/logs, loopback 20888–20895. Исторические baseline suites MODX 3 сохранены отдельно. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
 
 Фактически принята 3.2.4-pl/PHP 8.1.34. Package requires ограничен `>=3.2.4,<3.3.0`; другие PHP/MODX versions, nginx/proxy/client hosting, полный CMS migration и тяжёлые failure/load cases ещё NOT RUN. Следующий этап — review и расширение release gates; GitHub Release/production deployment не выполнены.
