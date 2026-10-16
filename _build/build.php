@@ -32,12 +32,12 @@ function addSource(string $source,string $target,array &$files,string $payload,s
     $to=$payload.'/'.$target;if(!is_dir(dirname($to)))mkdir(dirname($to),0700,true);copy($source,$to);
     $files[]=['source'=>$target,'target'=>$target,'sha256'=>hash_file('sha256',$source)];
 }
-// Build-time bundle must match pinned source/tool inputs. No minification in MODX.
+// Release prebuilt must match pinned source/tool inputs; installed PHP uses this same manifest.
 $frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,16,JSON_THROW_ON_ERROR);
 if(($frontend['tool']??'')!=='esbuild'||($frontend['version']??'')!=='0.28.2')throw new RuntimeException('Run npm ci and npm run build:frontend');
 foreach($frontend['inputs'] as $path=>$hash)if(hash_file('sha256',$root.'/'.$path)!==$hash)throw new RuntimeException('Stale frontend inputs; run npm run build:frontend');
 foreach($frontend['outputs'] as $path=>$info)if(hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
-$coreParts=['src','public','controllers','templates','processors','lexicon','bin'];
+$coreParts=['src','public','controllers','templates','processors','lexicon','bin','vendor','plugins'];
 foreach($coreParts as $part){
     $paths=[];foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($root.'/server/'.$part,FilesystemIterator::SKIP_DOTS)) as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);
     foreach($paths as $source){if($part==='bin'&&basename($source)==='install-modx2.php')continue;addSource($source,'core/components/cookieconsent/'.$part.'/'.substr($source,strlen($root.'/server/'.$part.'/')),$files,$payload,$root);}
@@ -46,6 +46,8 @@ addSource($root.'/assets/js/cookie-consent/script-url.js','assets/components/coo
 foreach(['audit-viewer.js','manager.js','manager.css'] as $name)addSource($root.'/assets/components/cookieconsent/'.$name,'assets/components/cookieconsent/'.$name,$files,$payload,$root);
 addSource($root.'/server/modx2-manager-connector.php','assets/components/cookieconsent/connector.php',$files,$payload,$root);
 addSource($root.'/server/modx2-public-endpoint.example.php','assets/components/cookieconsent/audit.php',$files,$payload,$root);
+addSource($root.'/_build/frontend-manifest.json','core/components/cookieconsent/frontend-manifest.json',$files,$payload,$root);
+foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js'))addSource($root.'/'.$path,$path,$files,$payload,$root);
 foreach(['cookie-consent.min.js'] as $name)addSource($root.'/assets/js/cookie-consent/'.$name,'assets/js/cookie-consent/'.$name,$files,$payload,$root);
 $paths=[];foreach(new DirectoryIterator($root.'/assets/js/cookie-consent/mock') as $entry)if($entry->isFile())$paths[]=$entry->getPathname();sort($paths);foreach($paths as $source)addSource($source,'assets/js/cookie-consent/mock/'.basename($source),$files,$payload,$root);
 addSource($root.'/assets/css/cookie-consent.min.css','assets/css/cookie-consent.min.css',$files,$payload,$root);

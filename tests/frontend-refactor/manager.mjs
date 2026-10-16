@@ -11,7 +11,7 @@ const out=process.env.CC_REFACTOR_EVIDENCE||'.local/service-adapters';mkdirSync(
 let assertions=0;
 const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
 const cli=(...args)=>execFileSync('docker',['exec','cookie-consent-acceptance-web-1','php','/opt/cc-source/'+args[0],...args.slice(1)],{encoding:'utf8'}).trim();
-const installed=JSON.parse(cli('tests/beta102/control.php','installed','/opt/cc-source/.local/artifacts/'+signature+'.inventory.json'));
+const installed=JSON.parse(cli('tests/beta102/control.php','installed',process.env.CC_REFACTOR_CONTAINER_INVENTORY||'/opt/cc-source/.local/artifacts/'+signature+'.inventory.json'));
 eq(installed.modx,'2.8.8-pl');
 for(const file of spec.files) eq(installed.files[file.target],file.sha256,'Native installed '+file.target);
 const origin='http://127.0.0.1:8888',browser=await chromium.launch(),context=await browser.newContext(),page=await context.newPage();

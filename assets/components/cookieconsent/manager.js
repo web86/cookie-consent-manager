@@ -104,6 +104,13 @@
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
+    const build=el('section',null,{id:'ccm-adapters-build'});build.append(el('h3',t('adapters_build')));
+    const buildState=el('p','',{id:'ccm-build-status',role:'status','aria-live':'polite'});
+    const buildTime=el('p','',{id:'ccm-build-time'});
+    const buildButton=el('button',t('rebuild_adapters'),{type:'button',id:'ccm-bundle-rebuild'});
+    const showBuild=()=>{const value=data.adapterBuild || {state:'fallback'};buildState.textContent=t('build_'+value.state);buildTime.textContent=t('build_time')+' '+(value.built_at ? new Date(value.built_at).toLocaleString(data.managerLanguage) : '—');};
+    showBuild();build.append(buildState,buildTime,buildButton,el('p',t('build_help'),{class:'ccm-help'}));panels.main.append(build);
+    buildButton.onclick=async()=>{buildButton.disabled=true;buildState.textContent=t('build_running');try{data.adapterBuild=await api('bundle_rebuild');showBuild();}catch(e){buildState.textContent=t('build_error')+' '+e.message;}finally{buildButton.disabled=false;}};
     const auditViewer=window.CookieConsentAuditViewer.mount(panels.logs,{api,t,el,boot,data});
     const storage=el('section',null,{id:'ccm-log-storage'});storage.append(el('h3',t('consent_journal')));
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});

@@ -1,4 +1,4 @@
-/** Local acceptance orchestration: minification is always a build phase, never MODX runtime. */
+/** Local acceptance orchestration: build the release prebuilt before native packaging. */
 import {execFileSync} from 'node:child_process';
 const [site,out,index]=process.argv.slice(2);if(!site||!out)throw Error('Usage: node _build/transport.mjs /site /container-build-output [beta-index]');
 execFileSync(process.execPath,['_build/version.mjs',...(index?[index]:[])],{stdio:'inherit'});

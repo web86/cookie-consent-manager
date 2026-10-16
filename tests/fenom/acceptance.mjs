@@ -1,3 +1,4 @@
+import {expectedFrontendVersion} from '../frontend-asset.mjs';
 import { chromium } from 'playwright';
 import assert from 'node:assert/strict';
 import { execFileSync } from 'node:child_process';
@@ -66,7 +67,7 @@ async function structure(s, language, mode) {
   for (const path of ['assets/css/cookie-consent.min.css', 'assets/js/cookie-consent/cookie-consent.min.js']) {
     const css = path.endsWith('.css');
     const value = await page.locator(css ? 'link[href*="cookie-consent.min.css"]' : 'script[src*="cookie-consent.min.js"]').getAttribute(css ? 'href' : 'src');
-    eq(new URL(value, origin).searchParams.get('v'), hash(readFileSync(path)).slice(0, 20), 'Content hash cache busting unchanged');
+    eq(new URL(value, origin).searchParams.get('v'), css ? hash(readFileSync(path)).slice(0, 20) : expectedFrontendVersion(), 'Content hash cache busting unchanged');
   }
   eq(s.errors, [], 'No browser errors'); eq(s.unexpected, [], 'No unexpected external requests');
   return raw;

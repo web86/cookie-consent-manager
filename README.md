@@ -2,13 +2,15 @@
 
 В этой feature-ветке — кандидат **1.0.5-beta1** ([приёмка](docs/modx2-video-embeds-acceptance.md)): YouTube, RUTUBE, VK Видео, доверенные template embeds и `mountEmbeds(root)` поверх архитектуры [beta5](docs/modx2-service-adapters-acceptance.md). Сохраняются единый bundle, категории, Strict/Legacy, SDK, карты и аудит. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
 
+Ветка `codex/modx2-adapter-cache-build` добавляет административную пересборку адаптеров без Node.js: измените исходник по пути из настроек сервиса и очистите кеш MODX в Manager. Принудительная кнопка — «Основные → Сборка адаптеров → Пересобрать адаптеры». Встроенная инструкция RU/EN содержит редактирование адаптеров и три способа подключения видео. Версия пакета не изменена; [приёмка сборщика](docs/modx2-adapter-cache-build-acceptance.md).
+
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
 **Опубликованный стабильный релиз — [v1.0.0](https://github.com/web86/cookie-consent-manager/releases/tag/v1.0.0)**: `cookieconsent-1.0.0.transport.zip`, [Release Notes](docs/release-1.0.0.md) и [приёмка](docs/modx2-1.0.0-acceptance.md). Исторический transport 1.0.2 использован как база проверки обновления; нового стабильного GitHub Release нет.
 
 **Текущий протестированный beta-кандидат в main — `cookieconsent-1.0.3-beta1`**. Интегрированы Fenom JSON fix (#4) и visibility-aware audit fix (#6) через #7; CSP FAQ — через #9. [Приёмка beta](docs/modx2-1.0.3-beta1-acceptance.md): **25 PASS / 778 assertions / 0 FAIL**, включая настоящую native установку и upgrade с 1.0.2. SHA256 неизменённого проверенного ZIP: `3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b`. **GO только для ручной staging-приёмки**; merge в main не публикует стабильный релиз и не означает production acceptance. [Отчёт о консолидации](docs/repository-consolidation-2026-10-15.md).
 
-Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, без MODX plugins и отдельного lifecycle ledger.
+Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, со служебным plugin OnSiteRefresh только для административной пересборки JS, без отдельного lifecycle ledger.
 
 ## Установка и обновление
 
@@ -22,6 +24,16 @@
 Журналы могут содержать IP-адреса и технические сведения о посетителях. Ограничение HTTP-доступа к каталогу обеспечивает администратор сайта. Компонент не создаёт `.htaccess` и не проверяет тип веб-сервера. При ручной очистке всего `core/cache/` сохраните журналы; включайте их в backup. Файлы `YYYY-MM-cookie-consent.log` отделены от `error.log`; автоматического удаления нет.
 
 При обновлении код шести canonical элементов заменяется на месте с предупреждением: `CookiesPopup`, `CookieConsent`, `CookieConsentAssets`, `CookieConsentBanner`, `CookieConsentMap`, `CookieConsentVideo`. ID, category, properties и пользовательские метаданные сохраняются; stock-копии не создаются. Настройки, переводы, HTML, IDs сервисов, ключи и прежние журналы сохраняются. Старый `CookieConsentRegistry` может остаться на сайте, но больше не устанавливается и не вызывается. Uninstall удаляет поставляемые runtime-файлы и сохраняет DB-настройки, элементы, категории, ACL и пользовательские данные; предварительно уберите подключения из шаблонов. Не выполняйте uninstall старого пакета поверх обновлённой версии. Полный purge — отдельное решение владельца. При поздних файловых сбоях возможно частичное состояние; универсальный атомарный rollback не обещается, нужен backup/restore.
+
+## Изменение встроенных адаптеров
+
+Путь к исходнику виден в настройках сервиса. Измените `.js` на сервере и очистите кеш через Manager: сборщик использует тот же упорядоченный `_build/frontend-manifest.json`, что и Node release-builder. В «Основные → Сборка адаптеров» видны результат, время последней успешной сборки и принудительная кнопка. Пользовательские `custom_js` загружаются отдельно.
+
+PHP/Peast 1.17.6 разбирает ES2020 в AST и минифицирует без переименования переменных; Node/npm/Composer на хостинге не нужны. Готовый `assets/js/cookie-consent/cached-cookie-consent.min.js` и его метаданные сохраняются одним атомарным rename под flock. Каталог расположен вне `core/cache`; соседство с prebuilt сохраняет относительные URL mock-адаптеров. При сбое остаётся предыдущий файл; без него используется prebuilt `cookie-consent.min.js` из transport. URL версии зависит от содержимого готового JS. Frontend читает только метаданные готового статического файла: не открывает исходники, не вычисляет fingerprints и не строит bundle.
+
+Источники адаптеров и PHP-зависимость включены в transport. Установка/reinstall прогревает кеш; настройки и согласия не меняются. Uninstall удаляет служебный plugin, но сохраняет созданный кеш как непоставляемый файл. При ручном удалении runtime уберите и этот кеш. CDN/HTML-кеш, игнорирующий query `v`, администратор обновляет отдельно.
+
+English: edit the built-in adapter file shown in its service settings, then clear the MODX cache in Manager. General → Adapters build → Rebuild adapters forces a rebuild. The package ships its PHP minifier and source manifest; visitors receive only ready static JS, with the last working/prebuilt file retained on failure. Custom service scripts load separately.
 
 ## Публичное подключение
 
@@ -40,7 +52,7 @@
 
 Assets регистрирует минимальный JSON через `regClientStartupHTMLBlock()` после разбора resource/Fenom и возвращает один CSS и один JS с `defer` и content-hash cache busting; Banner — уже локализованный HTML. Тексты берутся из вкладки «Тексты», cultureKey и stock-лексиконов с fallback; JS не переписывает статические переводы. Настройки открываются пользовательской ссылкой/кнопкой в любом месте или `window.web86CookieConsent.openSettings()`; автоматической кнопки нет.
 
-Для прежней интеграции оставьте единственный `[[!CookieConsent]]` вместо обоих новых сниппетов. **Не смешивайте legacy и split и не повторяйте теги.** Автоматическое исправление ошибочной интеграции не входит в контракт. MODX plugins/OnParseDocument не используются.
+Для прежней интеграции оставьте единственный `[[!CookieConsent]]` вместо обоих новых сниппетов. **Не смешивайте legacy и split и не повторяйте теги.** Автоматическое исправление ошибочной интеграции не входит в контракт. Frontend подключают только сниппеты. Служебный plugin OnSiteRefresh проверяет контекст Manager; OnParseDocument не используется.
 
 English integration: place `[[!CookieConsentAssets]]` once in `<head>` and `[[!CookieConsentBanner]]` once before `</body>`. Add your own `<button type="button" data-cookie-settings-open>Cookie settings</button>`. Alternatively retain one legacy `[[!CookieConsent]]`; never combine the methods. Static translations are resolved in PHP using saved overrides and stock fallbacks.
 
@@ -142,7 +154,7 @@ CSP полезна как дополнительная защита от вне�
 
 ## Сборка и проверка
 
-`npm ci` устанавливает зафиксированные esbuild 0.28.2 и Playwright 1.62.1. `npm run build:frontend` собирает раздельные исходники в один публичный минифицированный JS и CSS. `_build/build.php` использует настоящий MODX 2 modPackageBuilder; `_build/normalize.py` нормализует ZIP metadata, `_build/verify.php` проверяет vehicles, hashes и отсутствие приватных данных. Минификация не выполняется в MODX runtime.
+`npm ci` устанавливает зафиксированные esbuild 0.28.2 и Playwright 1.62.1. `npm run build:frontend` собирает раздельные исходники в один публичный минифицированный JS и CSS. `_build/build.php` использует настоящий MODX 2 modPackageBuilder; `_build/normalize.py` нормализует ZIP metadata, `_build/verify.php` проверяет vehicles, hashes и отсутствие приватных данных. Release prebuilt по-прежнему собирает Node/esbuild; установленный PHP-сборщик работает только в административном процессе и при установке.
 
 [Полный release harness](tests/release/run.mjs), [новые focused тесты](tests/beta33/README.md), [transport tests](tests/transport/). Только локальные именованные disposable DB и loopback fixtures. Shared main suites запускаются последовательно. Независимые beta-отчёты и immutable архивы сохранены в `docs/`; они описывают соответствующие исторические версии. Production deployment выполняется владельцем отдельно после staging.
 ## Публичный реестр

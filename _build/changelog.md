@@ -1,5 +1,14 @@
 # Cookie Consent Manager 1.0.5-beta1 — MODX 2
 
+Unreleased adapter-cache work (package version unchanged):
+- Build the shared frontend bundle on authenticated Manager OnSiteRefresh and package install, from the release builder’s ordered manifest.
+- Ship pinned PHP Peast 1.17.6 AST minification; no Node/npm/Composer required on the host.
+- Lock builds, skip unchanged content, atomically commit JS with success metadata, retain the previous/prebuilt file on failures and version ready static assets.
+- Add the existing-ACL RU/EN build status, last success time and force-rebuild button.
+- Extend the canonical short RU/EN guide with adapter editing and snippet/template/onAllowed video examples.
+
+Existing video work:
+
 - Disabled-by-default YouTube, RUTUBE and VK Video service types in the existing category model.
 - Native CookieConsentVideo snippet with reviewed HTTPS URL contracts and privacy-enhanced YouTube embeds.
 - Trusted inert template embeds and explicit idempotent mountEmbeds(root) for AJAX/modal content.

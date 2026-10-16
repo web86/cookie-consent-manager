@@ -1,3 +1,4 @@
+import {frontendHash,expectedFrontendHash} from '../frontend-asset.mjs';
 // Isolated marked Fenom fixture: strict/legacy, actual resource cache and bundle hash.
 import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
@@ -20,7 +21,7 @@ try{for(const syntax of ['default','all'])for(const lang of ['ru','en'])for(cons
    });
    try{await p.goto(`${origin}/fenom.php?ctx=fenom-${lang}&id=${ids[lang][mode]}`,{waitUntil:'networkidle'});eq(await p.locator('#cache-source').textContent(),warm?'cache':'database','Actual resource cache');eq(await p.locator('#cookie-block').count(),1);eq(await p.locator('#cc-service-registry').count(),1);
     eq(requests.length,legacy?2:0);eq(await p.locator('[data-cc-map-provider] iframe').count(),legacy?1:0);eq(await p.evaluate(()=>web86CookieConsent.getConsent()),null);eq(events,[]);
-    const url=await p.locator('script[src*="cookie-consent.min.js"]').getAttribute('src'),bytes=await(await ctx.request.get(new URL(url,origin).href)).body();eq(createHash('sha256').update(bytes).digest('hex'),createHash('sha256').update(readFileSync('assets/js/cookie-consent/cookie-consent.min.js')).digest('hex'));
+    const url=await p.locator('script[src*="cookie-consent.min.js"]').getAttribute('src'),bytes=await(await ctx.request.get(new URL(url,origin).href)).body();eq(frontendHash(bytes),expectedFrontendHash());
     if(legacy){eq(await p.evaluate(()=>__init.slice(0,2)),[12345678,'init']);if(warm){await Promise.all([p.waitForNavigation({waitUntil:'networkidle'}),p.locator('[data-cc-action=reject]').click()]);eq(requests.length,2);eq(await p.locator('[data-cc-map-provider] iframe').count(),0)}}eq(errors,[]);
    }catch(e){writeFileSync(out+'/fenom-failure.html',await p.content());throw e}finally{await ctx.close()}
   }

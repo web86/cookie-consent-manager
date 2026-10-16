@@ -1,0 +1,818 @@
+{
+  "files": [
+    {
+      "status": "MOD",
+      "path": ".github/workflows/frontend-build.yml"
+    },
+    {
+      "status": "MOD",
+      "path": "README.md"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/build.php"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/changelog.md"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/frontend-ci.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/frontend-manifest.json"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/frontend.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/package-readme.md"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/transport.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/user-guide-manifest.json"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/user-guide.json"
+    },
+    {
+      "status": "MOD",
+      "path": "_build/verify-install.php"
+    },
+    {
+      "status": "MOD",
+      "path": "assets/components/cookieconsent/manager.js"
+    },
+    {
+      "status": "NEW",
+      "path": "docs/evidence/modx2-adapter-cache-build-files.json"
+    },
+    {
+      "status": "NEW",
+      "path": "docs/evidence/modx2-adapter-cache-build-results.json"
+    },
+    {
+      "status": "NEW",
+      "path": "docs/modx2-adapter-cache-build-acceptance.md"
+    },
+    {
+      "status": "MOD",
+      "path": "package.json"
+    },
+    {
+      "status": "MOD",
+      "path": "server/bin/install-modx2.php"
+    },
+    {
+      "status": "MOD",
+      "path": "server/lexicon/en/default.inc.php"
+    },
+    {
+      "status": "MOD",
+      "path": "server/lexicon/ru/default.inc.php"
+    },
+    {
+      "status": "MOD",
+      "path": "server/modx2-assets-snippet.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/plugins/cache-build.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/processors/bundle_rebuild.class.php"
+    },
+    {
+      "status": "MOD",
+      "path": "server/processors/get.class.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/src/CookieConsentBundleInstall.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/src/CookieConsentBundleManager.php"
+    },
+    {
+      "status": "MOD",
+      "path": "server/src/CookieConsentGuide.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/LICENSE"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/README.md"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/autoload.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Formatter/Base.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Formatter/Compact.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Formatter/Expanded.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Formatter/PrettyPrint.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Peast.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Query.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Renderer.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Exception.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Matches.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Combinator.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Group.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/Attribute.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/Part.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/Pseudo.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoIndex.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoSelector.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/PseudoSimple.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Part/Type.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Node/Selector.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Selector/Parser.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/CommentsRegistry.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2015/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2016/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2017/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2018/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2019/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2020/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2021/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2022/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2023/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2024/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ES2025/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/EncodingException.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/EventsEmitter.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Exception.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Features.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/JSX/Parser.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/JSX/Scanner.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/LSM.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ArrayExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ArrayPattern.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ArrowFunctionExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentPattern.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/AssignmentProperty.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/AwaitExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/BigIntLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/BinaryExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/BlockStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/BooleanLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/BreakStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/CallExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/CatchClause.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ChainElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ChainExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ClassBody.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ClassDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ClassExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Class_.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Comment.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ConditionalExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ContinueStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/DebuggerStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Declaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/DoWhileStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/EmptyStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ExportAllDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ExportDefaultDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ExportNamedDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ExportSpecifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Expression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ExpressionStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ForInStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ForOfStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ForStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/FunctionDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/FunctionExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Function_.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Identifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/IfStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportAttribute.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportDefaultSpecifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportNamespaceSpecifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ImportSpecifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXAttribute.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXBoundaryElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXClosingElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXClosingFragment.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXEmptyExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXExpressionContainer.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXFragment.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXIdentifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXMemberExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXNamespacedName.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXOpeningElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXOpeningFragment.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXSpreadAttribute.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXSpreadChild.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/JSX/JSXText.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/LabeledStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Literal.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/LogicalExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/MemberExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/MetaProperty.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/MethodDefinition.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ModuleDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ModuleSpecifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/NewExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Node.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/NullLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/NumericLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ObjectExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ObjectPattern.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ParenthesizedExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Pattern.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/PrivateIdentifier.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Program.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Property.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/PropertyDefinition.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/RegExpLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/RestElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ReturnStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/SequenceExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/SpreadElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Statement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/StaticBlock.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/StringLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/Super.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/SwitchCase.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/SwitchStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/TaggedTemplateExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/TemplateElement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/TemplateLiteral.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ThisExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/ThrowStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/TryStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/UnaryExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/UpdateExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/VariableDeclaration.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/VariableDeclarator.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/WhileStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/WithStatement.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Node/YieldExpression.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Parser.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/ParserAbstract.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Position.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Scanner.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/SourceLocation.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Token.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Syntax/Utils.php"
+    },
+    {
+      "status": "NEW",
+      "path": "server/vendor/peast/lib/Peast/Traverser.php"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/README.md"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/build.mjs"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/install.php"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/native.mjs"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/native.php"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/php.php"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/adapter-cache/semantics.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/beta1042/accept.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/beta1042/upgrade.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/beta26/frontend.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/fenom/acceptance.mjs"
+    },
+    {
+      "status": "NEW",
+      "path": "tests/frontend-asset.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/frontend-refactor/manager.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/legacy-autoload/browser.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/legacy-autoload/fenom.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/legacy-autoload/upgrade.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/manager-permissions.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/video-embeds/native-browser.mjs"
+    },
+    {
+      "status": "MOD",
+      "path": "tests/viewer/browser.mjs"
+    }
+  ],
+  "count": 203,
+  "vendor_files": 157
+}

@@ -41,7 +41,8 @@ function verifyManifest() {
   // Every production source must be present. Mocks are fixtures, not bundle inputs.
   const jsDir = 'assets/js/cookie-consent/';
   const sources = readdirSync(jsDir).filter(p => p.endsWith('.js') && !p.endsWith('.min.js')).map(p => jsDir + p)
-    .concat(readdirSync(jsDir + 'services').filter(p => p.endsWith('.js')).map(p => jsDir + 'services/' + p));
+    .concat(readdirSync(jsDir + 'services').filter(p => p.endsWith('.js')).map(p => jsDir + 'services/' + p))
+    .concat(readdirSync(jsDir + 'embeds').filter(p => p.endsWith('.js')).map(p => jsDir + 'embeds/' + p));
   assert.deepEqual(Object.keys(value.inputs).sort(), [...sources, 'assets/css/cookie-consent.css', 'package-lock.json', '_build/frontend.mjs'].sort());
   assert.deepEqual(Object.keys(value.outputs).sort(), [bundle, css].sort());
   for (const [path, hash] of Object.entries(value.inputs)) assert.equal(sha(readFileSync(path)), hash, path + ' source SHA256');
@@ -85,15 +86,16 @@ try {
     for (const [path, bytes] of first) assert.ok(bytes.equals(readFileSync(path)), path + ' differs on second build');
   });
   check('existing isolated adapter / Strict / Legacy differential tests (--focused)', () => {
-    run(process.execPath, ['tests/frontend-refactor/equivalence.mjs', '--focused'], {CC_REFACTOR_EVIDENCE:root + '/tests'});
+    run(process.execPath, ['tests/video-embeds/differential.mjs', '--focused'], {CC_REFACTOR_EVIDENCE:root + '/tests'});
     const evidence = readJSON(root + '/tests/equivalence.json');
     assert.equal(evidence.failed, 0);
     assert.equal(evidence.tests, 19, 'All focused scenarios must run');
     assert.equal(evidence.candidateSHA256, manifest.outputs[bundle].sha256);
     checks.push(`INFO differential: ${evidence.tests} scenarios, ${evidence.assertions} assertions; SDK/HTTP requests fulfilled locally`);
   });
-  check('public API surface and callback contract (immutable beta4 differential)', () => {
-    // The harness compares APIs and callback results at every checkpoint in all
+  check('public API surface and callback contract (video differential, preserved beta4 API)', () => {
+    // The video harness also explicitly asserts mountEmbeds; it compares all old APIs
+    // and callback results at every checkpoint in all
     // scenarios. Also assert explicit names against the recorded public contract.
     const baseline = readJSON(baselinePath);
     assert.equal(baseline.commit, 'de41eaa0f976c54c0d2836b605c7474ad874c472');

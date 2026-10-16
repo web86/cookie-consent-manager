@@ -359,3 +359,13 @@ $_lang['m.package_version'] = 'Package version:';
 $_lang['m.hidden_services_help'] = 'This category is hidden. Its enabled services stay blocked even after Accept. Enable category visibility and save to request consent.';
 $_lang['m.script_help'] = 'Root-relative path or full HTTPS .js URL, e.g. /assets/js/integrations/chat.js or https://cdn.example.com/chat.js?v=2. No HTML, inline JS, credentials or fragment.';
 $_lang['m.script_invalid'] = 'Enter a valid .js path or HTTPS JavaScript URL. Another service must not reuse the same address.';
+
+// Adapter cache build.
+$_lang['m.adapters_build'] = 'Adapters build';
+$_lang['m.rebuild_adapters'] = 'Rebuild adapters';
+$_lang['m.build_ready'] = 'Last build succeeded.';
+$_lang['m.build_fallback'] = 'Using the prebuilt file from the package.';
+$_lang['m.build_error'] = 'Build failed. The previous working file is retained.';
+$_lang['m.build_running'] = 'Building…';
+$_lang['m.build_time'] = 'Successful build time:';
+$_lang['m.build_help'] = 'After editing a built-in JS adapter, clear the MODX cache or click Rebuild adapters. Custom JS files load separately and are not included in this build.';

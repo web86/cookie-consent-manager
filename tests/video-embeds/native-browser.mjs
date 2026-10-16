@@ -27,7 +27,7 @@ try{
  for(const lang of ['ru','en']){
   ctl(['setting','manager_language'],lang);await p.goto(origin+'/manager/?a=index&namespace=cookie_consent');await p.locator('#ccm-save').waitFor();await p.locator('#ccm-tab-services').click();
   const data=(await api('get')).object;for(const loader of ['youtube','rutube','vk_video']){eq(Object.hasOwn(data.catalog,loader),true,'Manager catalog');eq(await p.locator('[data-service='+loader+']').count(),1,'Video service rendered');eq(Boolean(data.lexicons[lang]['service.'+loader+'.name']),true,'Localized service name');}
-  eq(data.guide.sections.length,5,'Short guide fifth section');await p.locator('[data-preview-state=map]').click();await p.waitForTimeout(600);eq(await p.frameLocator('#ccm-preview-frame').locator('iframe').count(),0,'Preview remains inert');eq(await p.frameLocator('#ccm-preview-frame').locator('[data-preview-embed]').count(),3,'Video placeholder previews');
+  eq(data.guide.sections.length,6,'Short guide includes adapter editing and video integration');await p.locator('[data-preview-state=map]').click();await p.waitForTimeout(600);eq(await p.frameLocator('#ccm-preview-frame').locator('iframe').count(),0,'Preview remains inert');eq(await p.frameLocator('#ccm-preview-frame').locator('[data-preview-embed]').count(),3,'Video placeholder previews');
   results.push({name:'Manager-'+lang,result:'PASS'});
  }
  for(const parser of ['standard','fenom'])for(const lang of ['ru','en']){

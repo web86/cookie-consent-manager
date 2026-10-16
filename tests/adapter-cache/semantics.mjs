@@ -1,0 +1,11 @@
+import {readFileSync} from 'node:fs';
+import {runInNewContext, Script} from 'node:vm';
+import assert from 'node:assert/strict';
+const candidate=readFileSync('.local/adapter-cache/php-bundle.js','utf8');
+new Script(candidate);
+const original={window:{}};
+runInNewContext(readFileSync('.local/adapter-cache/syntax-source.js','utf8'),original);
+const compact={window:{},document:{getElementById:()=>null,currentScript:{src:'https://cmp.test/assets/js/cookie-consent/cookie-consent.min.js'}},location:{href:'https://cmp.test/'},console,URL,TextEncoder};
+runInNewContext(candidate,compact);
+assert.equal(JSON.stringify(compact.window.__bundleSyntax),JSON.stringify(original.window.__bundleSyntax));
+console.log('PASS regex, division, ASI, templates, optional chaining, nullish and Unicode semantics');

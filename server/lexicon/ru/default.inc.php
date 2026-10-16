@@ -364,3 +364,13 @@ $_lang['m.package_version'] = 'Версия пакета:';
 $_lang['m.hidden_services_help'] = 'Категория скрыта. Её включённые сервисы не запускаются даже после «Принять». Включите видимость категории и сохраните настройки, если хотите запрашивать согласие.';
 $_lang['m.script_help'] = 'Путь от корня сайта или полный HTTPS-адрес .js, например /assets/js/integrations/chat.js или https://cdn.example.com/chat.js?v=2. Без HTML, inline JS, credentials и fragment.';
 $_lang['m.script_invalid'] = 'Укажите корректный путь к .js или HTTPS-адрес JavaScript. Адрес не должен повторяться у другого сервиса.';
+
+// Adapter cache build.
+$_lang['m.adapters_build'] = 'Сборка адаптеров';
+$_lang['m.rebuild_adapters'] = 'Пересобрать адаптеры';
+$_lang['m.build_ready'] = 'Последняя сборка успешна.';
+$_lang['m.build_fallback'] = 'Используется готовый файл из пакета.';
+$_lang['m.build_error'] = 'Ошибка сборки. Предыдущий рабочий файл сохранён.';
+$_lang['m.build_running'] = 'Сборка…';
+$_lang['m.build_time'] = 'Время успешной сборки:';
+$_lang['m.build_help'] = 'После изменения встроенного JS-адаптера очистите кеш MODX или нажмите «Пересобрать адаптеры». Пользовательские JS-файлы загружаются отдельно и в эту сборку не входят.';

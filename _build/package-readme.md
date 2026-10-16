@@ -57,15 +57,51 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Метод stillAllowed() проверяет, разрешено ли продолжать работу; проверяйте его и после await. Файл custom-map.js — пример вашего модуля: он не должен сам запускать сторонние запросы при import. Можно указать { service: 'yandex_maps' }, чтобы дополнительно проверить включённый экземпляр с таким ключом и той же категорией (это не отдельное согласие).
 
-### 5. Видео и встраивания
+### 5. Изменение JS-адаптеров
 
-В «Сервисах» включите YouTube, RUTUBE или VK Видео и назначьте видимую необязательную категорию. Кнопка на заглушке открывает настройки этой категории. Для VK используйте URL из «Поделиться → Код для встраивания».
+Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: Cookie Consent Manager автоматически обновит общий минифицированный JavaScript-файл.
+
+Для принудительной пересборки откройте «Основные → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
+
+### 6. Видео и встраивания
+
+В «Сервисах» включите YouTube, RUTUBE или VK Видео и назначьте видимую необязательную категорию. В Strict видео ждёт её разрешения. В Legacy действует политика режима: первый визит без сохранённого выбора может загрузить видео до клика; сохранённый отказ, частичный выбор и устаревшее согласие не обходятся.
+
+1. Через CookieConsentVideo. Замените ID своими. Для VK скопируйте значение src из официального «Поделиться → Код для встраивания», включая hash, если он выдан. Обычная ссылка на страницу VK не подходит; OWNER_ID и VIDEO_ID ниже замените числами.
 
 ```modx
-[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`Наше видео`]]
+[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`YouTube`]]
+[[!CookieConsentVideo? &provider=`rutube` &url=`https://rutube.ru/video/7716bd3e665725c3c008ae7ab4ff02e2/` &title=`RUTUBE`]]
+[[!CookieConsentVideo? &provider=`vk_video` &url=`https://vkvideo.ru/video_ext.php?oid=-OWNER_ID&id=VIDEO_ID&hd=2` &title=`VK`]]
 ```
 
-Для сложного HTML используйте data-cc-embed="ключ_сервиса" с доверенным <template>: безопасность его HTML обеспечивает разработчик. После AJAX-вставки вызовите web86CookieConsent.mountEmbeds(root). Локальная обложка допустима до выбора; внешняя остаётся инертной. Подробности и три способа подключения — в README и docs/modx2-video-embeds.md.
+2. Через собственный template с iframe. Укажите ключ включённого сервиса; iframe остаётся инертным до разрешённого запуска. Для RUTUBE/VK замените ключ и iframe официальным кодом сервиса. Безопасность доверенного HTML обеспечивает разработчик.
+
+```html
+<div data-cc-embed="youtube">
+  <template>
+    <iframe src="https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+      title="YouTube" allowfullscreen></iframe>
+  </template>
+</div>
+```
+
+3. Через onAllowed для собственного плеера. Замените категорию и ключ сервиса на назначенные; модуль company-video.js не должен делать внешние запросы при import. Проверяйте stillAllowed() после await и внутри init перед запросами.
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    const cmp = window.web86CookieConsent;
+    if (!cmp?.onAllowed) return;
+    cmp.onAllowed('external_content', async function (stillAllowed) {
+        if (!stillAllowed()) return;
+        const module = await import('/assets/js/company-video.js');
+        if (!stillAllowed()) return;
+        await module.init(stillAllowed);
+    }, { service: 'youtube' });
+});
+```
+
+После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальная обложка допустима до выбора; внешняя остаётся инертной. Параметры сниппета и примеры — в docs/modx2-video-embeds.md.
 
 ---
 
@@ -79,7 +115,7 @@ A quick guide to Cookie Consent Manager. Open Extras → Cookie Consent Manager,
 
 Strict mode (default): optional services and maps wait for permission for their category. Enable the categories and services you need on Services, and make the relevant categories visible in cookie settings.
 
-Legacy mode: enable Show legacy Accept on Main. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed.
+Legacy mode: enable Show legacy Accept on General. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed.
 
 ### 2. Add to your MODX template
 
@@ -126,12 +162,48 @@ document.addEventListener('DOMContentLoaded', function () {
 
 stillAllowed() tells your code whether work may continue; check it again after await. custom-map.js is an example of your own module and must not start third-party requests merely from being imported. You may add { service: 'yandex_maps' } to also require an enabled instance with that key in the same category (not separate service consent).
 
-### 5. Videos and embeds
+### 5. Edit JS adapters
 
-Enable YouTube, RUTUBE or VK Video in Services and assign a visible optional category. The placeholder button opens that category’s settings. For VK use the URL from Share → Embed code.
+An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: Cookie Consent Manager automatically updates the shared minified JavaScript file.
+
+To force a rebuild, open General → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
+
+### 6. Videos and embeds
+
+Enable YouTube, RUTUBE or VK Video in Services and assign a visible optional category. Strict waits for category permission. Legacy follows its mode policy: a first visit with no saved choice may load video before a click; saved refusals, partial choices and outdated consent are not bypassed.
+
+1. Use CookieConsentVideo. Replace the sample IDs. For VK copy the src value from the official Share → Embed code, keeping hash if supplied. A regular VK page URL is not supported; replace OWNER_ID and VIDEO_ID below with numbers.
 
 ```modx
-[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`Our video`]]
+[[!CookieConsentVideo? &provider=`youtube` &url=`https://youtu.be/M7lc1UVf-VE` &title=`YouTube`]]
+[[!CookieConsentVideo? &provider=`rutube` &url=`https://rutube.ru/video/7716bd3e665725c3c008ae7ab4ff02e2/` &title=`RUTUBE`]]
+[[!CookieConsentVideo? &provider=`vk_video` &url=`https://vkvideo.ru/video_ext.php?oid=-OWNER_ID&id=VIDEO_ID&hd=2` &title=`VK`]]
 ```
 
-For complex HTML use data-cc-embed="service_key" with a trusted <template>: its HTML security belongs to the developer. Call web86CookieConsent.mountEmbeds(root) after AJAX insertion. A same-origin poster may appear before choice; an external poster stays inert. See README and docs/modx2-video-embeds.md for all three integration paths.
+2. Use your own template with an iframe. Set an enabled service key; the iframe stays inert until its mode permits loading. For RUTUBE/VK replace the key and iframe with the service’s official code. A developer is responsible for trusted HTML security.
+
+```html
+<div data-cc-embed="youtube">
+  <template>
+    <iframe src="https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+      title="YouTube" allowfullscreen></iframe>
+  </template>
+</div>
+```
+
+3. Use onAllowed for your own player. Use the assigned category and service key; your company-video.js module must not make external requests when imported. Check stillAllowed() after await and inside init before requests.
+
+```javascript
+document.addEventListener('DOMContentLoaded', function () {
+    const cmp = window.web86CookieConsent;
+    if (!cmp?.onAllowed) return;
+    cmp.onAllowed('external_content', async function (stillAllowed) {
+        if (!stillAllowed()) return;
+        const module = await import('/assets/js/company-video.js');
+        if (!stillAllowed()) return;
+        await module.init(stillAllowed);
+    }, { service: 'youtube' });
+});
+```
+
+After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster may appear before choice; an external poster stays inert. See docs/modx2-video-embeds.md for snippet options and examples.

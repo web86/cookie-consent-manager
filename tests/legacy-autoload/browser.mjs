@@ -1,3 +1,4 @@
+import {frontendHash,expectedFrontendHash} from '../frontend-asset.mjs';
 // Real Manager Save + installed content-hashed bundle. Vendor responses are controlled;
 // requests and SDK initialization are asserted separately, never real customer telemetry.
 import {chromium} from 'playwright';
@@ -49,7 +50,7 @@ async function visit({stored,archive,storageError=false,delayedMeta=false,delaye
  await page.goto(origin+'/?id='+ids.split,{waitUntil:delayedMeta||delayedGoogle?'domcontentloaded':'networkidle'});
  const bundle=await page.locator('script[src*="cookie-consent.min.js"]').getAttribute('src');
  const bytes=await(await ctx.request.get(new URL(bundle,origin).href)).body();
- eq(createHash('sha256').update(bytes).digest('hex'),createHash('sha256').update(readFileSync('assets/js/cookie-consent/cookie-consent.min.js')).digest('hex'),'Installed bundle matches source');
+ eq(frontendHash(bytes),expectedFrontendHash(),'Installed bundle matches source');
  return{ctx,p:page,requests,events,errors,releaseMeta,external:()=>requests.filter(u=>new URL(u).origin!==origin),ym:()=>requests.filter(u=>u.includes('mc.yandex.ru/metrika/tag.js'))};
 }
 const persisted=(state,grants=all)=>JSON.stringify({model:'categories_v2',version:state.options.policy_version||'1',necessary:true,categories:grants,category_versions:state.options.category_versions,savedAt:Date.now(),consentId:randomUUID()});

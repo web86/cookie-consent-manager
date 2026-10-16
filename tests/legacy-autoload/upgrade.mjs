@@ -1,3 +1,4 @@
+import {frontendHash,expectedFrontendHash} from '../frontend-asset.mjs';
 // Native beta1/beta2/beta3 -> current, retaining real visitor choice and immutable old ZIPs.
 import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
@@ -38,7 +39,7 @@ try{for(const old of previous){
    if(v.kind==='expired')eq(await v.p.evaluate(()=>web86CookieConsent.getConsent()),null);else eq(await v.p.evaluate(()=>web86CookieConsent.getConsent()),v.state.consent);
    eq(v.sdk.length,v.kind==='accept'?1:0,'Legacy upgrade never expands previous choice');
    const bundle=await v.p.locator('script[src*="cookie-consent.min.js"]').getAttribute('src');eq(bundle!==v.bundle,true,'Content-hash cache busting');
-   const bytes=await(await v.ctx.request.get(new URL(bundle,origin).href)).body();eq(createHash('sha256').update(bytes).digest('hex'),hash('assets/js/cookie-consent/cookie-consent.min.js'));
+   const bytes=await(await v.ctx.request.get(new URL(bundle,origin).href)).body();eq(frontendHash(bytes),expectedFrontendHash());
   }
   eq(hash('.local/artifacts/'+old+'.transport.zip'),oldSha,'Historical ZIP immutable');results.push({name:old+' -> '+target,result:'PASS',assertions:n-start,oldSha,targetSha:hash('.local/artifacts/'+target+'.transport.zip')});console.log('PASS '+old+' -> '+target);
  }catch(e){results.push({name:old+' -> '+target,result:'FAIL',error:e.stack});throw e}finally{for(const v of visitors)await v.ctx.close()}

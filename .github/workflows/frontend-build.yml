@@ -11,6 +11,7 @@ on:
       - 'package.json'
       - 'package-lock.json'
       - 'tests/frontend-refactor/**'
+      - 'tests/video-embeds/**'
       - 'demo.html'
       - '.github/workflows/frontend-build.yml'
   # GitHub's Branch selector chooses the ref; github.sha freezes its event commit.
@@ -39,7 +40,7 @@ jobs:
         uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           ref: ${{ github.sha }}
-          fetch-depth: 0 # The differential test reads the immutable beta4 ancestor.
+          fetch-depth: 0 # The differential test reads the immutable beta5 ancestor.
           persist-credentials: false
 
       - name: Verify checkout identity
