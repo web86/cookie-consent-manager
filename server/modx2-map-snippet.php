@@ -15,5 +15,7 @@ try {
     if(!$google&&!$yandex)return '';
     $allowed=$google?['pb','key','q','center','zoom','maptype','language','region','origin','destination','waypoints','mode','avoid','units','location','heading','pitch','fov']:['um','source','ll','z','l','pt','mode','oid','ol'];
     foreach(explode('&',$parts['query']??'') as $param)if($param!==''&&!in_array(urldecode(explode('=',$param,2)[0]),$allowed,true))return '';
-    return '<div data-cc-map-provider="'.htmlspecialchars($provider,ENT_QUOTES,'UTF-8').'" data-cc-map-src="'.htmlspecialchars($src,ENT_QUOTES,'UTF-8').'"></div>';
+    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentEmbedOptions.php';
+    $attributes=CookieConsentEmbedOptions::attributes($scriptProperties);
+    return '<div data-cc-map-provider="'.htmlspecialchars($provider,ENT_QUOTES,'UTF-8').'" data-cc-map-src="'.htmlspecialchars($src,ENT_QUOTES,'UTF-8').'"'.$attributes.'></div>';
 }catch(Throwable $e){return '';}
