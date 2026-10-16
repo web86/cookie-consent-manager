@@ -3,7 +3,16 @@ import {readFileSync,writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 if(version!=='0.28.2')throw Error('Use pinned esbuild 0.28.2 / npm ci');
 const sha=bytes=>createHash('sha256').update(bytes).digest('hex');
-const js=['runtime.js','script-url.js','provider-registry.js','service-runtime.js','service-loaders.js','embeds.js','consent-manager.js'].map(n=>'assets/js/cookie-consent/'+n),css='assets/css/cookie-consent.css';
+// Dependency order is explicit; no directory scanning or runtime module loading.
+const js = [
+  'runtime.js', 'script-url.js', 'provider-registry.js', 'service-runtime.js',
+  'services/google-common.js', 'services/yandex.js', 'services/mailru-common.js',
+  'services/mailru.js', 'services/vk-ads.js', 'services/meta-pixel.js',
+  'services/google-ga4.js', 'services/google-ads.js', 'services/google-gtm.js',
+  'services/custom-js.js', 'services/mock-marketing.js',
+  'service-loaders.js', 'embeds.js', 'consent-manager.js'
+].map(n => 'assets/js/cookie-consent/' + n);
+const css = 'assets/css/cookie-consent.css';
 const inputs=Object.fromEntries([...js,css,'package-lock.json','_build/frontend.mjs'].map(p=>[p,sha(readFileSync(p))]));
 const options={minify:true,legalComments:'none',charset:'ascii',target:'es2020'};
 const output={

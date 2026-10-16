@@ -5,18 +5,29 @@
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
     "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
     "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
-    "assets/js/cookie-consent/service-runtime.js": "a94a56e7cf09a93edb40f36d38564de4a84b44bcdddf9c916c9a0849e345bcb7",
-    "assets/js/cookie-consent/service-loaders.js": "dc3cc494cb84b323a2173afa3b92e451069acffa8b66330c7591e35bad044c45",
+    "assets/js/cookie-consent/service-runtime.js": "9cc6bd44faeb82cdbb3f9d99098216c50342771ea74fc594441574bf2ee38b30",
+    "assets/js/cookie-consent/services/google-common.js": "ce1ec31d2a047498b204cbd717538fe7bb6456cb79ff54f2d13d99b44d6f53fb",
+    "assets/js/cookie-consent/services/yandex.js": "af7f624ae569d5623f2fd1876954b031e215dc2f9bb4b29fe6cc2afa6b93338e",
+    "assets/js/cookie-consent/services/mailru-common.js": "0fbe34ac508b3dc1864ae603d935ccf590c246286e7200d2f7f77f1da67c906f",
+    "assets/js/cookie-consent/services/mailru.js": "f6b8ab301c0348dd660057ab097ef8bbd65c674ace8621ea489d658de5a01bd3",
+    "assets/js/cookie-consent/services/vk-ads.js": "016bdc31dbfd00dec52560e36cc70d41c92b5cecd0949891a4c36fa08b733fa2",
+    "assets/js/cookie-consent/services/meta-pixel.js": "fcbed2ec90b64c9a393c5fedfb81436cfc8bb0b0287408b7222d8ca9ce9dfa8d",
+    "assets/js/cookie-consent/services/google-ga4.js": "ba75773b785f4b557a4b48168d444acfee4b87affad3981cab86785144bc5235",
+    "assets/js/cookie-consent/services/google-ads.js": "6c7fb68b129ffb3d731457402a1893e39383708d5a87cccb8e9cdc14b67824af",
+    "assets/js/cookie-consent/services/google-gtm.js": "d593ab48a1de3e34c68a6ff62d08f4bc0f2d46d97ca33bf211d8cc9c809b35d1",
+    "assets/js/cookie-consent/services/custom-js.js": "0fd5e2357c1c91672df4761a5c1247d1635da39d439ac032948f2ec43c49844b",
+    "assets/js/cookie-consent/services/mock-marketing.js": "71c5aae121ea9a837cad453208f069364fcfc75ab891229430717380fe1e24c0",
+    "assets/js/cookie-consent/service-loaders.js": "d91052e7c37f705197f5c39469f8d9f9b90870687e2f483dd0e98f3044981802",
     "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
     "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
     "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
-    "_build/frontend.mjs": "79d0bb67908f59bb48f89a6544d4c274404e4db5d22bbe4acac28df6a8ab9741"
+    "_build/frontend.mjs": "c842593b52dbb59c819d341578153a9b8a62284fcb1f9a1322e6817c83840af1"
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "6e52cb2774a6d8bde8480fead778c82c68746a4fe0692942829cadb843f713d1",
-      "bytes": 23233
+      "sha256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+      "bytes": 23957
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",

@@ -22,5 +22,8 @@ const web86CreateServiceRuntime = () => {
     return !state.stopping && s.enabled === true && visibility[s.category] &&
       (state.runtimePermission ? state.runtimePermission(s.category) : value?.categories?.[s.category] === true);
   }
-  return Object.assign(state, { base, t, services, visibility, started, script, allowed });
+  function mock(s) {
+    return script(new URL(`mock/${s.loader === 'mock_marketing' ? 'marketing' : s.loader}.js`, base));
+  }
+  return Object.assign(state, { t, services, visibility, started, script, allowed, mock });
 };
