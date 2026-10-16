@@ -7,7 +7,7 @@ import assert from 'node:assert/strict';
 const meta=JSON.parse(readFileSync('_build/package.json'));
 const signature=meta.name+'-'+meta.version+'-'+meta.release+meta.release_index;
 const spec=JSON.parse(readFileSync('.local/artifacts/'+signature+'.inventory.json'));
-const out='.local/frontend-refactor';mkdirSync(out,{recursive:true});
+const out=process.env.CC_REFACTOR_EVIDENCE||'.local/service-adapters';mkdirSync(out,{recursive:true});
 let assertions=0;
 const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
 const cli=(...args)=>execFileSync('docker',['exec','cookie-consent-acceptance-web-1','php','/opt/cc-source/'+args[0],...args.slice(1)],{encoding:'utf8'}).trim();
@@ -32,7 +32,7 @@ try {
   await page.locator('#ccm-save').waitFor();
   await page.locator('#ccm-tab-services').click();
   const help=await page.locator('[data-settings] .ccm-help').allTextContents();
-  eq(help.some(text=>text.includes('service-loaders.js → start()')),true,'SDK source link');
+  eq(help.some(text=>text.includes('services/yandex.js → start()')),true,'SDK source link');
   eq(help.some(text=>text.includes('embeds.js → setupMaps()')),true,'Map source link');
   eq(help.some(text=>text.includes('provider-registry.js → start()')),false,'No stale source link');
   eq(await page.evaluate(()=>typeof window.web86CookieConsent),'undefined','Frontend controller isolated from Manager');

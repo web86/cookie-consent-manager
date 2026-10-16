@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 2
 
-В этой feature-ветке — кандидат **1.0.4-beta4** ([приёмка и ручная проверка](docs/modx2-frontend-refactor-acceptance.md)): внутренний frontend разделён на registry, SDK loaders, map embeds и consent lifecycle. Пользовательские контракты [проверенной beta3](docs/modx2-1.0.4-beta3-acceptance.md), Strict/Legacy, категории, custom_js, карты и аудит сохранены. [Инструкция](docs/modx2-universal-services.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
+В этой feature-ветке — кандидат **1.0.4-beta5** ([приёмка](docs/modx2-service-adapters-acceptance.md)): встроенные SDK вынесены в отдельные [адаптеры](docs/modx2-service-adapters.md), сохраняя единый bundle и поведение beta4. Пользовательские контракты [проверенной beta3](docs/modx2-1.0.4-beta3-acceptance.md), Strict/Legacy, категории, custom_js, карты и аудит сохранены. [Инструкция](docs/modx2-universal-services.md). Исторические отчёты ниже относятся к соответствующим прежним версиям.
 
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
@@ -150,4 +150,4 @@ CSP полезна как дополнительная защита от вне�
 В текущем beta-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
 
 
-Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: `service-loaders.js::start()`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).
+Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-runtime.js` → `services/*.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: отдельные файлы в `services/`; dispatcher: `service-loaders.js`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).

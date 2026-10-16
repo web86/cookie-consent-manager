@@ -1,4 +1,4 @@
-// Compare the immutable beta3 and candidate in separate browsers with identical
+// Compare the immutable beta4 and candidate in separate browsers with identical
 // DOM/storage/SDK fixtures. No vendor request is allowed to leave Playwright.
 import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
@@ -6,7 +6,7 @@ import {readFileSync, mkdirSync, writeFileSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 
-const baseline = JSON.parse(readFileSync(process.env.CC_REFACTOR_BASELINE||'tests/frontend-refactor/baseline.json'));
+const baseline = JSON.parse(readFileSync(process.env.CC_REFACTOR_BASELINE||'tests/frontend-refactor/service-adapters-baseline.json'));
 const original = path => execFileSync('git', ['show', `${baseline.commit}:${path}`], {encoding:'utf8'});
 const bundlePath = 'assets/js/cookie-consent/cookie-consent.min.js';
 const bundles = [original(bundlePath), readFileSync(process.env.CC_REFACTOR_CANDIDATE||bundlePath, 'utf8')];
@@ -15,7 +15,7 @@ const demo = original('demo.html');
 const origin = 'https://cmp.example.test';
 const categories = ['analytics','marketing','external_content'];
 const timestamp = 1792108800000;
-const out = process.env.CC_REFACTOR_EVIDENCE||'.local/frontend-refactor';
+const out = process.env.CC_REFACTOR_EVIDENCE||'.local/service-adapters/final';
 mkdirSync(out, {recursive:true});
 const browser = await chromium.launch();
 const results = [];
@@ -25,6 +25,7 @@ const eq = (a,b,m) => { assertions++; assert.deepEqual(a,b,m); };
 function fixture(scenario) {
   const registry = JSON.parse(demo.match(/<script id="cc-service-registry"[^>]*>(.*?)<\/script>/s)[1]);
   registry.services.push(
+    {key:'historical_mock',loader:'mock_marketing',category:'marketing',enabled:true,config:{}},
     {key:'local',loader:'custom_js',purpose:'Local integration',category:'marketing',enabled:true,config:{path:'/assets/integration.js'}},
     {key:'remote',loader:'custom_js',purpose:'Remote integration',category:'marketing',enabled:true,config:{path:'https://cdn.example.test/integration.js?v=2'}},
     {key:'disabled',loader:'custom_js',purpose:'Disabled integration',category:'marketing',enabled:false,config:{path:'/disabled.js'}},
@@ -90,7 +91,7 @@ async function exercise(bundle, scenario) {
       return route.fulfill({contentType:'application/json',body:JSON.stringify({ok:true,event_id:data.event_id,server_time:new Date(timestamp).toISOString()})});
     }
     requests.push({url:url.href,type:request.resourceType()});
-    if(scenario.pending && url.hostname==='connect.facebook.net') {held();await pending;}
+    if(scenario.pending && (scenario.pending === true ? url.hostname === 'connect.facebook.net' : url.href.includes(scenario.pending))) {held();await pending;}
     if(scenario.fail && request.resourceType()==='script') return route.abort('failed');
     if(request.resourceType()==='document') return route.fulfill({contentType:'text/html',body:'<p>Fixture map</p>'});
     return route.fulfill({contentType:'text/javascript',body:`document.cookie='fixture_sdk=1; SameSite=Lax; Secure';window.__loads=(window.__loads||[]).concat(${JSON.stringify(url.href)});`});
@@ -120,7 +121,7 @@ async function exercise(bundle, scenario) {
   try {
     await page.goto(origin+'/',{waitUntil:scenario.pending?'domcontentloaded':'load'});
     if(scenario.pending) await entered;
-    eq(await page.evaluate(()=>web86Providers.services.length),12,'Fixture registry must be accepted');
+    eq(await page.evaluate(()=>web86Providers.services.length),13,'Fixture registry must be accepted');
     if(scenario.noRoot) return {api:await page.evaluate(()=>typeof window.web86CookieConsent),requests,errors};
     await page.evaluate(()=>{
       window.__callbacks=[];window.__guards=[];
@@ -176,6 +177,7 @@ try {
     for(const extra of [{archive:true},{storageError:true},{hidden:true},{fail:true},{siteConsent:'denied'},{siteConsent:'granted'},{noRoot:true}]) scenarios.push({legacy,...extra});
   }
   scenarios.push({dialog:true},{legacy:true,pending:true},{csp:true},{legacy:true,csp:true});
+  for (const pending of ['top-fwz1.mail.ru','/gtag/js','/gtm.js','mc.yandex.ru','cdn.example.test/integration.js']) scenarios.push({legacy:true,pending});
   for(const scenario of scenarios) {
     if(process.argv.includes('--dialog') && !scenario.dialog) continue;
     if(process.argv.includes('--focused') && !scenario.category && !scenario.pending && !scenario.dialog) continue;

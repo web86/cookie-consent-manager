@@ -64,7 +64,7 @@ CMP управляет согласием, **не является sandbox**: п
 
 ## Где находится код
 
-В каждой карточке Manager есть справка об исходнике. Для программиста: адаптеры и custom loader — `assets/js/cookie-consent/service-loaders.js`, функция start(); карты/iframe/URL — `assets/js/cookie-consent/embeds.js`; категории/persistence/callbacks — `assets/js/cookie-consent/consent-manager.js`; PHP allowlist — `server/src/CookieConsentServiceRegistry.php`; versioning — `CookieConsentSettings::categoryProcessing()` и Save; SSR — `CookieConsentBannerRenderer.php`. В transport поставляется bundle `cookie-consent.min.js`, пересборка — `npm run build:frontend`. Код сайта храните отдельно от компонента.
+В каждой карточке Manager есть справка об исходнике. Для программиста: адаптеры и custom loader — `assets/js/cookie-consent/services/`, отдельный файл на loader; общий dispatcher — `service-loaders.js`; карты/iframe/URL — `assets/js/cookie-consent/embeds.js`; категории/persistence/callbacks — `assets/js/cookie-consent/consent-manager.js`; PHP allowlist — `server/src/CookieConsentServiceRegistry.php`; versioning — `CookieConsentSettings::categoryProcessing()` и Save; SSR — `CookieConsentBannerRenderer.php`. В transport поставляется bundle `cookie-consent.min.js`, пересборка — `npm run build:frontend`. Код сайта храните отдельно от компонента.
 
 ## Проверка в Manager и Network
 
@@ -78,3 +78,5 @@ CMP управляет согласием, **не является sandbox**: п
 [Приёмка beta3 и release gates](modx2-1.0.4-beta3-acceptance.md). Эта feature-ветка не публикует GitHub Release и не выполняет deployment.
 
 Под заголовком Manager отображается версия активного кода пакета. Режим «Отклонить + Принять» разрешает те же видимые группы, что «Принять все». Если включённый сервис находится в скрытой группе, Manager показывает объяснение; видимость сама не включается. Подсказка i рядом с вводным текстом доступна мышью и клавиатурой. Внешний JS выполняется с обычными правами страницы: проверяйте код/хост, настройте script-src CSP. Компонент не выполняет серверную загрузку файла.
+
+Сопровождение отдельных SDK и общий runtime: [адаптеры beta5](modx2-service-adapters.md).

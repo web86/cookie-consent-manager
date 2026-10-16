@@ -42,3 +42,6 @@ Evidence stays in ignored `.local/frontend-refactor`. The committed acceptance
 report distinguishes final results, corrected harness/setup attempts and SKIPs.
 Account delivery, real container tags, other browsers and customer hosting remain
 manual release gates. Tests do not push, merge, release or deploy.
+
+Current beta5 adapter workflow: [SERVICE-ADAPTERS.md](SERVICE-ADAPTERS.md).
+The original baseline.json remains the historical beta3 record.

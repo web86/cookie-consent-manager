@@ -3,7 +3,7 @@
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync,copyFileSync,existsSync} from 'node:fs';
 
-const out=process.env.CC_REFACTOR_EVIDENCE||'.local/frontend-refactor/acceptance';
+const out=process.env.CC_REFACTOR_EVIDENCE||'.local/service-adapters/acceptance';
 mkdirSync(out,{recursive:true});
 const results=[];
 function run(name,command,args,env={},evidence=[]) {
