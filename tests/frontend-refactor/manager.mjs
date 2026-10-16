@@ -33,7 +33,7 @@ try {
   await page.locator('#ccm-tab-services').click();
   const help=await page.locator('[data-settings] .ccm-help').allTextContents();
   eq(help.some(text=>text.includes('services/yandex.js → start()')),true,'SDK source link');
-  eq(help.some(text=>text.includes('embeds.js → setupMaps()')),true,'Map source link');
+  eq(help.some(text=>text.includes('embeds.js → mount()')),true,'Map source link');
   eq(help.some(text=>text.includes('provider-registry.js → start()')),false,'No stale source link');
   eq(await page.evaluate(()=>typeof window.web86CookieConsent),'undefined','Frontend controller isolated from Manager');
   const managerUrl=await page.locator('script[src*="/cookieconsent/manager.js"]').getAttribute('src');

@@ -10,7 +10,7 @@ const js = [
   'services/mailru.js', 'services/vk-ads.js', 'services/meta-pixel.js',
   'services/google-ga4.js', 'services/google-ads.js', 'services/google-gtm.js',
   'services/custom-js.js', 'services/mock-marketing.js',
-  'service-loaders.js', 'embeds.js', 'consent-manager.js'
+  'service-loaders.js', 'embeds/youtube.js', 'embeds/rutube.js', 'embeds/vk-video.js', 'embeds.js', 'consent-manager.js'
 ].map(n => 'assets/js/cookie-consent/' + n);
 const css = 'assets/css/cookie-consent.css';
 const inputs=Object.fromEntries([...js,css,'package-lock.json','_build/frontend.mjs'].map(p=>[p,sha(readFileSync(p))]));
