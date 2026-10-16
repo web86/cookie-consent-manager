@@ -5,7 +5,7 @@ define('MODX_API_MODE',true);ob_start();require '/var/www/html/index.php';while(
 $db=$modx->query('SELECT DATABASE()')->fetchColumn();
 if(!in_array($db,['cookie_consent_test','cookie_consent_transport_clean','cookie_consent_transport_publiccore','cookie_consent_audit_visibility'],true)||$modx->getVersionData()['full_version']!=='2.8.8-pl')exit(1);
 $private=dirname(rtrim(MODX_CORE_PATH,'/'));if($db==='cookie_consent_transport_publiccore')$private='/opt/cc-publiccore';
-$action=$argv[1]??'';$names=['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentMap'=>'modSnippet','CookieConsentAssets'=>'modSnippet','CookieConsentBanner'=>'modSnippet'];
+$action=$argv[1]??'';$names=['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentMap'=>'modSnippet','CookieConsentVideo'=>'modSnippet','CookieConsentAssets'=>'modSnippet','CookieConsentBanner'=>'modSnippet'];
 function setValue($key,$value){global $modx;$s=$modx->getObject('modSystemSetting',['key'=>$key])?:$modx->newObject('modSystemSetting');$s->fromArray(['key'=>$key,'value'=>is_string($value)?$value:json_encode($value)],'',true,true);if(!$s->save())throw new RuntimeException('Setting save');}
 if($action==='credentials'){echo file_get_contents($private.'/manager.json');exit;}
 if($action==='snapshot'||$action==='installed'){
@@ -31,7 +31,7 @@ if($action==='configure'){
  require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentAuditFormat.php';
  $historical=['schema'=>1,'server_time'=>'2020-01-01T00:00:00Z','event_id'=>'aaaaaaaa-aaaa-4aaa-8aaa-000000000001','consent_id'=>'bbbbbbbb-bbbb-4bbb-8bbb-000000000001','ip'=>'127.0.0.1','user_agent'=>'Synthetic historical sentinel','event'=>'reject','stage'=>'committed','categories'=>['necessary'=>true,'analytics'=>false,'marketing'=>false],'policy_version'=>'1','page'=>'/sentinel','client_time'=>'2020-01-01T00:00:00.000Z'];
  if(!is_file($dir.'/2020-01-cookie-consent.log'))file_put_contents($dir.'/2020-01-cookie-consent.log',CookieConsentAuditFormat::HEADER."\n".json_encode($historical)."\n");
- foreach($names as $name=>$class){$s=$modx->getObject($class,['name'=>$name]);$s->set('description','Keep metadata '.$name);$s->setProperties(['owner'=>['name'=>'owner','value'=>'keep-'.$name,'type'=>'textfield']]);$s->save();}
+ foreach($names as $name=>$class){$s=$modx->getObject($class,['name'=>$name]);if(!$s){if($name==='CookieConsentVideo')continue;throw new RuntimeException('Missing canonical');}$s->set('description','Keep metadata '.$name);$s->setProperties(['owner'=>['name'=>'owner','value'=>'keep-'.$name,'type'=>'textfield']]);$s->save();}
  $s=$modx->getObject('modChunk',['name'=>'Beta102 unrelated'])?:$modx->newObject('modChunk');$s->fromArray(['name'=>'Beta102 unrelated','snippet'=>'<p>Unrelated owner content</p>'],'',true,true);$s->save();setValue('beta102.sentinel','Keep this setting');
  $modx->cacheManager->refresh();echo json_encode(['configured'=>true]);exit;
 }
