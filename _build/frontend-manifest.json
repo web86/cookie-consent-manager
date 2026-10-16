@@ -18,7 +18,7 @@
     "assets/js/cookie-consent/services/custom-js.js": "0fd5e2357c1c91672df4761a5c1247d1635da39d439ac032948f2ec43c49844b",
     "assets/js/cookie-consent/services/mock-marketing.js": "71c5aae121ea9a837cad453208f069364fcfc75ab891229430717380fe1e24c0",
     "assets/js/cookie-consent/service-loaders.js": "d91052e7c37f705197f5c39469f8d9f9b90870687e2f483dd0e98f3044981802",
-    "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+    "assets/js/cookie-consent/embeds.js": "472f7275e6e32dfa0e22a377c995cc5beb9a75518a1d71dbc72719499b4ddc90",
     "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
     "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
@@ -26,8 +26,8 @@
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "1906caf7adbfd5840b6d1a6a50ff3108f82bcb845ea0f570c2fce30ae9abe53f",
-      "bytes": 24147
+      "sha256": "5c6e9638ef48a49e35d9773b417805dcbd60afd27f83cb66171509931a76d934",
+      "bytes": 28260
     },
     "assets/css/cookie-consent.min.css": {
       "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
