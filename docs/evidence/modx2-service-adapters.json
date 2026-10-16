@@ -1,0 +1,4742 @@
+{
+  "baseline": {
+    "commit": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+    "branch": "codex/modx2-frontend-refactor",
+    "initial_status": [
+      "?? docs/modx2-frontend-inventory.md"
+    ],
+    "sources": {
+      "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+      "assets/js/cookie-consent/cookie-consent.min.js": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+      "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
+      "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
+      "assets/js/cookie-consent/marketing.js": "dfa6fee71e689a992491067cb1972dfa86c424d5c49d502bda6ed498ad779bb6",
+      "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+      "assets/js/cookie-consent/analytics.js": "02d70470134384b4832bae6e9f2329c1a74699bb7c4aaa30aac9910dfd415ad6",
+      "assets/js/cookie-consent/lexicons.json": "04052bc85562a092b323e30c78431f89e0a6afc1d80d0b18a9fea2f343f9991d",
+      "assets/js/cookie-consent/service-loaders.js": "df6c1e994413a71c0d259e271bbe2c33c56036c860606aafabe1c044c6dfa03a",
+      "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+      "assets/js/cookie-consent/i18n.js": "ee423aece4b38e8dc04b9775e3f67364e756f6f645cabd119043e84d01adba25",
+      "assets/js/cookie-consent/mock/google_ads.js": "b0e48aad7e55a772915d694bb1c64853c89b8959119e09f11abe791d5e6aff55",
+      "assets/js/cookie-consent/mock/yandex_maps.html": "32cf4292500b950f220e1d1e779ba99fa9b4629a246062b234f8e000fc08ae9b",
+      "assets/js/cookie-consent/mock/meta_pixel.js": "37408a1c1c906335e7d0261be7fd2cb05441457eb820b311b82e34fd64123dfc",
+      "assets/js/cookie-consent/mock/yandex.js": "b27a5e87d1933604d29ed61cce5b6b72520868ba8f9cac35cca30308a1c0a7d3",
+      "assets/js/cookie-consent/mock/mailru.js": "523ae74429be1d50008bc1b0d36af408feb0d8d18c8515a4826b8e12b36e2b65",
+      "assets/js/cookie-consent/mock/marketing.js": "249fd02cceba450f575f0609f4d9effe7d57379d4c7085aeec7801916f976b58",
+      "assets/js/cookie-consent/mock/google_gtm.js": "01083558f43ebbb680f9e82dc1bde8485926a7a6a7c962f7c2ff10c267b543c5",
+      "assets/js/cookie-consent/mock/vk_ads.js": "cac3b0af3fb6f591147bf2fb94f628917e48a2d64a462ec72bd75d3928671174",
+      "assets/js/cookie-consent/mock/google_ga4.js": "32f5ca27290252c8d898b1a6219725a79b181b511ebc9774d18ee41ebc9c2645",
+      "assets/js/cookie-consent/mock/google_maps.html": "a17cc7c519a7c2b6d5db6efe5358a42772f5adcc4e1fe01feffd4828bdd27340"
+    },
+    "native": {
+      "signature": "cookieconsent-1.0.4-beta4",
+      "sha256": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+      "inventory_sha256": "adff498b881ca6c5ac08d37cf4d6c6c65635df0c528aeafe0314f1801b1d2c90"
+    },
+    "public": {
+      "web86Providers": [
+        "services",
+        "categories",
+        "validate",
+        "validScriptPath",
+        "allowed",
+        "safeMapUrl",
+        "revoke",
+        "apply"
+      ],
+      "web86CookieConsent": [
+        "getConsent",
+        "openSettings",
+        "onAllowed"
+      ],
+      "mock_only": [
+        "resetForTesting"
+      ],
+      "callback_contract": "onAllowed returns unsubscribe; callback receives stillAllowed"
+    },
+    "fixtures": {
+      "tests/beta1042/README.md": "12bbfabed879ba9931ab4cf9b74273c1bf6707865a26c35f595b8f5ff7bf7bae",
+      "tests/beta1042/accept.mjs": "a91ca97ec9c7d731303e2fd342bd497b86498be9f31e1b8c6595db2f7c6a9aaf",
+      "tests/beta1042/upgrade.mjs": "73484ffaf1a6246062e0e9169836f3690309d901a870db81660fcd41856610f3",
+      "tests/beta1042/urls.php": "cfeda0fd28654ad2e33e6b9a338a7ff0c9654bef008a637d694b5549994ea6f3",
+      "tests/beta32/README.md": "dd7c74b07ed8abe2537982db2fcb46790bec6f811aeddd8ef5c0b963c8e43745",
+      "tests/beta32/callbacks.mjs": "023a85057ddf1d75a49802bb97688355646bd7a7d2b037eb61bdf71f5dc675ac",
+      "tests/beta32/client-source/yonder-map-many.original.js": "3c7f14a944bcc127bd57e07dcac7f04c7374953d7b281631e53e6539552b359b",
+      "tests/beta32/fixture.php": "7db9340e4eedaeca1da4f2e90c7345ef3309a54dd906e291bbf0403c0217b00c",
+      "tests/beta32/maps.mjs": "687b8d95fd2e2db5843e78877a701f2bad9a6c144b3e5be85ca317e2383791dd",
+      "tests/beta32/native-fixture.php": "81d39fb48b5733e2e34457aae7ba3226a1996e4cd04bb980cc1ca597eb486e6f",
+      "tests/beta32/native.mjs": "7c5a5ea428547cd480d7cb002757dbd7cd7cb87943fc46b7fb70fde27afef404",
+      "tests/beta32/summarize.py": "e7077982c7be0c412ecfb2884cdc8d21804d45bbef36e4da05384d1b5bbfeb8f",
+      "tests/beta32/ymaps-stub.js": "1fb780963828785964e78fa4eb6c0f0799647058c0e802f55d48f53f8af582dc",
+      "tests/legacy-autoload/README.md": "998d6eda000e8b57ec8809300914b774b45b264583f773690e4817dedc0a8a02",
+      "tests/legacy-autoload/browser.mjs": "2d7e027fcdbd659db5783cfbb193089fa33168c90f37c7b1d31746dc8176f2b1",
+      "tests/legacy-autoload/direct-vendors.mjs": "ed2ae2b519b4b4b8617f899aef9c1136a1e91fb43a46bdd6eaa47153bbb53e78",
+      "tests/legacy-autoload/fenom.mjs": "b1160415548272a6f45fa267951d0944005a9d0363b51c1a63aaa19170340ff3",
+      "tests/legacy-autoload/matrix.mjs": "862f9cf07bfafc7f223e59846a51b109a6dcc8e2b177c051d7d64b707fa314e9",
+      "tests/legacy-autoload/php81.mjs": "41f227a748d9fc5f1fab96a368af51f9d5cdd6eed0f2555fcad864b65f3b5de3",
+      "tests/legacy-autoload/upgrade.mjs": "76686f5b19de6ed8fd1c32a9ddf0af77d02b85857dd45e3c967997bf2f079b3a",
+      "tests/universal/README.md": "51924f31ee180f8ca694c09ddde5237da7ebc706c700994dfff3e3080ad70036",
+      "tests/universal/audit-schema3.php": "0e2832a4fd12739156774ceae6275b76fec48524202d2fca1b3cd809d7bfd6dc",
+      "tests/universal/audit.mjs": "0967fb16ebe61552dec2a5293331b5df4b0cd542e10ccbf66f34f649003007ac",
+      "tests/universal/browser.mjs": "29038982d61dba236d85cfbaf6df5773b0a85ef130252a35ca88415e05c2727d",
+      "tests/universal/matrix.mjs": "394fd4ed6ecc7fe7a3717b52c6799356ae74b6213ed9d53e24e4c794cd4b376f",
+      "tests/universal/php.php": "35af84387b0d52041dab1019fc3c73a6a0898a1d09eb7f91240e2349f3c24810",
+      "tests/universal/regression.mjs": "67272b4ef4a1f27ebcf8bd0c2d0b56514e109ee6e8a2fbe7a2869dac304db4df",
+      "tests/universal/set-registry.php": "ab7ccaf46a1706ff5575e1013ba5e675aaa59c17187b375a95925119d6a933cd"
+    },
+    "sdk_urls": [
+      "https://mc.yandex.ru/metrika/tag.js",
+      "https://top-fwz1.mail.ru/js/code.js",
+      "https://connect.facebook.net/en_US/fbevents.js",
+      "https://www.googletagmanager.com/gtag/js?id={id}",
+      "https://www.googletagmanager.com/gtm.js?id={id}",
+      "custom_js: validated root-relative or HTTPS .js",
+      "mock: bundle-relative mock/{loader}.js; mock_marketing -> marketing.js"
+    ],
+    "runtime_contract": "runtimeAllowed(category) from consent-manager; persisted categories_v2 remains separate; unchanged v2 fingerprints/schema 3"
+  },
+  "baselineResults": {
+    "equivalence.json": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "matrix.json": {
+      "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+      "tests": 30,
+      "assertions": 330,
+      "failed": 0,
+      "results": [
+        {
+          "name": "yandex-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-external_content",
+          "result": "PASS",
+          "assertions": 11
+        }
+      ]
+    },
+    "browser.json": {
+      "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+      "tests": 24,
+      "assertions": 176,
+      "failed": 0,
+      "results": [
+        {
+          "name": "strict-new-visitor-zero-optional-network",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-first-visit-network-init-dedup-no-consent-no-audit-google-unmodified",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "legacy-preserves-independent-site-consent-denied",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-preserves-independent-site-consent-granted",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-reject-synchronous-guards-real-reload-denied-restored",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-respects-refusal",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-respects-partial",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "legacy-respects-expired",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-policy",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-category-version",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-respects-malformed",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-historical-incomplete",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-respects-historical-complete",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-archive-only",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-unavailable-storage",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-hidden-category-disabled-service-and-mode-off",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-reject-even-with-all-categories-hidden-reloads",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-admin-processing-change-invalidates-real-consent",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-pending-google_ga4-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-google_ads-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-google_gtm-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-meta-reject-cancels-queued-pageview",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "Manager-warning-ru",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "Manager-warning-en",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    }
+  },
+  "focusedStages": {
+    "shared": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "6e52cb2774a6d8bde8480fead778c82c68746a4fe0692942829cadb843f713d1",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "google": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "48a690fe8c9ed98bd828421ec047eec00e84d508a40351bd38942ad3de9262e0",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "yandex": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "a9a590a353bd258024a793a3ca4becbb3b94a34bd4584e53716eb31fb05aba37",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "tmr": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "0cf70fec2b3fb63cdaebb24fba50af75702c590bc06cc0e3ea83142c44181ed0",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "mailru": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "8eb626890d0b1423e129db347c06d61a6f541fd1c0842db4645152a6e275a199",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "vk-ads": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "5621de2d577baaa3c0238b48de44ffe9a28cfc7c6d5b8de60ec82d85a888bd99",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "meta-pixel": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "92859e93710900cb3b3f36ec956061d31f64f46dc843ecf951a73b0b48088acc",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "google-ga4": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "df09392aa34d429aaecf4ed490f3aacffafb0eda13f534f3c96d5fa4468502de",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "google-ads": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "3acffa74b7d287efa6978891559d7b16b3d51ee4fa5ab2092c33871c301f0576",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "google-gtm": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "e5070f41d00da1b1987faa4c7c591d469aaab30386ae603bca63ff4c7a044bf7",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "custom-js": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "269556bbadcd22a9f81da02d6f904713f57aceaf800c73ecad8d56cf7deac2f2",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "mock-marketing": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "8f96c4573228e47a0b6b86e645f8c57f510d353152b37b81a2b9334be4ea3ace",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "dispatcher": {
+      "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+      "candidateSHA256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    }
+  },
+  "differential": {
+    "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+    "candidateSHA256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+    "tests": 49,
+    "assertions": 206,
+    "failed": 0,
+    "results": [
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"all\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"archive\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"storageError\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"hidden\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"fail\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"noRoot\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"dialog\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"csp\":true}",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "{\"legacy\":true,\"csp\":true}",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+        "result": "PASS",
+        "assertions": 4
+      }
+    ]
+  },
+  "build": {
+    "result": "PASS",
+    "tests": 1,
+    "assertions": 122,
+    "failed": 0,
+    "inputs": 21,
+    "outputs": 2,
+    "signature": "cookieconsent-1.0.4-beta5",
+    "sha256": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc",
+    "runtimeFiles": 57,
+    "frontend": {
+      "tool": "esbuild",
+      "version": "0.28.2",
+      "inputs": {
+        "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+        "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+        "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
+        "assets/js/cookie-consent/service-runtime.js": "9cc6bd44faeb82cdbb3f9d99098216c50342771ea74fc594441574bf2ee38b30",
+        "assets/js/cookie-consent/services/google-common.js": "ce1ec31d2a047498b204cbd717538fe7bb6456cb79ff54f2d13d99b44d6f53fb",
+        "assets/js/cookie-consent/services/yandex.js": "af7f624ae569d5623f2fd1876954b031e215dc2f9bb4b29fe6cc2afa6b93338e",
+        "assets/js/cookie-consent/services/mailru-common.js": "0fbe34ac508b3dc1864ae603d935ccf590c246286e7200d2f7f77f1da67c906f",
+        "assets/js/cookie-consent/services/mailru.js": "f6b8ab301c0348dd660057ab097ef8bbd65c674ace8621ea489d658de5a01bd3",
+        "assets/js/cookie-consent/services/vk-ads.js": "016bdc31dbfd00dec52560e36cc70d41c92b5cecd0949891a4c36fa08b733fa2",
+        "assets/js/cookie-consent/services/meta-pixel.js": "fcbed2ec90b64c9a393c5fedfb81436cfc8bb0b0287408b7222d8ca9ce9dfa8d",
+        "assets/js/cookie-consent/services/google-ga4.js": "ba75773b785f4b557a4b48168d444acfee4b87affad3981cab86785144bc5235",
+        "assets/js/cookie-consent/services/google-ads.js": "6c7fb68b129ffb3d731457402a1893e39383708d5a87cccb8e9cdc14b67824af",
+        "assets/js/cookie-consent/services/google-gtm.js": "d593ab48a1de3e34c68a6ff62d08f4bc0f2d46d97ca33bf211d8cc9c809b35d1",
+        "assets/js/cookie-consent/services/custom-js.js": "0fd5e2357c1c91672df4761a5c1247d1635da39d439ac032948f2ec43c49844b",
+        "assets/js/cookie-consent/services/mock-marketing.js": "71c5aae121ea9a837cad453208f069364fcfc75ab891229430717380fe1e24c0",
+        "assets/js/cookie-consent/service-loaders.js": "d91052e7c37f705197f5c39469f8d9f9b90870687e2f483dd0e98f3044981802",
+        "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+        "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
+        "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
+        "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
+        "_build/frontend.mjs": "c842593b52dbb59c819d341578153a9b8a62284fcb1f9a1322e6817c83840af1"
+      },
+      "outputs": {
+        "assets/js/cookie-consent/cookie-consent.min.js": {
+          "sha256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+          "bytes": 23957
+        },
+        "assets/css/cookie-consent.min.css": {
+          "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
+          "bytes": 3286
+        }
+      }
+    },
+    "baselineZipUnchanged": true,
+    "nativeReproducible": true
+  },
+  "archivedI18n": {
+    "tests": 3,
+    "assertions": 9,
+    "failed": 0,
+    "results": [
+      {
+        "name": "historical-standalone-i18n-ru",
+        "result": "PASS"
+      },
+      {
+        "name": "historical-standalone-i18n-en",
+        "result": "PASS"
+      },
+      {
+        "name": "historical-standalone-i18n-tr",
+        "result": "PASS"
+      }
+    ]
+  },
+  "initialFixtureFailure": {
+    "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+    "candidateSHA256": "9301ab31d3f61edb88a551d918db9df61f8cc7e93a42b1d0584ff33451221887",
+    "tests": 1,
+    "assertions": 1,
+    "failed": 1,
+    "results": [
+      {
+        "result": "FAIL",
+        "error": "AssertionError [ERR_ASSERTION]: Fixture registry must be accepted\n\n0 !== 13\n\n    at eq (file:///Users/sonoma/Desktop/cookie-consent-manager/tests/frontend-refactor/equivalence.mjs:23:46)\n    at exercise (file:///Users/sonoma/Desktop/cookie-consent-manager/tests/frontend-refactor/equivalence.mjs:124:5)\n    at async file:///Users/sonoma/Desktop/cookie-consent-manager/tests/frontend-refactor/equivalence.mjs:185:15"
+      }
+    ]
+  },
+  "acceptance": [
+    {
+      "name": "reset-disposable",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "native",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/native-native-results.json"
+      ]
+    },
+    {
+      "name": "install-web",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "legacy-browser",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/legacy-browser-browser.json"
+      ]
+    },
+    {
+      "name": "legacy-matrix",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/legacy-matrix-matrix-results.json"
+      ]
+    },
+    {
+      "name": "beta1042",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/beta1042-accept-results.json"
+      ]
+    },
+    {
+      "name": "universal",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/universal-results.json"
+      ]
+    },
+    {
+      "name": "public-registry-upgrade",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/public-registry-upgrade-browser-results.json"
+      ]
+    },
+    {
+      "name": "examples",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/examples-examples.json"
+      ]
+    },
+    {
+      "name": "fenom-sync",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "fenom-browser",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/fenom-browser-results.json"
+      ]
+    },
+    {
+      "name": "fenom-modes",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/fenom-modes-fenom.json"
+      ]
+    },
+    {
+      "name": "beta-upgrades",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/beta-upgrades-upgrade.json"
+      ]
+    },
+    {
+      "name": "direct-vendors",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/direct-vendors-direct-vendors.json"
+      ]
+    },
+    {
+      "name": "manager",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "refresh-php81",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-native",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/php81-native-php81.json"
+      ]
+    },
+    {
+      "name": "php81-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php-and-syntax",
+      "result": "PASS",
+      "reports": [
+        ".local/service-adapters/acceptance/php-and-syntax-regression.json"
+      ]
+    },
+    {
+      "name": "native-verifier",
+      "result": "PASS",
+      "reports": []
+    }
+  ],
+  "reports": {
+    "beta-upgrades-upgrade.json": {
+      "tests": 4,
+      "assertions": 128,
+      "failed": 0,
+      "results": [
+        {
+          "name": "cookieconsent-1.0.4-beta1 -> cookieconsent-1.0.4-beta5",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e",
+          "targetSha": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta2 -> cookieconsent-1.0.4-beta5",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "b434196505b56ae3bdd470a6b23e4228dcd6b60827aceba5d61dfcb24a1507b4",
+          "targetSha": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta3 -> cookieconsent-1.0.4-beta5",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d",
+          "targetSha": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta4 -> cookieconsent-1.0.4-beta5",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+          "targetSha": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc"
+        }
+      ]
+    },
+    "beta1042-accept-results.json": {
+      "suite": "Legacy accept / actual MODX 2 deployed bundle",
+      "baseline": false,
+      "tests": 11,
+      "assertions": 130,
+      "failed": 0,
+      "results": [
+        {
+          "name": "native-accept-immediate-SDK-init-storage-audit-reload-once",
+          "result": "PASS",
+          "assertions": 26
+        },
+        {
+          "name": "native-accept-all-immediate-SDK-init-storage-audit-reload-once",
+          "result": "PASS",
+          "assertions": 26
+        },
+        {
+          "name": "legacy-reject",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-hidden",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-disabled",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-configure",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "legacy-previous-refusal",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-moved",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "legacy-all-analytics-members-remote-custom-and-reassigned-map",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "Manager-package-version-tooltip-hidden-diagnostic-remote-URL-validation-save-preview",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "PHP-JS-remote-URL-validation-parity",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ],
+      "proofs": [
+        {
+          "action": "accept",
+          "categories": {
+            "analytics": true,
+            "marketing": true,
+            "external_content": true
+          },
+          "category_versions": {
+            "analytics": 23,
+            "marketing": 35,
+            "external_content": 29
+          },
+          "sdkAttempts": 1,
+          "ymInit": [
+            12345678,
+            "init"
+          ],
+          "auditSchema": 3,
+          "auditStatus": 200,
+          "serverUTC": "2026-10-16T05:24:08Z",
+          "bundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=9301ab31d3f61edb88a5"
+        },
+        {
+          "action": "accept-all",
+          "categories": {
+            "analytics": true,
+            "marketing": true,
+            "external_content": true
+          },
+          "category_versions": {
+            "analytics": 23,
+            "marketing": 35,
+            "external_content": 29
+          },
+          "sdkAttempts": 1,
+          "ymInit": [
+            12345678,
+            "init"
+          ],
+          "auditSchema": 3,
+          "auditStatus": 200,
+          "serverUTC": "2026-10-16T05:24:11Z",
+          "bundle": "/assets/js/cookie-consent/cookie-consent.min.js?v=9301ab31d3f61edb88a5"
+        }
+      ]
+    },
+    "direct-vendors-direct-vendors.json": {
+      "tests": 10,
+      "assertions": 177,
+      "failed": 0,
+      "skipped": 0,
+      "telemetry": "Locally answered; public JS downloaded over verified TLS and replayed unchanged",
+      "results": [
+        {
+          "name": "google_ga4-no-site-consent",
+          "result": "PASS",
+          "assertions": 19,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ga",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ga_LEGACY0001",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "js",
+                    "2026-10-16T05:38:20.912Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "send_page_view": true,
+                      "allow_google_signals": true,
+                      "allow_ad_personalization_signals": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ga",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ga_LEGACY0001",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "js",
+                    "2026-10-16T05:38:24.057Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "allow_google_signals": true,
+                      "send_page_view": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_ga4-denied",
+          "result": "PASS",
+          "assertions": 19,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:28.338Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "send_page_view": true,
+                      "allow_google_signals": true,
+                      "allow_ad_personalization_signals": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:31.448Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "allow_google_signals": true,
+                      "send_page_view": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_ga4-granted",
+          "result": "PASS",
+          "assertions": 19,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ga",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ga_LEGACY0001",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:35.700Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "send_page_view": true,
+                      "allow_google_signals": true,
+                      "allow_ad_personalization_signals": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ga",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ga_LEGACY0001",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:38.826Z"
+                  ],
+                  [
+                    "config",
+                    "G-LEGACY0001",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "allow_google_signals": true,
+                      "send_page_view": true
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=G-LEGACY0001",
+                "status": 200,
+                "sha256": "9609e40d094cbb3d1a47b54e0e0f68e71389af4dfe679a220478b63451c1ce03"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "www.google-analytics.com/g/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_ads-no-site-consent",
+          "result": "PASS",
+          "assertions": 18,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_gcl_au",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_gcl_aw",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "js",
+                    "2026-10-16T05:38:43.591Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "ad.doubleclick.net/ccm/s/collect:",
+              "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+              "www.google.com/ccm/collect:page_view",
+              "www.google.com/rmkt/collect/:id/:gtag.config",
+              "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_gcl_au",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_gcl_aw",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "js",
+                    "2026-10-16T05:38:46.713Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "ad.doubleclick.net/ccm/s/collect:",
+              "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+              "www.google.com/ccm/collect:page_view",
+              "www.google.com/rmkt/collect/:id/:gtag.config",
+              "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_ads-denied",
+          "result": "PASS",
+          "assertions": 18,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:50.965Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "pagead2.googlesyndication.com/ccm/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:54.099Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 1,
+            "requestKinds": [
+              "pagead2.googlesyndication.com/ccm/collect:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_ads-granted",
+          "result": "PASS",
+          "assertions": 18,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_gcl_au",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_gcl_aw",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:38:58.350Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "ad.doubleclick.net/ccm/s/collect:",
+              "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+              "www.google.com/ccm/collect:page_view",
+              "www.google.com/rmkt/collect/:id/:gtag.config",
+              "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_gcl_au",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_gcl_aw",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  [
+                    "js",
+                    "2026-10-16T05:39:01.475Z"
+                  ],
+                  [
+                    "config",
+                    "AW-000000000",
+                    {
+                      "allow_ad_personalization_signals": true,
+                      "restricted_data_processing": false
+                    }
+                  ]
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtag/js?id=AW-000000000",
+                "status": 200,
+                "sha256": "653f1da9dd947ecf4e1124dd914444ff8ed62831134a65433581258b999c5d7d"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "ad.doubleclick.net/ccm/s/collect:",
+              "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+              "www.google.com/ccm/collect:page_view",
+              "www.google.com/rmkt/collect/:id/:gtag.config",
+              "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+            ],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_gtm-no-site-consent",
+          "result": "PASS",
+          "assertions": 16,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  {
+                    "gtm.start": 1792129146817,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [
+                  {
+                    "gtm.start": 1792129149945,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {},
+              "ad_storage": {},
+              "ad_user_data": {},
+              "ad_personalization": {}
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_gtm-denied",
+          "result": "PASS",
+          "assertions": 16,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  {
+                    "gtm.start": 1792129154205,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "denied",
+                  "ad_storage": "denied",
+                  "ad_user_data": "denied",
+                  "ad_personalization": "denied"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "denied",
+                      "ad_storage": "denied",
+                      "ad_user_data": "denied",
+                      "ad_personalization": "denied"
+                    }
+                  ],
+                  {
+                    "gtm.start": 1792129157329,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": false
+              },
+              "ad_storage": {
+                "default": false
+              },
+              "ad_user_data": {
+                "default": false
+              },
+              "ad_personalization": {
+                "default": false
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "google_gtm-granted",
+          "result": "PASS",
+          "assertions": 16,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  {
+                    "gtm.start": 1792129161573,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [],
+            "commands": [
+              [
+                "default",
+                {
+                  "analytics_storage": "granted",
+                  "ad_storage": "granted",
+                  "ad_user_data": "granted",
+                  "ad_personalization": "granted"
+                }
+              ]
+            ],
+            "snapshots": [
+              {
+                "google": [
+                  [
+                    "consent",
+                    "default",
+                    {
+                      "analytics_storage": "granted",
+                      "ad_storage": "granted",
+                      "ad_user_data": "granted",
+                      "ad_personalization": "granted"
+                    }
+                  ],
+                  {
+                    "gtm.start": 1792129164699,
+                    "event": "gtm.js"
+                  }
+                ],
+                "yandex": []
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://www.googletagmanager.com/gtm.js?id=GTM-LEGACY0001",
+                "status": 200,
+                "sha256": "f9f90f40019939dac769aa15fabe68fbfcbedb9553eca2be4f7b7b194808cbfa"
+              }
+            ],
+            "requests": 0,
+            "requestKinds": [],
+            "clientId": false,
+            "consentState": {
+              "analytics_storage": {
+                "default": true
+              },
+              "ad_storage": {
+                "default": true
+              },
+              "ad_user_data": {
+                "default": true
+              },
+              "ad_personalization": {
+                "default": true
+              }
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        },
+        {
+          "name": "yandex-no-site-consent",
+          "result": "PASS",
+          "assertions": 18,
+          "direct": {
+            "mode": "direct",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ym_d",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ym_isad",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ym_uid",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [],
+                "yandex": [
+                  [
+                    999999999,
+                    "init",
+                    {
+                      "webvisor": true,
+                      "clickmap": true,
+                      "trackLinks": true,
+                      "accurateTrackBounce": true
+                    }
+                  ]
+                ]
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://mc.yandex.ru/metrika/tag.js",
+                "status": 200,
+                "sha256": "497973f2a454ee0b104a12bbb2729148c12405480018d87ab460c8a10ab62123"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "mc.yandex.com/metrika/advert.gif:",
+              "mc.yandex.com/sync_cookie_image_check:",
+              "mc.yandex.com/watch/:id:"
+            ],
+            "clientId": true,
+            "consentState": {
+              "analytics_storage": null,
+              "ad_storage": null,
+              "ad_user_data": null,
+              "ad_personalization": null
+            },
+            "rejection": null,
+            "errors": []
+          },
+          "legacy": {
+            "mode": "cmp",
+            "initialized": true,
+            "cookies": [
+              {
+                "name": "_ym_d",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ym_isad",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              },
+              {
+                "name": "_ym_uid",
+                "secure": false,
+                "httpOnly": false,
+                "sameSite": "Lax"
+              }
+            ],
+            "commands": [],
+            "snapshots": [
+              {
+                "google": [],
+                "yandex": [
+                  [
+                    999999999,
+                    "init",
+                    {
+                      "webvisor": true,
+                      "clickmap": true,
+                      "trackLinks": true,
+                      "accurateTrackBounce": true
+                    }
+                  ]
+                ]
+              }
+            ],
+            "scripts": [
+              {
+                "url": "https://mc.yandex.ru/metrika/tag.js",
+                "status": 200,
+                "sha256": "497973f2a454ee0b104a12bbb2729148c12405480018d87ab460c8a10ab62123"
+              }
+            ],
+            "requests": 5,
+            "requestKinds": [
+              "mc.yandex.com/metrika/advert.gif:",
+              "mc.yandex.com/sync_cookie_image_check:",
+              "mc.yandex.com/watch/:id:"
+            ],
+            "clientId": true,
+            "consentState": {
+              "analytics_storage": null,
+              "ad_storage": null,
+              "ad_user_data": null,
+              "ad_personalization": null
+            },
+            "rejection": {
+              "guard": false,
+              "reloaded": true,
+              "newCMPBootstraps": 0,
+              "runtimeInactiveAfterReload": true
+            },
+            "errors": []
+          }
+        }
+      ]
+    },
+    "examples-examples.json": {
+      "tests": 5,
+      "assertions": 22,
+      "failed": 0,
+      "results": [
+        {
+          "name": "actual-guide-example-A-zero-services-grant-and-restored-consent",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "actual-guide-example-A-withdraw-pending-import-no-late-init",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "historical-standalone-i18n-ru",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "historical-standalone-i18n-en",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "historical-standalone-i18n-tr",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ]
+    },
+    "fenom-browser-results.json": {
+      "suite": "Genuine MODX 2 / pdoTools / Fenom acceptance",
+      "metadata": {
+        "modx": "2.8.8-pl",
+        "php": "8.2.34",
+        "parser": "pdoParser",
+        "pdoTools": "a7a9a3366249c6689cefba5c2b901ada43a7df79",
+        "fenom": "2.12",
+        "fenom_cache": "1",
+        "fenom_parser": "1"
+      },
+      "production": "NOT RUN — no affected-site URL, configuration or authenticated access provided",
+      "network": "All third-party requests fulfilled locally or aborted; no vendor analytics events sent; audit POSTs intercepted",
+      "tests": 31,
+      "assertions": 768,
+      "failed": 0,
+      "results": [
+        {
+          "name": "reproduced-original-Fenom-blank-page-ru",
+          "result": "PASS",
+          "assertions": 7,
+          "responses": [
+            {
+              "request": "cold",
+              "status": 200,
+              "bodyBytes": 0
+            },
+            {
+              "request": "warm",
+              "status": 200,
+              "bodyBytes": 0
+            }
+          ],
+          "log": "[2026-10-16 05:33:37] (ERROR @ /opt/cc-private/core/components/pdotools/model/pdotools/pdotools.class.php : 999) Unexpected token ':' in 3c963843b4641cbecc981af3d494eb2c line 1, near '{\"schema\":' <- there"
+        },
+        {
+          "name": "original-legacy-persisted-consent-ru",
+          "result": "PASS",
+          "assertions": 18,
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d",
+          "consentSHA256": "f7d907779bb572745a53bc818a8a13dc28f4b26a004809200effb648dcf6271b"
+        },
+        {
+          "name": "reproduced-original-Fenom-blank-page-en",
+          "result": "PASS",
+          "assertions": 7,
+          "responses": [
+            {
+              "request": "cold",
+              "status": 200,
+              "bodyBytes": 0
+            },
+            {
+              "request": "warm",
+              "status": 200,
+              "bodyBytes": 0
+            }
+          ],
+          "log": "[2026-10-16 05:33:39] (ERROR @ /opt/cc-private/core/components/pdotools/model/pdotools/pdotools.class.php : 999) Unexpected token ':' in 44a4554ca72f0d4445f6bb987ae65eb8 line 1, near '{\"schema\":' <- there"
+        },
+        {
+          "name": "original-legacy-persisted-consent-en",
+          "result": "PASS",
+          "assertions": 18,
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d",
+          "consentSHA256": "4600f3c770bd3639849e716a3b45a74832d8b93fae7e33c89ab2b4ad6e598d6a"
+        },
+        {
+          "name": "original-simple-split-upstream-default-detector",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "fixed-default-ru-standard-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-default-ru-fenom-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-default-ru-fenom-legacy-cold-warm",
+          "result": "PASS",
+          "assertions": 47,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-default-en-standard-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-default-en-fenom-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-default-en-fenom-legacy-cold-warm",
+          "result": "PASS",
+          "assertions": 47,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-ru-standard-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-ru-fenom-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-ru-fenom-legacy-cold-warm",
+          "result": "PASS",
+          "assertions": 47,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-en-standard-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-en-fenom-split-cold-warm",
+          "result": "PASS",
+          "assertions": 49,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "fixed-all-en-fenom-legacy-cold-warm",
+          "result": "PASS",
+          "assertions": 47,
+          "cache": [
+            "database",
+            "cache"
+          ],
+          "registrySHA256": "051e103a63b2801123642dcfdcece0e6ada4fba9c734b2fc390a6653bbdee82d"
+        },
+        {
+          "name": "returning-visitor-original-to-fixed-ru",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "reject-reopen-analytics-then-maps-ru-fenom-split",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "reject-reopen-analytics-then-maps-ru-fenom-legacy",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "returning-visitor-original-to-fixed-en",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "reject-reopen-analytics-then-maps-en-fenom-split",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "reject-reopen-analytics-then-maps-en-fenom-legacy",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "invalid-server-registry-ru-fenom-split",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "invalid-client-registry-ru-fenom-split",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "invalid-server-registry-ru-fenom-legacy",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "invalid-client-registry-ru-fenom-legacy",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "invalid-server-registry-en-fenom-split",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "invalid-client-registry-en-fenom-split",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "invalid-server-registry-en-fenom-legacy",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "invalid-client-registry-en-fenom-legacy",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "fenom-modes-fenom.json": {
+      "tests": 24,
+      "assertions": 480,
+      "failed": 0,
+      "results": [
+        {
+          "name": "default-ru-standard-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-ru-standard-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "default-ru-fenom-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-ru-fenom-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "default-ru-fenom-legacy-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-ru-fenom-legacy-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "default-en-standard-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-en-standard-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "default-en-fenom-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-en-fenom-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "default-en-fenom-legacy-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "default-en-fenom-legacy-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-ru-standard-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-ru-standard-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-ru-fenom-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-ru-fenom-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-ru-fenom-legacy-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-ru-fenom-legacy-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-en-standard-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-en-standard-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-en-fenom-split-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-en-fenom-split-legacy",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "all-en-fenom-legacy-strict",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "all-en-fenom-legacy-legacy",
+          "result": "PASS",
+          "assertions": 22
+        }
+      ]
+    },
+    "legacy-browser-browser.json": {
+      "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+      "tests": 24,
+      "assertions": 176,
+      "failed": 0,
+      "results": [
+        {
+          "name": "strict-new-visitor-zero-optional-network",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-first-visit-network-init-dedup-no-consent-no-audit-google-unmodified",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "legacy-preserves-independent-site-consent-denied",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-preserves-independent-site-consent-granted",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-reject-synchronous-guards-real-reload-denied-restored",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-respects-refusal",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-respects-partial",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "legacy-respects-expired",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-policy",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-category-version",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-respects-malformed",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-historical-incomplete",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-respects-historical-complete",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-archive-only",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-respects-unavailable-storage",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "legacy-hidden-category-disabled-service-and-mode-off",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-reject-even-with-all-categories-hidden-reloads",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "legacy-admin-processing-change-invalidates-real-consent",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "legacy-pending-google_ga4-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-google_ads-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-google_gtm-reject-discards-only-CMP-work",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "legacy-pending-meta-reject-cancels-queued-pageview",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "Manager-warning-ru",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "Manager-warning-en",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "legacy-matrix-matrix-results.json": {
+      "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+      "tests": 30,
+      "assertions": 330,
+      "failed": 0,
+      "results": [
+        {
+          "name": "yandex-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-analytics",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-marketing",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "mailru-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ga4-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_gtm-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_ads-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "vk_ads-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "meta_pixel-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "google_maps-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "yandex_maps-external_content",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "custom_js-external_content",
+          "result": "PASS",
+          "assertions": 11
+        }
+      ]
+    },
+    "manager-manager-results.json": {
+      "suite": "Native MODX Manager UI",
+      "assertions": 13,
+      "tests": 4,
+      "blockedManagerHosts": [
+        "www.gravatar.com"
+      ],
+      "failed": 0,
+      "results": [
+        {
+          "name": "native-manager-add",
+          "result": "PASS"
+        },
+        {
+          "name": "native-manager-disable",
+          "result": "PASS"
+        },
+        {
+          "name": "unauthenticated-admin-mutation",
+          "result": "PASS"
+        },
+        {
+          "name": "manager-profile-avatar-blocked-by-test",
+          "result": "PASS"
+        }
+      ]
+    },
+    "native-native-results.json": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 7,
+      "assertions": 220,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 60
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 7
+        }
+      ]
+    },
+    "php-and-syntax-regression.json": {
+      "php_linted": 106,
+      "js_checked": 130,
+      "failed": 0,
+      "results": [
+        {
+          "name": "tests/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/manager-i18n-php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/manager-ux-php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/viewer/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/beta21/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/beta24/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/elements/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/beta30/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/beta31/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/beta33/php.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/fenom/native.php",
+          "result": "PASS"
+        },
+        {
+          "name": "tests/public-registry/projection.php",
+          "result": "PASS"
+        },
+        {
+          "name": "PHP syntax",
+          "result": "PASS"
+        },
+        {
+          "name": "JS syntax",
+          "result": "PASS",
+          "files": 130,
+          "errors": []
+        }
+      ]
+    },
+    "php81-native-php81.json": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 68,
+      "failed": 0,
+      "php": "8.1.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 57
+    },
+    "public-registry-upgrade-browser-results.json": {
+      "suite": "Actual previous-release consent and native upgrade to minimal registry",
+      "tests": 6,
+      "assertions": 59,
+      "failed": 0,
+      "results": [
+        {
+          "name": "real-cookieconsent-1.0.0-to-cookieconsent-1.0.4-beta5-no-reconsent-exact-fingerprints-and-data",
+          "result": "PASS",
+          "assertions": 23
+        },
+        {
+          "name": "minimal-and-cached-full-contract-same-v2-fingerprint-strict-rejection",
+          "result": "PASS",
+          "assertions": 1
+        },
+        {
+          "name": "scoped-onAllowed-and-user-owned-ClientID-example-with-minimal-data",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-ru",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-en",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "SSR-localized-full-texts-and-map-templates-cold-warm-tr",
+          "result": "PASS",
+          "assertions": 11
+        }
+      ]
+    },
+    "universal-results.json": {
+      "tests": 20,
+      "failed": 0,
+      "results": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    },
+    "manager-final.json": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 65,
+      "failed": 0,
+      "php": "8.2.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 57,
+      "signature": "cookieconsent-1.0.4-beta5",
+      "interceptedCoreAvatarRequests": 2
+    }
+  },
+  "releaseGates": [
+    {
+      "result": "SKIP",
+      "scope": "Owned test IDs/account delivery and published GTM tags; no account access supplied"
+    },
+    {
+      "result": "SKIP",
+      "scope": "Production/customer hosting, CDN/OPcache, Firefox/WebKit/Safari/mobile/adblock and legal acceptance; manual staging gates"
+    }
+  ],
+  "finalRuntimeChanges": [
+    "assets/components/cookieconsent/manager.js",
+    "assets/js/cookie-consent/cookie-consent.min.js",
+    "core/components/cookieconsent/src/CookieConsentGuide.php",
+    "core/components/cookieconsent/src/CookieConsentVersion.php"
+  ],
+  "unresolvedFailures": [],
+  "result": "PASS",
+  "acceptanceSteps": 27,
+  "phpContracts": {
+    "8.1.34": {
+      "categories": {
+        "suite": "Universal service category/path/text contract",
+        "tests": 1,
+        "assertions": 114,
+        "failed": 0,
+        "result": "PASS"
+      },
+      "audit": {
+        "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+        "tests": 1,
+        "assertions": 7,
+        "failed": 0,
+        "result": "PASS"
+      },
+      "visibility": {
+        "suite": "Visibility-aware consent audit validation, exhaustive categories/providers",
+        "assertions": 3115,
+        "result": "PASS"
+      },
+      "urls": {
+        "suite": "HTTPS custom JS URL validation and normalized duplicate identity",
+        "tests": 1,
+        "assertions": 32,
+        "failed": 0,
+        "result": "PASS",
+        "vectors": {
+          "valid": [
+            "/assets/js/a.js",
+            "/nonstandard-assets/integrations/chat.js",
+            "https://cdn.example.com/chat.js",
+            "https://CDN.EXAMPLE.COM:443/chat.js?v=2&site=demo",
+            "https://cdn.example.com:8443/sdk/widget.js?source=https%3A%2F%2Fexample.test",
+            "https://127.0.0.1/a.js"
+          ],
+          "invalid": [
+            "//cdn.example.com/a.js",
+            "http://cdn.example.com/a.js",
+            "javascript:alert(1)",
+            "data:text/javascript,1",
+            "blob:https://x/a",
+            "https://user:pass@example.com/a.js",
+            "https://@example.com/a.js",
+            "https://example.com/a.js#",
+            "https://example.com/a.js#fragment",
+            "https://example.com/../a.js",
+            "https://example.com/%2e%2e/a.js",
+            "https://example.com/a%2f.js",
+            "https://example.com/a.php",
+            "https://example.com/a.js?x=%ZZ",
+            "https://example.com/a.js?x=<script>",
+            "https://example.com/a.js\n",
+            "https://example.com:0/a.js",
+            "https://example.com:65536/a.js",
+            "https://127.1/a.js",
+            "https://a.123/a.js",
+            "https://%65xample.com/a.js",
+            "/assets//a.js",
+            "/assets/../a.js",
+            "https://-host.example/a.js"
+          ]
+        }
+      }
+    },
+    "8.2.34": {
+      "categories": {
+        "suite": "Universal service category/path/text contract",
+        "tests": 1,
+        "assertions": 114,
+        "failed": 0,
+        "result": "PASS"
+      },
+      "audit": {
+        "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+        "tests": 1,
+        "assertions": 7,
+        "failed": 0,
+        "result": "PASS"
+      },
+      "visibility": {
+        "suite": "Visibility-aware consent audit validation, exhaustive categories/providers",
+        "assertions": 3115,
+        "result": "PASS"
+      },
+      "urls": {
+        "suite": "HTTPS custom JS URL validation and normalized duplicate identity",
+        "tests": 1,
+        "assertions": 32,
+        "failed": 0,
+        "result": "PASS",
+        "vectors": {
+          "valid": [
+            "/assets/js/a.js",
+            "/nonstandard-assets/integrations/chat.js",
+            "https://cdn.example.com/chat.js",
+            "https://CDN.EXAMPLE.COM:443/chat.js?v=2&site=demo",
+            "https://cdn.example.com:8443/sdk/widget.js?source=https%3A%2F%2Fexample.test",
+            "https://127.0.0.1/a.js"
+          ],
+          "invalid": [
+            "//cdn.example.com/a.js",
+            "http://cdn.example.com/a.js",
+            "javascript:alert(1)",
+            "data:text/javascript,1",
+            "blob:https://x/a",
+            "https://user:pass@example.com/a.js",
+            "https://@example.com/a.js",
+            "https://example.com/a.js#",
+            "https://example.com/a.js#fragment",
+            "https://example.com/../a.js",
+            "https://example.com/%2e%2e/a.js",
+            "https://example.com/a%2f.js",
+            "https://example.com/a.php",
+            "https://example.com/a.js?x=%ZZ",
+            "https://example.com/a.js?x=<script>",
+            "https://example.com/a.js\n",
+            "https://example.com:0/a.js",
+            "https://example.com:65536/a.js",
+            "https://127.1/a.js",
+            "https://a.123/a.js",
+            "https://%65xample.com/a.js",
+            "/assets//a.js",
+            "/assets/../a.js",
+            "https://-host.example/a.js"
+          ]
+        }
+      }
+    }
+  },
+  "nativeVerifier": {
+    "signature": "cookieconsent-1.0.4-beta5",
+    "native_vehicles": 73,
+    "vehicle_classes": {
+      "xPDOObjectVehicle": 14,
+      "xPDOFileVehicle": 57,
+      "xPDOScriptVehicle": 2
+    },
+    "runtime_files": 57,
+    "zip_entries": 140,
+    "sha256": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc",
+    "result": "PASS"
+  },
+  "metadataCorrections": [
+    "Rehash two inherited fixture metadata fields (legacy-autoload README and upgrade) from immutable beta4; add 49 source/fixture provenance assertions, build gate 122 PASS. Runtime/native baseline and comparisons unchanged."
+  ]
+}

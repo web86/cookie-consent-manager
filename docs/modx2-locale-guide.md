@@ -1,4 +1,4 @@
-# Frontend messages and custom integration guide — 1.0.2 review
+# Frontend messages and custom integration guide — MODX 2 beta5
 
 The production bundle contains `runtime.js`, `script-url.js`, `provider-registry.js`, `service-runtime.js`, `services/*.js`, `service-loaders.js`,
 `embeds.js` and `consent-manager.js`. Its only consumers of `web86Runtime` call `message()`;
@@ -58,6 +58,7 @@ Regenerate with `npm run build:guide`; verify with
 manifest are generated together, never edited manually. Manager renders code as
 textContent in the existing accessible dialog; no runtime parser/UI dependency.
 
-This is an unpublished **1.0.2** review candidate. The immutable 1.0.1 candidate,
-published 1.0.0, main and release history must remain unchanged. Use backup and
-native MODX Package Manager on a disposable/staging installation before deployment.
+Current maintenance candidate: **1.0.4-beta5**. Historical acceptance reports and
+transport ZIPs remain unchanged. Use backup and native MODX Package Manager on a
+disposable/staging installation before deployment. See the current
+[service adapter workflow](modx2-service-adapters.md).

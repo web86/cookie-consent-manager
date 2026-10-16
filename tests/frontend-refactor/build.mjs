@@ -9,6 +9,7 @@ const baseline=JSON.parse(readFileSync('tests/frontend-refactor/service-adapters
 const frontend='_build/frontend-manifest.json';
 let assertions=0;
 const eq=(a,b,message)=>{assertions++;assert.deepEqual(a,b,message);};
+for(const [path,hash] of Object.entries({...baseline.sources,...baseline.fixtures})) eq(sha(execFileSync('git',['show',baseline.commit+':'+path])),hash,path+' immutable beta4 baseline hash');
 const before=readFileSync(frontend,'utf8');
 execFileSync(process.execPath,['_build/frontend.mjs']);
 eq(readFileSync(frontend,'utf8'),before,'Rebuild must reproduce committed manifest/output hashes');
