@@ -1,3 +1,11 @@
+# Cookie Consent Manager 1.0.4-beta4 — frontend module boundaries
+
+- Extract existing SDK loading, queues, deduplication and Google Consent Mode into service-loaders.js.
+- Extract existing map URL validation, inert placeholders, iframe lifecycle and dialog focus into embeds.js.
+- Preserve public provider/consent APIs through delegation, Strict/Legacy permissions, categories_v2, fingerprints and audit schema 3.
+- Keep one ordered, content-hashed frontend bundle and native MODX 2 transport; no video services or new template API.
+- Update technical adapter source links and add beta3/candidate differential and native upgrade checks.
+
 # Cookie Consent Manager 1.0.4-beta3 — legacy auto-load
 
 - Existing Show legacy Accept now permits enabled services in visible assigned categories on positively known first visits. Strict mode remains the default.

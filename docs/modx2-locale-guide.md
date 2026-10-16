@@ -1,7 +1,7 @@
 # Frontend messages and custom integration guide — 1.0.2 review
 
-The production bundle contains `runtime.js`, `provider-registry.js` and
-`consent-manager.js`. Its only consumers of `web86Runtime` call `message()`;
+The production bundle contains `runtime.js`, `script-url.js`, `provider-registry.js`, `service-loaders.js`,
+`embeds.js` and `consent-manager.js`. Its only consumers of `web86Runtime` call `message()`;
 none reads `.config` or locale. PHP uses the MODX context cultureKey and existing
 saved text overrides/fallbacks to render banner text, ARIA, error messages and map
 templates. Those PHP paths are unchanged.

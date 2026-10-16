@@ -148,3 +148,6 @@ CSP полезна как дополнительная защита от вне�
 ## Публичный реестр
 
 В текущем beta-кандидате браузер получает только технические данные сервисов; локализованные названия и описания остаются в PHP HTML. Fingerprint сохранённых согласий не меняется. [Контракт публичного реестра и обновление](docs/public-service-registry.md).
+
+
+Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` → `service-loaders.js` → `embeds.js` → `consent-manager.js`, собранные в один `cookie-consent.min.js`. SDK adapters: `service-loaders.js::start()`, карты: `embeds.js`, consent/runtime permissions: `consent-manager.js`. [Приёмка рефакторинга beta4](docs/modx2-frontend-refactor-acceptance.md).

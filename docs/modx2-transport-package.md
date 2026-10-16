@@ -34,7 +34,9 @@ Helper генерирует key без вывода, не перезаписыв
 
 ## Подключение страницы
 
-Только вручную на staging: CSS → [[!CookieConsentRegistry]] → i18n.js → provider-registry.js → consent-manager.js → [[CookiesPopup]] либо выбранный пользовательский чанк. Корневой audit URL — same-origin /assets/components/cookieconsent/audit.php. Убрать прямые SDK/scripts/noscript и старые analytics.js/marketing.js; maps — inert markup без src/SDK/thumbnail до разрешения. [Примеры реестра/карт](service-registry.md).
+**Историческая схема ниже не относится к текущему native transport.** Сейчас подключайте `[[!CookieConsentAssets]]` в head и `[[!CookieConsentBanner]]` перед закрытием body (либо один `[[!CookieConsent]]`); Assets выдаёт CSS и единственный content-hashed bundle. Не подключайте standalone sources вместе с bundle.
+
+Прежняя ручная схема на staging: CSS → [[!CookieConsentRegistry]] → i18n.js → provider-registry.js → consent-manager.js → [[CookiesPopup]] либо выбранный пользовательский чанк. Корневой audit URL — same-origin /assets/components/cookieconsent/audit.php. Убрать прямые SDK/scripts/noscript и старые analytics.js/marketing.js; maps — inert markup без src/SDK/thumbnail до разрешения. [Примеры реестра/карт](service-registry.md).
 
 ## Uninstall / restore / migration
 
