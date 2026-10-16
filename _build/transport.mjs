@@ -1,4 +1,4 @@
-/** Local acceptance orchestration: build the release prebuilt before native packaging. */
+/** Local CI orchestration: verify esbuild sources/CSS; production JS is not packaged. */
 import {execFileSync} from 'node:child_process';
 const [site,out,index]=process.argv.slice(2);if(!site||!out)throw Error('Usage: node _build/transport.mjs /site /container-build-output [beta-index]');
 execFileSync(process.execPath,['_build/version.mjs',...(index?[index]:[])],{stdio:'inherit'});

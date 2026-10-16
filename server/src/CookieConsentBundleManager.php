@@ -21,10 +21,10 @@ final class CookieConsentBundleManager
     }
 
     /** Called only by the package's verification vehicle / CLI installer. */
-    public static function install($modx): array
+    public static function install($modx, ?callable $synchronize = null): array
     {
         if (PHP_SAPI !== 'cli' && !self::manager($modx)) throw new RuntimeException('bundle_forbidden');
-        return self::build($modx, false);
+        return self::build($modx, false, $synchronize);
     }
 
     private static function metadata(string $file): ?array
@@ -43,8 +43,7 @@ final class CookieConsentBundleManager
     {
         $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
         if ($version > 0) return self::FILE . '?v=' . $version;
-        require_once __DIR__ . '/CookieConsentVersion.php';
-        return 'js/cookie-consent/cookie-consent.min.js?v=' . rawurlencode(CookieConsentVersion::VERSION);
+        return '';
     }
 
     public static function status($modx): array
@@ -52,8 +51,17 @@ final class CookieConsentBundleManager
         $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
         $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/js/cookie-consent/';
         $attempt = json_decode((string)@file_get_contents($dir . 'cookie-consent.last-error.json'), true);
+        require_once __DIR__ . '/CookieConsentAdapterInstall.php';
         return ['state' => is_array($attempt) ? 'error' : ($version > 0 ? 'ready' : 'fallback'),
-            'built_at' => $version > 0 ? gmdate('Y-m-d\TH:i:s\Z', $version) : null, 'version' => $version > 0 ? $version : null];
+            'built_at' => $version > 0 ? gmdate('Y-m-d\TH:i:s\Z', $version) : null, 'version' => $version > 0 ? $version : null,
+            'preserved' => CookieConsentAdapterInstall::preserved($modx)];
+    }
+
+    /** Administrative install failure policy; never called by visitors. */
+    public static function hasWorking($modx): bool
+    {
+        return (int)$modx->getOption(self::VERSION_KEY, null, 0) > 0
+            && self::metadata(rtrim((string)$modx->getOption('assets_path'), '/') . '/' . self::FILE) !== null;
     }
 
     private static function manifest($modx): string
@@ -61,7 +69,7 @@ final class CookieConsentBundleManager
         return rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/frontend-manifest.json';
     }
 
-    private static function build($modx, bool $force): array
+    private static function build($modx, bool $force, ?callable $synchronize = null): array
     {
         $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
         $dir = $assets . 'js/cookie-consent/';
@@ -70,10 +78,13 @@ final class CookieConsentBundleManager
         }
         $lockFile = $dir . 'cookie-consent.build.lock';
         if (is_link($lockFile)) throw new RuntimeException('bundle_directory');
-        $lock = @fopen($lockFile, 'c');
+        $lock = $synchronize !== null ? $modx->getOption('cookie_consent.install_lock') : null;
+        $held = is_resource($lock);
+        if (!$held) $lock = @fopen($lockFile, 'c');
         if (!$lock) throw new RuntimeException('bundle_directory');
-        if (!flock($lock, LOCK_EX | LOCK_NB)) { fclose($lock); throw new RuntimeException('bundle_busy'); }
+        if (!$held && !flock($lock, LOCK_EX | LOCK_NB)) { fclose($lock); throw new RuntimeException('bundle_busy'); }
         try {
+            if ($synchronize !== null) $synchronize();
             $manifest = json_decode((string)file_get_contents(self::manifest($modx)), true, 16, JSON_THROW_ON_ERROR);
             if (($manifest['tool'] ?? '') !== 'esbuild' || !is_array($manifest['inputs'] ?? null)) throw new RuntimeException('bundle_manifest');
             $sourceRoot = realpath($assets . 'js/cookie-consent');
@@ -143,15 +154,21 @@ final class CookieConsentBundleManager
         } catch (Throwable $e) {
             try { self::atomic($dir . 'cookie-consent.last-error.json', json_encode(['failed_at' => gmdate('c')], JSON_THROW_ON_ERROR)); } catch (Throwable $ignored) {}
             throw $e;
-        } finally { flock($lock, LOCK_UN); fclose($lock); }
+        } finally { flock($lock, LOCK_UN); fclose($lock); if ($held) $modx->setOption('cookie_consent.install_lock', null); }
     }
 
-    private static function atomic(string $file, string $bytes): void
+    /** Shared atomic publication; an expected hash/absence also guards adapter writes. */
+    public static function atomic(string $file, string $bytes, string|false|null $expected = null): bool
     {
         $tmp = tempnam(dirname($file), '.cc-');
         if (!$tmp || dirname($tmp) !== dirname($file)) { if ($tmp) @unlink($tmp); throw new RuntimeException('bundle_write'); }
         try {
-            if (file_put_contents($tmp, $bytes) !== strlen($bytes) || !chmod($tmp, 0644) || !rename($tmp, $file)) throw new RuntimeException('bundle_write');
+            if (file_put_contents($tmp, $bytes) !== strlen($bytes) || !chmod($tmp, 0644)) throw new RuntimeException('bundle_write');
+            clearstatcache(true, $file);
+            if ($expected === false && (file_exists($file) || is_link($file))) return false;
+            if (is_string($expected) && (is_link($file) || !is_file($file) || (stat($file)['nlink'] ?? 0) !== 1 || hash_file('sha256', $file) !== $expected)) return false;
+            if (!rename($tmp, $file)) throw new RuntimeException('bundle_write');
+            return true;
         } finally { if (is_file($tmp)) @unlink($tmp); }
     }
 }

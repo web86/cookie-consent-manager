@@ -71,7 +71,7 @@ $file=$root.'/assets/js/cookie-consent/cached-cookie-consent.min.js';$dir=dirnam
 $source=$root.'/assets/js/cookie-consent/embeds/youtube.js';$original=file_get_contents($source);
 $oldPath=getenv('PATH');putenv('PATH='); // Neither Node nor npm can be found by the PHP build.
 eq(CookieConsentBundleManager::status($modx)['state'],'fallback','Fresh fallback');
-eq(str_starts_with(CookieConsentBundleManager::asset($modx),'js/cookie-consent/cookie-consent.min.js?v='),true,'Prebuilt selection');
+eq(CookieConsentBundleManager::asset($modx),'','No executable JS until installation builds it');
 rejects(fn()=>CookieConsentBundleManager::rebuild(new BundleFixture($root,'web')),'bundle_forbidden');
 rejects(fn()=>CookieConsentBundleManager::rebuild(new BundleFixture($root,'mgr',false)),'bundle_forbidden');
 eq(is_file($file),false,'Public requests never create cache');
@@ -141,7 +141,7 @@ unlink($file);
 eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion,'Frontend does not track deletion of an active file');eq(is_file($file),false);
 eq($visitor->queries,0,'Frontend never queries system settings');
 unset($visitor->options['cookie_consent.bundle_version']);
-eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cookie-consent.min.js?v='.$releaseVersion,'No active version uses a fixed release version');
+eq(CookieConsentBundleManager::asset($visitor),'','No active version never selects a missing prebuilt');
 $method=new ReflectionMethod(CookieConsentBundleManager::class,'asset');
 $code=implode('',array_slice(file($method->getFileName()),$method->getStartLine()-1,$method->getEndLine()-$method->getStartLine()+1));
 eq((bool)preg_match('/\\b(?:filemtime|file_get_contents|fopen|fgets|hash_file|is_file|metadata|manifest|time)\\s*\\(/',$code),false,'Frontend selection has no file, freshness or time operations');

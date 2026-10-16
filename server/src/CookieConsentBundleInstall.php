@@ -19,12 +19,22 @@ final class CookieConsentBundleInstall
             $event->fromArray($criteria, '', true, true);
             if (!$event->save()) throw new RuntimeException('Cache event save failed');
         }
-        // A cache directory problem must not make a working prebuilt install fail.
+        // Native preflight captured the old manifest before any file vehicles ran.
+        // Synchronization and building share the same existing bundle lock.
+        $synchronized = false;
         try {
             require_once __DIR__ . '/CookieConsentBundleManager.php';
-            CookieConsentBundleManager::install($modx);
+            require_once __DIR__ . '/CookieConsentAdapterInstall.php';
+            CookieConsentBundleManager::install($modx, static function () use ($modx, &$synchronized): void {
+                CookieConsentAdapterInstall::synchronize($modx);
+                $synchronized = true;
+            });
         } catch (Throwable $e) {
-            $modx->log(modX::LOG_LEVEL_ERROR, '[CookieConsent] Adapter warmup failed; using previous/prebuilt bundle (' . get_class($e) . ').');
+            $reason = preg_match('/^[a-z_]{1,40}$/D', $e->getMessage()) ? $e->getMessage() : 'js_parse';
+            $modx->log(modX::LOG_LEVEL_ERROR, '[CookieConsent] Install build failed; inspect component build status. reason=' . $reason);
+            // A failed fresh installation cannot succeed without executable JS.
+            // Native transport may already have copied files: no rollback claim.
+            if (!$synchronized || !CookieConsentBundleManager::hasWorking($modx)) throw $e;
         }
     }
 }

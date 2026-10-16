@@ -26,10 +26,11 @@ const before=readFileSync('_build/frontend-manifest.json');execFileSync(process.
 if(process.argv.includes('--native')){
  const signature=meta.name+'-'+meta.version+(meta.release?'-'+meta.release+meta.release_index:'');
  const spec=JSON.parse(readFileSync('.local/artifacts/'+signature+'.inventory.json'));
- for(const p of js)eq(spec.files.filter(f=>f.target===p).map(f=>f.sha256),[sha(readFileSync(p))],'All editable JS sources shipped exactly once');
+ for(const p of js){const target=p.startsWith('assets/js/cookie-consent/services/')?'core/components/cookieconsent/adapters/services/'+p.split('/').at(-1):p;eq(spec.files.filter(f=>f.target===target).map(f=>f.sha256),[sha(readFileSync(p))],'All fixed JS inputs shipped exactly once; adapter originals are private');}
  for(const p of ['src/CookieConsentBundleManager.php','src/CookieConsentBundleInstall.php','plugins/cache-build.php','processors/bundle_rebuild.class.php','vendor/peast/LICENSE','vendor/peast/autoload.php'])eq(spec.files.find(f=>f.target==='core/components/cookieconsent/'+p)?.sha256,sha(readFileSync('server/'+p)),'Native builder ships current '+p);
  eq(spec.files.find(f=>f.target==='core/components/cookieconsent/frontend-manifest.json')?.sha256,sha(readFileSync('_build/frontend-manifest.json')));
- eq(spec.files.filter(f=>f.target.endsWith('.min.js')).map(f=>f.target),['assets/js/cookie-consent/cookie-consent.min.js'],'One prebuilt production bundle');
+ eq(spec.files.filter(f=>f.target.endsWith('.min.js')).map(f=>f.target),[],'Production JS is built on the installed site');
+ eq(spec.files.some(f=>f.target.startsWith('assets/js/cookie-consent/services/')),false,'No vehicle can overwrite user adapters');
  eq(spec.files.some(f=>/cached-cookie-consent|build.lock|last-error/.test(f.target)),false,'No generated cache in transport');
 }
 console.log(JSON.stringify({result:'PASS',assertions:n,native:process.argv.includes('--native')}));

@@ -1,3 +1,11 @@
+# Cookie Consent Manager 1.0.7-beta1 — MODX 2 local review candidate
+
+- Ship private originals for services/ and synchronize with previous-version SHA256 before building. Retain local modifications, deleted supplied files and additional files; report conflicts without merging JavaScript.
+- Capture legacy 1.0.6 manifest before native file copies. Keep compact per-version original checksums in the component directory; no database or source history system.
+- Build production JS on the installed site with the existing PHP/Peast builder and lock. Exclude prebuilt JavaScript from transport; retain esbuild for CI and the existing CSS scheme.
+- Preflight required permissions/dependencies. Refuse a fresh installation without a working bundle; retain the previous bundle/timestamp and show an error when an upgrade cannot build. Native transport can leave partial changes on failure.
+- Preserve Strict/Legacy, fixed input order, initialization guard, maps, video, services, timestamp busting and existing administrative rebuild controls. Local native tests only; no main push, release or deployment.
+
 # Cookie Consent Manager 1.0.6 — MODX 2
 
 - Set stable component metadata to 1.0.6 (no prerelease suffix).

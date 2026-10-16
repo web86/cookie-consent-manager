@@ -13,6 +13,8 @@ require $root.'/index.php';
 while (ob_get_level()) ob_end_clean();
 require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
 $namespace=$modx->getObject('modNamespace',['name'=>'cookie_consent']);
+// CLI copying has no native preflight. Existing unknown files are kept conservatively.
+$modx->setOption('cookie_consent.install_snapshot',['fresh'=>!$namespace]);
 if (!$namespace) { $namespace=$modx->newObject('modNamespace'); $namespace->set('name','cookie_consent'); $namespace->save(); }
 if (!$namespace->get('path')) $namespace->set('path',MODX_CORE_PATH.'components/cookieconsent/');
 if (!$namespace->get('assets_path')) $namespace->set('assets_path',MODX_ASSETS_PATH.'components/cookieconsent/');

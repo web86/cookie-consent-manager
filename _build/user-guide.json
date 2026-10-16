@@ -79,6 +79,10 @@
             {
               "type": "paragraph",
               "text": "Для принудительной пересборки откройте «Основные → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит."
+            },
+            {
+              "type": "paragraph",
+              "text": "Обновление сохраняет изменённые файлы из services/ и не восстанавливает удалённые вами адаптеры. Если изменён и оригинал пакета, ваш вариант остаётся без автоматического слияния. Дополнительные файлы не включаются в сборку автоматически. При удалении обязательного исходника исправьте код или восстановите файл вручную: прежняя рабочая сборка продолжает обслуживать сайт."
             }
           ]
         },
@@ -206,6 +210,10 @@
             {
               "type": "paragraph",
               "text": "To force a rebuild, open General → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build."
+            },
+            {
+              "type": "paragraph",
+              "text": "Updates retain edited files in services/ and do not restore adapters you deleted. If the package original also changed, your file is kept without an automatic merge. Extra files are not added to the bundle automatically. If a required input is missing, fix the code or restore the file manually; the previous working bundle continues serving the site."
             }
           ]
         },

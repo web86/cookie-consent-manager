@@ -32,14 +32,15 @@ function addSource(string $source,string $target,array &$files,string $payload,s
     $to=$payload.'/'.$target;if(!is_dir(dirname($to)))mkdir(dirname($to),0700,true);copy($source,$to);
     $files[]=['source'=>$target,'target'=>$target,'sha256'=>hash_file('sha256',$source)];
 }
-// Release prebuilt must match pinned source/tool inputs; installed PHP uses this same manifest.
+// CI inputs remain pinned. Production JavaScript is built only on the installed site.
 $frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,16,JSON_THROW_ON_ERROR);
 if(($frontend['tool']??'')!=='esbuild'||($frontend['version']??'')!=='0.28.2')throw new RuntimeException('Run npm ci and npm run build:frontend');
 foreach($frontend['inputs'] as $path=>$hash)if(hash_file('sha256',$root.'/'.$path)!==$hash)throw new RuntimeException('Stale frontend inputs; run npm run build:frontend');
-foreach($frontend['outputs'] as $path=>$info)if(hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
+foreach($frontend['outputs'] as $path=>$info)if(str_ends_with($path,'.css')&&hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
 // Closed, reviewed runtime inventory: never recurse through source directories.
 $runtime=json_decode(file_get_contents(__DIR__.'/transport-files.json'),true,16,JSON_THROW_ON_ERROR);
-foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js')&&($runtime[$path]??null)!==$path)throw new RuntimeException('Bundle source missing from transport allowlist');
+foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js')){$target=str_starts_with($path,'assets/js/cookie-consent/services/')?'core/components/cookieconsent/adapters/services/'.basename($path):$path;if(($runtime[$target]??null)!==$path)throw new RuntimeException('Bundle source missing from transport allowlist');}
+if(isset($runtime['assets/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS must not be shipped');
 foreach($runtime as $target=>$source){
     if(!is_string($source)||!preg_match('~^(?:assets/|core/components/cookieconsent/)[a-zA-Z0-9_./-]+$~D',$target)||str_contains($target,'..')||str_contains($source,'..'))throw new RuntimeException('Transport allowlist path');
     addSource($root.'/'.$source,$target,$files,$payload,$root);

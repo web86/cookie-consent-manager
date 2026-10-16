@@ -1,0 +1,33 @@
+name: cookie-consent-adapter-updates
+services:
+  db:
+    image: mariadb:10.6
+    environment:
+      MARIADB_ROOT_PASSWORD: ${CC_DB_PASSWORD:?Run prepare.py}
+    volumes: [adapter-db:/var/lib/mysql]
+    healthcheck:
+      test: [CMD, healthcheck.sh, --connect, --innodb_initialized]
+      interval: 2s
+      timeout: 5s
+      retries: 30
+  web:
+    image: cookie-consent-acceptance-web
+    ports: ['127.0.0.1:22888:80']
+    depends_on:
+      db: {condition: service_healthy}
+    volumes:
+      - ../../.local/adapter-updates:/opt/cc-updates
+      - ../../:/opt/cc-source:ro
+      - ../../../../:/opt/cc-reference:ro
+    environment:
+      CC_DB_PASSWORD: ${CC_DB_PASSWORD:?}
+      COOKIE_CONSENT_LOCAL_HTTP: '1'
+    command:
+      - sh
+      - -c
+      - |
+        printf '<VirtualHost *:80>\nDocumentRoot /opt/cc-updates/active/site\n<Directory /opt/cc-updates>\nRequire all granted\nAllowOverride All\nOptions FollowSymLinks\n</Directory>\n</VirtualHost>\n' > /etc/apache2/sites-enabled/000-default.conf
+        printf 'opcache.enable=0\nrealpath_cache_ttl=0\nrealpath_cache_size=0\n' > /usr/local/etc/php/conf.d/adapter-updates.ini
+        exec apache2-foreground
+volumes:
+  adapter-db:

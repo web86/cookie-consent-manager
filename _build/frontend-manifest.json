@@ -1,6 +1,7 @@
 {
   "tool": "esbuild",
   "version": "0.28.2",
+  "package_version": "1.0.7-beta1",
   "inputs": {
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
     "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
@@ -25,7 +26,7 @@
     "assets/js/cookie-consent/consent-manager.js": "d6413ec0640abf47f309d66899070a8cde87866f7070061cf168e5b562e80236",
     "assets/css/cookie-consent.css": "ffb38f0f4312c4ed6901be83976ad5537afd4f370cb991fe5391850f0b826456",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
-    "_build/frontend.mjs": "9b1ad497a449f91d07589ea91aceee28d7eb67ef541d88885b16cb6c316fc4c8"
+    "_build/frontend.mjs": "d79a2cb87109d0c943e86b1f1c66cb82ff2afe236f8585b6741dbdb2aba30a29"
   },
   "outputs": {
     "assets/js/cookie-consent/cookie-consent.min.js": {

@@ -102,6 +102,13 @@ async function exercise(bundle, scenario) {
   page.on('console',m=>{if(m.type()==='warning') warnings.push(m.text().split('\n')[0]);});
   const snapshot=async label=>{
     if(!scenario.pending) await page.waitForFunction(()=>[...document.querySelectorAll('script[src]')].every(s=>__settledScripts.has(s)));
+    // save hides the banner after 450 ms. Compare settled focus, not opposite
+    // sides of that timer under different minifiers/container load. Keep the
+    // complete focus/DOM assertions, including the dialog checkpoints.
+    if(label==='grant'||label==='dedup-and-duplicate-bundle') {
+      await page.waitForFunction(()=>document.getElementById('cookie-block').classList.contains('closed'));
+      await page.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));
+    }
     await page.waitForTimeout(25);
     checkpoints.push({label, state:await page.evaluate(()=>({
       consent:window.web86CookieConsent?.getConsent(),
