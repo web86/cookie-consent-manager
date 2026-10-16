@@ -1,0 +1,486 @@
+{
+  "task": "MODX 2 1.0.5-beta2 native transport for staging",
+  "result": "PASS",
+  "base_commit": "9ab9052b47771f9d007e9425a156a509dcb29950",
+  "branch": "codex/modx2-adapter-cache-build",
+  "artifact": {
+    "signature": "cookieconsent-1.0.5-beta2",
+    "path": "/Users/sonoma/Desktop/cookie-consent-manager/.local/artifacts/cookieconsent-1.0.5-beta2.transport.zip",
+    "sha256": "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+    "bytes": 552898
+  },
+  "composition": {
+    "runtime_before": 242,
+    "runtime_after": 231,
+    "zip_files_before": 512,
+    "zip_files_after": 490,
+    "excluded": [
+      "assets/js/cookie-consent/mock/google_ads.js",
+      "assets/js/cookie-consent/mock/google_ga4.js",
+      "assets/js/cookie-consent/mock/google_gtm.js",
+      "assets/js/cookie-consent/mock/google_maps.html",
+      "assets/js/cookie-consent/mock/mailru.js",
+      "assets/js/cookie-consent/mock/marketing.js",
+      "assets/js/cookie-consent/mock/meta_pixel.js",
+      "assets/js/cookie-consent/mock/vk_ads.js",
+      "assets/js/cookie-consent/mock/yandex.js",
+      "assets/js/cookie-consent/mock/yandex_maps.html",
+      "core/components/cookieconsent/vendor/peast/README.md"
+    ],
+    "changed_runtime": [
+      "core/components/cookieconsent/src/CookieConsentVersion.php"
+    ],
+    "canonical_modx_objects_unchanged": true,
+    "native": {
+      "signature": "cookieconsent-1.0.5-beta2",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 15,
+        "xPDOFileVehicle": 231,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+      "result": "PASS"
+    },
+    "checks": {
+      "result": "PASS",
+      "assertions": 473,
+      "native": {
+        "signature": "cookieconsent-1.0.5-beta2",
+        "native_vehicles": 248,
+        "vehicle_classes": {
+          "xPDOObjectVehicle": 15,
+          "xPDOFileVehicle": 231,
+          "xPDOScriptVehicle": 2
+        },
+        "runtime_files": 231,
+        "zip_entries": 490,
+        "sha256": "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+        "result": "PASS"
+      },
+      "mock_directory_files_retained": 0,
+      "referenced_mock_factory_retained": true,
+      "negative": [
+        {
+          "case": "test-fixture",
+          "result": "PASS"
+        },
+        {
+          "case": "source-map",
+          "result": "PASS"
+        },
+        {
+          "case": "unknown-runtime",
+          "result": "PASS"
+        },
+        {
+          "case": "changed-runtime-bytes",
+          "result": "PASS"
+        }
+      ]
+    }
+  },
+  "mock_audit": {
+    "directory_files_retained": [],
+    "directory_files_excluded": [
+      "assets/js/cookie-consent/mock/google_ads.js",
+      "assets/js/cookie-consent/mock/google_ga4.js",
+      "assets/js/cookie-consent/mock/google_gtm.js",
+      "assets/js/cookie-consent/mock/google_maps.html",
+      "assets/js/cookie-consent/mock/mailru.js",
+      "assets/js/cookie-consent/mock/marketing.js",
+      "assets/js/cookie-consent/mock/meta_pixel.js",
+      "assets/js/cookie-consent/mock/vk_ads.js",
+      "assets/js/cookie-consent/mock/yandex.js",
+      "assets/js/cookie-consent/mock/yandex_maps.html"
+    ],
+    "consumers": [
+      "service-loaders.js:36 -> service-runtime.js:25-26: only explicit mode=mock",
+      "embeds.js:15-19: mock iframe maps only",
+      "tests/local/stand.html and tests/beta31/fixture.php: test/demo templates"
+    ],
+    "default_production_mode": "live (server/modx2-banner-snippet.php:7; consent-manager.js:14)",
+    "Manager_Preview": "Own inert srcdoc and CSP; no mock files (manager.js:278-290)",
+    "retained_mock_named_source": {
+      "path": "assets/js/cookie-consent/services/mock-marketing.js",
+      "reason": "One of 21 manifest inputs; factory unconditionally referenced by service-loaders.js:18; live start is empty. Removing it requires changing JS/manifest architecture."
+    },
+    "repository_mock_files_unchanged": true
+  },
+  "reproducibility": {
+    "result": "PASS",
+    "independent_native_builds": 4,
+    "builders": [
+      "MODX web",
+      "MODX clean"
+    ],
+    "final_build_policy_verified": true,
+    "sha256": "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+    "bytes": 552898,
+    "build_sha256": [
+      "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+      "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+      "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7",
+      "05a973c0e423e5192f95eadd9797576710de57cd8472471750a675d1ed221be7"
+    ]
+  },
+  "baseline_upgrade_archives": {
+    "cookieconsent-1.0.4-beta5": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc",
+    "cookieconsent-1.0.5-beta1": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+  },
+  "native_install_upgrade": {
+    "suite": "MODX 2.8.8 six canonical elements fresh/upgrade/reinstall/uninstall",
+    "tests": 9,
+    "assertions": 349,
+    "failed": 0,
+    "results": [
+      {
+        "name": "fresh-without-category-native-creation",
+        "result": "PASS",
+        "assertions": 28
+      },
+      {
+        "name": "reinstall-no-duplicates-category-ID-preserved",
+        "result": "PASS",
+        "assertions": 45
+      },
+      {
+        "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+        "result": "PASS",
+        "assertions": 28
+      },
+      {
+        "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+        "result": "PASS",
+        "assertions": 62
+      },
+      {
+        "name": "reinstall-five-sources-custom-categories-retained",
+        "result": "PASS",
+        "assertions": 45
+      },
+      {
+        "name": "native-uninstall-retains-elements-categories-settings-and-data",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "split-and-legacy-never-call-retained-Registry",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "beta5-to-video-native-creation-and-preservation",
+        "result": "PASS",
+        "assertions": 52
+      },
+      {
+        "name": "1.0.5-beta1-to-beta2-settings-and-canonical-metadata-retained",
+        "result": "PASS",
+        "assertions": 55
+      }
+    ]
+  },
+  "installed_runtime_hash_audits": [
+    {
+      "fixture": "clean",
+      "result": "PASS",
+      "assertions": 236,
+      "runtime_files": 231,
+      "mock_directory_absent": true
+    },
+    {
+      "fixture": "publiccore",
+      "result": "PASS",
+      "assertions": 235,
+      "runtime_files": 231
+    }
+  ],
+  "production_without_mocks": {
+    "tests": 3,
+    "assertions": 52,
+    "failed": 0,
+    "results": [
+      {
+        "name": "installed-live-strict-SDK-maps-video-consent-without-mocks",
+        "result": "PASS",
+        "assertions": 22
+      },
+      {
+        "name": "installed-live-legacy-SDK-maps-video-consent-without-mocks",
+        "result": "PASS",
+        "assertions": 21
+      },
+      {
+        "name": "installed-Manager-preview-and-rebuild-without-mocks",
+        "result": "PASS",
+        "assertions": 9
+      }
+    ],
+    "real_video_playback": "NOT TESTED: controlled iframe responses"
+  },
+  "cache_builder": {
+    "php_fixtures": [
+      {
+        "php": "8.1.34",
+        "assertions": 70,
+        "result": "PASS",
+        "node_available_during_build": false
+      },
+      {
+        "php": "8.2.34",
+        "assertions": 70,
+        "result": "PASS",
+        "node_available_during_build": false
+      },
+      {
+        "php": "8.5.10",
+        "assertions": 70,
+        "result": "PASS",
+        "node_available_during_build": false
+      }
+    ],
+    "native": {
+      "tests": 11,
+      "assertions": 79,
+      "failed": 0,
+      "results": [
+        {
+          "name": "prebuilt-before-first-success-and-no-frontend-version-read",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "installed-plugin-event-and-successful-warmup",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "cache-clear-unchanged-skips-write",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "adapter-edit-native-cache-clear-updates-static-URL",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "syntax-error-keeps-prior-file-and-metadata",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "write-permission-failure-keeps-prior-file",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "web-process-event-never-builds",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "public-request-cannot-force-build",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "Manager-build-guide-draft-ru",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "Manager-build-guide-draft-en",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "force-invalidates-cached-HTML-and-delivers-current-JS",
+          "result": "PASS",
+          "assertions": 8
+        }
+      ]
+    },
+    "source_inventory": {
+      "result": "PASS",
+      "assertions": 97,
+      "native": true
+    },
+    "semantics": "PASS"
+  },
+  "regression": {
+    "tests": 20,
+    "failed": 0,
+    "results": [
+      {
+        "path": "tests/universal/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/audit.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/http.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/callbacks.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta26/frontend.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta28/localization.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/manager.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-i18n.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-permissions.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/viewer/browser.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/universal/matrix.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta32/maps.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/provider-parameters.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta31/pixels.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/clientid.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/manager-ux.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/live-guard.mjs",
+        "result": "PASS"
+      },
+      {
+        "path": "tests/beta33/public.mjs",
+        "result": "PASS"
+      }
+    ]
+  },
+  "native_standard_fenom_ru_en_cold_warm_audit": {
+    "tests": 10,
+    "assertions": 244,
+    "failed": 0,
+    "results": [
+      {
+        "name": "Manager-ru",
+        "result": "PASS"
+      },
+      {
+        "name": "Manager-en",
+        "result": "PASS"
+      },
+      {
+        "name": "standard-ru-cold",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "standard-ru-warm",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "standard-en-cold",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "standard-en-warm",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "fenom-ru-cold",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "fenom-ru-warm",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "fenom-en-cold",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "fenom-en-warm",
+        "result": "PASS",
+        "assertions": 27
+      }
+    ]
+  },
+  "differential": {
+    "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+    "candidateSHA256": "6240aa0ff298b1e172b8e6a1781be1f7c89280d91f12c04a90b5594d8644ebcd",
+    "tests": 49,
+    "assertions": 253,
+    "failed": 0
+  },
+  "invariants": {
+    "result": "PASS",
+    "unchanged_files": 201,
+    "base_commit": "9ab9052b47771f9d007e9425a156a509dcb29950"
+  },
+  "syntax": {
+    "result": "PASS",
+    "changed_php_files": 7,
+    "changed_js_files": 4,
+    "python_scripts": 1,
+    "whitespace": "PASS"
+  },
+  "recipe_sha256": {
+    "_build/build.php": "afc979f23470123b2abb91adc5f873245b0f6a05a36a14c54cc8ecf8ac84b0b1",
+    "_build/verify.php": "28097062db15567f4eb2f28464d766dd72dadd78faecd3f36e7f0d71c9693864",
+    "_build/transport-files.json": "53f53acdcec3620c8a53076ea7a86ca0c0fa77045a271a2c02e9f6ffbc4a9507",
+    "_build/normalize.py": "c98460e9e18fcb5f08464878608a091dda546bbb63f13978b6f43026d8aaabeb",
+    "_build/package.json": "dac102c8894b85fc0d9e51604bf030d305565670a9c27717f9af1d770a7901b5"
+  },
+  "limitations": [
+    "Staging candidate only; no production release, push, merge or deployment",
+    "Actual YouTube/RUTUBE/VK playback not tested; controlled responses do not establish playback",
+    "Upgrade does not add a resolver that deletes old mock files from the site; ZIP excludes them"
+  ]
+}

@@ -1,0 +1,1491 @@
+{
+  "base_branch": "codex/modx2-video-embeds",
+  "base_commit": "c5fdf8339d4adbe2b1fea3501bd91706cc6962b9",
+  "candidate_branch": "codex/modx2-adapter-cache-build",
+  "candidate_commit": "commit containing this evidence; final exact ID is in the delivered acceptance receipt",
+  "package_version": "1.0.5-beta1",
+  "minifier": {
+    "library": "mck89/peast",
+    "version": "1.17.6",
+    "license": "BSD-3-Clause",
+    "archive_sha256": "929afed833ef606714dcd3a82aaf29cc333421005ca4b4967451019ba0daab78",
+    "mode": "ES2020 AST -> Compact -> syntax validation"
+  },
+  "frontend": {
+    "assets/js/cookie-consent/cookie-consent.min.js": {
+      "sha256": "49fbf428d0fd61b456f5d322647a224f5076bf103d097db2a20f64c6cda5b897",
+      "bytes": 29435
+    },
+    "assets/css/cookie-consent.min.css": {
+      "sha256": "9de4060edd4b0f23a5909b0260d681421710b55577543c3d25258dcb219b7912",
+      "bytes": 4129
+    }
+  },
+  "php_production_js_body_sha256": "a78ab4b4a82a226e828b6daa646b1fa461c5ab5da4bca69d3562af48c81e92b0",
+  "local_test_transport": {
+    "signature": "cookieconsent-1.0.5-beta1",
+    "sha256": "d32a4d2976eda35ef7bac49437e777b204018121096165b7b74665561eaf39d6",
+    "purpose": "native lifecycle fixture only; not a published release",
+    "runtime_files": 242
+  },
+  "reports": {
+    "php85": {
+      "result": "PASS",
+      "assertions": 50,
+      "php": "8.5.10",
+      "node_available_during_build": false,
+      "php_bundle_bytes": 39728
+    },
+    "differential_beta5": {
+      "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+      "candidateSHA256": "23b69e4e036955f006c8a952d0ec8db0017413f6043b7f0afddb2cc0b23ccec5",
+      "tests": 49,
+      "assertions": 253,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "differential_esbuild_beta1": {
+      "baseline": "c5fdf8339d4adbe2b1fea3501bd91706cc6962b9",
+      "candidateSHA256": "b2008f18c56658c688d06dd0fce5867a0669c8e9cbc507bcf5563ed3e3190f82",
+      "tests": 49,
+      "assertions": 253,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "video_browser": {
+      "tests": 42,
+      "assertions": 646,
+      "failed": 0,
+      "results": [
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "generated": true,
+            "csp": true
+          },
+          "result": "PASS",
+          "assertions": 21
+        },
+        {
+          "case": {
+            "hidden": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "hidden": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "poster": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "poster": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "case": {
+            "bulk": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "bulk": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "case": {
+            "dialog": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "language": "ru"
+          },
+          "result": "PASS",
+          "assertions": 17
+        }
+      ]
+    },
+    "universal": {
+      "tests": 20,
+      "failed": 0,
+      "results": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    },
+    "cache_manager_native": {
+      "tests": 10,
+      "assertions": 57,
+      "failed": 0,
+      "results": [
+        {
+          "name": "installed-plugin-event-and-successful-warmup",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "cache-clear-unchanged-skips-write",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "adapter-edit-native-cache-clear-updates-static-URL",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "syntax-error-keeps-prior-file-and-metadata",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "write-permission-failure-keeps-prior-file",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "web-process-event-never-builds",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "public-request-cannot-force-build",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "Manager-build-guide-draft-ru",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "Manager-build-guide-draft-en",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "missing-cache-serves-prebuilt-without-frontend-rebuild",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "native_lifecycle": {
+      "suite": "MODX 2.8.8 six canonical elements fresh/upgrade/reinstall/uninstall",
+      "tests": 8,
+      "assertions": 294,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 62
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "beta5-to-video-native-creation-and-preservation",
+          "result": "PASS",
+          "assertions": 52
+        }
+      ]
+    },
+    "video_fenom_native": {
+      "tests": 10,
+      "assertions": 244,
+      "failed": 0,
+      "results": [
+        {
+          "name": "Manager-ru",
+          "result": "PASS"
+        },
+        {
+          "name": "Manager-en",
+          "result": "PASS"
+        },
+        {
+          "name": "standard-ru-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-ru-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-en-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-en-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-ru-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-ru-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-en-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-en-warm",
+          "result": "PASS",
+          "assertions": 27
+        }
+      ]
+    },
+    "final_payload_manager": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 250,
+      "failed": 0,
+      "php": "8.2.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 242,
+      "signature": "cookieconsent-1.0.5-beta1",
+      "interceptedCoreAvatarRequests": 2
+    },
+    "frontend_ci_differential": {
+      "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+      "candidateSHA256": "49fbf428d0fd61b456f5d322647a224f5076bf103d097db2a20f64c6cda5b897",
+      "tests": 19,
+      "assertions": 95,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "manager_permissions": {
+      "tests": 1,
+      "assertions": 5,
+      "failed": 0,
+      "results": [
+        {
+          "name": "authenticated-mgr-without-component-permission-denied",
+          "result": "PASS"
+        }
+      ]
+    },
+    "viewer": {
+      "suite": "Consent Audit Viewer Playwright",
+      "tests": 11,
+      "assertions": 78,
+      "failed": 0,
+      "results": [
+        {
+          "name": "default-filters-four-columns-no-storage-or-diagnostics",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changing-filters-does-not-fetch-find-applies",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "pagination-newest-first-only-50",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "details-schema2-XSS-and-consent-history",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "all-actions-searches-unknown-and-empty",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "CSV-all-matches-UTF8-escaping-injection-applied-filters",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "direct-traversal-invalid-filters-and-unauthenticated-requests",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "manager-without-log-permission-denied-read-detail-export",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "view-only-manager-can-read-export-cannot-save-settings",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "RU-lexicon-screenshot",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "read-only-source-hashes-and-no-runtime-errors",
+          "result": "PASS",
+          "assertions": 2
+        }
+      ]
+    },
+    "php81": {
+      "result": "PASS",
+      "assertions": 50,
+      "php": "8.1.34",
+      "node_available_during_build": false,
+      "php_bundle_bytes": 39728,
+      "user": "www-data",
+      "source": "standalone suite executed inside named disposable container"
+    },
+    "php82": {
+      "result": "PASS",
+      "assertions": 50,
+      "php": "8.2.34",
+      "node_available_during_build": false,
+      "php_bundle_bytes": 39728,
+      "user": "www-data",
+      "source": "standalone suite executed inside named disposable container"
+    },
+    "php_contracts": {
+      "result": "PASS",
+      "php": "8.2.34",
+      "tests": 15,
+      "assertions": 976,
+      "results": [
+        {
+          "path": "tests/php.php",
+          "assertions": 87,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n-php.php",
+          "assertions": 53,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux-php.php",
+          "assertions": 26,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/php.php",
+          "assertions": 62,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta21/php.php",
+          "assertions": 77,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta24/php.php",
+          "assertions": 17,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/elements/php.php",
+          "assertions": 47,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta30/php.php",
+          "assertions": 59,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/php.php",
+          "assertions": 36,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/php.php",
+          "assertions": 198,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/public-registry/projection.php",
+          "assertions": 110,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/php.php",
+          "assertions": 132,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit-schema3.php",
+          "assertions": 7,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/video-embeds/urls.php",
+          "assertions": 31,
+          "result": "PASS"
+        },
+        {
+          "path": "tests/video-embeds/snippets.php",
+          "assertions": 34,
+          "result": "PASS"
+        }
+      ]
+    },
+    "fenom_php": {
+      "result": "PASS",
+      "assertions": 20
+    },
+    "post_lifecycle_plugin_warmup": {
+      "result": "PASS",
+      "assertions": 6,
+      "databases": [
+        "cookie_consent_transport_clean",
+        "cookie_consent_transport_publiccore"
+      ],
+      "plugins_each": 1,
+      "events_each": 1,
+      "cache_state_each": "ready"
+    },
+    "source_build": {
+      "result": "PASS",
+      "assertions": 67,
+      "native_inventory_assertions": 97
+    },
+    "registry_and_js_contracts": {
+      "result": "PASS",
+      "registry_assertions": 51,
+      "js_contract_assertions": 15
+    },
+    "syntax": {
+      "result": "PASS",
+      "php_files": 274,
+      "js_files": 146
+    }
+  },
+  "release_gates": [
+    {
+      "provider": "youtube",
+      "result": "SKIP",
+      "inherited_from_video_acceptance": true,
+      "rerun": false
+    },
+    {
+      "provider": "rutube",
+      "result": "SKIP",
+      "inherited_from_video_acceptance": true,
+      "rerun": false
+    },
+    {
+      "provider": "vk_video",
+      "result": "SKIP",
+      "inherited_from_video_acceptance": true,
+      "rerun": false
+    }
+  ],
+  "note": "After runtime suites, canonical guide labels were aligned with the existing General / Исходный код адаптера UI; generated guide outputs rechecked. No runtime logic or JS changed."
+}

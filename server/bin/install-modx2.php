@@ -36,4 +36,6 @@ foreach ($values as $key=>[$value,$xtype]) {
     if (!$setting->save()) throw new RuntimeException('Cannot save '.$key);
     echo "Created $key\n";
 }
+require_once dirname(__DIR__).'/src/CookieConsentBundleInstall.php';
+CookieConsentBundleInstall::run($modx);
 $modx->cacheManager->refresh();

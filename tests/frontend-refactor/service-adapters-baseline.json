@@ -1,0 +1,96 @@
+{
+  "commit": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+  "branch": "codex/modx2-frontend-refactor",
+  "initial_status": [
+    "?? docs/modx2-frontend-inventory.md"
+  ],
+  "sources": {
+    "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+    "assets/js/cookie-consent/cookie-consent.min.js": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+    "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
+    "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
+    "assets/js/cookie-consent/marketing.js": "dfa6fee71e689a992491067cb1972dfa86c424d5c49d502bda6ed498ad779bb6",
+    "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+    "assets/js/cookie-consent/analytics.js": "02d70470134384b4832bae6e9f2329c1a74699bb7c4aaa30aac9910dfd415ad6",
+    "assets/js/cookie-consent/lexicons.json": "04052bc85562a092b323e30c78431f89e0a6afc1d80d0b18a9fea2f343f9991d",
+    "assets/js/cookie-consent/service-loaders.js": "df6c1e994413a71c0d259e271bbe2c33c56036c860606aafabe1c044c6dfa03a",
+    "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+    "assets/js/cookie-consent/i18n.js": "ee423aece4b38e8dc04b9775e3f67364e756f6f645cabd119043e84d01adba25",
+    "assets/js/cookie-consent/mock/google_ads.js": "b0e48aad7e55a772915d694bb1c64853c89b8959119e09f11abe791d5e6aff55",
+    "assets/js/cookie-consent/mock/yandex_maps.html": "32cf4292500b950f220e1d1e779ba99fa9b4629a246062b234f8e000fc08ae9b",
+    "assets/js/cookie-consent/mock/meta_pixel.js": "37408a1c1c906335e7d0261be7fd2cb05441457eb820b311b82e34fd64123dfc",
+    "assets/js/cookie-consent/mock/yandex.js": "b27a5e87d1933604d29ed61cce5b6b72520868ba8f9cac35cca30308a1c0a7d3",
+    "assets/js/cookie-consent/mock/mailru.js": "523ae74429be1d50008bc1b0d36af408feb0d8d18c8515a4826b8e12b36e2b65",
+    "assets/js/cookie-consent/mock/marketing.js": "249fd02cceba450f575f0609f4d9effe7d57379d4c7085aeec7801916f976b58",
+    "assets/js/cookie-consent/mock/google_gtm.js": "01083558f43ebbb680f9e82dc1bde8485926a7a6a7c962f7c2ff10c267b543c5",
+    "assets/js/cookie-consent/mock/vk_ads.js": "cac3b0af3fb6f591147bf2fb94f628917e48a2d64a462ec72bd75d3928671174",
+    "assets/js/cookie-consent/mock/google_ga4.js": "32f5ca27290252c8d898b1a6219725a79b181b511ebc9774d18ee41ebc9c2645",
+    "assets/js/cookie-consent/mock/google_maps.html": "a17cc7c519a7c2b6d5db6efe5358a42772f5adcc4e1fe01feffd4828bdd27340"
+  },
+  "native": {
+    "signature": "cookieconsent-1.0.4-beta4",
+    "sha256": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+    "inventory_sha256": "adff498b881ca6c5ac08d37cf4d6c6c65635df0c528aeafe0314f1801b1d2c90"
+  },
+  "public": {
+    "web86Providers": [
+      "services",
+      "categories",
+      "validate",
+      "validScriptPath",
+      "allowed",
+      "safeMapUrl",
+      "revoke",
+      "apply"
+    ],
+    "web86CookieConsent": [
+      "getConsent",
+      "openSettings",
+      "onAllowed"
+    ],
+    "mock_only": [
+      "resetForTesting"
+    ],
+    "callback_contract": "onAllowed returns unsubscribe; callback receives stillAllowed"
+  },
+  "fixtures": {
+    "tests/beta1042/README.md": "12bbfabed879ba9931ab4cf9b74273c1bf6707865a26c35f595b8f5ff7bf7bae",
+    "tests/beta1042/accept.mjs": "a91ca97ec9c7d731303e2fd342bd497b86498be9f31e1b8c6595db2f7c6a9aaf",
+    "tests/beta1042/upgrade.mjs": "73484ffaf1a6246062e0e9169836f3690309d901a870db81660fcd41856610f3",
+    "tests/beta1042/urls.php": "cfeda0fd28654ad2e33e6b9a338a7ff0c9654bef008a637d694b5549994ea6f3",
+    "tests/beta32/README.md": "dd7c74b07ed8abe2537982db2fcb46790bec6f811aeddd8ef5c0b963c8e43745",
+    "tests/beta32/callbacks.mjs": "023a85057ddf1d75a49802bb97688355646bd7a7d2b037eb61bdf71f5dc675ac",
+    "tests/beta32/client-source/yonder-map-many.original.js": "3c7f14a944bcc127bd57e07dcac7f04c7374953d7b281631e53e6539552b359b",
+    "tests/beta32/fixture.php": "7db9340e4eedaeca1da4f2e90c7345ef3309a54dd906e291bbf0403c0217b00c",
+    "tests/beta32/maps.mjs": "687b8d95fd2e2db5843e78877a701f2bad9a6c144b3e5be85ca317e2383791dd",
+    "tests/beta32/native-fixture.php": "81d39fb48b5733e2e34457aae7ba3226a1996e4cd04bb980cc1ca597eb486e6f",
+    "tests/beta32/native.mjs": "7c5a5ea428547cd480d7cb002757dbd7cd7cb87943fc46b7fb70fde27afef404",
+    "tests/beta32/summarize.py": "e7077982c7be0c412ecfb2884cdc8d21804d45bbef36e4da05384d1b5bbfeb8f",
+    "tests/beta32/ymaps-stub.js": "1fb780963828785964e78fa4eb6c0f0799647058c0e802f55d48f53f8af582dc",
+    "tests/legacy-autoload/README.md": "998d6eda000e8b57ec8809300914b774b45b264583f773690e4817dedc0a8a02",
+    "tests/legacy-autoload/browser.mjs": "2d7e027fcdbd659db5783cfbb193089fa33168c90f37c7b1d31746dc8176f2b1",
+    "tests/legacy-autoload/direct-vendors.mjs": "ed2ae2b519b4b4b8617f899aef9c1136a1e91fb43a46bdd6eaa47153bbb53e78",
+    "tests/legacy-autoload/fenom.mjs": "b1160415548272a6f45fa267951d0944005a9d0363b51c1a63aaa19170340ff3",
+    "tests/legacy-autoload/matrix.mjs": "862f9cf07bfafc7f223e59846a51b109a6dcc8e2b177c051d7d64b707fa314e9",
+    "tests/legacy-autoload/php81.mjs": "41f227a748d9fc5f1fab96a368af51f9d5cdd6eed0f2555fcad864b65f3b5de3",
+    "tests/legacy-autoload/upgrade.mjs": "76686f5b19de6ed8fd1c32a9ddf0af77d02b85857dd45e3c967997bf2f079b3a",
+    "tests/universal/README.md": "51924f31ee180f8ca694c09ddde5237da7ebc706c700994dfff3e3080ad70036",
+    "tests/universal/audit-schema3.php": "0e2832a4fd12739156774ceae6275b76fec48524202d2fca1b3cd809d7bfd6dc",
+    "tests/universal/audit.mjs": "0967fb16ebe61552dec2a5293331b5df4b0cd542e10ccbf66f34f649003007ac",
+    "tests/universal/browser.mjs": "29038982d61dba236d85cfbaf6df5773b0a85ef130252a35ca88415e05c2727d",
+    "tests/universal/matrix.mjs": "394fd4ed6ecc7fe7a3717b52c6799356ae74b6213ed9d53e24e4c794cd4b376f",
+    "tests/universal/php.php": "35af84387b0d52041dab1019fc3c73a6a0898a1d09eb7f91240e2349f3c24810",
+    "tests/universal/regression.mjs": "67272b4ef4a1f27ebcf8bd0c2d0b56514e109ee6e8a2fbe7a2869dac304db4df",
+    "tests/universal/set-registry.php": "ab7ccaf46a1706ff5575e1013ba5e675aaa59c17187b375a95925119d6a933cd"
+  },
+  "sdk_urls": [
+    "https://mc.yandex.ru/metrika/tag.js",
+    "https://top-fwz1.mail.ru/js/code.js",
+    "https://connect.facebook.net/en_US/fbevents.js",
+    "https://www.googletagmanager.com/gtag/js?id={id}",
+    "https://www.googletagmanager.com/gtm.js?id={id}",
+    "custom_js: validated root-relative or HTTPS .js",
+    "mock: bundle-relative mock/{loader}.js; mock_marketing -> marketing.js"
+  ],
+  "runtime_contract": "runtimeAllowed(category) from consent-manager; persisted categories_v2 remains separate; unchanged v2 fingerprints/schema 3"
+}

@@ -16,6 +16,7 @@ const liveHtml = html.replace(/(<script type="application\/json" id="cc-service-
   .replaceAll('data-cc-mode="mock"', 'data-cc-mode="live"')
   .replaceAll('/assets/js/cookie-consent/mock/google_maps.html', googleMap)
   .replaceAll('/assets/js/cookie-consent/mock/yandex_maps.html', yandexMap.replaceAll('&', '&amp;'));
+const singleContent=key=>liveHtml.replace(/(<script type="application\/json" id="cc-service-registry">)[\s\S]*?(<\/script>)/,'$1'+JSON.stringify({...testRegistry,services:testRegistry.services.map(s=>({...s,enabled:s.key===key}))})+'$2');
 async function suite(name, cb, content = liveHtml) {
   const ctx = await browser.newContext({ recordHar: { path: `.local/evidence/live-${name}.har`, content: 'omit' } });
   const external = [], configCalls = [];
@@ -43,24 +44,24 @@ async function suite(name, cb, content = liveHtml) {
 }
 for (const [key, url] of [['google_maps', googleMap], ['yandex_maps', yandexMap]]) await suite(key, async (p, external) => {
   await p.locator('[data-cc-action="reject"]').click(); await p.waitForTimeout(500);
-  await p.locator(`[data-cc-map-load="${key}"]`).first().click(); await p.waitForTimeout(100);
-  equal([...new Set(external)], [url], 'Correct preserved original embed URL');
-  equal(await p.evaluate(() => window.web86CookieConsent.getConsent().analytics), false);
+  await p.locator(`[data-cc-map-load="${key}"]`).first().click();await p.locator('[data-cc-category=external_content]').check();await p.locator('[data-cc-action=save]').click(); await p.waitForTimeout(100);
+  equal([...new Set(external)].sort(), [googleMap,yandexMap].sort(), 'Correct preserved original embed URL');
+  equal(await p.evaluate(() => window.web86CookieConsent.getConsent().categories.analytics), false);
 });
 for (const [key, id] of [['google_ga4', 'G-MOCK1234'], ['google_ads', 'AW-12345678']]) await suite(key, async (p, external) => {
-  await p.evaluate(key=>{const s=web86Providers.services.find(s=>s.key===key);localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:s.category==='analytics',marketing:s.category==='marketing',external_content:false,providers:{[key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));},key);await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(120);
+  await p.locator('[data-cc-action=configure]').click();await p.locator('[data-cc-category='+ (key==='google_ga4'?'analytics':'marketing') +']').check();await p.locator('[data-cc-action=save]').click(); await p.waitForTimeout(120);
   equal(external, [`https://www.googletagmanager.com/gtag/js?id=${id}`]);
   const queue = await p.evaluate(() => window.dataLayer.map(a => Array.from(a)));
   equal(queue.filter(a => a[0] === 'config').map(a => a[1]), [id], 'Only selected Google configuration');
   const update = queue.filter(a => a[0] === 'consent' && a[1] === 'update').at(-1)[2];
   equal(update.analytics_storage, key === 'google_ga4' ? 'granted' : 'denied');
   equal(update.ad_storage, key === 'google_ads' ? 'granted' : 'denied');
-});
+},singleContent(key));
 await suite('gtm-marketing-only', async (p, external) => {
-  await p.evaluate(()=>{const s=web86Providers.services.find(s=>s.key==='google_gtm');localStorage.setItem('web86_cookie_consent',JSON.stringify({version:'1',necessary:true,analytics:false,marketing:true,external_content:false,providers:{[s.key]:s.fingerprint},savedAt:Date.now(),consentId:crypto.randomUUID()}));});await p.reload({waitUntil:'networkidle'}); await p.waitForTimeout(100); equal(external, ['https://www.googletagmanager.com/gtm.js?id=GTM-MOCK1234']);
+  await p.locator('[data-cc-action=configure]').click();await p.locator('[data-cc-category=marketing]').check();await p.locator('[data-cc-action=save]').click(); await p.waitForTimeout(100); equal(external, ['https://www.googletagmanager.com/gtm.js?id=GTM-MOCK1234']);
   const update = await p.evaluate(() => dataLayer.filter(a=>a[0]==='consent'&&a[1]==='update').at(-1)[2]);
   equal(update, {analytics_storage:'denied',ad_storage:'granted',ad_user_data:'granted',ad_personalization:'granted'});
-});
+},singleContent('google_gtm'));
 await suite('all-google-shared-library', async (p, external) => {
   await p.locator('[data-cc-action="accept-all"]').click(); await p.waitForTimeout(200);
   equal(external.filter(u => u.includes('/gtag/js')).length, 1, 'Single Google library');

@@ -1,0 +1,1833 @@
+{
+  "date": "2026-10-16",
+  "branch": "codex/modx2-video-embeds",
+  "codeCommit": "af69133b199c313167e0d1fc0ae3e502447fa191",
+  "baselineCommit": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+  "signature": "cookieconsent-1.0.5-beta1",
+  "releaseStatus": "NO-GO release/production; staging candidate only",
+  "failedGates": [],
+  "livePlayback": [
+    {
+      "provider": "youtube",
+      "result": "SKIP",
+      "playerMessages": [
+        "YouTube Developers Live: Embedded Web Player Customization\nGoogle for Developers\nGoogle for Developers\n2,68 Mn abone\nİzlemek için:"
+      ],
+      "reason": "Playback unavailable in this environment; iframe HTTP success alone is not playback proof.",
+      "responses": [
+        200
+      ],
+      "errors": []
+    },
+    {
+      "provider": "rutube",
+      "result": "SKIP",
+      "playerMessages": [
+        "Просмотр видео запрещен на этом сайте\n\nВы можете посмотреть его только на RUTUBE\n\nСмотреть"
+      ],
+      "reason": "Playback unavailable in this environment; iframe HTTP success alone is not playback proof.",
+      "responses": [
+        200
+      ],
+      "errors": [
+        {
+          "url": "https://rutube.ru/pangolin/api/web/serial/7716bd3e665725c3c008ae7ab4ff02e2",
+          "error": "net::ERR_ABORTED"
+        },
+        {
+          "url": "https://mdd.yandex.net/",
+          "error": "net::ERR_CERT_AUTHORITY_INVALID"
+        },
+        {
+          "url": "https://hdrc.yandex.net/",
+          "error": "net::ERR_ABORTED"
+        }
+      ]
+    },
+    {
+      "provider": "vk_video",
+      "result": "SKIP",
+      "reason": "No verified official VK Share/embed URL supplied; hash is never fabricated."
+    }
+  ],
+  "build": {
+    "result": "PASS",
+    "assertions": 168,
+    "signature": "cookieconsent-1.0.5-beta1",
+    "sha256": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd",
+    "runtimeFiles": 59,
+    "delta": {
+      "added": [
+        "core/components/cookieconsent/src/CookieConsentEmbedOptions.php",
+        "core/components/cookieconsent/src/CookieConsentVideoUrl.php"
+      ],
+      "changed": [
+        "assets/components/cookieconsent/manager.js",
+        "assets/css/cookie-consent.min.css",
+        "assets/js/cookie-consent/cookie-consent.min.js",
+        "core/components/cookieconsent/bin/restore-elements.php",
+        "core/components/cookieconsent/lexicon/en/default.inc.php",
+        "core/components/cookieconsent/lexicon/ru/default.inc.php",
+        "core/components/cookieconsent/src/CookieConsentBannerRenderer.php",
+        "core/components/cookieconsent/src/CookieConsentGuide.php",
+        "core/components/cookieconsent/src/CookieConsentServiceRegistry.php",
+        "core/components/cookieconsent/src/CookieConsentVersion.php"
+      ]
+    },
+    "frontend": {
+      "assets/js/cookie-consent/cookie-consent.min.js": {
+        "sha256": "49fbf428d0fd61b456f5d322647a224f5076bf103d097db2a20f64c6cda5b897",
+        "bytes": 29435
+      },
+      "assets/css/cookie-consent.min.css": {
+        "sha256": "9de4060edd4b0f23a5909b0260d681421710b55577543c3d25258dcb219b7912",
+        "bytes": 4129
+      }
+    }
+  },
+  "suites": {
+    "acceptance": [
+      {
+        "name": "reset-disposable",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "native",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/native-native-results.json"
+        ]
+      },
+      {
+        "name": "install-web",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "legacy-browser",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/legacy-browser-browser.json"
+        ]
+      },
+      {
+        "name": "legacy-matrix",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/legacy-matrix-matrix-results.json"
+        ]
+      },
+      {
+        "name": "beta1042",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/beta1042-accept-results.json"
+        ]
+      },
+      {
+        "name": "universal",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/universal-results.json"
+        ]
+      },
+      {
+        "name": "public-registry-upgrade",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/public-registry-upgrade-browser-results.json"
+        ]
+      },
+      {
+        "name": "examples",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/examples-examples.json"
+        ]
+      },
+      {
+        "name": "fenom-sync",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "fenom-browser",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/fenom-browser-results.json"
+        ]
+      },
+      {
+        "name": "fenom-modes",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/fenom-modes-fenom.json"
+        ]
+      },
+      {
+        "name": "beta-upgrades",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/beta-upgrades-upgrade.json"
+        ]
+      },
+      {
+        "name": "direct-vendors",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/direct-vendors-direct-vendors.json"
+        ]
+      },
+      {
+        "name": "manager",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "refresh-php81",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-native",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/php81-native-php81.json"
+        ]
+      },
+      {
+        "name": "php81-categories",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-audit",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-visibility",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-urls",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-categories",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-audit",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-visibility",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-urls",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php-and-syntax",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/php-and-syntax-regression.json"
+        ],
+        "correctedBy": ".local/video-embeds/php-and-syntax-corrected.json"
+      },
+      {
+        "name": "native-verifier",
+        "result": "PASS",
+        "reports": []
+      }
+    ],
+    "acceptanceInitial": [
+      {
+        "name": "reset-disposable",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "native",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/native-native-results.json"
+        ]
+      },
+      {
+        "name": "install-web",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "legacy-browser",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/legacy-browser-browser.json"
+        ]
+      },
+      {
+        "name": "legacy-matrix",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/legacy-matrix-matrix-results.json"
+        ]
+      },
+      {
+        "name": "beta1042",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/beta1042-accept-results.json"
+        ]
+      },
+      {
+        "name": "universal",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/universal-results.json"
+        ]
+      },
+      {
+        "name": "public-registry-upgrade",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/public-registry-upgrade-browser-results.json"
+        ]
+      },
+      {
+        "name": "examples",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/examples-examples.json"
+        ]
+      },
+      {
+        "name": "fenom-sync",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "fenom-browser",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/fenom-browser-results.json"
+        ]
+      },
+      {
+        "name": "fenom-modes",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/fenom-modes-fenom.json"
+        ]
+      },
+      {
+        "name": "beta-upgrades",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/beta-upgrades-upgrade.json"
+        ]
+      },
+      {
+        "name": "direct-vendors",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/direct-vendors-direct-vendors.json"
+        ]
+      },
+      {
+        "name": "manager",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "refresh-php81",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-native",
+        "result": "PASS",
+        "reports": [
+          ".local/video-embeds/acceptance/php81-native-php81.json"
+        ]
+      },
+      {
+        "name": "php81-categories",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-audit",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-visibility",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php81-urls",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-categories",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-audit",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-visibility",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php82-urls",
+        "result": "PASS",
+        "reports": []
+      },
+      {
+        "name": "php-and-syntax",
+        "result": "FAIL",
+        "reports": [
+          ".local/video-embeds/acceptance/php-and-syntax-regression.json"
+        ]
+      },
+      {
+        "name": "native-verifier",
+        "result": "PASS",
+        "reports": []
+      }
+    ],
+    "phpCorrection": {
+      "php_linted": 112,
+      "js_checked": 142,
+      "failed": 0,
+      "results": [
+        {
+          "name": "tests/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"PHP\",\"assertions\":87,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/manager-i18n-php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Manager settings\\/HTML\\/i18n PHP\",\"assertions\":53,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/manager-ux-php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Manager UX security\\/lexicon PHP\",\"assertions\":26,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/viewer/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Audit Viewer PHP\",\"assertions\":62,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/beta21/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Beta21 category SSR and bounded audit diagnostics PHP\",\"tests\":1,\"assertions\":77,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/beta24/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Local journal write\\/read safety and failure injections\",\"tests\":1,\"assertions\":17,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/elements/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Structural CookiesPopup and SSR localization PHP\",\"assertions\":47,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/beta30/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Provider configuration compatibility\\/strict validation PHP\",\"tests\":1,\"assertions\":59,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/beta31/php.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Pixel registry\\/ID\\/conflict\\/visibility and removed controls PHP\",\"tests\":1,\"assertions\":36,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/beta33/php.php",
+          "result": "PASS",
+          "output": "{\"tests\":1,\"assertions\":198,\"failed\":0,\"result\":\"PASS\",\"suite\":\"Explicit category flags\\/legacy migration\\/SSR 0,1,2 providers\\/boolean validation\"}"
+        },
+        {
+          "name": "tests/fenom/native.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Genuine MODX 2 snippet registration contracts\",\"assertions\":20,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "tests/public-registry/projection.php",
+          "result": "PASS",
+          "output": "{\"suite\":\"Native PHP public registry projection and full internal settings\",\"tests\":1,\"assertions\":114,\"failed\":0,\"result\":\"PASS\"}"
+        },
+        {
+          "name": "PHP syntax",
+          "result": "PASS",
+          "output": "No syntax errors detected in /opt/cc-source/_build/adapt-menu.php\nNo syntax errors detected in /opt/cc-source/_build/build.php\nNo syntax errors detected in /opt/cc-source/_build/preflight.php\nNo syntax errors detected in /opt/cc-source/_build/validators/canonical-elements.php\nNo syntax errors detected in /opt/cc-source/_build/validators/default-log-directory.php\nNo syntax errors detected in /opt/cc-source/_build/verify-install.php\nNo syntax errors detected in /opt/cc-source/_build/verify.php\nNo syntax errors detected in /opt/cc-source/server/bin/configure-audit.php\nNo syntax errors detected in /opt/cc-source/server/bin/install-modx2.php\nNo syntax errors detected in /opt/cc-source/server/bin/restore-elements.php\nNo syntax errors detected in /opt/cc-source/server/config.example.php\nNo syntax errors detected in /opt/cc-source/server/controllers/index.class.php\nNo syntax errors detected in /opt/cc-source/server/controllers/logs.class.php\nNo syntax errors detected in /opt/cc-source/server/lexicon/en/default.inc.php\nNo syntax errors detected in /opt/cc-source/server/lexicon/ru/default.inc.php\nNo syntax errors detected in /opt/cc-source/server/modx2-assets-snippet.php\nNo syntax errors detected in /opt/cc-source/server/modx2-banner-snippet.php\nNo syntax errors detected in /opt/cc-source/server/modx2-consent-snippet.php\nNo syntax errors detected in /opt/cc-source/server/modx2-manager-connector.php\nNo syntax errors detected in /opt/cc-source/server/modx2-map-snippet.php\nNo syntax errors detected in /opt/cc-source/server/modx2-public-endpoint.example.php\nNo syntax errors detected in /opt/cc-source/server/modx2-registry-snippet.php\nNo syntax errors detected in /opt/cc-source/server/modx2-video-snippet.php\nNo syntax errors detected in /opt/cc-source/server/processors/audit_enable.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/audit_protect.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/audit_setup.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/audit_test.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/base.php\nNo syntax errors detected in /opt/cc-source/server/processors/get.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/logs_base.php\nNo syntax errors detected in /opt/cc-source/server/processors/logs_detail.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/logs_export.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/logs_list.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/preview.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/reconsent.class.php\nNo syntax errors detected in /opt/cc-source/server/processors/save.class.php\nNo syntax errors detected in /opt/cc-source/server/public/audit.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditCheckException.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditConfiguration.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditDirectoryCheck.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditFormat.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditHttp.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditLogger.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentAuditReader.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentBannerRenderer.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentEmbedOptions.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentEventValidator.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentGuide.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentHtmlSanitizer.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentLogDirectory.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentPrivatePath.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentRateLimiter.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentServiceRegistry.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentSettings.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentTexts.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentVersion.php\nNo syntax errors detected in /opt/cc-source/server/src/CookieConsentVideoUrl.php\nNo syntax errors detected in /opt/cc-source/tests/audit-visibility/control.php\nNo syntax errors detected in /opt/cc-source/tests/audit-visibility/php.php\nNo syntax errors detected in /opt/cc-source/tests/beta102/control.php\nNo syntax errors detected in /opt/cc-source/tests/beta102/regression-setup.php\nNo syntax errors detected in /opt/cc-source/tests/beta103/control.php\nNo syntax errors detected in /opt/cc-source/tests/beta1042/urls.php\nNo syntax errors detected in /opt/cc-source/tests/beta21/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta21/php.php\nNo syntax errors detected in /opt/cc-source/tests/beta24/php.php\nNo syntax errors detected in /opt/cc-source/tests/beta26/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta26/provision.php\nNo syntax errors detected in /opt/cc-source/tests/beta28/category-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta29/native-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta30/php.php\nNo syntax errors detected in /opt/cc-source/tests/beta31/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta31/native-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta31/php.php\nNo syntax errors detected in /opt/cc-source/tests/beta32/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta32/native-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta33/migration-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/beta33/php.php\nNo syntax errors detected in /opt/cc-source/tests/elements/context-fixture.php\nNo syntax errors detected in /opt/cc-source/tests/elements/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/elements/php.php\nNo syntax errors detected in /opt/cc-source/tests/fenom/control.php\nNo syntax errors detected in /opt/cc-source/tests/fenom/native.php\nNo syntax errors detected in /opt/cc-source/tests/local/change-setting.php\nNo syntax errors detected in /opt/cc-source/tests/local/evidence.php\nNo syntax errors detected in /opt/cc-source/tests/local/install.php\nNo syntax errors detected in /opt/cc-source/tests/local/manager-i18n-control.php\nNo syntax errors detected in /opt/cc-source/tests/local/provision.php\nNo syntax errors detected in /opt/cc-source/tests/local/restricted-manager.php\nNo syntax errors detected in /opt/cc-source/tests/local/sync.php\nNo syntax errors detected in /opt/cc-source/tests/local/ux-control.php\nNo syntax errors detected in /opt/cc-source/tests/manager-i18n-php.php\nNo syntax errors detected in /opt/cc-source/tests/manager-ux-php.php\nNo syntax errors detected in /opt/cc-source/tests/php.php\nNo syntax errors detected in /opt/cc-source/tests/polish/endpoint.php\nNo syntax errors detected in /opt/cc-source/tests/polish/performance.php\nNo syntax errors detected in /opt/cc-source/tests/polish/settings.php\nNo syntax errors detected in /opt/cc-source/tests/public-registry/projection.php\nNo syntax errors detected in /opt/cc-source/tests/release/demo.php\nNo syntax errors detected in /opt/cc-source/tests/servers/failure-router.php\nNo syntax errors detected in /opt/cc-source/tests/transport/control.php\nNo syntax errors detected in /opt/cc-source/tests/transport/install-modx.php\nNo syntax errors detected in /opt/cc-source/tests/transport/permissions.php\nNo syntax errors detected in /opt/cc-source/tests/universal/audit-schema3.php\nNo syntax errors detected in /opt/cc-source/tests/universal/php.php\nNo syntax errors detected in /opt/cc-source/tests/universal/set-registry.php\nNo syntax errors detected in /opt/cc-source/tests/video-embeds/control.php\nNo syntax errors detected in /opt/cc-source/tests/video-embeds/snippets.php\nNo syntax errors detected in /opt/cc-source/tests/video-embeds/urls.php\nNo syntax errors detected in /opt/cc-source/tests/viewer/fixture.php\nNo syntax errors detected in /opt/cc-source/tests/viewer/large.php\nNo syntax errors detected in /opt/cc-source/tests/viewer/php.php"
+        },
+        {
+          "name": "JS syntax",
+          "result": "PASS",
+          "files": 142,
+          "errors": []
+        }
+      ]
+    },
+    "defaultContractsCorrected": [
+      {
+        "container": "cookie-consent-acceptance-beta81-1",
+        "path": "tests/php.php",
+        "suite": "PHP",
+        "assertions": 87,
+        "result": "PASS"
+      },
+      {
+        "container": "cookie-consent-acceptance-beta81-1",
+        "path": "tests/beta31/php.php",
+        "suite": "Pixel registry/ID/conflict/visibility and removed controls PHP",
+        "tests": 1,
+        "assertions": 36,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "container": "cookie-consent-acceptance-web-1",
+        "path": "tests/php.php",
+        "suite": "PHP",
+        "assertions": 87,
+        "result": "PASS"
+      },
+      {
+        "container": "cookie-consent-acceptance-web-1",
+        "path": "tests/beta31/php.php",
+        "suite": "Pixel registry/ID/conflict/visibility and removed controls PHP",
+        "tests": 1,
+        "assertions": 36,
+        "failed": 0,
+        "result": "PASS"
+      }
+    ],
+    "postAcceptanceBuild": {
+      "result": "PASS",
+      "sha256": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd",
+      "thirdBuildMatches": true
+    },
+    "nativeBrowserInitial": {
+      "tests": 3,
+      "assertions": 25,
+      "failed": 1,
+      "results": [
+        {
+          "name": "Manager-ru",
+          "result": "PASS"
+        },
+        {
+          "name": "Manager-en",
+          "result": "PASS"
+        },
+        {
+          "result": "FAIL",
+          "error": "locator.textContent: Timeout 30000ms exceeded.\nCall log:\n\u001b[2m  - waiting for locator('#cache-source')\u001b[22m\n\n    at /Users/sonoma/Desktop/cookie-consent-manager/tests/video-embeds/native-browser.mjs:39:111"
+        }
+      ]
+    },
+    "fenomFixture": {
+      "result": "PASS",
+      "reason": "Missing stock MODX 2.8.8 PM files restored byte-identically in marked disposable clone; no pdoTools/vendor source patches",
+      "files": [
+        {
+          "path": "dependency/download.class.php",
+          "sha256": "d8dafea7aab80875e3d7dff23915547425e8fa5f6a64826a289fcbed616141ae"
+        },
+        {
+          "path": "get.class.php",
+          "sha256": "b20bb211e71c1ec909699198d3d2ffb657de0220a137f69f08f6101e9cfbb969"
+        },
+        {
+          "path": "getattribute.class.php",
+          "sha256": "41aaec3a5bee3020c286eb97232ddb831e59cff5be5dcd4256ab8dedabf2a54a"
+        },
+        {
+          "path": "getdependencies.class.php",
+          "sha256": "8007372983a6afb95dd47aa0de15699c27d958353561d33be872227399380a83"
+        },
+        {
+          "path": "getlist.class.php",
+          "sha256": "4a1ba253fee64f3294d8f6f76d8d799dc1db95f3fff6a0a33b2b0bcf9162d413"
+        },
+        {
+          "path": "install.class.php",
+          "sha256": "eb76968382ccffbf3ed6d0980a7d0256340ce4b1c5189a4775c44fdec728e14e"
+        },
+        {
+          "path": "purge.class.php",
+          "sha256": "c8e2d029daabf4f5cd12fafd141876db81c0e46e064eaa7cf105a6a2e80b5cda"
+        },
+        {
+          "path": "remove.class.php",
+          "sha256": "6e06ea57bc07dad047b779c87af3d521e89845a5bdb3f43990408a0634dc6586"
+        },
+        {
+          "path": "rest/download.class.php",
+          "sha256": "2314fa182b1f55e5b8502255d8a88914a600135e42f6e68020c7d7c3a2ddcd00"
+        },
+        {
+          "path": "rest/getinfo.class.php",
+          "sha256": "ff7169f337c16e574b5ef735d4449820b970806bae037bf7c89b53a0a80b9d90"
+        },
+        {
+          "path": "rest/getlist.class.php",
+          "sha256": "7839462751dbcea05989360b81b6417dc2865c013f68a5ca3c5153b51a449013"
+        },
+        {
+          "path": "rest/getnodes.class.php",
+          "sha256": "800f80a693c393a46e6a0cd5bdddddc07ee21e8cd833d9c1bca8ec81cc1153b7"
+        },
+        {
+          "path": "scanlocal.class.php",
+          "sha256": "6d9f6e6d0e6041faeb8667859f415233fb3b67b8e52e5f01d8cf0d085fa8a806"
+        },
+        {
+          "path": "uninstall.class.php",
+          "sha256": "a7aa945973f39c9c2277a1be33b970a1974c4dc96ac98bb3155c1ff50a2b0fdf"
+        },
+        {
+          "path": "update-remote.class.php",
+          "sha256": "13568f74c317ce61e7582e39a35f57973c0c533ea9d42f1192e4e68cb691d2ba"
+        },
+        {
+          "path": "update.class.php",
+          "sha256": "11a51bdede8cbae53d3303e58e60d8e4358a151ad323017b3d30962a2575360a"
+        },
+        {
+          "path": "updatefromgrid.class.php",
+          "sha256": "a6e56b9d22bbb753da4531a7316a2c37c020a7e72f50bd3569c38bd401b9da45"
+        },
+        {
+          "path": "upload.class.php",
+          "sha256": "ac2d2abc2d151f1c18bf5ddbb48ce563c398b6023172e31a58728d1014e0eed9"
+        },
+        {
+          "path": "version/getlist.class.php",
+          "sha256": "51c3df6b3162c729aec4cd632c748e5ea76a0f17e27d07a70aae702b2af21d77"
+        },
+        {
+          "path": "version/remove.class.php",
+          "sha256": "8ca069f0dd1643809b47ddd02c57e8126da51734c9064609398a92ceb34f67e7"
+        },
+        {
+          "path": "view.class.php",
+          "sha256": "8b5d189920548098a0112d8a9709255d154d92f41682ae2f9f9f38f9d8fc03f8"
+        }
+      ]
+    },
+    "universal": {
+      "tests": 20,
+      "failed": 0,
+      "results": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    },
+    "native": {
+      "suite": "MODX 2.8.8 six canonical elements fresh/upgrade/reinstall/uninstall",
+      "tests": 8,
+      "assertions": 294,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 28
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 62
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 45
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "beta5-to-video-native-creation-and-preservation",
+          "result": "PASS",
+          "assertions": 52
+        }
+      ]
+    },
+    "nativeBrowser": {
+      "tests": 10,
+      "assertions": 244,
+      "failed": 0,
+      "results": [
+        {
+          "name": "Manager-ru",
+          "result": "PASS"
+        },
+        {
+          "name": "Manager-en",
+          "result": "PASS"
+        },
+        {
+          "name": "standard-ru-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-ru-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-en-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "standard-en-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-ru-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-ru-warm",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-en-cold",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "fenom-en-warm",
+          "result": "PASS",
+          "assertions": 27
+        }
+      ]
+    },
+    "manager": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 67,
+      "failed": 0,
+      "php": "8.2.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 59,
+      "signature": "cookieconsent-1.0.5-beta1",
+      "interceptedCoreAvatarRequests": 2
+    },
+    "browser": {
+      "tests": 42,
+      "assertions": 646,
+      "failed": 0,
+      "results": [
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "generated": true,
+            "csp": true
+          },
+          "result": "PASS",
+          "assertions": 21
+        },
+        {
+          "case": {
+            "hidden": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "hidden": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "poster": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "poster": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "case": {
+            "bulk": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "bulk": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "case": {
+            "dialog": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "language": "ru"
+          },
+          "result": "PASS",
+          "assertions": 17
+        }
+      ]
+    },
+    "differential": {
+      "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+      "candidateSHA256": "49fbf428d0fd61b456f5d322647a224f5076bf103d097db2a20f64c6cda5b897",
+      "tests": 49,
+      "assertions": 253,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":false,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"csp\":true}",
+          "result": "PASS",
+          "assertions": 10
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+          "result": "PASS",
+          "assertions": 5
+        }
+      ]
+    },
+    "php": [
+      {
+        "container": "cookie-consent-acceptance-beta81-1",
+        "php": "8.1.34",
+        "path": "tests/video-embeds/urls.php",
+        "result": "PASS",
+        "assertions": 31
+      },
+      {
+        "container": "cookie-consent-acceptance-beta81-1",
+        "php": "8.1.34",
+        "path": "tests/video-embeds/snippets.php",
+        "result": "PASS",
+        "assertions": 34
+      },
+      {
+        "container": "cookie-consent-acceptance-web-1",
+        "php": "8.2.34",
+        "path": "tests/video-embeds/urls.php",
+        "result": "PASS",
+        "assertions": 31
+      },
+      {
+        "container": "cookie-consent-acceptance-web-1",
+        "php": "8.2.34",
+        "path": "tests/video-embeds/snippets.php",
+        "result": "PASS",
+        "assertions": 34
+      }
+    ],
+    "upgrades": {
+      "tests": 5,
+      "assertions": 160,
+      "failed": 0,
+      "results": [
+        {
+          "name": "cookieconsent-1.0.4-beta1 -> cookieconsent-1.0.5-beta1",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e",
+          "targetSha": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta2 -> cookieconsent-1.0.5-beta1",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "b434196505b56ae3bdd470a6b23e4228dcd6b60827aceba5d61dfcb24a1507b4",
+          "targetSha": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta3 -> cookieconsent-1.0.5-beta1",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d",
+          "targetSha": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta4 -> cookieconsent-1.0.5-beta1",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+          "targetSha": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta5 -> cookieconsent-1.0.5-beta1",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc",
+          "targetSha": "ae7e3e57ab6038a67d23a16a8f5d64db0d29bfca504007272d6ab5e29d3cb2cd"
+        }
+      ]
+    },
+    "directVendors": {
+      "tests": 10,
+      "assertions": 177,
+      "failed": 0,
+      "skipped": 0,
+      "results": [
+        {
+          "name": "google_ga4-no-site-consent",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "google_ga4-denied",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "google_ga4-granted",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "google_ads-no-site-consent",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "google_ads-denied",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "google_ads-granted",
+          "result": "PASS",
+          "assertions": 18
+        },
+        {
+          "name": "google_gtm-no-site-consent",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "google_gtm-denied",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "google_gtm-granted",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "yandex-no-site-consent",
+          "result": "PASS",
+          "assertions": 18
+        }
+      ]
+    }
+  },
+  "baselineNative": {
+    "signature": "cookieconsent-1.0.4-beta5",
+    "sha256": "ce1043673c54662e28307e81e1e9fa4e9501948db7f4d245003d9a89ae53ddbc",
+    "inventory_sha256": "80c4d0b3a2c06861087b46cec7d41697b77d55fa31065558794554eb2429ada9"
+  },
+  "changedFiles": [
+    {
+      "status": "M",
+      "path": "_build/build.php"
+    },
+    {
+      "status": "M",
+      "path": "_build/changelog.md"
+    },
+    {
+      "status": "M",
+      "path": "_build/frontend-manifest.json"
+    },
+    {
+      "status": "M",
+      "path": "_build/frontend.mjs"
+    },
+    {
+      "status": "M",
+      "path": "_build/package-readme.md"
+    },
+    {
+      "status": "M",
+      "path": "_build/package.json"
+    },
+    {
+      "status": "M",
+      "path": "_build/preflight.php"
+    },
+    {
+      "status": "M",
+      "path": "_build/user-guide-manifest.json"
+    },
+    {
+      "status": "M",
+      "path": "_build/user-guide.json"
+    },
+    {
+      "status": "M",
+      "path": "_build/validators/canonical-elements.php"
+    },
+    {
+      "status": "M",
+      "path": "_build/verify-install.php"
+    },
+    {
+      "status": "M",
+      "path": "_build/verify.php"
+    },
+    {
+      "status": "M",
+      "path": "assets/components/cookieconsent/manager.js"
+    },
+    {
+      "status": "M",
+      "path": "assets/css/cookie-consent.css"
+    },
+    {
+      "status": "M",
+      "path": "assets/css/cookie-consent.min.css"
+    },
+    {
+      "status": "M",
+      "path": "assets/js/cookie-consent/consent-manager.js"
+    },
+    {
+      "status": "M",
+      "path": "assets/js/cookie-consent/cookie-consent.min.js"
+    },
+    {
+      "status": "M",
+      "path": "assets/js/cookie-consent/embeds.js"
+    },
+    {
+      "status": "A",
+      "path": "assets/js/cookie-consent/embeds/rutube.js"
+    },
+    {
+      "status": "A",
+      "path": "assets/js/cookie-consent/embeds/vk-video.js"
+    },
+    {
+      "status": "A",
+      "path": "assets/js/cookie-consent/embeds/youtube.js"
+    },
+    {
+      "status": "M",
+      "path": "assets/js/cookie-consent/provider-registry.js"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/modx2-video-embeds-results.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/evidence/modx2-video-embeds-zip-inventory.json"
+    },
+    {
+      "status": "A",
+      "path": "docs/modx2-video-embeds-acceptance.md"
+    },
+    {
+      "status": "A",
+      "path": "docs/modx2-video-embeds.md"
+    },
+    {
+      "status": "M",
+      "path": "README.md"
+    },
+    {
+      "status": "M",
+      "path": "server/bin/restore-elements.php"
+    },
+    {
+      "status": "M",
+      "path": "server/lexicon/en/default.inc.php"
+    },
+    {
+      "status": "M",
+      "path": "server/lexicon/ru/default.inc.php"
+    },
+    {
+      "status": "M",
+      "path": "server/modx2-map-snippet.php"
+    },
+    {
+      "status": "A",
+      "path": "server/modx2-video-snippet.php"
+    },
+    {
+      "status": "M",
+      "path": "server/src/CookieConsentBannerRenderer.php"
+    },
+    {
+      "status": "A",
+      "path": "server/src/CookieConsentEmbedOptions.php"
+    },
+    {
+      "status": "M",
+      "path": "server/src/CookieConsentGuide.php"
+    },
+    {
+      "status": "M",
+      "path": "server/src/CookieConsentServiceRegistry.php"
+    },
+    {
+      "status": "M",
+      "path": "server/src/CookieConsentVersion.php"
+    },
+    {
+      "status": "A",
+      "path": "server/src/CookieConsentVideoUrl.php"
+    },
+    {
+      "status": "M",
+      "path": "tests/beta102/control.php"
+    },
+    {
+      "status": "M",
+      "path": "tests/beta31/php.php"
+    },
+    {
+      "status": "M",
+      "path": "tests/beta32/native-fixture.php"
+    },
+    {
+      "status": "M",
+      "path": "tests/beta33/native.mjs"
+    },
+    {
+      "status": "M",
+      "path": "tests/frontend-refactor/manager.mjs"
+    },
+    {
+      "status": "M",
+      "path": "tests/legacy-autoload/upgrade.mjs"
+    },
+    {
+      "status": "M",
+      "path": "tests/php.php"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/baseline-results.json"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/baseline.json"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/browser.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/build.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/contracts.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/control.php"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/differential.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/native-browser.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/native.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/README.md"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/real-playback.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/registry.mjs"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/snippets.php"
+    },
+    {
+      "status": "A",
+      "path": "tests/video-embeds/urls.php"
+    }
+  ],
+  "authorization": {
+    "push": false,
+    "merge": false,
+    "release": false,
+    "deployment": false,
+    "modx3Touched": false
+  }
+}

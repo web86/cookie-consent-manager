@@ -6,7 +6,8 @@ import {origin,docker} from '../helpers.mjs';
 const ctl=(a,input)=>docker(['web','php','/opt/cc-source/tests/local/manager-i18n-control.php',...a],input).trim();
 const saved=ctl(['setting','cookie_consent.services','get']),ids=JSON.parse(docker(['web','php','/opt/cc-source/tests/beta31/fixture.php']));
 const docs=JSON.parse(readFileSync('_build/user-guide.json')).languages;
-const example=docs.en.sections[4].blocks.find(x=>x.type==='code').text;
+const example=docs.en.sections.flatMap(section=>section.blocks).find(block=>block.type==='code'&&block.text.includes("'/assets/js/custom-map.js'"))?.text;
+if(!example)throw new Error('Missing tested onAllowed example in EN guide');
 const b=await chromium.launch(),results=[];let n=0;
 const eq=(a,c,m)=>{n++;assert.deepEqual(a,c,m)};
 const test=async(name,fn)=>{const start=n;try{await fn();results.push({name,result:'PASS',assertions:n-start});console.log('PASS '+name)}catch(e){results.push({name,result:'FAIL',assertions:n-start,error:e.message});throw e}};
@@ -52,8 +53,8 @@ try{
   await ctx.route('**/*',r=>{
    const u=new URL(r.request().url());requests.push(u.pathname);if(u.origin!==origin)return r.abort();
    if(u.pathname==='/owner-standalone')return r.fulfill({contentType:'text/html',body:'<!doctype html><html lang="'+lang+'"><head>'+(inline?'<script id="cc-public-config" type="application/json">{"locale":"tr","strings":{"reject":"Reddet"}}</script>':'')+'<script src="/fixtures/i18n.js"></script></head><body>Owner standalone</body></html>'});
-   if(u.pathname==='/fixtures/i18n.js')return r.fulfill({contentType:'text/javascript',body:readFileSync('assets/js/cookie-consent/i18n.js','utf8')});
-   if(u.pathname==='/fixtures/lexicons.json')return r.fulfill({contentType:'application/json',body:readFileSync('assets/js/cookie-consent/lexicons.json','utf8')});
+   if(u.pathname==='/fixtures/i18n.js')return r.fulfill({contentType:'text/javascript',body:readFileSync('archive/standalone-i18n/i18n.js','utf8')});
+   if(u.pathname==='/fixtures/lexicons.json')return r.fulfill({contentType:'application/json',body:readFileSync('archive/standalone-i18n/lexicons.json','utf8')});
    return r.abort();
   });
   try{await p.goto(origin+'/owner-standalone',{waitUntil:'networkidle'});eq(await p.evaluate(async()=>{await web86I18n.ready;return web86I18n.t('reject')}),reject);eq(requests.includes('/fixtures/lexicons.json'),!inline);eq(await p.evaluate(()=>typeof web86CookieConsent),'undefined','Not a current CMP integration');}finally{await ctx.close();}

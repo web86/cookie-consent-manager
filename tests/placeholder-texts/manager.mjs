@@ -1,0 +1,33 @@
+// Native MODX Manager only; this suite shares the disposable web DB with regression.
+import {chromium} from 'playwright';
+import assert from 'node:assert/strict';
+import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
+import {origin,docker} from '../helpers.mjs';
+const ctl=(args,input)=>docker(['web','php','/opt/cc-source/tests/local/manager-i18n-control.php',...args],input).trim();
+const keys=['cookie_consent.services','cookie_consent.options','cookie_consent.texts','manager_language'],saved=Object.fromEntries(keys.map(k=>[k,ctl(['setting',k,'get'])]));
+const meta=JSON.parse(readFileSync('_build/package.json')),version=meta.version+(meta.release?'-'+meta.release+meta.release_index:'');
+const browser=await chromium.launch(),ctx=await browser.newContext(),p=await ctx.newPage(),requests=[],errors=[],results=[];let assertions=0;
+const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m);};
+await ctx.route('**/*',r=>{if(new URL(r.request().url()).origin===origin)return r.continue();requests.push({url:r.request().url(),preview:r.request().frame()?.parentFrame()!==null});return r.abort();});p.on('pageerror',e=>errors.push(e.message));
+try{
+ const creds=JSON.parse(docker(['web','php','/opt/cc-source/tests/transport/control.php','credentials','/opt/cc-private']));await p.goto(origin+'/manager/');await p.locator('#modx-login-username').fill(creds.username);await p.locator('#modx-login-password').fill(creds.password);await p.locator('#modx-login-btn').click();await p.waitForFunction(()=>window.MODx?.siteId);
+ const stock=JSON.parse(saved['cookie_consent.services']),services=stock.services.filter(s=>['google_maps','yandex_maps','youtube','rutube','vk_video'].includes(s.loader)).map(s=>({...s,enabled:true}));
+ // Upgraded installations may not yet have video instances; use the current catalog defaults.
+ const defaults=JSON.parse(docker(['web','php','-r',"require '/opt/cc-source/server/src/CookieConsentServiceRegistry.php';echo json_encode(CookieConsentServiceRegistry::defaults());"]));for(const s of defaults.services)if(['youtube','rutube','vk_video'].includes(s.loader)&&!services.some(v=>v.key===s.key))services.push({...s,enabled:true});
+ ctl(['setting','cookie_consent.services'],JSON.stringify({schema:1,services}));
+ for(const language of ['ru','en']){
+  const start=assertions;ctl(['setting','manager_language'],language);const texts=JSON.parse(saved['cookie_consent.texts']);texts.locales[language]={...texts.locales[language],map_notice:'',map_load:'',embed_notice:'Historical {provider}',embed_settings:'Historical preferences','service.google_maps.map_notice':'Google custom {provider}','service.yandex_maps.map_notice':'Yandex custom {provider}'};ctl(['setting','cookie_consent.texts'],JSON.stringify(texts));
+  await p.goto(origin+'/manager/?a=index&namespace=cookie_consent');await p.locator('#ccm-save').waitFor();eq((await p.locator('#ccm-package-version').textContent()).endsWith(' '+version),true,'Active runtime package version');await p.locator('#ccm-tab-texts').click();await p.locator('#ccm-edit-language').selectOption(language);
+  eq(await p.locator('[data-text-key$=map_notice]').count(),3,'Exactly common + Google + Yandex notice fields');eq(await p.locator('[data-text-key=map_load]').count(),1,'One settings button field');eq(await p.locator('[data-text-key=map_notice]').inputValue(),'Historical {provider}','Legacy translation is visible');eq(await p.locator('[data-text-key=map_load]').inputValue(),'Historical preferences');
+  eq((await p.locator('[data-text-row=map_notice] label').textContent()).startsWith(language==='ru'?'Текст заглушки внешнего содержимого':'External content placeholder text'),true,'Localized common label');
+  await p.locator('[data-preview-state=map]').click();const preview=p.frameLocator('#ccm-preview-frame');await preview.locator('[data-preview-embed=youtube]').waitFor();eq((await preview.locator('[data-preview-embed=youtube] p').textContent()).startsWith('Historical YouTube'),true,'Video preview interpolates service');eq((await preview.locator('[data-preview-map=google_maps] p').textContent()).startsWith('Google custom Google Maps'),true,'Map override retained');
+  const button=language==='ru'?'Настройки cookie':'Cookie settings';await p.locator('[data-text-key=map_notice]').fill('Shared {provider}');await p.locator('[data-text-key=map_load]').fill(button);
+  await p.waitForTimeout(500);eq(await preview.locator('[data-preview-embed=youtube] p').textContent(),'Shared YouTube');eq(await preview.locator('[data-preview-embed=youtube] button').textContent(),button);eq(await preview.locator('[data-preview-map=google_maps] button').textContent(),button);eq(await preview.locator('iframe,script,img').count(),0,'Preview inert');
+  const beforeOptions=JSON.parse(ctl(['setting','cookie_consent.options','get']));const response=p.waitForResponse(r=>new URLSearchParams(r.request().postData()||'').get('action')==='save');await p.locator('#ccm-save').click();eq((await(await response).json()).success,true);await p.waitForFunction(()=>document.querySelector('#ccm-status').dataset.state==='saved');eq(JSON.parse(ctl(['setting','cookie_consent.options','get'])).category_versions,beforeOptions.category_versions,'Text edits keep consent versions');
+  const before=ctl(['setting','cookie_consent.texts','get']),stored=JSON.parse(before).locales[language];eq(stored['service.google_maps.map_notice'],'Google custom {provider}');eq(stored['service.yandex_maps.map_notice'],'Yandex custom {provider}');eq(stored.map_notice,'Shared {provider}');eq(stored.map_load,button);
+  docker(['web','php','/opt/cc-source/server/bin/install-modx2.php','/var/www/html','/opt/cc-private/logs']);eq(ctl(['setting','cookie_consent.texts','get']),before,'Upgrade preserves all custom translation bytes');await p.reload();await p.locator('#ccm-tab-texts').click();await p.locator('#ccm-edit-language').selectOption(language);eq(await p.locator('[data-text-key=map_notice]').inputValue(),'Shared {provider}');eq(await p.locator('[data-text-key=map_load]').inputValue(),button);
+  results.push({language,result:'PASS',assertions:assertions-start});console.log('PASS Manager '+language);
+ }
+ eq(requests.filter(r=>r.preview||new URL(r.url).hostname!=='www.gravatar.com'),[],'Component/Preview never requests vendors (MODX profile avatar excluded)');eq(errors,[]);
+}catch(e){results.push({result:'FAIL',error:e.stack});console.error(e);process.exitCode=1;}
+finally{for(const key of keys)ctl(['setting',key],saved[key]);await browser.close();mkdirSync('.local/placeholder-texts',{recursive:true});writeFileSync('.local/placeholder-texts/manager.json',JSON.stringify({tests:results.length,assertions,failed:results.filter(r=>r.result==='FAIL').length,results},null,2)+'\n');}

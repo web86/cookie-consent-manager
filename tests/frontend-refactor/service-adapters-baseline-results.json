@@ -1,0 +1,367 @@
+{
+  "equivalence.json": {
+    "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+    "candidateSHA256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+    "tests": 14,
+    "assertions": 56,
+    "failed": 0,
+    "results": [
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"dialog\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":true}",
+        "result": "PASS",
+        "assertions": 4
+      }
+    ]
+  },
+  "matrix.json": {
+    "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+    "tests": 30,
+    "assertions": 330,
+    "failed": 0,
+    "results": [
+      {
+        "name": "yandex-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-external_content",
+        "result": "PASS",
+        "assertions": 11
+      }
+    ]
+  },
+  "browser.json": {
+    "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+    "tests": 24,
+    "assertions": 176,
+    "failed": 0,
+    "results": [
+      {
+        "name": "strict-new-visitor-zero-optional-network",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-first-visit-network-init-dedup-no-consent-no-audit-google-unmodified",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "legacy-preserves-independent-site-consent-denied",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-preserves-independent-site-consent-granted",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-reject-synchronous-guards-real-reload-denied-restored",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-respects-refusal",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-respects-partial",
+        "result": "PASS",
+        "assertions": 8
+      },
+      {
+        "name": "legacy-respects-expired",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-policy",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-category-version",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-respects-malformed",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-historical-incomplete",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-respects-historical-complete",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-archive-only",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-unavailable-storage",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-hidden-category-disabled-service-and-mode-off",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-reject-even-with-all-categories-hidden-reloads",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-admin-processing-change-invalidates-real-consent",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-pending-google_ga4-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-google_ads-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-google_gtm-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-meta-reject-cancels-queued-pageview",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "Manager-warning-ru",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "Manager-warning-en",
+        "result": "PASS",
+        "assertions": 2
+      }
+    ]
+  }
+}

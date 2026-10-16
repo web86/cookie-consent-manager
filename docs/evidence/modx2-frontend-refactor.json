@@ -1,0 +1,997 @@
+{
+  "date": "2026-10-16",
+  "scope": "MODX 2 only; local disposable fixtures; no push/merge/release/deployment",
+  "branch": "codex/modx2-frontend-refactor",
+  "baseline_commit": "ab78ef1365c95514d57b4b63922539e6ac5ea395",
+  "runtime_implementation_commit": "fd448d1",
+  "signature": "cookieconsent-1.0.4-beta4",
+  "sha256": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+  "source_inventory_sha256": "adff498b881ca6c5ac08d37cf4d6c6c65635df0c528aeafe0314f1801b1d2c90",
+  "outcome": "PASS after affected fixture/harness retries",
+  "unresolved_failures": 0,
+  "runtime_changed_paths": [
+    "assets/components/cookieconsent/manager.js",
+    "assets/js/cookie-consent/cookie-consent.min.js",
+    "core/components/cookieconsent/src/CookieConsentGuide.php",
+    "core/components/cookieconsent/src/CookieConsentVersion.php"
+  ],
+  "native_objects_identical_to_beta3": true,
+  "suites": {
+    "baseline_legacy": {
+      "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+      "tests": 24,
+      "assertions": 176,
+      "failed": 0
+    },
+    "baseline_category_matrix": {
+      "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+      "tests": 30,
+      "assertions": 330,
+      "failed": 0
+    },
+    "differential": {
+      "baseline": "ab78ef1365c95514d57b4b63922539e6ac5ea395",
+      "candidateSHA256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+      "tests": 44,
+      "assertions": 186,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"all\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"archive\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"storageError\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"hidden\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"fail\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"noRoot\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"csp\":true}",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "{\"legacy\":true,\"csp\":true}",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "sdk_extraction_focused": {
+      "baseline": "ab78ef1365c95514d57b4b63922539e6ac5ea395",
+      "candidateSHA256": "3d43f038834c1d7564bd12c616100c895a5248c66755c68ed7e1b64650b94aab",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "embeds_extraction_focused": {
+      "baseline": "ab78ef1365c95514d57b4b63922539e6ac5ea395",
+      "candidateSHA256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+      "tests": 14,
+      "assertions": 56,
+      "failed": 0,
+      "results": [
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"dialog\":true}",
+          "result": "PASS",
+          "assertions": 4
+        },
+        {
+          "name": "{\"legacy\":true,\"pending\":true}",
+          "result": "PASS",
+          "assertions": 4
+        }
+      ]
+    },
+    "legacy": {
+      "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+      "tests": 24,
+      "assertions": 176,
+      "failed": 0
+    },
+    "legacy_matrix": {
+      "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+      "tests": 30,
+      "assertions": 330,
+      "failed": 0
+    },
+    "beta2_accept": {
+      "suite": "Legacy accept / actual MODX 2 deployed bundle",
+      "tests": 11,
+      "assertions": 130,
+      "failed": 0
+    },
+    "universal": {
+      "tests": 20,
+      "failed": 0,
+      "results": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    },
+    "public_registry_upgrade": {
+      "suite": "Actual previous-release consent and native upgrade to minimal registry",
+      "tests": 6,
+      "assertions": 59,
+      "failed": 0
+    },
+    "examples": {
+      "tests": 5,
+      "assertions": 22,
+      "failed": 0
+    },
+    "fenom_browser_retry": {
+      "suite": "Genuine MODX 2 / pdoTools / Fenom acceptance",
+      "tests": 31,
+      "assertions": 768,
+      "failed": 0
+    },
+    "fenom_modes_retry": {
+      "tests": 24,
+      "assertions": 480,
+      "failed": 0
+    },
+    "beta1_beta2_beta3_upgrades": {
+      "tests": 3,
+      "assertions": 96,
+      "failed": 0,
+      "results": [
+        {
+          "name": "cookieconsent-1.0.4-beta1 -> cookieconsent-1.0.4-beta4",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "d762bf4a412d51e8fe45d2c9deb0978f0ab596718a17240cf044597d5a5c811e",
+          "targetSha": "9b8891cb38762bce7c7825290825d5f4a95e7647d72248cb401a45bc8b3a7d7e"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta2 -> cookieconsent-1.0.4-beta4",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "b434196505b56ae3bdd470a6b23e4228dcd6b60827aceba5d61dfcb24a1507b4",
+          "targetSha": "9b8891cb38762bce7c7825290825d5f4a95e7647d72248cb401a45bc8b3a7d7e"
+        },
+        {
+          "name": "cookieconsent-1.0.4-beta3 -> cookieconsent-1.0.4-beta4",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d",
+          "targetSha": "9b8891cb38762bce7c7825290825d5f4a95e7647d72248cb401a45bc8b3a7d7e"
+        }
+      ]
+    },
+    "real_sdk_replay": {
+      "tests": 10,
+      "assertions": 177,
+      "failed": 0
+    },
+    "native_final": {
+      "suite": "MODX 2.8.8 native category fresh/upgrade/reinstall/uninstall",
+      "tests": 7,
+      "assertions": 220,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-without-category-native-creation",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "reinstall-no-duplicates-category-ID-preserved",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "fresh-existing-category-reused-with-parent-and-unrelated-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "beta32-to-current-five-sources-updated-IDs-and-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 60
+        },
+        {
+          "name": "reinstall-five-sources-custom-categories-retained",
+          "result": "PASS",
+          "assertions": 39
+        },
+        {
+          "name": "native-uninstall-retains-elements-categories-settings-and-data",
+          "result": "PASS",
+          "assertions": 25
+        },
+        {
+          "name": "split-and-legacy-never-call-retained-Registry",
+          "result": "PASS",
+          "assertions": 7
+        }
+      ]
+    },
+    "beta3_upgrade_exact_final": {
+      "tests": 1,
+      "assertions": 32,
+      "failed": 0,
+      "results": [
+        {
+          "name": "cookieconsent-1.0.4-beta3 -> cookieconsent-1.0.4-beta4",
+          "result": "PASS",
+          "assertions": 32,
+          "oldSha": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d",
+          "targetSha": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a"
+        }
+      ]
+    },
+    "manager_exact_final": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 65,
+      "failed": 0,
+      "php": "8.2.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 57,
+      "signature": "cookieconsent-1.0.4-beta4",
+      "interceptedCoreAvatarRequests": 2
+    },
+    "php81_exact_final": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 68,
+      "failed": 0,
+      "php": "8.1.34",
+      "modx": "2.8.8-pl",
+      "runtimeFiles": 57
+    },
+    "php_regressions_syntax": {
+      "php_linted": 106,
+      "js_checked": 121,
+      "failed": 0
+    },
+    "build": {
+      "result": "PASS",
+      "tests": 1,
+      "assertions": 53,
+      "failed": 0,
+      "inputs": 9,
+      "outputs": 2,
+      "signature": "cookieconsent-1.0.4-beta4",
+      "sha256": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+      "runtimeFiles": 57,
+      "frontend": {
+        "tool": "esbuild",
+        "version": "0.28.2",
+        "inputs": {
+          "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+          "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+          "assets/js/cookie-consent/provider-registry.js": "8886e34a22d101991f13ad45fa25353f9f152f1210ef06f0dfb0c8f717cd91d3",
+          "assets/js/cookie-consent/service-loaders.js": "df6c1e994413a71c0d259e271bbe2c33c56036c860606aafabe1c044c6dfa03a",
+          "assets/js/cookie-consent/embeds.js": "6fe6a12160228558962627578c4ce8a1091dd938e9fad436830dddc5a5cf300b",
+          "assets/js/cookie-consent/consent-manager.js": "390895611b8c176d180e7753815bfe0daca7449f50e4d3eb5b72a9666a417e1d",
+          "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
+          "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
+          "_build/frontend.mjs": "ed666887eb1320737303deb03d5545140f1cff87174c8f8ed96ea01a7ddf0361"
+        },
+        "outputs": {
+          "assets/js/cookie-consent/cookie-consent.min.js": {
+            "sha256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+            "bytes": 22745
+          },
+          "assets/css/cookie-consent.min.css": {
+            "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
+            "bytes": 3286
+          }
+        }
+      },
+      "baselineZipUnchanged": true,
+      "nativeReproducible": true
+    },
+    "native_zip": {
+      "signature": "cookieconsent-1.0.4-beta4",
+      "native_vehicles": 73,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 14,
+        "xPDOFileVehicle": 57,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 57,
+      "zip_entries": 140,
+      "sha256": "c81482abe94502b7e95d898f3bffa2a40b279595e1ec60669ed02bbd70869a4a",
+      "result": "PASS"
+    },
+    "php_contracts": {
+      "php81": {
+        "categories": {
+          "suite": "Universal service category/path/text contract",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 114,
+          "failed": 0
+        },
+        "audit": {
+          "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 7,
+          "failed": 0
+        },
+        "visibility": {
+          "suite": "Visibility-aware consent audit validation, exhaustive categories/providers",
+          "result": "PASS",
+          "assertions": 3115
+        },
+        "urls": {
+          "suite": "HTTPS custom JS URL validation and normalized duplicate identity",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 32,
+          "failed": 0
+        },
+        "total_assertions": 3268
+      },
+      "php82": {
+        "categories": {
+          "suite": "Universal service category/path/text contract",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 114,
+          "failed": 0
+        },
+        "audit": {
+          "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 7,
+          "failed": 0
+        },
+        "visibility": {
+          "suite": "Visibility-aware consent audit validation, exhaustive categories/providers",
+          "result": "PASS",
+          "assertions": 3115
+        },
+        "urls": {
+          "suite": "HTTPS custom JS URL validation and normalized duplicate identity",
+          "result": "PASS",
+          "tests": 1,
+          "assertions": 32,
+          "failed": 0
+        },
+        "total_assertions": 3268
+      }
+    }
+  },
+  "initial_full_run": [
+    {
+      "name": "reset-disposable",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "native",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/native-native-results.json"
+      ]
+    },
+    {
+      "name": "install-web",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "legacy-browser",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/legacy-browser-browser.json"
+      ]
+    },
+    {
+      "name": "legacy-matrix",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/legacy-matrix-matrix-results.json"
+      ]
+    },
+    {
+      "name": "beta1042",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "universal",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/universal-results.json"
+      ]
+    },
+    {
+      "name": "public-registry-upgrade",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "examples",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "fenom-browser",
+      "result": "FAIL",
+      "reports": [
+        ".local/frontend-refactor/acceptance/fenom-browser-results.json"
+      ]
+    },
+    {
+      "name": "fenom-modes",
+      "result": "FAIL",
+      "reports": [
+        ".local/frontend-refactor/acceptance/fenom-modes-fenom.json"
+      ]
+    },
+    {
+      "name": "beta-upgrades",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/beta-upgrades-upgrade.json"
+      ]
+    },
+    {
+      "name": "direct-vendors",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/direct-vendors-direct-vendors.json"
+      ]
+    },
+    {
+      "name": "manager",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "refresh-php81",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-native",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/php81-native-php81.json"
+      ]
+    },
+    {
+      "name": "php81-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php81-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-categories",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-audit",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-visibility",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php82-urls",
+      "result": "PASS",
+      "reports": []
+    },
+    {
+      "name": "php-and-syntax",
+      "result": "PASS",
+      "reports": [
+        ".local/frontend-refactor/acceptance/php-and-syntax-regression.json"
+      ]
+    },
+    {
+      "name": "native-verifier",
+      "result": "PASS",
+      "reports": []
+    }
+  ],
+  "initial_exact_final_run": [
+    {
+      "name": "restart-final-web",
+      "result": "PASS"
+    },
+    {
+      "name": "final-native",
+      "result": "PASS"
+    },
+    {
+      "name": "final-beta3-upgrade",
+      "result": "PASS"
+    },
+    {
+      "name": "final-manager",
+      "result": "FAIL"
+    },
+    {
+      "name": "final-refresh-php81",
+      "result": "PASS"
+    },
+    {
+      "name": "final-php81",
+      "result": "PASS"
+    },
+    {
+      "name": "final-build",
+      "result": "PASS"
+    },
+    {
+      "name": "final-native-verifier",
+      "result": "PASS"
+    }
+  ],
+  "retries": [
+    {
+      "name": "fenom-browser-retry",
+      "result": "PASS"
+    },
+    {
+      "name": "fenom-modes-retry",
+      "result": "PASS"
+    },
+    {
+      "name": "final-manager-retry",
+      "result": "PASS",
+      "assertions": 65
+    }
+  ],
+  "resolved_findings": [
+    "Initial Fenom browser and mode suites detected its stale beta3 deployed bundle via exact content hash. Synced only the named disposable Fenom fixture; both suites re-run and passed. Original FAIL reports/logs retained.",
+    "Final Manager harness originally classified core MODX Gravatar as component traffic. All outside traffic was aborted. Added an explicit core-avatar distinction; component SDK isolation, installed hashes and help links re-run and passed. Original FAIL retained.",
+    "First native build attempt used the read-only source bind mount as output. Rebuilt in writable container /tmp; final independent builds reproduce.",
+    "Differential harness prototypes were corrected for valid root-relative JS fixture paths, script load completion, first-visit-only storage seeding and minifier stack frames. Final tests explicitly assert registry acceptance and compare immutable beta3 against each extracted stage. Public facade property order preserved."
+  ],
+  "execution_scope": "Full universal/legacy/SDK/PHP suites used the identical final frontend bundle and consent PHP. The final transport additionally corrects only technical adapter-source help in Manager; exact final ZIP independently repeated native lifecycle, beta3 upgrade, all runtime hashes, Manager help/isolation and PHP 8.1 installation. Both independent final native ZIPs match.",
+  "skips": [
+    {
+      "result": "SKIP",
+      "name": "Actual vendor account delivery and published GTM tags",
+      "reason": "No owned approved test account IDs/container supplied; synthetic IDs and real public SDK bytes used, telemetry fulfilled locally."
+    },
+    {
+      "result": "SKIP",
+      "name": "Customer hosting/production and owner templates/cache/CSP/legal acceptance",
+      "reason": "No production deployment or owner staging access requested/provided; manual release gates."
+    },
+    {
+      "result": "SKIP",
+      "name": "Firefox/WebKit/Safari/mobile and blockers",
+      "reason": "Automated browser acceptance here used Chromium; manual release gates."
+    }
+  ]
+}

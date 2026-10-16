@@ -10,7 +10,10 @@
     "test:parameters": "node tests/provider-parameters.mjs",
     "test:permissions": "node tests/manager-permissions.mjs",
     "build:frontend": "node _build/frontend.mjs",
-    "build:guide": "node _build/user-guide.mjs"
+    "build:guide": "node _build/user-guide.mjs",
+    "test:universal": "node tests/universal/regression.mjs",
+    "test:legacy": "node tests/legacy-autoload/browser.mjs && node tests/legacy-autoload/matrix.mjs",
+    "test:adapter-cache": "php tests/adapter-cache/php.php && node tests/adapter-cache/semantics.mjs && node tests/adapter-cache/build.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",

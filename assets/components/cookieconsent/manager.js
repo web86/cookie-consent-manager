@@ -34,9 +34,10 @@
       footer.append(document.createTextNode(t('developer')+' '),el('a','www.web86.site',{href:'https://www.web86.site/',target:'_blank',rel:'noopener noreferrer'}));
       root.append(footer);
     };
+    const pageTitle = () => { const title=el('div',null,{class:'ccm-title'}); title.append(el('h2',t('title')),el('small',t('package_version')+' '+(data.packageVersion || '—'),{id:'ccm-package-version'}));return title; };
     if(!data.canManage){
       document.body.classList.add('ccm-manager');root.closest('.x-panel-body')?.classList.add('ccm-scroll-host');
-      root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(el('h2',t('title')));
+      root.removeAttribute('aria-busy');root.className='ccm-page ccm-page-logs';root.append(pageTitle());
       const panel=el('section',null,{id:'ccm-panel-logs',class:'ccm-panel'});root.append(panel);
       window.CookieConsentAuditViewer.mount(panel,{api,t,el,boot,data}).loadInitial();appendFooter();return;
     }
@@ -62,6 +63,10 @@
       return clone(texts);
     };
     const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
+    const validScriptPath = window.web86ScriptUrl.valid;
+    const invalidCustom = service => service.loader === 'custom_js' && (!validScriptPath(service.config.path) || draft.registry.services.some(other => other !== service && other.loader === 'custom_js' && window.web86ScriptUrl.identity(other.config.path) === window.web86ScriptUrl.identity(service.config.path)));
+    const existingProvider = service => data.registry.services.some(original => original.key === service.key && original.enabled && original.loader === service.loader && original.config.id?.replace(/^0+(?=\d)/, '') === service.config.id?.replace(/^0+(?=\d)/, ''));
+    const duplicateId = service => service.enabled && service.config.id && draft.registry.services.some(other => other !== service && other.enabled && other.loader === service.loader && other.config.id?.replace(/^0+(?=\d)/, '') === service.config.id.replace(/^0+(?=\d)/, '') && (!existingProvider(service) || !existingProvider(other)));
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
     try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: editableTexts(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
     catch (e) { root.removeAttribute('aria-busy'); root.setAttribute('role', 'alert'); root.textContent = e.message; return; }
@@ -71,7 +76,7 @@
     const scrollHost = root.closest('.x-panel-body'); if (scrollHost) scrollHost.classList.add('ccm-scroll-host');
     let savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});
     root.removeAttribute('aria-busy'); root.className = 'ccm-page';
-    const header = el('header'); header.append(el('h2', t('title')));
+    const header = el('header'); header.append(pageTitle());
     const save = el('button', t('save'), { type: 'button', id: 'ccm-save', class: 'ccm-primary' });
     const status = el('span', t('unchanged'), { id: 'ccm-status', role: 'status', 'aria-live': 'polite' }); header.append(status, save);
     const layout = el('div', null, { class: 'ccm-layout' }), main = el('div', null, { class: 'ccm-main' }), aside = el('aside', null, { class: 'ccm-preview' });
@@ -85,11 +90,11 @@
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
-    function field(container, label, value, callback, type = 'text', id, help) {
+    function field(container, label, value, callback, type = 'text', id, help, provisional = false) {
       const row = el('label', null, { class: 'ccm-field' }); row.append(el('span', label));
       const input = el(type === 'textarea' ? 'textarea' : 'input', null, { ...(type === 'textarea' ? {} : { type }), ...(id ? { id } : {}) });
       if (type === 'checkbox') input.checked = Boolean(value); else input.value = value ?? '';
-      input.addEventListener(type === 'checkbox' ? 'change' : 'input', () => { callback(type === 'checkbox' ? input.checked : type === 'number' ? Number(input.value) : input.value); changed(); });
+      input.addEventListener(type === 'checkbox' ? 'change' : 'input', () => { callback(type === 'checkbox' ? input.checked : type === 'number' ? Number(input.value) : input.value); if (!provisional) changed(); });
       row.append(input); if (help) row.append(el('small', help)); container.append(row); return input;
     }
     field(panels.main, t('ttl_days'), draft.options.ttl_days, v => draft.options.ttl_days = v, 'number', 'ccm-ttl').setAttribute('min', '1');
@@ -99,6 +104,13 @@
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
     for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
     legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
+    const build=el('section',null,{id:'ccm-adapters-build'});build.append(el('h3',t('adapters_build')));
+    const buildState=el('p','',{id:'ccm-build-status',role:'status','aria-live':'polite'});
+    const buildTime=el('p','',{id:'ccm-build-time'});
+    const buildButton=el('button',t('rebuild_adapters'),{type:'button',id:'ccm-bundle-rebuild'});
+    const showBuild=()=>{const value=data.adapterBuild || {state:'fallback'};buildState.textContent=t('build_'+value.state);buildTime.textContent=t('build_time')+' '+(value.built_at ? new Date(value.built_at).toLocaleString(data.managerLanguage) : '—');};
+    showBuild();build.append(buildState,buildTime,buildButton,el('p',t('build_help'),{class:'ccm-help'}));panels.main.append(build);
+    buildButton.onclick=async()=>{buildButton.disabled=true;buildState.textContent=t('build_running');try{data.adapterBuild=await api('bundle_rebuild');showBuild();}catch(e){buildState.textContent=t('build_error')+' '+e.message;}finally{buildButton.disabled=false;}};
     const auditViewer=window.CookieConsentAuditViewer.mount(panels.logs,{api,t,el,boot,data});
     const storage=el('section',null,{id:'ccm-log-storage'});storage.append(el('h3',t('consent_journal')));
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
@@ -138,16 +150,22 @@
     function textSource(language, key) {
       const base = draft.texts.base_language;
       const service = draft.registry.services.find(s => key.startsWith('service.' + s.key + '.'));
-      const serviceFallback = key.endsWith('.map_notice') ? data.lexicons[language]?.map_notice || data.lexicons[base]?.map_notice || data.lexicons.en.map_notice : service ? (key.endsWith('.name') ? service.name : service.purpose) : '';
+      if(key==='map_notice'||key==='map_load'||key.endsWith('.map_notice')) {
+        const common=key==='map_load'?'map_load':'map_notice',legacy=common==='map_load'?'embed_settings':'embed_notice';
+        return [draft.texts.locales[language]?.[key],draft.texts.locales[language]?.[common],draft.texts.locales[language]?.[legacy],data.lexicons[language]?.[common],draft.texts.locales[base]?.[common],draft.texts.locales[base]?.[legacy],data.lexicons[base]?.[common],data.lexicons.en[common]].find(v=>typeof v==='string'&&v.length>0)||'';
+      }
+      const serviceFallback = service ? (key.endsWith('.name') ? service.name : service.purpose) : '';
       return draft.texts.locales[language]?.[key] ?? data.lexicons[language]?.[key] ?? draft.texts.locales[base]?.[key] ?? data.lexicons[base]?.[key] ?? data.lexicons.en[key] ?? serviceFallback;
     }
     function languages(select, selected, available = false) {
       select.replaceChildren(); const codes = [...new Set([...(available ? data.availableLanguages : Object.keys(draft.texts.locales)), selected])].sort();
       for (const code of codes) select.append(el('option', code, { value: code })); select.value = selected;
     }
+    const settingsExpanded = new Set();
     const groupExpanded = { analytics: true, marketing: true, external_content: true };
     function renderServices() {
-      panels.services.replaceChildren(el('p',t('category_visibility_help'),{class:'ccm-help ccm-services-intro'}));
+      const addButton = el('button',t('add_service'),{type:'button',id:'ccm-add-service',class:'ccm-primary'});
+      const intro=el('p',t('category_visibility_help')+' ',{class:'ccm-help ccm-services-intro'}),info=el('button','i',{type:'button',class:'ccm-info','aria-label':t('category_responsibility'),title:t('category_responsibility'),'aria-describedby':'ccm-category-tip'}),tip=el('span',t('category_responsibility'),{id:'ccm-category-tip',role:'tooltip',class:'ccm-tooltip'}),infoWrap=el('span',null,{class:'ccm-info-wrap'});infoWrap.append(info,tip);intro.append(infoWrap);panels.services.replaceChildren(addButton,intro);
       for (const category of ['analytics', 'marketing', 'external_content']) {
         const group = el('section', null, { class: 'ccm-service-group', 'data-group': category });
         const name=data.managerStrings[category + '_name'];
@@ -158,49 +176,78 @@
         const visible=field(heading,t('category_visible'),draft.options.categories[category],v=>draft.options.categories[category]=v,'checkbox','ccm-category-visible-'+category);
         visible.parentElement.classList.add('ccm-category-visibility');
         toggle.onclick=()=>{groupExpanded[category]=!groupExpanded[category];content.hidden=!groupExpanded[category];toggle.setAttribute('aria-expanded',String(groupExpanded[category]));toggle.setAttribute('aria-label',t(groupExpanded[category]?'collapse':'expand')+' — '+name);};
-        group.append(heading,content);
+        const visibilityNote=el('p',t('hidden_services_help'),{class:'ccm-help ccm-category-blocked','data-category-blocked':category});
+        const updateVisibilityNote=()=>visibilityNote.hidden=draft.options.categories[category]||!draft.registry.services.some(s=>s.enabled&&s.category===category);
+        visible.addEventListener('change',updateVisibilityNote);updateVisibilityNote();group.append(heading,visibilityNote,content);
         for (const service of draft.registry.services.filter(s => s.category === category)) {
           const card = el('article', null, { class: 'ccm-service', 'data-service': service.key });
           const cardHeading=el('div',null,{class:'ccm-service-heading'}),identity=el('div',null,{class:'ccm-service-identity'});
           identity.append(el('h4',textSource(data.managerLanguage,'service.'+service.key+'.name')||service.name));cardHeading.append(identity);card.append(cardHeading);
           const validity = el('span', null, { class: 'ccm-config-status' });
-          let idInput, idError;
+          let idInput, idError, pathInput;
           const updateValidity = () => {
-            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict; validity.textContent = invalid ? t('needs_id') : service.enabled ? t('configured') : t('service_disabled');
+            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict || duplicateId(service) || invalidCustom(service); validity.textContent = invalid ? t(invalidCustom(service)?'script_invalid':duplicateId(service)?'service_invalid':'needs_id') : service.enabled ? t('configured') : t('service_disabled');
             validity.dataset.state=invalid?'invalid':service.enabled?'ready':'off';
             if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (conflict ? t('pixel_id_conflict') : !service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
           };
-          const enable=field(cardHeading,t('enable'),service.enabled,v=>{service.enabled=v;updateValidity();},'checkbox','ccm-enable-'+service.key);enable.parentElement.classList.add('ccm-service-enable');identity.append(validity); updateValidity();
-          const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); card.append(details);
+          const enable=field(cardHeading,t('enable'),service.enabled,v=>{service.enabled=v;updateValidity();updateVisibilityNote();},'checkbox','ccm-enable-'+service.key);enable.parentElement.classList.add('ccm-service-enable');identity.append(validity); updateValidity();
+          const details = el('details', null, { 'data-settings': service.key }); details.append(el('summary', t('settings'))); details.open=settingsExpanded.has(service.key);details.ontoggle=()=>{if(details.open)settingsExpanded.add(service.key);else settingsExpanded.delete(service.key);};card.append(details);
+          field(details,t('name'),textSource(data.managerLanguage,'service.'+service.key+'.name'),v=>{service.name=v;draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+service.key+'.name']=v;identity.querySelector('h4').textContent=v;},'text','ccm-name-'+service.key);
+          if(service.loader==='custom_js')field(details,t('purpose'),service.purpose,v=>service.purpose=v,'textarea','ccm-purpose-text-'+service.key,t('purpose_help'));
+          const categorySelect=el('select',null,{id:'ccm-category-'+service.key,'aria-label':t('category')});
+          for(const c of ['analytics','marketing','external_content'])categorySelect.append(el('option',data.managerStrings[c+'_name'],{value:c}));
+          categorySelect.value=service.category;const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),categorySelect);details.append(categoryRow);
+          categorySelect.onchange=()=>{service.category=categorySelect.value;groupExpanded[service.category]=true;document.getElementById('ccm-group-content-'+service.category).hidden=false;const toggle=document.getElementById('ccm-group-toggle-'+service.category);toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label',t('collapse')+' — '+data.managerStrings[service.category+'_name']);document.getElementById('ccm-group-content-'+service.category).append(card);changed();categorySelect.focus();};
+          if(service.loader==='custom_js')pathInput=field(details,t('script_path'),service.config.path,v=>{service.config.path=v;pathInput.setCustomValidity(invalidCustom(service)?t('script_invalid'):'');updateValidity();},'text','ccm-path-'+service.key,t('script_help'));
+          const adapterSource = ['google_maps','yandex_maps'].includes(service.loader) ? 'assets/js/cookie-consent/embeds.js → mount()' : ['youtube','rutube','vk_video'].includes(service.loader) ? 'assets/js/cookie-consent/embeds/' + ({youtube:'youtube',rutube:'rutube',vk_video:'vk-video'}[service.loader]) + '.js → valid()' : 'assets/js/cookie-consent/services/' + ({yandex:'yandex',mailru:'mailru',google_ga4:'google-ga4',google_ads:'google-ads',google_gtm:'google-gtm',vk_ads:'vk-ads',meta_pixel:'meta-pixel',custom_js:'custom-js',mock_marketing:'mock-marketing'}[service.loader] || 'unknown') + '.js → start()';
+          details.append(el('p',t('adapter_source')+' '+(service.loader==='custom_js'?t('script_owned'):adapterSource+' / '+service.loader),{class:'ccm-help'}));
           if (idPatterns[service.loader]) {
             idInput = field(details, t({ vk_ads: 'pixel_id', meta_pixel: 'pixel_id', google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
             idError = el('small', '', { id: 'ccm-id-error-' + service.key, class: 'ccm-field-error', role: 'status' });
             idInput.setAttribute('aria-describedby', idError.id); idInput.parentElement.append(idError); updateValidity();
           }
+          if(pathInput){const pathError=el('small','',{id:'ccm-path-error-'+service.key,class:'ccm-field-error',role:'status'});pathInput.setAttribute('aria-describedby',pathError.id);pathInput.parentElement.append(pathError);const pathValidity=()=>{const invalid=invalidCustom(service);pathInput.setAttribute('aria-invalid',String(invalid));pathError.hidden=!invalid;pathError.textContent=invalid?t('script_invalid'):'';};pathInput.addEventListener('input',pathValidity);pathValidity();}
           for (const [key, fallback] of Object.entries(data.booleanOptions[service.loader] || {})) field(details, t(key), service.config[key] ?? fallback, v => service.config[key] = v, 'checkbox', 'ccm-' + service.key + '-' + key);
-          const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help' }[service.loader];
+          const note = { yandex: 'webvisor_help', google_gtm: 'gtm_help', google_ga4: 'ga_help', google_maps: 'map_help', yandex_maps: 'map_help', youtube: 'video_help', rutube: 'video_help', vk_video: 'video_help' }[service.loader];
           if (note) details.append(el('p', t(note), { class: 'ccm-help' }));
-          if (!Object.hasOwn(data.catalog, service.key)) { const remove = el('button', t('delete'), { type: 'button' }); remove.onclick = () => { draft.registry.services = draft.registry.services.filter(s => s !== service); changed(); renderServices(); renderTexts(); }; details.append(remove); }
+          if (service.loader==='custom_js' || !Object.hasOwn(data.catalog, service.key)) { const remove = el('button', t('delete'), { type: 'button' }); remove.onclick = () => { draft.registry.services = draft.registry.services.filter(s => s !== service); changed(); renderServices(); renderTexts(); }; details.append(remove); }
           content.append(card);
         }
         panels.services.append(group);
       }
-      const add=el('details',null,{class:'ccm-add-service',id:'ccm-add-counter'});add.append(el('summary',t('add_counter')));
-      const adapter=el('select',null,{id:'ccm-counter-adapter','aria-label':t('adapter')});
-      for(const [key,meta] of Object.entries(data.catalog))if(idPatterns[key])adapter.append(el('option',textSource(data.managerLanguage,'service.'+key+'.name'),{value:key}));
+      const add=el('dialog',null,{id:'ccm-add-service-dialog','aria-labelledby':'ccm-add-service-title'});
+      add.append(el('h3',t('add_service'),{id:'ccm-add-service-title'}));
+      const adapter=el('select',null,{id:'ccm-service-adapter','aria-label':t('adapter')});
+      const ready=el('optgroup',null,{label:t('ready_adapter')});
+      for(const [key] of Object.entries(data.catalog))if(!['custom_js','mock_marketing'].includes(key))ready.append(el('option',textSource(data.managerLanguage,'service.'+key+'.name'),{value:key}));
+      adapter.append(ready,el('option',t('create_custom_service'),{value:'custom_js'}));
       add.append(el('label',t('adapter')),adapter);
-      const name=field(add,t('name'),'',()=>{},'text','ccm-counter-name');
-      const counterId=field(add,t('counter_id'),'',()=>{},'text','ccm-counter-id');
-      const button=el('button',t('add_counter'),{type:'button',id:'ccm-counter-add'});add.append(button);panels.services.append(add);
-      // Inputs in the add form are provisional, only a validated card changes the draft.
+      const existing=el('p'),go=el('button',t('go_existing'),{type:'button',id:'ccm-service-existing'});add.append(existing,go);
+      const name=field(add,t('name'),'',()=>{},'text','ccm-service-name',null,true);
+      const purpose=field(add,t('purpose'),'',()=>{},'textarea','ccm-service-purpose',null,true);
+      const counterId=field(add,t('counter_id'),'',()=>{},'text','ccm-service-id',null,true);
+      const path=field(add,t('script_path'),'',()=>{},'text','ccm-service-path',t('script_help'),true);
+      path.placeholder=(data.assetsUrl || '/assets/')+'js/integrations/bitrix24.js';
+      const category=el('select',null,{id:'ccm-service-category','aria-label':t('category')});
+      for(const c of ['analytics','marketing','external_content'])category.append(el('option',data.managerStrings[c+'_name'],{value:c}));
+      const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),category);add.append(categoryRow);
+      const error=el('p','',{id:'ccm-service-error',role:'alert'});add.append(error);
+      const button=el('button',t('create_service'),{type:'button',id:'ccm-service-create',class:'ccm-primary'}),cancel=el('button',t('close'),{type:'button'});add.append(button,cancel);panels.services.append(add);
+      const reveal=key=>{const service=draft.registry.services.find(s=>s.key===key);if(!service)return;groupExpanded[service.category]=true;settingsExpanded.add(key);renderServices();const card=panels.services.querySelector('[data-service="'+key+'"]');card.scrollIntoView({block:'center'});card.querySelector('summary').focus();};
+      const updateForm=()=>{const loader=adapter.value,stock=draft.registry.services.find(s=>s.loader===loader);existing.textContent=stock?t('existing_service'):'';go.hidden=!stock;go.onclick=()=>{add.close();reveal(stock.key);};name.value=loader==='custom_js'?'':textSource(data.managerLanguage,'service.'+loader+'.name');purpose.value=loader==='custom_js'?'':data.lexicons.en['service.'+loader+'.description']||name.value;counterId.parentElement.hidden=!idPatterns[loader];path.parentElement.hidden=loader!=='custom_js';category.value=data.catalog[loader].recommended_category;error.textContent='';button.textContent=stock?t('create_additional'):t('create_service');};
+      adapter.onchange=updateForm;updateForm();
+      addButton.onclick=()=>{add.showModal();adapter.focus();};cancel.onclick=()=>add.close();add.addEventListener('close',()=>addButton.focus());
+      add.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();add.close();}});
       button.onclick=()=>{
-        if(!idPatterns[adapter.value]?.test(counterId.value)||!name.value.trim()||new TextEncoder().encode(name.value.trim()).length>100||/[<>\x00-\x1f]/.test(name.value)||draft.registry.services.length>=32){status.textContent=t('counter_invalid');return;}
-        let n=2,key;do{key=adapter.value+'_'+n++;}while(draft.registry.services.some(s=>s.key===key));
-        const meta=data.catalog[adapter.value];
-        draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:meta.category,enabled:false,name:name.value.trim(),purpose:data.lexicons.en['service.'+adapter.value+'.description'],config:{id:counterId.value}});
+        if(adapter.value==='custom_js'&&!validScriptPath(path.value)){error.textContent=t('script_invalid');path.setAttribute('aria-invalid','true');path.focus();return;}
+        path.removeAttribute('aria-invalid');
+        const validText=(value,max)=>value.trim()&&new TextEncoder().encode(value.trim()).length<=max&&!/[<>\x00-\x1f\x7f]/.test(value);
+        if(!validText(name.value,100)||!validText(purpose.value,500)||draft.registry.services.length>=32||(idPatterns[adapter.value]&&!idPatterns[adapter.value].test(counterId.value))||(adapter.value==='custom_js'&&(!validScriptPath(path.value)||draft.registry.services.some(s=>s.loader==='custom_js'&&window.web86ScriptUrl.identity(s.config.path)===window.web86ScriptUrl.identity(path.value))))||draft.registry.services.some(s=>s.loader===adapter.value&&s.config.id&&s.config.id.replace(/^0+(?=\d)/,'')===counterId.value.replace(/^0+(?=\d)/,''))){error.textContent=t('service_invalid');return;}
+        let key=adapter.value,n=2;while(draft.registry.services.some(s=>s.key===key))key=adapter.value+'_'+n++;
+        const config=idPatterns[adapter.value]?{id:counterId.value}:adapter.value==='custom_js'?{path:path.value}:{};
+        draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:category.value,enabled:false,name:name.value.trim(),purpose:purpose.value.trim(),config});
         draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+key+'.name']=name.value.trim();
-        changed();renderServices();renderTexts();status.textContent=t('counter_added');
-        const card=panels.services.querySelector('[data-service="'+key+'"]');if(groupExpanded[meta.category])card.scrollIntoView({block:'center'});
+        add.close();changed();reveal(key);renderTexts();status.textContent=t('service_added');
       };
     }
     const editorControls = el('div', null, { class: 'ccm-language-controls' }); panels.texts.append(editorControls);
@@ -208,13 +255,13 @@
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
       languages(editSelect, editLanguage, true);textFields.replaceChildren();
-      const keys=['notice_html',...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
+      const keys=['notice_html','map_notice','map_load',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
       for(const key of keys) {
         const overrides=draft.texts.locales[editLanguage];
         const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
-        const service=draft.registry.services.find(s=>key==='service.'+s.key+'.name');
-        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,key)+' — '+t('name'):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
-        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='notice_html'?t('html_help'):undefined);
+        const service=draft.registry.services.find(s=>key==='service.'+s.key+'.map_notice');
+        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):['map_notice','map_load'].includes(key)?t(key):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
+        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'||key.endsWith('map_notice')?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='notice_html'?t('html_help'):undefined);
         input.dataset.textKey=key;textFields.append(row);
       }
       if(window.CodeMirror?.fromTextArea){const cm=window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'),{mode:'htmlmixed',lineNumbers:true});cm.on('change',()=>{draft.texts.locales[editLanguage].notice_html=cm.getValue();changed();});}
@@ -222,7 +269,7 @@
     editSelect.onchange=()=>{editLanguage=editSelect.value;draft.texts.locales[editLanguage] ||= {};previewLanguage=editLanguage;renderTexts();schedulePreview();};
     aside.append(el('h3', t('preview')));
     const states = el('div', null, { class: 'ccm-preview-states' });
-    for (const key of ['banner', 'preferences', 'map']) { const button = el('button', t(key), { type: 'button', 'data-preview-state': key }); button.onclick = () => { previewState = key; schedulePreview(); }; states.append(button); }
+    for (const key of ['banner', 'preferences', 'map']) { const button = el('button', t(key === 'map' ? 'embeds' : key), { type: 'button', 'data-preview-state': key }); button.onclick = () => { previewState = key; schedulePreview(); }; states.append(button); }
     aside.append(states);
     const frame = el('iframe', null, { sandbox: '', title: t('preview'), id: 'ccm-preview-frame' }); aside.append(frame);
     const previewStatus = el('span', '', { id: 'ccm-preview-status', role: 'status' }); aside.append(previewStatus);
@@ -235,11 +282,12 @@
         const option = (name, description, disabled = false, attrs = '') => `<label class="cookie-option ${attrs ? 'cc-provider' : ''}" ${attrs}><span class="cookie-option__text"><strong>${escape(name)}</strong><small>${escape(description)}</small></span><input type="checkbox" ${disabled ? 'checked disabled' : ''}></label>`;
         content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].filter(cat => result.visibleCategories[cat]).map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
       }
-      if (previewState === 'map') content = services.filter(s => s.category === 'external_content').map(s => {
+      if (previewState === 'map') content = services.filter(s => ['google_maps','yandex_maps'].includes(s.loader)).map(s => {
         const provider = strings['service.' + s.key + '.name'] || s.name;
         const replace = str => (str || '').split('{provider}').join(provider);
-        return `<div class="cc-map-placeholder" data-preview-map="${escape(s.key)}">${s.config.show_title === false ? '' : '<h3>' + escape(strings.map_title) + '</h3>'}<p>${escape(replace(strings['service.' + s.key + '.map_notice'] || strings.map_notice))}</p><button type="button" ${result.visibleCategories.external_content?'':'hidden disabled'}>${escape(replace(strings.map_load))}</button></div>`;
+        return `<div class="cc-map-placeholder" data-preview-map="${escape(s.key)}">${s.config.show_title === false ? '' : '<h3>' + escape(strings.map_title) + '</h3>'}<p>${escape(replace(strings['service.' + s.key + '.map_notice'] || strings.map_notice))}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(replace(strings.map_load))}</button></div>`;
       }).join('');
+      if (previewState === 'map') content += services.filter(s => ['youtube','rutube','vk_video'].includes(s.loader)).map(s => `<div class="cc-embed-placeholder" data-preview-embed="${escape(s.key)}"><h3>${escape(strings['service.' + s.key + '.name'] || s.name)}</h3><p>${escape(strings.map_notice.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(strings.map_load.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</button></div>`).join('');
       const parsed = new DOMParser().parseFromString(content, 'text/html');
       for (const a of parsed.querySelectorAll('a')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
       frame.srcdoc = '<!doctype html><html lang="' + escape(previewLanguage) + '"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'"><style>' + String(result.publicCss || '').replace(/<\/style/gi, '') + ' .cookie-warning{position:static;box-shadow:none}.cookie-warning .cookie-warning-settings{max-height:none} body{font:14px system-ui;margin:0;background:#edf0f3;color:#182231}main{padding:24px;height:70px;background:#dde4eb}section{background:white;padding:18px}button{padding:9px;margin:4px;border:1px solid #64748b;background:white;border-radius:4px}small{display:block;color:#536171;margin:4px 0}label{display:block;margin:10px 0}.map{padding:12px;border:1px solid #d3dbe4;margin:12px 0}a{color:#245ba0}</style></head><body><main>' + escape(t('site_mock')) + '</main><section class="cookie-warning">' + parsed.body.innerHTML + '</section></body></html>';
@@ -251,8 +299,8 @@
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
-      const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s));
-      if (invalidService) { groupExpanded[invalidService.category]=true;renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById('ccm-id-' + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
+      const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s) || duplicateId(s) || invalidCustom(s));
+      if (invalidService) { groupExpanded[invalidService.category]=true;renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById((invalidService.loader==='custom_js'?'ccm-path-':'ccm-id-') + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(invalidCustom(invalidService)?'script_invalid':duplicateId(invalidService)?'service_invalid':conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
       if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
       save.disabled = true; status.textContent = t('saving');
       const snapshot = JSON.stringify(draft);

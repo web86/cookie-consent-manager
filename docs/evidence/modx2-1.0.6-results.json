@@ -1,0 +1,241 @@
+{
+  "package_version": "1.0.6",
+  "date": "2026-10-16",
+  "branch": "codex/modx2-adapter-cache-build",
+  "base_commit": "2b7ae675a844728059dd03e5ac54d7a4c38c1d8b",
+  "result": "PASS",
+  "artifact": {
+    "name": "cookieconsent-1.0.6.transport.zip",
+    "absolute_path": "/Users/sonoma/Desktop/cookie-consent-manager/.local/artifacts/cookieconsent-1.0.6.transport.zip",
+    "bytes": 547751,
+    "sha256": "b0e44a1f585eafdb0f451f10207cddc57283c1ec755d03a3ac244a0debdce280",
+    "runtime_files": 231,
+    "zip_entries": 490,
+    "native_vehicles": 248
+  },
+  "reproducibility": {
+    "result": "PASS",
+    "independent_native_builds": 2,
+    "builders": [
+      "MODX 2.8.8 / PHP 8.2.34 clean",
+      "MODX 2.8.8 / PHP 8.2.34 web"
+    ],
+    "normalizer": "_build/normalize.py",
+    "byte_identical": true
+  },
+  "composition": {
+    "relative_to_beta2": {
+      "runtime_files": [
+        231,
+        231
+      ],
+      "zip_entries": [
+        490,
+        490
+      ]
+    },
+    "js_sources": 21,
+    "peast_runtime_license_files": 156,
+    "mock_directory_files": 0,
+    "retained_mock_named_files": {
+      "assets/js/cookie-consent/services/mock-marketing.js": "Required manifest input and unconditionally constructed dispatcher factory; empty live start."
+    }
+  },
+  "preserved_runtime_files": [
+    "server/src/CookieConsentBundleManager.php",
+    "server/src/CookieConsentBundleInstall.php",
+    "server/src/CookieConsentServiceRegistry.php",
+    "server/src/CookieConsentVideoUrl.php",
+    "server/src/CookieConsentEmbedOptions.php",
+    "server/modx2-map-snippet.php",
+    "assets/js/cookie-consent/consent-manager.js"
+  ],
+  "unchanged_js_sources": 20,
+  "checks": {
+    "transport_composition": {
+      "result": "PASS",
+      "evidence": ".local/beta2-evidence/composition.json",
+      "assertions": 473
+    },
+    "native_install_upgrade": {
+      "result": "PASS",
+      "evidence": ".local/stable106-evidence/native/native-results.json",
+      "tests": 10,
+      "assertions": 404
+    },
+    "production_without_mock": {
+      "result": "PASS",
+      "evidence": ".local/beta2-evidence/production-without-mocks.json",
+      "tests": 3,
+      "assertions": 52
+    },
+    "placeholder_esbuild": {
+      "result": "PASS",
+      "evidence": ".local/placeholder-texts/esbuild-results.json",
+      "tests": 32,
+      "assertions": 779
+    },
+    "placeholder_php": {
+      "result": "PASS",
+      "evidence": ".local/placeholder-texts/php-results.json",
+      "tests": 32,
+      "assertions": 779
+    },
+    "placeholder_manager": {
+      "result": "PASS",
+      "evidence": ".local/placeholder-texts/manager.json",
+      "tests": 2,
+      "assertions": 44
+    },
+    "cache_native": {
+      "result": "PASS",
+      "evidence": ".local/adapter-cache/native/results.json",
+      "tests": 11,
+      "assertions": 79
+    },
+    "php81": {
+      "result": "PASS",
+      "evidence": ".local/stable106-evidence/php81.json",
+      "assertions": 70,
+      "php": "8.1.34",
+      "node_available_during_build": false
+    },
+    "php82": {
+      "result": "PASS",
+      "evidence": ".local/stable106-evidence/php82.json",
+      "assertions": 70,
+      "php": "8.2.34",
+      "node_available_during_build": false
+    },
+    "php85": {
+      "result": "PASS",
+      "evidence": ".local/stable106-evidence/php85.json",
+      "assertions": 70,
+      "php": "8.5.10",
+      "node_available_during_build": false
+    },
+    "differential": {
+      "result": "PASS",
+      "evidence": ".local/video-embeds/differential/equivalence.json",
+      "tests": 49,
+      "assertions": 253
+    },
+    "fenom": {
+      "result": "PASS",
+      "evidence": ".local/video-embeds/native-browser.json",
+      "tests": 10,
+      "assertions": 244
+    },
+    "manager_i18n": {
+      "result": "PASS",
+      "evidence": ".local/manager-i18n-evidence/results.json",
+      "tests": 17,
+      "assertions": 61
+    },
+    "regression": {
+      "result": "PASS",
+      "evidence": ".local/universal-evidence/regression/results.json",
+      "tests": 20,
+      "suites": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    }
+  },
+  "other_checks": {
+    "php_text_contracts": 137,
+    "php_video_snippets": 49,
+    "php_js_url_parity": 15,
+    "native_source_inventory": 97,
+    "version_guide_generators": "PASS",
+    "javascript_semantics": "PASS",
+    "syntax_and_git_diff_check": "PASS"
+  },
+  "limits": [
+    "Vendor SDK/iframe responses are controlled locally; real video playback on the target site still requires staging."
+  ],
+  "git_actions": {
+    "push": false,
+    "merge": false,
+    "github_release": false,
+    "deployment": false
+  }
+}
