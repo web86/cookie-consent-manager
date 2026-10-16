@@ -23,7 +23,7 @@
     "assets/js/cookie-consent/embeds/vk-video.js": "4ab06bfae60bf56a142010e96deb4a7ccfab3e03b99fcb982166058a560b724d",
     "assets/js/cookie-consent/embeds.js": "472f7275e6e32dfa0e22a377c995cc5beb9a75518a1d71dbc72719499b4ddc90",
     "assets/js/cookie-consent/consent-manager.js": "d6413ec0640abf47f309d66899070a8cde87866f7070061cf168e5b562e80236",
-    "assets/css/cookie-consent.css": "77e1b650a0cebb4eb3fe0485ec87484872a07c74266125c9fce1a512ade2cbd1",
+    "assets/css/cookie-consent.css": "ffb38f0f4312c4ed6901be83976ad5537afd4f370cb991fe5391850f0b826456",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
     "_build/frontend.mjs": "b70b747c7fa70f40bbe1e103ed9587509eb3f3e63c4574fb570cdd71f4efa980"
   },
@@ -33,8 +33,8 @@
       "bytes": 29435
     },
     "assets/css/cookie-consent.min.css": {
-      "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
-      "bytes": 3286
+      "sha256": "9de4060edd4b0f23a5909b0260d681421710b55577543c3d25258dcb219b7912",
+      "bytes": 4129
     }
   }
 }
