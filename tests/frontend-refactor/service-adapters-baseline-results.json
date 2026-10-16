@@ -1,0 +1,1639 @@
+{
+  "equivalence.json": {
+    "baseline": "de41eaa0f976c54c0d2836b605c7474ad874c472",
+    "candidateSHA256": "e4b90c9982ad27d3c1dac9bf2c8fcf30b0a07aa970fb09be23c4b5e96c97ffb2",
+    "tests": 14,
+    "assertions": 56,
+    "failed": 0,
+    "results": [
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"dialog\":true}",
+        "result": "PASS",
+        "assertions": 4
+      },
+      {
+        "name": "{\"legacy\":true,\"pending\":true}",
+        "result": "PASS",
+        "assertions": 4
+      }
+    ]
+  },
+  "matrix.json": {
+    "suite": "Legacy: every adapter in every assigned category, reject/reload and dedup",
+    "tests": 30,
+    "assertions": 330,
+    "failed": 0,
+    "results": [
+      {
+        "name": "yandex-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-analytics",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-marketing",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "mailru-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ga4-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_gtm-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_ads-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "vk_ads-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "meta_pixel-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "google_maps-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "yandex_maps-external_content",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "custom_js-external_content",
+        "result": "PASS",
+        "assertions": 11
+      }
+    ]
+  },
+  "comparison-last.json": {
+    "scenario": {
+      "legacy": true,
+      "pending": true
+    },
+    "baseline": {
+      "checkpoints": [
+        {
+          "label": "initial",
+          "state": {
+            "consent": null,
+            "persisted": null,
+            "api": [
+              "getConsent",
+              "openSettings",
+              "onAllowed"
+            ],
+            "providers": [
+              "services",
+              "categories",
+              "validate",
+              "validScriptPath",
+              "allowed",
+              "safeMapUrl",
+              "revoke",
+              "apply"
+            ],
+            "frozen": [
+              true,
+              true
+            ],
+            "services": [
+              {
+                "key": "yandex",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "yandex",
+                "config": {
+                  "accurateTrackBounce": true,
+                  "clickmap": true,
+                  "id": "111111111",
+                  "trackLinks": true,
+                  "webvisor": true
+                },
+                "hosts": [
+                  "mc.yandex.ru",
+                  "mc.yandex.com"
+                ],
+                "fingerprint": "[2,\"yandex\",\"analytics\",\"yandex\",{\"accurateTrackBounce\":true,\"clickmap\":true,\"id\":\"111111111\",\"trackLinks\":true,\"webvisor\":true}]"
+              },
+              {
+                "key": "mailru",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "mailru",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"mailru\",\"analytics\",\"mailru\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_ga4",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "google_ga4",
+                "config": {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "id": "G-DEMOONLY",
+                  "send_page_view": true
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "*.google-analytics.com"
+                ],
+                "fingerprint": "[2,\"google_ga4\",\"analytics\",\"google_ga4\",{\"allow_ad_personalization_signals\":false,\"allow_google_signals\":false,\"id\":\"G-DEMOONLY\",\"send_page_view\":true}]"
+              },
+              {
+                "key": "google_gtm",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_gtm",
+                "config": {
+                  "id": "GTM-DEMOONLY"
+                },
+                "hosts": [
+                  "www.googletagmanager.com"
+                ],
+                "fingerprint": "[2,\"google_gtm\",\"marketing\",\"google_gtm\",{\"id\":\"GTM-DEMOONLY\"}]"
+              },
+              {
+                "key": "google_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_ads",
+                "config": {
+                  "allow_ad_personalization_signals": true,
+                  "id": "AW-123456789",
+                  "restricted_data_processing": false
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "www.googleadservices.com",
+                  "*.doubleclick.net",
+                  "www.google.com"
+                ],
+                "fingerprint": "[2,\"google_ads\",\"marketing\",\"google_ads\",{\"allow_ad_personalization_signals\":true,\"id\":\"AW-123456789\",\"restricted_data_processing\":false}]"
+              },
+              {
+                "key": "vk_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "vk_ads",
+                "config": {
+                  "id": "222222222"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"vk_ads\",\"marketing\",\"vk_ads\",{\"id\":\"222222222\"}]"
+              },
+              {
+                "key": "meta_pixel",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_pixel\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "google_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "www.google.com",
+                  "maps.googleapis.com",
+                  "maps.gstatic.com"
+                ],
+                "fingerprint": "[2,\"google_maps\",\"external_content\",\"google_maps\",{}]"
+              },
+              {
+                "key": "yandex_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "yandex_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "yandex.ru",
+                  "api-maps.yandex.ru",
+                  "*.maps.yandex.net"
+                ],
+                "fingerprint": "[2,\"yandex_maps\",\"external_content\",\"yandex_maps\",{}]"
+              },
+              {
+                "key": "local",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "/assets/integration.js"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"local\",{\"path\":\"/assets/integration.js\",\"purpose\":\"Local integration\"}]"
+              },
+              {
+                "key": "remote",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "https://cdn.example.test/integration.js?v=2"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"remote\",{\"path\":\"https://cdn.example.test/integration.js?v=2\",\"purpose\":\"Remote integration\"}]"
+              },
+              {
+                "key": "meta_duplicate",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_duplicate\",{\"id\":\"111111111\"}]"
+              }
+            ],
+            "scripts": [
+              "https://cmp.example.test/assets/js/cookie-consent/cookie-consent.min.js",
+              "https://mc.yandex.ru/metrika/tag.js",
+              "https://top-fwz1.mail.ru/js/code.js",
+              "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "https://connect.facebook.net/en_US/fbevents.js",
+              "https://cmp.example.test/assets/integration.js",
+              "https://cdn.example.test/integration.js?v=2"
+            ],
+            "maps": [
+              "<div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://www.google.com/maps/embed?pb=fixture\"></iframe></div>",
+              "<div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://yandex.ru/map-widget/v1/?um=fixture\"></iframe></div>"
+            ],
+            "google": [
+              [
+                "js",
+                "2026-10-16T00:00:00.000Z"
+              ],
+              [
+                "config",
+                "G-DEMOONLY",
+                {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "send_page_view": true
+                }
+              ],
+              {
+                "gtm.start": 1792108800000,
+                "event": "gtm.js"
+              },
+              [
+                "js",
+                "2026-10-16T00:00:00.000Z"
+              ],
+              [
+                "config",
+                "AW-123456789",
+                {
+                  "allow_ad_personalization_signals": true,
+                  "restricted_data_processing": false
+                }
+              ]
+            ],
+            "yandex": [
+              [
+                111111111,
+                "init",
+                {
+                  "webvisor": true,
+                  "clickmap": true,
+                  "trackLinks": true,
+                  "accurateTrackBounce": true
+                }
+              ]
+            ],
+            "tmr": [
+              {
+                "id": "111111111",
+                "type": "pageView",
+                "start": 1792108800000
+              },
+              {
+                "id": "222222222",
+                "type": "pageView",
+                "start": 1792108800000
+              }
+            ],
+            "meta": [
+              [
+                "consent",
+                "grant"
+              ],
+              [
+                "set",
+                "autoConfig",
+                false,
+                "111111111"
+              ],
+              [
+                "init",
+                "111111111"
+              ]
+            ],
+            "callbacks": [
+              "analytics",
+              "marketing",
+              "external_content",
+              "cancelled"
+            ],
+            "guards": [
+              true,
+              true,
+              true
+            ],
+            "focus": "<body><h1>Cookie Consent Manager: MOCK demo</h1><p>No external requests or PHP audit. Local test fixtures only.</p><button type=\"button\" data-cookie-settings-open=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 cookie</button><div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://www.google.com/maps/embed?pb=fixture\"></iframe></div><div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://yandex.ru/map-widget/v1/?um=fixture\"></iframe></div><div id=\"cookie-block\" class=\"cookie-warning\" role=\"region\" data-cc-aria=\"region_label\" aria-label=\"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u0430\u043c\u0438 cookie\" data-cc-mode=\"live\" data-cc-policy-version=\"1\" data-cc-ttl-days=\"90\" data-cc-audit-url=\"/audit.php\" data-cc-category-analytics=\"1\" data-cc-category-version-analytics=\"0\" data-cc-category-marketing=\"1\" data-cc-category-version-marketing=\"0\" data-cc-category-external-content=\"1\" data-cc-category-version-external-content=\"0\" data-cc-show-reject=\"1\" data-cc-show-configure=\"1\" data-cc-show-accept-all=\"1\" data-cc-show-accept=\"1\">\n  <div class=\"cookie-warning-content\">\n    <div class=\"cookie-warning-2\" data-cc-panel=\"main\">\n      <div class=\"cookie-warning-text\" data-cc-html=\"notice_html\">\u041c\u044b \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 cookie \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430.\n\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435, \u043c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433\u043e\u0432\u044b\u0435 cookie \u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u043a\u0430\u0440\u0442\u044b\n\u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441 \u0432\u0430\u0448\u0435\u0433\u043e \u0441\u043e\u0433\u043b\u0430\u0441\u0438\u044f. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435 \u2014 \u0432\n<a href=\"/soglasie\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u043e\u0433\u043b\u0430\u0441\u0438\u0438</a>\n\u0438\n<a href=\"/pkd\" target=\"_blank\" rel=\"noopener noreferrer\">\u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0434\u0430\u043d\u043d\u044b\u0445</a>.</div>\n      <div class=\"cookie-warning-buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"reject\" data-cc-text=\"reject\">\u041e\u0442\u043a\u043b\u043e\u043d\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"configure\" data-cc-text=\"configure\" hidden=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept-all\" data-cc-text=\"accept_all\" hidden=\"\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0432\u0441\u0435</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept\" data-cc-text=\"accept\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c</button>\n      </div>\n    </div>\n    <section class=\"cookie-warning-settings\" data-cc-panel=\"settings\" aria-labelledby=\"cookie-settings-title\" hidden=\"\">\n      <h2 id=\"cookie-settings-title\" tabindex=\"-1\" data-cc-text=\"settings_title\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie</h2>\n      <p data-cc-text=\"settings_intro\">\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie.</p>\n      <label class=\"cookie-option\" data-cc-category-row=\"necessary\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"necessary_name\">\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie</strong><small data-cc-text=\"necessary_description\">\u041d\u0443\u0436\u043d\u044b \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430. \u0412\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b.</small></span>\n        <input type=\"checkbox\" checked=\"\" disabled=\"\" data-cc-aria=\"necessary_aria\" aria-label=\"\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie, \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"analytics\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"analytics_name\">\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0430</strong><small data-cc-text=\"analytics_description\">\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0439.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"analytics\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"marketing\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"marketing_name\">\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433</strong><small data-cc-text=\"marketing_description\">\u0420\u0435\u043a\u043b\u0430\u043c\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u044b.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"marketing\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"external_content\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"external_content_name\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u0438 \u043a\u0430\u0440\u0442\u044b</strong><small data-cc-text=\"external_content_description\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0432\u0441\u0442\u0440\u0430\u0438\u0432\u0430\u043d\u0438\u044f \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"external_content\">\n      </label>\n      <div class=\"cookie-warning-settings__buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"back\" data-cc-text=\"back\">\u041d\u0430\u0437\u0430\u0434</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"save\" data-cc-text=\"save\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</button>\n      </div>\n    </section>\n  </div>\n<div hidden=\"\" data-cc-runtime-messages=\"\"><span data-cc-message=\"error_ack\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_audit\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_storage\">\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0442\u0435\u043d\u0438\u0439 \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e</span><span data-cc-message=\"error_preference\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0439 \u0432\u044b\u0431\u043e\u0440</span><span data-cc-message=\"error_random\">\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 ID \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d; \u0430\u0443\u0434\u0438\u0442 \u043d\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d</span><span data-cc-message=\"error_registry\">\u0420\u0435\u0435\u0441\u0442\u0440 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span><span data-cc-message=\"error_provider\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430</span><span data-cc-message=\"error_buttons\">\u0412\u0441\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441\u043a\u0440\u044b\u0442\u044b; \u043f\u043e\u043a\u0430\u0437\u0430\u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</span><span data-cc-message=\"map_title\">\u041a\u0430\u0440\u0442\u0430</span><span data-cc-message=\"map_disabled\">{title}: \u0441\u0435\u0440\u0432\u0438\u0441 \u043e\u0442\u043a\u043b\u044e\u0447\u0451\u043d</span><span data-cc-message=\"map_rejected\">{title}: \u0430\u0434\u0440\u0435\u0441 \u043a\u0430\u0440\u0442\u044b \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span></div><template data-cc-map-template=\"google_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></template><template data-cc-map-template=\"yandex_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></template></div></body>",
+            "cookies": "fixture_sdk=1",
+            "cspViolations": []
+          },
+          "requests": [
+            {
+              "url": "https://cdn.example.test/integration.js?v=2",
+              "type": "script"
+            },
+            {
+              "url": "https://cmp.example.test/assets/integration.js",
+              "type": "script"
+            },
+            {
+              "url": "https://connect.facebook.net/en_US/fbevents.js",
+              "type": "script"
+            },
+            {
+              "url": "https://mc.yandex.ru/metrika/tag.js",
+              "type": "script"
+            },
+            {
+              "url": "https://top-fwz1.mail.ru/js/code.js",
+              "type": "script"
+            },
+            {
+              "url": "https://www.google.com/maps/embed?pb=fixture",
+              "type": "document"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://yandex.ru/map-widget/v1/?um=fixture",
+              "type": "document"
+            }
+          ],
+          "audits": []
+        },
+        {
+          "label": "revoke",
+          "state": {
+            "consent": {
+              "model": "categories_v2",
+              "version": "1",
+              "necessary": true,
+              "categories": {
+                "analytics": false,
+                "marketing": false,
+                "external_content": false
+              },
+              "category_versions": {
+                "analytics": 0,
+                "marketing": 0,
+                "external_content": 0
+              },
+              "savedAt": 1792108800000,
+              "consentId": "01020304-0506-4708-890a-0b0c0d0e0f10"
+            },
+            "persisted": "{\"model\":\"categories_v2\",\"version\":\"1\",\"necessary\":true,\"categories\":{\"analytics\":false,\"marketing\":false,\"external_content\":false},\"category_versions\":{\"analytics\":0,\"marketing\":0,\"external_content\":0},\"savedAt\":1792108800000,\"consentId\":\"01020304-0506-4708-890a-0b0c0d0e0f10\"}",
+            "api": [
+              "getConsent",
+              "openSettings",
+              "onAllowed"
+            ],
+            "providers": [
+              "services",
+              "categories",
+              "validate",
+              "validScriptPath",
+              "allowed",
+              "safeMapUrl",
+              "revoke",
+              "apply"
+            ],
+            "frozen": [
+              true,
+              true
+            ],
+            "services": [
+              {
+                "key": "yandex",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "yandex",
+                "config": {
+                  "accurateTrackBounce": true,
+                  "clickmap": true,
+                  "id": "111111111",
+                  "trackLinks": true,
+                  "webvisor": true
+                },
+                "hosts": [
+                  "mc.yandex.ru",
+                  "mc.yandex.com"
+                ],
+                "fingerprint": "[2,\"yandex\",\"analytics\",\"yandex\",{\"accurateTrackBounce\":true,\"clickmap\":true,\"id\":\"111111111\",\"trackLinks\":true,\"webvisor\":true}]"
+              },
+              {
+                "key": "mailru",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "mailru",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"mailru\",\"analytics\",\"mailru\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_ga4",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "google_ga4",
+                "config": {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "id": "G-DEMOONLY",
+                  "send_page_view": true
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "*.google-analytics.com"
+                ],
+                "fingerprint": "[2,\"google_ga4\",\"analytics\",\"google_ga4\",{\"allow_ad_personalization_signals\":false,\"allow_google_signals\":false,\"id\":\"G-DEMOONLY\",\"send_page_view\":true}]"
+              },
+              {
+                "key": "google_gtm",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_gtm",
+                "config": {
+                  "id": "GTM-DEMOONLY"
+                },
+                "hosts": [
+                  "www.googletagmanager.com"
+                ],
+                "fingerprint": "[2,\"google_gtm\",\"marketing\",\"google_gtm\",{\"id\":\"GTM-DEMOONLY\"}]"
+              },
+              {
+                "key": "google_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_ads",
+                "config": {
+                  "allow_ad_personalization_signals": true,
+                  "id": "AW-123456789",
+                  "restricted_data_processing": false
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "www.googleadservices.com",
+                  "*.doubleclick.net",
+                  "www.google.com"
+                ],
+                "fingerprint": "[2,\"google_ads\",\"marketing\",\"google_ads\",{\"allow_ad_personalization_signals\":true,\"id\":\"AW-123456789\",\"restricted_data_processing\":false}]"
+              },
+              {
+                "key": "vk_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "vk_ads",
+                "config": {
+                  "id": "222222222"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"vk_ads\",\"marketing\",\"vk_ads\",{\"id\":\"222222222\"}]"
+              },
+              {
+                "key": "meta_pixel",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_pixel\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "google_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "www.google.com",
+                  "maps.googleapis.com",
+                  "maps.gstatic.com"
+                ],
+                "fingerprint": "[2,\"google_maps\",\"external_content\",\"google_maps\",{}]"
+              },
+              {
+                "key": "yandex_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "yandex_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "yandex.ru",
+                  "api-maps.yandex.ru",
+                  "*.maps.yandex.net"
+                ],
+                "fingerprint": "[2,\"yandex_maps\",\"external_content\",\"yandex_maps\",{}]"
+              },
+              {
+                "key": "local",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "/assets/integration.js"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"local\",{\"path\":\"/assets/integration.js\",\"purpose\":\"Local integration\"}]"
+              },
+              {
+                "key": "remote",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "https://cdn.example.test/integration.js?v=2"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"remote\",{\"path\":\"https://cdn.example.test/integration.js?v=2\",\"purpose\":\"Remote integration\"}]"
+              },
+              {
+                "key": "meta_duplicate",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_duplicate\",{\"id\":\"111111111\"}]"
+              }
+            ],
+            "scripts": [
+              "https://cmp.example.test/assets/js/cookie-consent/cookie-consent.min.js"
+            ],
+            "maps": [
+              "<div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></div>",
+              "<div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></div>"
+            ],
+            "google": [],
+            "yandex": [],
+            "tmr": [],
+            "meta": [],
+            "callbacks": [],
+            "guards": [],
+            "focus": "<body><h1>Cookie Consent Manager: MOCK demo</h1><p>No external requests or PHP audit. Local test fixtures only.</p><button type=\"button\" data-cookie-settings-open=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 cookie</button><div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></div><div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></div><div id=\"cookie-block\" class=\"cookie-warning closed done\" role=\"region\" data-cc-aria=\"region_label\" aria-label=\"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u0430\u043c\u0438 cookie\" data-cc-mode=\"live\" data-cc-policy-version=\"1\" data-cc-ttl-days=\"90\" data-cc-audit-url=\"/audit.php\" data-cc-category-analytics=\"1\" data-cc-category-version-analytics=\"0\" data-cc-category-marketing=\"1\" data-cc-category-version-marketing=\"0\" data-cc-category-external-content=\"1\" data-cc-category-version-external-content=\"0\" data-cc-show-reject=\"1\" data-cc-show-configure=\"1\" data-cc-show-accept-all=\"1\" data-cc-show-accept=\"1\">\n  <div class=\"cookie-warning-content\">\n    <div class=\"cookie-warning-2\" data-cc-panel=\"main\">\n      <div class=\"cookie-warning-text\" data-cc-html=\"notice_html\">\u041c\u044b \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 cookie \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430.\n\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435, \u043c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433\u043e\u0432\u044b\u0435 cookie \u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u043a\u0430\u0440\u0442\u044b\n\u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441 \u0432\u0430\u0448\u0435\u0433\u043e \u0441\u043e\u0433\u043b\u0430\u0441\u0438\u044f. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435 \u2014 \u0432\n<a href=\"/soglasie\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u043e\u0433\u043b\u0430\u0441\u0438\u0438</a>\n\u0438\n<a href=\"/pkd\" target=\"_blank\" rel=\"noopener noreferrer\">\u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0434\u0430\u043d\u043d\u044b\u0445</a>.</div>\n      <div class=\"cookie-warning-buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"reject\" data-cc-text=\"reject\">\u041e\u0442\u043a\u043b\u043e\u043d\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"configure\" data-cc-text=\"configure\" hidden=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept-all\" data-cc-text=\"accept_all\" hidden=\"\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0432\u0441\u0435</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept\" data-cc-text=\"accept\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c</button>\n      </div>\n    </div>\n    <section class=\"cookie-warning-settings\" data-cc-panel=\"settings\" aria-labelledby=\"cookie-settings-title\" hidden=\"\">\n      <h2 id=\"cookie-settings-title\" tabindex=\"-1\" data-cc-text=\"settings_title\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie</h2>\n      <p data-cc-text=\"settings_intro\">\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie.</p>\n      <label class=\"cookie-option\" data-cc-category-row=\"necessary\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"necessary_name\">\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie</strong><small data-cc-text=\"necessary_description\">\u041d\u0443\u0436\u043d\u044b \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430. \u0412\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b.</small></span>\n        <input type=\"checkbox\" checked=\"\" disabled=\"\" data-cc-aria=\"necessary_aria\" aria-label=\"\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie, \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"analytics\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"analytics_name\">\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0430</strong><small data-cc-text=\"analytics_description\">\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0439.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"analytics\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"marketing\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"marketing_name\">\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433</strong><small data-cc-text=\"marketing_description\">\u0420\u0435\u043a\u043b\u0430\u043c\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u044b.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"marketing\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"external_content\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"external_content_name\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u0438 \u043a\u0430\u0440\u0442\u044b</strong><small data-cc-text=\"external_content_description\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0432\u0441\u0442\u0440\u0430\u0438\u0432\u0430\u043d\u0438\u044f \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"external_content\">\n      </label>\n      <div class=\"cookie-warning-settings__buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"back\" data-cc-text=\"back\">\u041d\u0430\u0437\u0430\u0434</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"save\" data-cc-text=\"save\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</button>\n      </div>\n    </section>\n  </div>\n<div hidden=\"\" data-cc-runtime-messages=\"\"><span data-cc-message=\"error_ack\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_audit\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_storage\">\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0442\u0435\u043d\u0438\u0439 \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e</span><span data-cc-message=\"error_preference\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0439 \u0432\u044b\u0431\u043e\u0440</span><span data-cc-message=\"error_random\">\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 ID \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d; \u0430\u0443\u0434\u0438\u0442 \u043d\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d</span><span data-cc-message=\"error_registry\">\u0420\u0435\u0435\u0441\u0442\u0440 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span><span data-cc-message=\"error_provider\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430</span><span data-cc-message=\"error_buttons\">\u0412\u0441\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441\u043a\u0440\u044b\u0442\u044b; \u043f\u043e\u043a\u0430\u0437\u0430\u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</span><span data-cc-message=\"map_title\">\u041a\u0430\u0440\u0442\u0430</span><span data-cc-message=\"map_disabled\">{title}: \u0441\u0435\u0440\u0432\u0438\u0441 \u043e\u0442\u043a\u043b\u044e\u0447\u0451\u043d</span><span data-cc-message=\"map_rejected\">{title}: \u0430\u0434\u0440\u0435\u0441 \u043a\u0430\u0440\u0442\u044b \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span></div><template data-cc-map-template=\"google_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></template><template data-cc-map-template=\"yandex_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></template></div></body>",
+            "cookies": "fixture_sdk=1",
+            "cspViolations": []
+          },
+          "requests": [
+            {
+              "url": "https://cdn.example.test/integration.js?v=2",
+              "type": "script"
+            },
+            {
+              "url": "https://cmp.example.test/assets/integration.js",
+              "type": "script"
+            },
+            {
+              "url": "https://connect.facebook.net/en_US/fbevents.js",
+              "type": "script"
+            },
+            {
+              "url": "https://mc.yandex.ru/metrika/tag.js",
+              "type": "script"
+            },
+            {
+              "url": "https://top-fwz1.mail.ru/js/code.js",
+              "type": "script"
+            },
+            {
+              "url": "https://www.google.com/maps/embed?pb=fixture",
+              "type": "document"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://yandex.ru/map-widget/v1/?um=fixture",
+              "type": "document"
+            }
+          ],
+          "audits": [
+            {
+              "schema": 3,
+              "event_id": "11121314-1516-4718-991a-1b1c1d1e1f20",
+              "consent_id": "01020304-0506-4708-890a-0b0c0d0e0f10",
+              "event": "reject",
+              "stage": "committed",
+              "analytics": false,
+              "marketing": false,
+              "external_content": false,
+              "policy_version": "1",
+              "timestamp": "2026-10-16T00:00:00.000Z",
+              "page": "/"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "warnings": []
+    },
+    "candidate": {
+      "checkpoints": [
+        {
+          "label": "initial",
+          "state": {
+            "consent": null,
+            "persisted": null,
+            "api": [
+              "getConsent",
+              "openSettings",
+              "onAllowed"
+            ],
+            "providers": [
+              "services",
+              "categories",
+              "validate",
+              "validScriptPath",
+              "allowed",
+              "safeMapUrl",
+              "revoke",
+              "apply"
+            ],
+            "frozen": [
+              true,
+              true
+            ],
+            "services": [
+              {
+                "key": "yandex",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "yandex",
+                "config": {
+                  "accurateTrackBounce": true,
+                  "clickmap": true,
+                  "id": "111111111",
+                  "trackLinks": true,
+                  "webvisor": true
+                },
+                "hosts": [
+                  "mc.yandex.ru",
+                  "mc.yandex.com"
+                ],
+                "fingerprint": "[2,\"yandex\",\"analytics\",\"yandex\",{\"accurateTrackBounce\":true,\"clickmap\":true,\"id\":\"111111111\",\"trackLinks\":true,\"webvisor\":true}]"
+              },
+              {
+                "key": "mailru",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "mailru",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"mailru\",\"analytics\",\"mailru\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_ga4",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "google_ga4",
+                "config": {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "id": "G-DEMOONLY",
+                  "send_page_view": true
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "*.google-analytics.com"
+                ],
+                "fingerprint": "[2,\"google_ga4\",\"analytics\",\"google_ga4\",{\"allow_ad_personalization_signals\":false,\"allow_google_signals\":false,\"id\":\"G-DEMOONLY\",\"send_page_view\":true}]"
+              },
+              {
+                "key": "google_gtm",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_gtm",
+                "config": {
+                  "id": "GTM-DEMOONLY"
+                },
+                "hosts": [
+                  "www.googletagmanager.com"
+                ],
+                "fingerprint": "[2,\"google_gtm\",\"marketing\",\"google_gtm\",{\"id\":\"GTM-DEMOONLY\"}]"
+              },
+              {
+                "key": "google_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_ads",
+                "config": {
+                  "allow_ad_personalization_signals": true,
+                  "id": "AW-123456789",
+                  "restricted_data_processing": false
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "www.googleadservices.com",
+                  "*.doubleclick.net",
+                  "www.google.com"
+                ],
+                "fingerprint": "[2,\"google_ads\",\"marketing\",\"google_ads\",{\"allow_ad_personalization_signals\":true,\"id\":\"AW-123456789\",\"restricted_data_processing\":false}]"
+              },
+              {
+                "key": "vk_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "vk_ads",
+                "config": {
+                  "id": "222222222"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"vk_ads\",\"marketing\",\"vk_ads\",{\"id\":\"222222222\"}]"
+              },
+              {
+                "key": "meta_pixel",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_pixel\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "google_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "www.google.com",
+                  "maps.googleapis.com",
+                  "maps.gstatic.com"
+                ],
+                "fingerprint": "[2,\"google_maps\",\"external_content\",\"google_maps\",{}]"
+              },
+              {
+                "key": "yandex_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "yandex_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "yandex.ru",
+                  "api-maps.yandex.ru",
+                  "*.maps.yandex.net"
+                ],
+                "fingerprint": "[2,\"yandex_maps\",\"external_content\",\"yandex_maps\",{}]"
+              },
+              {
+                "key": "local",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "/assets/integration.js"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"local\",{\"path\":\"/assets/integration.js\",\"purpose\":\"Local integration\"}]"
+              },
+              {
+                "key": "remote",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "https://cdn.example.test/integration.js?v=2"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"remote\",{\"path\":\"https://cdn.example.test/integration.js?v=2\",\"purpose\":\"Remote integration\"}]"
+              },
+              {
+                "key": "meta_duplicate",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_duplicate\",{\"id\":\"111111111\"}]"
+              }
+            ],
+            "scripts": [
+              "https://cmp.example.test/assets/js/cookie-consent/cookie-consent.min.js",
+              "https://mc.yandex.ru/metrika/tag.js",
+              "https://top-fwz1.mail.ru/js/code.js",
+              "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "https://connect.facebook.net/en_US/fbevents.js",
+              "https://cmp.example.test/assets/integration.js",
+              "https://cdn.example.test/integration.js?v=2"
+            ],
+            "maps": [
+              "<div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://www.google.com/maps/embed?pb=fixture\"></iframe></div>",
+              "<div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://yandex.ru/map-widget/v1/?um=fixture\"></iframe></div>"
+            ],
+            "google": [
+              [
+                "js",
+                "2026-10-16T00:00:00.000Z"
+              ],
+              [
+                "config",
+                "G-DEMOONLY",
+                {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "send_page_view": true
+                }
+              ],
+              {
+                "gtm.start": 1792108800000,
+                "event": "gtm.js"
+              },
+              [
+                "js",
+                "2026-10-16T00:00:00.000Z"
+              ],
+              [
+                "config",
+                "AW-123456789",
+                {
+                  "allow_ad_personalization_signals": true,
+                  "restricted_data_processing": false
+                }
+              ]
+            ],
+            "yandex": [
+              [
+                111111111,
+                "init",
+                {
+                  "webvisor": true,
+                  "clickmap": true,
+                  "trackLinks": true,
+                  "accurateTrackBounce": true
+                }
+              ]
+            ],
+            "tmr": [
+              {
+                "id": "111111111",
+                "type": "pageView",
+                "start": 1792108800000
+              },
+              {
+                "id": "222222222",
+                "type": "pageView",
+                "start": 1792108800000
+              }
+            ],
+            "meta": [
+              [
+                "consent",
+                "grant"
+              ],
+              [
+                "set",
+                "autoConfig",
+                false,
+                "111111111"
+              ],
+              [
+                "init",
+                "111111111"
+              ]
+            ],
+            "callbacks": [
+              "analytics",
+              "marketing",
+              "external_content",
+              "cancelled"
+            ],
+            "guards": [
+              true,
+              true,
+              true
+            ],
+            "focus": "<body><h1>Cookie Consent Manager: MOCK demo</h1><p>No external requests or PHP audit. Local test fixtures only.</p><button type=\"button\" data-cookie-settings-open=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 cookie</button><div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://www.google.com/maps/embed?pb=fixture\"></iframe></div><div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\" hidden=\"\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section><iframe title=\"\u041a\u0430\u0440\u0442\u0430\" referrerpolicy=\"strict-origin-when-cross-origin\" sandbox=\"allow-scripts allow-same-origin allow-popups\" allowfullscreen=\"\" src=\"https://yandex.ru/map-widget/v1/?um=fixture\"></iframe></div><div id=\"cookie-block\" class=\"cookie-warning\" role=\"region\" data-cc-aria=\"region_label\" aria-label=\"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u0430\u043c\u0438 cookie\" data-cc-mode=\"live\" data-cc-policy-version=\"1\" data-cc-ttl-days=\"90\" data-cc-audit-url=\"/audit.php\" data-cc-category-analytics=\"1\" data-cc-category-version-analytics=\"0\" data-cc-category-marketing=\"1\" data-cc-category-version-marketing=\"0\" data-cc-category-external-content=\"1\" data-cc-category-version-external-content=\"0\" data-cc-show-reject=\"1\" data-cc-show-configure=\"1\" data-cc-show-accept-all=\"1\" data-cc-show-accept=\"1\">\n  <div class=\"cookie-warning-content\">\n    <div class=\"cookie-warning-2\" data-cc-panel=\"main\">\n      <div class=\"cookie-warning-text\" data-cc-html=\"notice_html\">\u041c\u044b \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 cookie \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430.\n\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435, \u043c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433\u043e\u0432\u044b\u0435 cookie \u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u043a\u0430\u0440\u0442\u044b\n\u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441 \u0432\u0430\u0448\u0435\u0433\u043e \u0441\u043e\u0433\u043b\u0430\u0441\u0438\u044f. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435 \u2014 \u0432\n<a href=\"/soglasie\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u043e\u0433\u043b\u0430\u0441\u0438\u0438</a>\n\u0438\n<a href=\"/pkd\" target=\"_blank\" rel=\"noopener noreferrer\">\u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0434\u0430\u043d\u043d\u044b\u0445</a>.</div>\n      <div class=\"cookie-warning-buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"reject\" data-cc-text=\"reject\">\u041e\u0442\u043a\u043b\u043e\u043d\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"configure\" data-cc-text=\"configure\" hidden=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept-all\" data-cc-text=\"accept_all\" hidden=\"\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0432\u0441\u0435</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept\" data-cc-text=\"accept\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c</button>\n      </div>\n    </div>\n    <section class=\"cookie-warning-settings\" data-cc-panel=\"settings\" aria-labelledby=\"cookie-settings-title\" hidden=\"\">\n      <h2 id=\"cookie-settings-title\" tabindex=\"-1\" data-cc-text=\"settings_title\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie</h2>\n      <p data-cc-text=\"settings_intro\">\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie.</p>\n      <label class=\"cookie-option\" data-cc-category-row=\"necessary\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"necessary_name\">\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie</strong><small data-cc-text=\"necessary_description\">\u041d\u0443\u0436\u043d\u044b \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430. \u0412\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b.</small></span>\n        <input type=\"checkbox\" checked=\"\" disabled=\"\" data-cc-aria=\"necessary_aria\" aria-label=\"\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie, \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"analytics\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"analytics_name\">\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0430</strong><small data-cc-text=\"analytics_description\">\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0439.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"analytics\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"marketing\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"marketing_name\">\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433</strong><small data-cc-text=\"marketing_description\">\u0420\u0435\u043a\u043b\u0430\u043c\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u044b.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"marketing\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"external_content\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"external_content_name\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u0438 \u043a\u0430\u0440\u0442\u044b</strong><small data-cc-text=\"external_content_description\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0432\u0441\u0442\u0440\u0430\u0438\u0432\u0430\u043d\u0438\u044f \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"external_content\">\n      </label>\n      <div class=\"cookie-warning-settings__buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"back\" data-cc-text=\"back\">\u041d\u0430\u0437\u0430\u0434</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"save\" data-cc-text=\"save\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</button>\n      </div>\n    </section>\n  </div>\n<div hidden=\"\" data-cc-runtime-messages=\"\"><span data-cc-message=\"error_ack\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_audit\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_storage\">\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0442\u0435\u043d\u0438\u0439 \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e</span><span data-cc-message=\"error_preference\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0439 \u0432\u044b\u0431\u043e\u0440</span><span data-cc-message=\"error_random\">\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 ID \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d; \u0430\u0443\u0434\u0438\u0442 \u043d\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d</span><span data-cc-message=\"error_registry\">\u0420\u0435\u0435\u0441\u0442\u0440 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span><span data-cc-message=\"error_provider\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430</span><span data-cc-message=\"error_buttons\">\u0412\u0441\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441\u043a\u0440\u044b\u0442\u044b; \u043f\u043e\u043a\u0430\u0437\u0430\u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</span><span data-cc-message=\"map_title\">\u041a\u0430\u0440\u0442\u0430</span><span data-cc-message=\"map_disabled\">{title}: \u0441\u0435\u0440\u0432\u0438\u0441 \u043e\u0442\u043a\u043b\u044e\u0447\u0451\u043d</span><span data-cc-message=\"map_rejected\">{title}: \u0430\u0434\u0440\u0435\u0441 \u043a\u0430\u0440\u0442\u044b \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span></div><template data-cc-map-template=\"google_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></template><template data-cc-map-template=\"yandex_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></template></div></body>",
+            "cookies": "fixture_sdk=1",
+            "cspViolations": []
+          },
+          "requests": [
+            {
+              "url": "https://cdn.example.test/integration.js?v=2",
+              "type": "script"
+            },
+            {
+              "url": "https://cmp.example.test/assets/integration.js",
+              "type": "script"
+            },
+            {
+              "url": "https://connect.facebook.net/en_US/fbevents.js",
+              "type": "script"
+            },
+            {
+              "url": "https://mc.yandex.ru/metrika/tag.js",
+              "type": "script"
+            },
+            {
+              "url": "https://top-fwz1.mail.ru/js/code.js",
+              "type": "script"
+            },
+            {
+              "url": "https://www.google.com/maps/embed?pb=fixture",
+              "type": "document"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://yandex.ru/map-widget/v1/?um=fixture",
+              "type": "document"
+            }
+          ],
+          "audits": []
+        },
+        {
+          "label": "revoke",
+          "state": {
+            "consent": {
+              "model": "categories_v2",
+              "version": "1",
+              "necessary": true,
+              "categories": {
+                "analytics": false,
+                "marketing": false,
+                "external_content": false
+              },
+              "category_versions": {
+                "analytics": 0,
+                "marketing": 0,
+                "external_content": 0
+              },
+              "savedAt": 1792108800000,
+              "consentId": "01020304-0506-4708-890a-0b0c0d0e0f10"
+            },
+            "persisted": "{\"model\":\"categories_v2\",\"version\":\"1\",\"necessary\":true,\"categories\":{\"analytics\":false,\"marketing\":false,\"external_content\":false},\"category_versions\":{\"analytics\":0,\"marketing\":0,\"external_content\":0},\"savedAt\":1792108800000,\"consentId\":\"01020304-0506-4708-890a-0b0c0d0e0f10\"}",
+            "api": [
+              "getConsent",
+              "openSettings",
+              "onAllowed"
+            ],
+            "providers": [
+              "services",
+              "categories",
+              "validate",
+              "validScriptPath",
+              "allowed",
+              "safeMapUrl",
+              "revoke",
+              "apply"
+            ],
+            "frozen": [
+              true,
+              true
+            ],
+            "services": [
+              {
+                "key": "yandex",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "yandex",
+                "config": {
+                  "accurateTrackBounce": true,
+                  "clickmap": true,
+                  "id": "111111111",
+                  "trackLinks": true,
+                  "webvisor": true
+                },
+                "hosts": [
+                  "mc.yandex.ru",
+                  "mc.yandex.com"
+                ],
+                "fingerprint": "[2,\"yandex\",\"analytics\",\"yandex\",{\"accurateTrackBounce\":true,\"clickmap\":true,\"id\":\"111111111\",\"trackLinks\":true,\"webvisor\":true}]"
+              },
+              {
+                "key": "mailru",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "mailru",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"mailru\",\"analytics\",\"mailru\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_ga4",
+                "category": "analytics",
+                "enabled": true,
+                "loader": "google_ga4",
+                "config": {
+                  "allow_ad_personalization_signals": false,
+                  "allow_google_signals": false,
+                  "id": "G-DEMOONLY",
+                  "send_page_view": true
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "*.google-analytics.com"
+                ],
+                "fingerprint": "[2,\"google_ga4\",\"analytics\",\"google_ga4\",{\"allow_ad_personalization_signals\":false,\"allow_google_signals\":false,\"id\":\"G-DEMOONLY\",\"send_page_view\":true}]"
+              },
+              {
+                "key": "google_gtm",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_gtm",
+                "config": {
+                  "id": "GTM-DEMOONLY"
+                },
+                "hosts": [
+                  "www.googletagmanager.com"
+                ],
+                "fingerprint": "[2,\"google_gtm\",\"marketing\",\"google_gtm\",{\"id\":\"GTM-DEMOONLY\"}]"
+              },
+              {
+                "key": "google_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "google_ads",
+                "config": {
+                  "allow_ad_personalization_signals": true,
+                  "id": "AW-123456789",
+                  "restricted_data_processing": false
+                },
+                "hosts": [
+                  "www.googletagmanager.com",
+                  "www.googleadservices.com",
+                  "*.doubleclick.net",
+                  "www.google.com"
+                ],
+                "fingerprint": "[2,\"google_ads\",\"marketing\",\"google_ads\",{\"allow_ad_personalization_signals\":true,\"id\":\"AW-123456789\",\"restricted_data_processing\":false}]"
+              },
+              {
+                "key": "vk_ads",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "vk_ads",
+                "config": {
+                  "id": "222222222"
+                },
+                "hosts": [
+                  "top-fwz1.mail.ru",
+                  "top.mail.ru"
+                ],
+                "fingerprint": "[2,\"vk_ads\",\"marketing\",\"vk_ads\",{\"id\":\"222222222\"}]"
+              },
+              {
+                "key": "meta_pixel",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_pixel\",{\"id\":\"111111111\"}]"
+              },
+              {
+                "key": "google_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "google_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "www.google.com",
+                  "maps.googleapis.com",
+                  "maps.gstatic.com"
+                ],
+                "fingerprint": "[2,\"google_maps\",\"external_content\",\"google_maps\",{}]"
+              },
+              {
+                "key": "yandex_maps",
+                "category": "external_content",
+                "enabled": true,
+                "loader": "yandex_maps",
+                "config": {
+                  "show_title": true
+                },
+                "hosts": [
+                  "yandex.ru",
+                  "api-maps.yandex.ru",
+                  "*.maps.yandex.net"
+                ],
+                "fingerprint": "[2,\"yandex_maps\",\"external_content\",\"yandex_maps\",{}]"
+              },
+              {
+                "key": "local",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "/assets/integration.js"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"local\",{\"path\":\"/assets/integration.js\",\"purpose\":\"Local integration\"}]"
+              },
+              {
+                "key": "remote",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "custom_js",
+                "config": {
+                  "path": "https://cdn.example.test/integration.js?v=2"
+                },
+                "hosts": [],
+                "fingerprint": "[2,\"custom_js\",\"marketing\",\"remote\",{\"path\":\"https://cdn.example.test/integration.js?v=2\",\"purpose\":\"Remote integration\"}]"
+              },
+              {
+                "key": "meta_duplicate",
+                "category": "marketing",
+                "enabled": true,
+                "loader": "meta_pixel",
+                "config": {
+                  "id": "111111111"
+                },
+                "hosts": [
+                  "connect.facebook.net",
+                  "www.facebook.com"
+                ],
+                "fingerprint": "[2,\"meta_pixel\",\"marketing\",\"meta_duplicate\",{\"id\":\"111111111\"}]"
+              }
+            ],
+            "scripts": [
+              "https://cmp.example.test/assets/js/cookie-consent/cookie-consent.min.js"
+            ],
+            "maps": [
+              "<div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></div>",
+              "<div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></div>"
+            ],
+            "google": [],
+            "yandex": [],
+            "tmr": [],
+            "meta": [],
+            "callbacks": [],
+            "guards": [],
+            "focus": "<body><h1>Cookie Consent Manager: MOCK demo</h1><p>No external requests or PHP audit. Local test fixtures only.</p><button type=\"button\" data-cookie-settings-open=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 cookie</button><div data-cc-map-provider=\"google_maps\" data-cc-map-src=\"https://www.google.com/maps/embed?pb=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></div><div data-cc-map-provider=\"yandex_maps\" data-cc-map-src=\"https://yandex.ru/map-widget/v1/?um=fixture\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></div><div id=\"cookie-block\" class=\"cookie-warning closed done\" role=\"region\" data-cc-aria=\"region_label\" aria-label=\"\u0423\u043f\u0440\u0430\u0432\u043b\u0435\u043d\u0438\u0435 \u0444\u0430\u0439\u043b\u0430\u043c\u0438 cookie\" data-cc-mode=\"live\" data-cc-policy-version=\"1\" data-cc-ttl-days=\"90\" data-cc-audit-url=\"/audit.php\" data-cc-category-analytics=\"1\" data-cc-category-version-analytics=\"0\" data-cc-category-marketing=\"1\" data-cc-category-version-marketing=\"0\" data-cc-category-external-content=\"1\" data-cc-category-version-external-content=\"0\" data-cc-show-reject=\"1\" data-cc-show-configure=\"1\" data-cc-show-accept-all=\"1\" data-cc-show-accept=\"1\">\n  <div class=\"cookie-warning-content\">\n    <div class=\"cookie-warning-2\" data-cc-panel=\"main\">\n      <div class=\"cookie-warning-text\" data-cc-html=\"notice_html\">\u041c\u044b \u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u0435\u043c \u043d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 cookie \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430.\n\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u0447\u0435\u0441\u043a\u0438\u0435, \u043c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433\u043e\u0432\u044b\u0435 cookie \u0438 \u0432\u043d\u0435\u0448\u043d\u0438\u0435 \u043a\u0430\u0440\u0442\u044b\n\u0438\u0441\u043f\u043e\u043b\u044c\u0437\u0443\u044e\u0442\u0441\u044f \u0442\u043e\u043b\u044c\u043a\u043e \u0441 \u0432\u0430\u0448\u0435\u0433\u043e \u0441\u043e\u0433\u043b\u0430\u0441\u0438\u044f. \u041f\u043e\u0434\u0440\u043e\u0431\u043d\u0435\u0435 \u2014 \u0432\n<a href=\"/soglasie\" target=\"_blank\" rel=\"noopener noreferrer\">\u0441\u043e\u0433\u043b\u0430\u0441\u0438\u0438</a>\n\u0438\n<a href=\"/pkd\" target=\"_blank\" rel=\"noopener noreferrer\">\u043f\u043e\u043b\u0438\u0442\u0438\u043a\u0435 \u043e\u0431\u0440\u0430\u0431\u043e\u0442\u043a\u0438 \u0434\u0430\u043d\u043d\u044b\u0445</a>.</div>\n      <div class=\"cookie-warning-buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"reject\" data-cc-text=\"reject\">\u041e\u0442\u043a\u043b\u043e\u043d\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"configure\" data-cc-text=\"configure\" hidden=\"\">\u041d\u0430\u0441\u0442\u0440\u043e\u0438\u0442\u044c</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept-all\" data-cc-text=\"accept_all\" hidden=\"\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c \u0432\u0441\u0435</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"accept\" data-cc-text=\"accept\">\u041f\u0440\u0438\u043d\u044f\u0442\u044c</button>\n      </div>\n    </div>\n    <section class=\"cookie-warning-settings\" data-cc-panel=\"settings\" aria-labelledby=\"cookie-settings-title\" hidden=\"\">\n      <h2 id=\"cookie-settings-title\" tabindex=\"-1\" data-cc-text=\"settings_title\">\u041d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie</h2>\n      <p data-cc-text=\"settings_intro\">\u0412\u044b\u0431\u0435\u0440\u0438\u0442\u0435 \u043d\u0435\u043e\u0431\u044f\u0437\u0430\u0442\u0435\u043b\u044c\u043d\u044b\u0435 \u043a\u0430\u0442\u0435\u0433\u043e\u0440\u0438\u0438 \u0444\u0430\u0439\u043b\u043e\u0432 cookie.</p>\n      <label class=\"cookie-option\" data-cc-category-row=\"necessary\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"necessary_name\">\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie</strong><small data-cc-text=\"necessary_description\">\u041d\u0443\u0436\u043d\u044b \u0434\u043b\u044f \u0440\u0430\u0431\u043e\u0442\u044b \u0441\u0430\u0439\u0442\u0430. \u0412\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b.</small></span>\n        <input type=\"checkbox\" checked=\"\" disabled=\"\" data-cc-aria=\"necessary_aria\" aria-label=\"\u041d\u0435\u043e\u0431\u0445\u043e\u0434\u0438\u043c\u044b\u0435 \u0444\u0430\u0439\u043b\u044b cookie, \u0432\u0441\u0435\u0433\u0434\u0430 \u0432\u043a\u043b\u044e\u0447\u0435\u043d\u044b\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"analytics\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"analytics_name\">\u0410\u043d\u0430\u043b\u0438\u0442\u0438\u043a\u0430</strong><small data-cc-text=\"analytics_description\">\u0421\u0442\u0430\u0442\u0438\u0441\u0442\u0438\u043a\u0430 \u043f\u043e\u0441\u0435\u0449\u0435\u043d\u0438\u0439.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"analytics\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"marketing\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"marketing_name\">\u041c\u0430\u0440\u043a\u0435\u0442\u0438\u043d\u0433</strong><small data-cc-text=\"marketing_description\">\u0420\u0435\u043a\u043b\u0430\u043c\u043d\u044b\u0435 \u0438\u0437\u043c\u0435\u0440\u0435\u043d\u0438\u044f \u0438 \u043f\u0440\u043e\u0432\u0435\u0440\u0435\u043d\u043d\u044b\u0435 \u043a\u043e\u043d\u0442\u0435\u0439\u043d\u0435\u0440\u044b.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"marketing\">\n      </label>\n      <label class=\"cookie-option\" data-cc-category-row=\"external_content\">\n        <span class=\"cookie-option__text\"><strong data-cc-text=\"external_content_name\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0434\u0430\u043d\u043d\u044b\u0435 \u0438 \u043a\u0430\u0440\u0442\u044b</strong><small data-cc-text=\"external_content_description\">\u0412\u043d\u0435\u0448\u043d\u0438\u0435 \u0432\u0441\u0442\u0440\u0430\u0438\u0432\u0430\u043d\u0438\u044f \u0442\u0440\u0435\u0431\u0443\u044e\u0442 \u043e\u0442\u0434\u0435\u043b\u044c\u043d\u043e\u0433\u043e \u0440\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u044f.</small></span>\n        <input type=\"checkbox\" data-cc-category=\"external_content\">\n      </label>\n      <div class=\"cookie-warning-settings__buttons\">\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--secondary\" data-cc-action=\"back\" data-cc-text=\"back\">\u041d\u0430\u0437\u0430\u0434</button>\n        <button type=\"button\" class=\"btn cookie-btn cookie-btn--primary\" data-cc-action=\"save\" data-cc-text=\"save\">\u0421\u043e\u0445\u0440\u0430\u043d\u0438\u0442\u044c \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</button>\n      </div>\n    </section>\n  </div>\n<div hidden=\"\" data-cc-runtime-messages=\"\"><span data-cc-message=\"error_ack\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u043e\u0435 \u043f\u043e\u0434\u0442\u0432\u0435\u0440\u0436\u0434\u0435\u043d\u0438\u0435 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_audit\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0434\u043e\u0441\u0442\u0430\u0432\u043a\u0438 \u0430\u0443\u0434\u0438\u0442\u0430</span><span data-cc-message=\"error_storage\">\u0425\u0440\u0430\u043d\u0438\u043b\u0438\u0449\u0435 \u043f\u0440\u0435\u0434\u043f\u043e\u0447\u0442\u0435\u043d\u0438\u0439 \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u043d\u043e</span><span data-cc-message=\"error_preference\">\u041d\u0435\u043a\u043e\u0440\u0440\u0435\u043a\u0442\u043d\u044b\u0439 \u0441\u043e\u0445\u0440\u0430\u043d\u0451\u043d\u043d\u044b\u0439 \u0432\u044b\u0431\u043e\u0440</span><span data-cc-message=\"error_random\">\u0411\u0435\u0437\u043e\u043f\u0430\u0441\u043d\u044b\u0439 \u0441\u043b\u0443\u0447\u0430\u0439\u043d\u044b\u0439 ID \u043d\u0435\u0434\u043e\u0441\u0442\u0443\u043f\u0435\u043d; \u0430\u0443\u0434\u0438\u0442 \u043d\u0435 \u043e\u0442\u043f\u0440\u0430\u0432\u043b\u0435\u043d</span><span data-cc-message=\"error_registry\">\u0420\u0435\u0435\u0441\u0442\u0440 \u0441\u0435\u0440\u0432\u0438\u0441\u043e\u0432 \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span><span data-cc-message=\"error_provider\">\u041e\u0448\u0438\u0431\u043a\u0430 \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0438 \u0441\u0435\u0440\u0432\u0438\u0441\u0430</span><span data-cc-message=\"error_buttons\">\u0412\u0441\u0435 \u0434\u0435\u0439\u0441\u0442\u0432\u0438\u044f \u0441\u043a\u0440\u044b\u0442\u044b; \u043f\u043e\u043a\u0430\u0437\u0430\u043d\u0430 \u043a\u043d\u043e\u043f\u043a\u0430 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0438</span><span data-cc-message=\"map_title\">\u041a\u0430\u0440\u0442\u0430</span><span data-cc-message=\"map_disabled\">{title}: \u0441\u0435\u0440\u0432\u0438\u0441 \u043e\u0442\u043a\u043b\u044e\u0447\u0451\u043d</span><span data-cc-message=\"map_rejected\">{title}: \u0430\u0434\u0440\u0435\u0441 \u043a\u0430\u0440\u0442\u044b \u043e\u0442\u043a\u043b\u043e\u043d\u0451\u043d</span></div><template data-cc-map-template=\"google_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>Google Maps: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"google_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 Google Maps</button></section></template><template data-cc-map-template=\"yandex_maps\"><section class=\"cc-map-placeholder\"><h3>\u041a\u0430\u0440\u0442\u0430</h3><p>\u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b: \u0437\u0430\u0433\u0440\u0443\u0437\u043a\u0430 \u043f\u0435\u0440\u0435\u0434\u0430\u0441\u0442 \u043f\u0440\u043e\u0432\u0430\u0439\u0434\u0435\u0440\u0443 IP \u0438 \u0434\u0430\u043d\u043d\u044b\u0435 \u0431\u0440\u0430\u0443\u0437\u0435\u0440\u0430. \u0420\u0430\u0437\u0440\u0435\u0448\u0435\u043d\u0438\u0435 \u043e\u0442\u043d\u043e\u0441\u0438\u0442\u0441\u044f \u043a \u044d\u0442\u043e\u043c\u0443 \u0441\u0435\u0440\u0432\u0438\u0441\u0443 \u043a\u0430\u0440\u0442. \u0415\u0433\u043e \u043c\u043e\u0436\u043d\u043e \u043e\u0442\u043e\u0437\u0432\u0430\u0442\u044c \u0437\u0434\u0435\u0441\u044c \u0438\u043b\u0438 \u0432 \u043d\u0430\u0441\u0442\u0440\u043e\u0439\u043a\u0430\u0445 cookie.</p><button type=\"button\" data-cc-map-load=\"yandex_maps\">\u0417\u0430\u0433\u0440\u0443\u0437\u0438\u0442\u044c \u043a\u0430\u0440\u0442\u0443 \u2014 \u042f\u043d\u0434\u0435\u043a\u0441.\u041a\u0430\u0440\u0442\u044b</button></section></template></div></body>",
+            "cookies": "fixture_sdk=1",
+            "cspViolations": []
+          },
+          "requests": [
+            {
+              "url": "https://cdn.example.test/integration.js?v=2",
+              "type": "script"
+            },
+            {
+              "url": "https://cmp.example.test/assets/integration.js",
+              "type": "script"
+            },
+            {
+              "url": "https://connect.facebook.net/en_US/fbevents.js",
+              "type": "script"
+            },
+            {
+              "url": "https://mc.yandex.ru/metrika/tag.js",
+              "type": "script"
+            },
+            {
+              "url": "https://top-fwz1.mail.ru/js/code.js",
+              "type": "script"
+            },
+            {
+              "url": "https://www.google.com/maps/embed?pb=fixture",
+              "type": "document"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtag/js?id=G-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://www.googletagmanager.com/gtm.js?id=GTM-DEMOONLY",
+              "type": "script"
+            },
+            {
+              "url": "https://yandex.ru/map-widget/v1/?um=fixture",
+              "type": "document"
+            }
+          ],
+          "audits": [
+            {
+              "schema": 3,
+              "event_id": "11121314-1516-4718-991a-1b1c1d1e1f20",
+              "consent_id": "01020304-0506-4708-890a-0b0c0d0e0f10",
+              "event": "reject",
+              "stage": "committed",
+              "analytics": false,
+              "marketing": false,
+              "external_content": false,
+              "policy_version": "1",
+              "timestamp": "2026-10-16T00:00:00.000Z",
+              "page": "/"
+            }
+          ]
+        }
+      ],
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "browser.json": {
+    "suite": "Legacy auto-load: actual MODX 2 / Chromium / intercepted vendors",
+    "tests": 24,
+    "assertions": 176,
+    "failed": 0,
+    "results": [
+      {
+        "name": "strict-new-visitor-zero-optional-network",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-first-visit-network-init-dedup-no-consent-no-audit-google-unmodified",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "legacy-preserves-independent-site-consent-denied",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-preserves-independent-site-consent-granted",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-reject-synchronous-guards-real-reload-denied-restored",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-respects-refusal",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-respects-partial",
+        "result": "PASS",
+        "assertions": 8
+      },
+      {
+        "name": "legacy-respects-expired",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-policy",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-category-version",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-respects-malformed",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-historical-incomplete",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-respects-historical-complete",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-archive-only",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-respects-unavailable-storage",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "legacy-hidden-category-disabled-service-and-mode-off",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-reject-even-with-all-categories-hidden-reloads",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "legacy-admin-processing-change-invalidates-real-consent",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "legacy-pending-google_ga4-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-google_ads-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-google_gtm-reject-discards-only-CMP-work",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "legacy-pending-meta-reject-cancels-queued-pageview",
+        "result": "PASS",
+        "assertions": 5
+      },
+      {
+        "name": "Manager-warning-ru",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "Manager-warning-en",
+        "result": "PASS",
+        "assertions": 2
+      }
+    ]
+  }
+}

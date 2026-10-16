@@ -1,25 +1,11 @@
 /** SDK adapters, queues and deduplication; permissions are supplied by the consent owner. */
 const web86ServiceLoaders = (() => {
   'use strict';
-  const base = new URL('./', document.currentScript.src);
-  const t = (...args) => window.web86Runtime?.message(...args) || args[0];
-  const services = window.web86Providers.services;
-  const categories = window.web86Providers.categories;
-  const visibility = Object.fromEntries(Object.keys(categories).map(c => [c, document.getElementById('cookie-block')?.getAttribute('data-cc-category-' + c.replaceAll('_','-')) === '1']));
-  const scripts = new Map();
+  const runtime = web86CreateServiceRuntime();
+  const { base, t, services, visibility, started, script, allowed } = runtime;
   const googleCommands = new Set();
-  const started = new Set(), metaIds = new Set(), vkIds = new Set();
-  let currentValue, runtimePermission = null, legacyNoChoice = false, stopping = false, metaGranted = false, tmrLoaded = false, googleDefaults = false;
-  function script(url) {
-    const href = new URL(String(url), location.href).href;
-    if (!scripts.has(href)) scripts.set(href, new Promise((resolve, reject) => {
-      const el = document.createElement('script');
-      el.src = href; el.async = true;
-      el.onload = resolve; el.onerror = () => reject(Error(t('error_provider')));
-      document.head.appendChild(el);
-    }));
-    return scripts.get(href);
-  }
+  const metaIds = new Set(), vkIds = new Set();
+  let metaGranted = false, tmrLoaded = false, googleDefaults = false;
   function metaQueue() {
     if (!window.fbq) {
       const queue = function (...args) { if (queue.callMethod) queue.callMethod.apply(queue, args); else queue.queue.push(args); };
@@ -32,9 +18,9 @@ const web86ServiceLoaders = (() => {
     return window.fbq;
   }
   function revoke(mode, value) {
-    stopping = true;
-    const legacyStartup = legacyNoChoice;
-    legacyNoChoice = false;
+    runtime.stopping = true;
+    const legacyStartup = runtime.legacyNoChoice;
+    runtime.legacyNoChoice = false;
     if (mode !== 'live') return;
     // Discard only this CMP's pending bootstrap/config work. Preserve the site's
     // own commands, especially independently configured Consent Mode defaults.
@@ -55,7 +41,7 @@ const web86ServiceLoaders = (() => {
     window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
     // First-visit legacy installation behaves like a direct tag: leave any site's
     // own Consent Mode untouched, without inventing denied or granted signals.
-    if (legacyNoChoice) return;
+    if (runtime.legacyNoChoice) return;
     const permitted = loader => services.some(s => s.loader === loader && allowed(s, value));
     const container = permitted('google_gtm') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`));
     // Script eligibility may be legacy; Google signals always use the visitor's choice.
@@ -69,10 +55,6 @@ const web86ServiceLoaders = (() => {
       ad_storage: marketing ? 'granted' : 'denied', ad_user_data: marketing ? 'granted' : 'denied',
       ad_personalization: marketing ? 'granted' : 'denied' });
   }
-  function allowed(s, value) {
-    return !stopping && s.enabled === true && visibility[s.category] &&
-      (runtimePermission ? runtimePermission(s.category) : value?.categories?.[s.category] === true);
-  }
   function googleCommand(...args) {
     const length = window.dataLayer.length;
     window.gtag(...args);
@@ -81,12 +63,12 @@ const web86ServiceLoaders = (() => {
     }
   }
   async function start(s, mode, value) {
-    if (stopping || ['google_maps', 'yandex_maps'].includes(s.loader)) return;
+    if (runtime.stopping || ['google_maps', 'yandex_maps'].includes(s.loader)) return;
     const token = s.loader === 'custom_js' ? s.key : `${s.loader}:${s.config.id || ''}`;
     if (started.has(token)) return;
     started.add(token);
     if (s.loader === 'custom_js') {
-      if (allowed(s, currentValue)) await script(s.config.path);
+      if (allowed(s, runtime.currentValue)) await script(s.config.path);
       return;
     }
     if (mode === 'mock') {
@@ -109,29 +91,29 @@ const web86ServiceLoaders = (() => {
         fbq('set', 'autoConfig', false, s.config.id);
         fbq('init', s.config.id);
         await script('https://connect.facebook.net/en_US/fbevents.js');
-        if (!stopping && allowed(s, currentValue)) fbq('trackSingle', s.config.id, 'PageView');
+        if (!runtime.stopping && allowed(s, runtime.currentValue)) fbq('trackSingle', s.config.id, 'PageView');
         break;
       }
       case 'google_ga4': case 'google_ads':
         googleConsent(value);
         googleCommand('js', new Date());
-        googleCommand('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(!legacyNoChoice ? { ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && visibility.marketing && value?.categories?.marketing === true } : {}), allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && visibility.marketing && value?.categories?.marketing === true } : {}) });
+        googleCommand('config', s.config.id, { ...Object.fromEntries(Object.entries(s.config).filter(([key]) => key !== 'id')), ...(!runtime.legacyNoChoice ? { ...(s.loader === 'google_ga4' ? { allow_google_signals: s.config.allow_google_signals && visibility.marketing && value?.categories?.marketing === true } : {}), allow_ad_personalization_signals: s.config.allow_ad_personalization_signals && visibility.marketing && value?.categories?.marketing === true } : {}) });
         // One shared library; separate consent/config for each selected service.
         if (!started.has('gtag-library')) { started.add('gtag-library'); await script(`https://www.googletagmanager.com/gtag/js?id=${encodeURIComponent(s.config.id)}`); }
         break;
       case 'google_gtm':
         // Launch follows this instance's category; tag-level consent checks remain mandatory.
         googleConsent(value);
-        const event = { 'gtm.start': Date.now(), event: 'gtm.js', ...(!legacyNoChoice ? { cookie_consent: { analytics: value?.categories?.analytics === true, marketing: value?.categories?.marketing === true, external_content: value?.categories?.external_content === true } } : {}) };
+        const event = { 'gtm.start': Date.now(), event: 'gtm.js', ...(!runtime.legacyNoChoice ? { cookie_consent: { analytics: value?.categories?.analytics === true, marketing: value?.categories?.marketing === true, external_content: value?.categories?.external_content === true } } : {}) };
         window.dataLayer.push(event); googleCommands.add(event);
         await script(`https://www.googletagmanager.com/gtm.js?id=${encodeURIComponent(s.config.id)}`); break;
     }
   }
   return Object.freeze({
     allowed, revoke, apply(value, mode, permission = null, legacy = false) {
-      currentValue = value;
-      runtimePermission = typeof permission === 'function' ? permission : null;
-      legacyNoChoice = legacy === true && value === null && runtimePermission !== null;
+      runtime.currentValue = value;
+      runtime.runtimePermission = typeof permission === 'function' ? permission : null;
+      runtime.legacyNoChoice = legacy === true && value === null && runtime.runtimePermission !== null;
       if (mode === 'live' && (googleDefaults || started.has('gtag-library') || services.some(s => s.loader === 'google_gtm' && started.has(`google_gtm:${s.config.id}`)))) googleConsent(value);
       for (const s of services) if (allowed(s, value)) start(s, mode, value).catch(e => console.warn(t('error_provider'), e.message));
     }
