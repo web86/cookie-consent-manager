@@ -1,6 +1,6 @@
 # Frontend messages and custom integration guide — 1.0.2 review
 
-The production bundle contains `runtime.js`, `script-url.js`, `provider-registry.js`, `service-loaders.js`,
+The production bundle contains `runtime.js`, `script-url.js`, `provider-registry.js`, `service-runtime.js`, `services/*.js`, `service-loaders.js`,
 `embeds.js` and `consent-manager.js`. Its only consumers of `web86Runtime` call `message()`;
 none reads `.config` or locale. PHP uses the MODX context cultureKey and existing
 saved text overrides/fallbacks to render banner text, ARIA, error messages and map
@@ -23,18 +23,13 @@ are unchanged; no data/consent migration, policy or category version increment.
 
 ## Compatibility
 
-`assets/js/cookie-consent/i18n.js` and `lexicons.json` remain historical standalone
-development sources. They are not inputs of the production bundle or shipped
-public transport files; neither is needed by current MODX integration. They were
-not deleted or modified. Old reports/archives are preserved.
-
-For an explicitly maintained standalone use, i18n.js still exposes web86I18n with
-ready/t/config/locale. Its owner must either provide its own legacy cc-public-config
-strings, or serve lexicons.json beside i18n.js on the same origin and set html lang
-(fallback en). It does not obtain saved MODX text overrides automatically. These
-requirements apply only to that historical standalone helper; do not add it to
-the standard bundle integration. Old matching source versions must be maintained
-as a set rather than mixing historic translation logic with current CMP sources.
+The historical `i18n.js` / `lexicons.json` pair is archived unchanged in
+`archive/standalone-i18n/` starting with beta5. It is outside public assets and is
+not a current integration method. Its RU/EN/inline override compatibility tests
+continue to execute the archived files. PHP lexicons/renderers are unchanged.
+Old reports, ZIPs and source history remain available. Native installation does
+not remove previously installed or manually connected historical files; site
+owners must review old script references and caches when migrating.
 
 Site code that independently relied on cc-public-config or web86Runtime.config
 must now provide its own locale configuration or use its own html lang/PHP output.

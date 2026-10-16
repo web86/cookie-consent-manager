@@ -52,8 +52,8 @@ try{
   await ctx.route('**/*',r=>{
    const u=new URL(r.request().url());requests.push(u.pathname);if(u.origin!==origin)return r.abort();
    if(u.pathname==='/owner-standalone')return r.fulfill({contentType:'text/html',body:'<!doctype html><html lang="'+lang+'"><head>'+(inline?'<script id="cc-public-config" type="application/json">{"locale":"tr","strings":{"reject":"Reddet"}}</script>':'')+'<script src="/fixtures/i18n.js"></script></head><body>Owner standalone</body></html>'});
-   if(u.pathname==='/fixtures/i18n.js')return r.fulfill({contentType:'text/javascript',body:readFileSync('assets/js/cookie-consent/i18n.js','utf8')});
-   if(u.pathname==='/fixtures/lexicons.json')return r.fulfill({contentType:'application/json',body:readFileSync('assets/js/cookie-consent/lexicons.json','utf8')});
+   if(u.pathname==='/fixtures/i18n.js')return r.fulfill({contentType:'text/javascript',body:readFileSync('archive/standalone-i18n/i18n.js','utf8')});
+   if(u.pathname==='/fixtures/lexicons.json')return r.fulfill({contentType:'application/json',body:readFileSync('archive/standalone-i18n/lexicons.json','utf8')});
    return r.abort();
   });
   try{await p.goto(origin+'/owner-standalone',{waitUntil:'networkidle'});eq(await p.evaluate(async()=>{await web86I18n.ready;return web86I18n.t('reject')}),reject);eq(requests.includes('/fixtures/lexicons.json'),!inline);eq(await p.evaluate(()=>typeof web86CookieConsent),'undefined','Not a current CMP integration');}finally{await ctx.close();}
