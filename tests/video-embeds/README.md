@@ -34,7 +34,8 @@ posters, keyboard/modal focus, category audit, AJAX, repeat mounting and 1000-no
 removal with CDP garbage collection / WeakRef checks. `--static` and `--generic`
 select the incremental pre-adapter stage gates; final runs use no filter.
 
-`native-browser.mjs` executes installed PHP snippets through actual standard and
+`native-browser.mjs` installs the exact ZIP on the existing marked Fenom clone and
+executes installed PHP snippets through actual standard and
 Fenom parsers in RU/EN with cold/warm resource caches. It checks mixed maps/videos,
 RUTUBE p+t, iframe attributes, inert posters/Preview, and real ACK/event_id/one JSONL
 row per event. Never run it concurrently with universal or native reset suites.
@@ -50,3 +51,9 @@ into `.local/video-embeds/final-a` and `final-b`, normalize with the stock scrip
 and retain both archives. Never overwrite beta5. `build.mjs` checks all manifest
 hashes, old object/default invariants, six-element delta, one production bundle,
 immutable beta5 ZIP, and independent normalized archive reproducibility.
+
+The marked Fenom clone originally lacked native PM processors and writable PM/log
+paths. `control.php prepare-native` restores missing **unmodified stock MODX 2.8.8**
+package processors from the main disposable fixture, checks each copied SHA256 and
+prepares only component/cache/package/log paths. It never patches pdoTools/vendor
+code. The test sets a valid parser path for each parser and a local audit origin.
