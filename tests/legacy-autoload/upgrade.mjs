@@ -1,4 +1,4 @@
-// Native beta1/beta2 -> current, retaining real visitor choice and immutable old ZIPs.
+// Native beta1/beta2/beta3 -> current, retaining real visitor choice and immutable old ZIPs.
 import {chromium} from 'playwright';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
@@ -14,7 +14,8 @@ const snapshot=()=>JSON.parse(docker(['web','php','/opt/cc-source/tests/transpor
 const install=signature=>{execFileSync('docker',['compose','--env-file','.local/private/compose.env','-f','tests/local/compose.yaml','restart','web'],{stdio:'pipe'});execFileSync('node',['tests/transport/install-current.mjs'],{stdio:'pipe',env:{...process.env,CC_INSTALL_SERVICES:'web',CC_INSTALL_SIGNATURE:signature}})};
 const browser=await chromium.launch(),results=[];let n=0;
 const eq=(a,b,m)=>{n++;assert.deepEqual(a,b,m)};
-try{for(const old of ['cookieconsent-1.0.4-beta1','cookieconsent-1.0.4-beta2']){
+const previous = process.argv.slice(2).length ? process.argv.slice(2) : ['cookieconsent-1.0.4-beta1','cookieconsent-1.0.4-beta2','cookieconsent-1.0.4-beta3'];
+try{for(const old of previous){
  const oldSha=hash('.local/artifacts/'+old+'.transport.zip'),start=n,visitors=[];
  try{
   install(old);const ids=JSON.parse(docker(['web','php','/opt/cc-source/tests/beta31/fixture.php']));
@@ -23,7 +24,7 @@ try{for(const old of ['cookieconsent-1.0.4-beta1','cookieconsent-1.0.4-beta2']){
   for(const kind of ['accept','refusal','partial','expired']){
    const ctx=await browser.newContext(),p=await ctx.newPage(),sdk=[];
    await ctx.route('**/*',r=>{const u=new URL(r.request().url());if(u.origin===origin)return r.continue();sdk.push(u.href);return r.fulfill({contentType:'text/javascript',body:'window.__sdk=(window.__sdk||0)+1;'})});
-   await p.goto(origin+'/?id='+ids.split,{waitUntil:'networkidle'});eq(sdk,[],'Historical versions wait for click');
+   await p.goto(origin+'/?id='+ids.split,{waitUntil:'networkidle'});eq(sdk.length,old==='cookieconsent-1.0.4-beta3'?1:0,'Preserve each historical first-visit startup contract');
    if(kind==='partial'){await p.evaluate(()=>web86CookieConsent.openSettings());await p.locator('[data-cc-category=marketing]').check();await p.locator('[data-cc-action=save]').click()}
    else await p.locator('[data-cc-action='+(kind==='refusal'?'reject':'accept')+']').click();
    await p.waitForTimeout(150);

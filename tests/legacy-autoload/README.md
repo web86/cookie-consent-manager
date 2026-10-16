@@ -27,7 +27,7 @@ failure, hidden/disabled services, admin version changes and RU/EN warning.
 maps and custom JS, before any click and after rejection/reload. Evidence is under
 `.local/legacy-autoload-evidence/`.
 
-`upgrade.mjs` installs immutable beta1 and beta2 in turn, followed by the current
+`upgrade.mjs` installs immutable beta1, beta2 and beta3 in turn, followed by the current
 candidate, preserving exact consent bytes, settings, IDs and audit data. It leaves
 the current candidate installed and restores component settings. Do not run it
 concurrently with other browser or native suites.

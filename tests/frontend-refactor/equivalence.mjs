@@ -9,7 +9,7 @@ import assert from 'node:assert/strict';
 const baseline = JSON.parse(readFileSync('tests/frontend-refactor/baseline.json'));
 const original = path => execFileSync('git', ['show', `${baseline.commit}:${path}`], {encoding:'utf8'});
 const bundlePath = 'assets/js/cookie-consent/cookie-consent.min.js';
-const bundles = [original(bundlePath), readFileSync(bundlePath, 'utf8')];
+const bundles = [original(bundlePath), readFileSync(process.env.CC_REFACTOR_CANDIDATE||bundlePath, 'utf8')];
 assert.equal(createHash('sha256').update(bundles[0]).digest('hex'), baseline.sources[bundlePath]);
 const demo = original('demo.html');
 const origin = 'https://cmp.example.test';
@@ -114,8 +114,7 @@ async function exercise(bundle, scenario) {
       yandex:(window.ym?.a||[]).map(x=>Array.from(x)),tmr:window._tmr||[],meta:window.fbq?.queue||[],
       callbacks:window.__callbacks||[],guards:(window.__guards||[]).map(f=>f()),
       focus:document.activeElement?.outerHTML,dialog:document.getElementById('map-dialog')?.open,
-      cookies:document.cookie
-      ,cspViolations:__cspViolations
+      cookies:document.cookie,cspViolations:__cspViolations
     })),requests:[...requests].sort((a,b)=>a.url.localeCompare(b.url)),audits:structuredClone(audits)});
   };
   try {
