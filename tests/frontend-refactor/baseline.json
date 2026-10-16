@@ -1,0 +1,80 @@
+{
+  "commit": "ab78ef1365c95514d57b4b63922539e6ac5ea395",
+  "branch": "codex/modx2-universal-services",
+  "initial_status": [
+    "?? docs/modx2-frontend-inventory.md"
+  ],
+  "sources": {
+    "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+    "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+    "assets/js/cookie-consent/provider-registry.js": "c41bc5125048da7385b6967ca9e5821c7505b2d4ed118dd49600dd36c7cc2550",
+    "assets/js/cookie-consent/consent-manager.js": "4b513bab532474abe5a241e1df8c089522576c4e97267f015513511dbc700c09",
+    "assets/js/cookie-consent/cookie-consent.min.js": "c641196439d5b187461df049018245ec2ad73f9b2723073955b434a2a5ccf796"
+  },
+  "native": {
+    "signature": "cookieconsent-1.0.4-beta3",
+    "sha256": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d",
+    "inventory_sha256": "573f836cef1b5ce3c558941579286dfd42bc9f2b5611d3fb97d557fd8a66daa3"
+  },
+  "public": {
+    "web86Providers": [
+      "services",
+      "categories",
+      "validate",
+      "validScriptPath",
+      "allowed",
+      "safeMapUrl",
+      "revoke",
+      "apply"
+    ],
+    "web86CookieConsent": [
+      "getConsent",
+      "openSettings",
+      "onAllowed"
+    ],
+    "mock_only": [
+      "resetForTesting"
+    ],
+    "callback_contract": "onAllowed returns unsubscribe; callback receives stillAllowed"
+  },
+  "fixtures": {
+    "tests/beta1042/README.md": "12bbfabed879ba9931ab4cf9b74273c1bf6707865a26c35f595b8f5ff7bf7bae",
+    "tests/beta1042/accept.mjs": "a91ca97ec9c7d731303e2fd342bd497b86498be9f31e1b8c6595db2f7c6a9aaf",
+    "tests/beta1042/upgrade.mjs": "73484ffaf1a6246062e0e9169836f3690309d901a870db81660fcd41856610f3",
+    "tests/beta1042/urls.php": "cfeda0fd28654ad2e33e6b9a338a7ff0c9654bef008a637d694b5549994ea6f3",
+    "tests/beta32/README.md": "dd7c74b07ed8abe2537982db2fcb46790bec6f811aeddd8ef5c0b963c8e43745",
+    "tests/beta32/callbacks.mjs": "023a85057ddf1d75a49802bb97688355646bd7a7d2b037eb61bdf71f5dc675ac",
+    "tests/beta32/client-source/yonder-map-many.original.js": "3c7f14a944bcc127bd57e07dcac7f04c7374953d7b281631e53e6539552b359b",
+    "tests/beta32/fixture.php": "7db9340e4eedaeca1da4f2e90c7345ef3309a54dd906e291bbf0403c0217b00c",
+    "tests/beta32/maps.mjs": "687b8d95fd2e2db5843e78877a701f2bad9a6c144b3e5be85ca317e2383791dd",
+    "tests/beta32/native-fixture.php": "81d39fb48b5733e2e34457aae7ba3226a1996e4cd04bb980cc1ca597eb486e6f",
+    "tests/beta32/native.mjs": "7c5a5ea428547cd480d7cb002757dbd7cd7cb87943fc46b7fb70fde27afef404",
+    "tests/beta32/summarize.py": "e7077982c7be0c412ecfb2884cdc8d21804d45bbef36e4da05384d1b5bbfeb8f",
+    "tests/beta32/ymaps-stub.js": "1fb780963828785964e78fa4eb6c0f0799647058c0e802f55d48f53f8af582dc",
+    "tests/legacy-autoload/README.md": "f343ac6a8c56c006a2bf4285f971b3c99f76f8d00783c889b5061ae7db3420dc",
+    "tests/legacy-autoload/browser.mjs": "2d7e027fcdbd659db5783cfbb193089fa33168c90f37c7b1d31746dc8176f2b1",
+    "tests/legacy-autoload/direct-vendors.mjs": "ed2ae2b519b4b4b8617f899aef9c1136a1e91fb43a46bdd6eaa47153bbb53e78",
+    "tests/legacy-autoload/fenom.mjs": "b1160415548272a6f45fa267951d0944005a9d0363b51c1a63aaa19170340ff3",
+    "tests/legacy-autoload/matrix.mjs": "862f9cf07bfafc7f223e59846a51b109a6dcc8e2b177c051d7d64b707fa314e9",
+    "tests/legacy-autoload/php81.mjs": "41f227a748d9fc5f1fab96a368af51f9d5cdd6eed0f2555fcad864b65f3b5de3",
+    "tests/legacy-autoload/upgrade.mjs": "bd7f5e09be949b702bac48c1b7063c8a33eaf76dbb3f8a8c548bf3fe5d643331",
+    "tests/universal/README.md": "51924f31ee180f8ca694c09ddde5237da7ebc706c700994dfff3e3080ad70036",
+    "tests/universal/audit-schema3.php": "0e2832a4fd12739156774ceae6275b76fec48524202d2fca1b3cd809d7bfd6dc",
+    "tests/universal/audit.mjs": "0967fb16ebe61552dec2a5293331b5df4b0cd542e10ccbf66f34f649003007ac",
+    "tests/universal/browser.mjs": "29038982d61dba236d85cfbaf6df5773b0a85ef130252a35ca88415e05c2727d",
+    "tests/universal/matrix.mjs": "394fd4ed6ecc7fe7a3717b52c6799356ae74b6213ed9d53e24e4c794cd4b376f",
+    "tests/universal/php.php": "35af84387b0d52041dab1019fc3c73a6a0898a1d09eb7f91240e2349f3c24810",
+    "tests/universal/regression.mjs": "67272b4ef4a1f27ebcf8bd0c2d0b56514e109ee6e8a2fbe7a2869dac304db4df",
+    "tests/universal/set-registry.php": "ab7ccaf46a1706ff5575e1013ba5e675aaa59c17187b375a95925119d6a933cd"
+  },
+  "sdk_urls": [
+    "https://mc.yandex.ru/metrika/tag.js",
+    "https://top-fwz1.mail.ru/js/code.js",
+    "https://connect.facebook.net/en_US/fbevents.js",
+    "https://www.googletagmanager.com/gtag/js?id={id}",
+    "https://www.googletagmanager.com/gtm.js?id={id}",
+    "custom_js: validated root-relative or HTTPS .js",
+    "mock: bundle-relative mock/{loader}.js; mock_marketing -> marketing.js"
+  ],
+  "runtime_contract": "runtimeAllowed(category) from consent-manager; persisted categories_v2 remains separate; unchanged v2 fingerprints/schema 3"
+}
