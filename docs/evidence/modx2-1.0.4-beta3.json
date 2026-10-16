@@ -1,0 +1,703 @@
+{
+  "candidate": "cookieconsent-1.0.4-beta3",
+  "base_commit": "7cad272e57ff6f4f695b2af1e20e919e15bad5b5",
+  "date": "2026-10-16",
+  "branch": "codex/modx2-universal-services",
+  "result": "PASS",
+  "unresolved_failures": 0,
+  "archive": {
+    "path": ".local/artifacts/cookieconsent-1.0.4-beta3.transport.zip",
+    "bytes": 200147,
+    "sha256": "0e55b968695fc1ad9c04becca1037218c385e836dad5a63d489a61f523cae95d"
+  },
+  "frontend": {
+    "assets/js/cookie-consent/cookie-consent.min.js": {
+      "sha256": "c641196439d5b187461df049018245ec2ad73f9b2723073955b434a2a5ccf796",
+      "bytes": 21944
+    },
+    "assets/css/cookie-consent.min.css": {
+      "sha256": "9d5ba1e5c0e6e1394806309a04f31a7d7a1b94acbed88ffca5ade89cef61ff88",
+      "bytes": 3286
+    }
+  },
+  "checks": {
+    "legacy_browser": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/browser.json",
+      "tests": 24,
+      "assertions": 176
+    },
+    "legacy_matrix": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/matrix-results.json",
+      "tests": 30,
+      "assertions": 330
+    },
+    "real_sdk_direct_parity": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/direct-vendors.json",
+      "tests": 10,
+      "assertions": 177
+    },
+    "native_lifecycle": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/native/native-results.json",
+      "tests": 7,
+      "assertions": 220
+    },
+    "beta1_beta2_upgrade": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/upgrade.json",
+      "tests": 2,
+      "assertions": 64
+    },
+    "php81_native": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/php81.json",
+      "tests": 1,
+      "assertions": 68
+    },
+    "legacy_fenom_cache": {
+      "result": "PASS",
+      "evidence": ".local/legacy-autoload-evidence/fenom.json",
+      "tests": 24,
+      "assertions": 480
+    },
+    "previous_acceptance": {
+      "result": "PASS",
+      "evidence": ".local/beta1042-evidence/accept-results.json",
+      "tests": 11,
+      "assertions": 130
+    },
+    "manager_ux_rerun": {
+      "result": "PASS",
+      "evidence": ".local/manager-ux-evidence/results.json",
+      "tests": 15,
+      "assertions": 113
+    },
+    "native_manager": {
+      "result": "PASS",
+      "evidence": ".local/evidence/manager-results.json",
+      "tests": 4,
+      "assertions": 13
+    },
+    "stable_upgrade_public_registry": {
+      "result": "PASS",
+      "evidence": ".local/public-registry-evidence/browser-results.json",
+      "tests": 6,
+      "assertions": 59
+    },
+    "documented_examples": {
+      "result": "PASS",
+      "evidence": ".local/locale-guide-evidence/examples.json",
+      "tests": 5,
+      "assertions": 22
+    },
+    "existing_fenom_browser": {
+      "result": "PASS",
+      "evidence": ".local/fenom/evidence/results.json",
+      "tests": 31,
+      "assertions": 768
+    },
+    "php_syntax_regression": {
+      "result": "PASS",
+      "evidence": ".local/fenom/evidence/regression.json",
+      "php_linted": 106,
+      "js_checked": 115
+    },
+    "current_regression_runner": {
+      "result": "PASS",
+      "suites": 20,
+      "initial_failed": 1,
+      "final_failed": 0,
+      "results": [
+        {
+          "path": "tests/universal/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/audit.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/http.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/callbacks.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta26/frontend.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta28/localization.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/manager.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-i18n.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-permissions.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/viewer/browser.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/universal/matrix.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta32/maps.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/provider-parameters.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta31/pixels.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/clientid.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/manager-ux.mjs",
+          "result": "PASS",
+          "initial_result": "FAIL",
+          "rerun_evidence": ".local/manager-ux-evidence/results.json"
+        },
+        {
+          "path": "tests/live-guard.mjs",
+          "result": "PASS"
+        },
+        {
+          "path": "tests/beta33/public.mjs",
+          "result": "PASS"
+        }
+      ]
+    },
+    "build_integrity": {
+      "result": "PASS",
+      "reproducible_native_zip": true,
+      "manifest_inputs": 7,
+      "manifest_outputs": 2,
+      "native_vehicles": 73,
+      "runtime_files": 57,
+      "zip_entries": 140
+    },
+    "php_contracts_8.1.34": {
+      "result": "PASS",
+      "suites": 4,
+      "assertions": 3268,
+      "paths": [
+        "tests/universal/php.php",
+        "tests/universal/audit-schema3.php",
+        "tests/audit-visibility/php.php",
+        "tests/beta1042/urls.php"
+      ]
+    },
+    "php_contracts_8.2.34": {
+      "result": "PASS",
+      "suites": 4,
+      "assertions": 3268,
+      "paths": [
+        "tests/universal/php.php",
+        "tests/universal/audit-schema3.php",
+        "tests/audit-visibility/php.php",
+        "tests/beta1042/urls.php"
+      ]
+    }
+  },
+  "real_sdk_parity": [
+    {
+      "name": "google_ga4-no-site-consent",
+      "result": "PASS",
+      "cookies": [
+        "_ga",
+        "_ga_LEGACY0001"
+      ],
+      "direct_requests": 1,
+      "legacy_requests": 1,
+      "direct_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "legacy_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "google_consent_commands": [],
+      "consent_state": {
+        "analytics_storage": {},
+        "ad_storage": {},
+        "ad_user_data": {},
+        "ad_personalization": {}
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "b3b7ec8a3f782c5b3ea6da800932c2db506e7c027bea5e6e0c873ea96eebbd44"
+      ]
+    },
+    {
+      "name": "google_ga4-denied",
+      "result": "PASS",
+      "cookies": [],
+      "direct_requests": 1,
+      "legacy_requests": 1,
+      "direct_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "legacy_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": false
+        },
+        "ad_storage": {
+          "default": false
+        },
+        "ad_user_data": {
+          "default": false
+        },
+        "ad_personalization": {
+          "default": false
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "b3b7ec8a3f782c5b3ea6da800932c2db506e7c027bea5e6e0c873ea96eebbd44"
+      ]
+    },
+    {
+      "name": "google_ga4-granted",
+      "result": "PASS",
+      "cookies": [
+        "_ga",
+        "_ga_LEGACY0001"
+      ],
+      "direct_requests": 1,
+      "legacy_requests": 1,
+      "direct_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "legacy_request_kinds": [
+        "www.google-analytics.com/g/collect:page_view"
+      ],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "granted",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": true
+        },
+        "ad_storage": {
+          "default": true
+        },
+        "ad_user_data": {
+          "default": true
+        },
+        "ad_personalization": {
+          "default": true
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "b3b7ec8a3f782c5b3ea6da800932c2db506e7c027bea5e6e0c873ea96eebbd44"
+      ]
+    },
+    {
+      "name": "google_ads-no-site-consent",
+      "result": "PASS",
+      "cookies": [
+        "_gcl_au",
+        "_gcl_aw"
+      ],
+      "direct_requests": 5,
+      "legacy_requests": 5,
+      "direct_request_kinds": [
+        "ad.doubleclick.net/ccm/s/collect:",
+        "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+        "www.google.com/ccm/collect:page_view",
+        "www.google.com/rmkt/collect/:id/:gtag.config",
+        "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+      ],
+      "legacy_request_kinds": [
+        "ad.doubleclick.net/ccm/s/collect:",
+        "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+        "www.google.com/ccm/collect:page_view",
+        "www.google.com/rmkt/collect/:id/:gtag.config",
+        "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+      ],
+      "google_consent_commands": [],
+      "consent_state": {
+        "analytics_storage": {},
+        "ad_storage": {},
+        "ad_user_data": {},
+        "ad_personalization": {}
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "a0e1abd79724ffcf61aa47281f16952a421b191db38c1b6845cf446b1a77b435"
+      ]
+    },
+    {
+      "name": "google_ads-denied",
+      "result": "PASS",
+      "cookies": [],
+      "direct_requests": 1,
+      "legacy_requests": 1,
+      "direct_request_kinds": [
+        "pagead2.googlesyndication.com/ccm/collect:page_view"
+      ],
+      "legacy_request_kinds": [
+        "pagead2.googlesyndication.com/ccm/collect:page_view"
+      ],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": false
+        },
+        "ad_storage": {
+          "default": false
+        },
+        "ad_user_data": {
+          "default": false
+        },
+        "ad_personalization": {
+          "default": false
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "a0e1abd79724ffcf61aa47281f16952a421b191db38c1b6845cf446b1a77b435"
+      ]
+    },
+    {
+      "name": "google_ads-granted",
+      "result": "PASS",
+      "cookies": [
+        "_gcl_au",
+        "_gcl_aw"
+      ],
+      "direct_requests": 5,
+      "legacy_requests": 5,
+      "direct_request_kinds": [
+        "ad.doubleclick.net/ccm/s/collect:",
+        "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+        "www.google.com/ccm/collect:page_view",
+        "www.google.com/rmkt/collect/:id/:gtag.config",
+        "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+      ],
+      "legacy_request_kinds": [
+        "ad.doubleclick.net/ccm/s/collect:",
+        "googleads.g.doubleclick.net/pagead/viewthroughconversion/:id/:gtag.config",
+        "www.google.com/ccm/collect:page_view",
+        "www.google.com/rmkt/collect/:id/:gtag.config",
+        "www.googleadservices.com/pagead/set_partitioned_cookie:page_view"
+      ],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "granted",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": true
+        },
+        "ad_storage": {
+          "default": true
+        },
+        "ad_user_data": {
+          "default": true
+        },
+        "ad_personalization": {
+          "default": true
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "a0e1abd79724ffcf61aa47281f16952a421b191db38c1b6845cf446b1a77b435"
+      ]
+    },
+    {
+      "name": "google_gtm-no-site-consent",
+      "result": "PASS",
+      "cookies": [],
+      "direct_requests": 0,
+      "legacy_requests": 0,
+      "direct_request_kinds": [],
+      "legacy_request_kinds": [],
+      "google_consent_commands": [],
+      "consent_state": {
+        "analytics_storage": {},
+        "ad_storage": {},
+        "ad_user_data": {},
+        "ad_personalization": {}
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "44d03ebc8de881e4bbae0eea0e4953cbd654f2204a363d3a6fd99cfd7b64461b"
+      ]
+    },
+    {
+      "name": "google_gtm-denied",
+      "result": "PASS",
+      "cookies": [],
+      "direct_requests": 0,
+      "legacy_requests": 0,
+      "direct_request_kinds": [],
+      "legacy_request_kinds": [],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "denied",
+            "ad_storage": "denied",
+            "ad_user_data": "denied",
+            "ad_personalization": "denied"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": false
+        },
+        "ad_storage": {
+          "default": false
+        },
+        "ad_user_data": {
+          "default": false
+        },
+        "ad_personalization": {
+          "default": false
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "44d03ebc8de881e4bbae0eea0e4953cbd654f2204a363d3a6fd99cfd7b64461b"
+      ]
+    },
+    {
+      "name": "google_gtm-granted",
+      "result": "PASS",
+      "cookies": [],
+      "direct_requests": 0,
+      "legacy_requests": 0,
+      "direct_request_kinds": [],
+      "legacy_request_kinds": [],
+      "google_consent_commands": [
+        [
+          "default",
+          {
+            "analytics_storage": "granted",
+            "ad_storage": "granted",
+            "ad_user_data": "granted",
+            "ad_personalization": "granted"
+          }
+        ]
+      ],
+      "consent_state": {
+        "analytics_storage": {
+          "default": true
+        },
+        "ad_storage": {
+          "default": true
+        },
+        "ad_user_data": {
+          "default": true
+        },
+        "ad_personalization": {
+          "default": true
+        }
+      },
+      "initialized": true,
+      "client_id_callback": false,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "44d03ebc8de881e4bbae0eea0e4953cbd654f2204a363d3a6fd99cfd7b64461b"
+      ]
+    },
+    {
+      "name": "yandex-no-site-consent",
+      "result": "PASS",
+      "cookies": [
+        "_ym_d",
+        "_ym_isad",
+        "_ym_uid"
+      ],
+      "direct_requests": 5,
+      "legacy_requests": 5,
+      "direct_request_kinds": [
+        "mc.yandex.com/metrika/advert.gif:",
+        "mc.yandex.com/sync_cookie_image_check:",
+        "mc.yandex.com/watch/:id:"
+      ],
+      "legacy_request_kinds": [
+        "mc.yandex.com/metrika/advert.gif:",
+        "mc.yandex.com/sync_cookie_image_check:",
+        "mc.yandex.com/watch/:id:"
+      ],
+      "google_consent_commands": [],
+      "consent_state": {
+        "analytics_storage": null,
+        "ad_storage": null,
+        "ad_user_data": null,
+        "ad_personalization": null
+      },
+      "initialized": true,
+      "client_id_callback": true,
+      "rejection": {
+        "guard": false,
+        "reloaded": true,
+        "newCMPBootstraps": 0,
+        "runtimeInactiveAfterReload": true
+      },
+      "real_sdk_sha256": [
+        "497973f2a454ee0b104a12bbb2729148c12405480018d87ab460c8a10ab62123"
+      ]
+    }
+  ],
+  "network_policy": "Public real SDK bytes downloaded with curl over verified TLS, replayed unchanged in Chromium; all telemetry locally answered. No real vendor events delivered.",
+  "comparison_scope": "First-party cookie names/attributes, actual SDK initialization, ordinary config, processing request kinds, site consent state, explicit denial and inactive SDK after reload. Sporadic Google /td requests retained in evidence but excluded from stable processing endpoint equality.",
+  "resolved_test_setup_issues": [
+    "Sequential fixtures restored to full standard registry and strict baseline.",
+    "PHP81 helper now restores shared clean settings; clean audit origin/limit restored before successful Manager UX rerun.",
+    "Same-signature development installs restart test PHP to discard cached resolver code.",
+    "Fenom assertions updated from historical top-level consent fields to categories_v2; cache-switch fixture respects OPcache revalidation interval."
+  ],
+  "skips": [
+    {
+      "result": "SKIP",
+      "check": "Real vendor account receipt and published GTM container tags",
+      "reason": "User confirmed no owned test IDs; synthetic IDs verify SDK runtime, not configured account/container behavior."
+    },
+    {
+      "result": "SKIP",
+      "check": "Production hosting, Safari/Firefox/mobile and legal approval",
+      "reason": "Separate production gates; no production deployment requested or performed."
+    }
+  ],
+  "not_performed": [
+    "MODX 3 changes",
+    "loader/embeds extraction",
+    "video services",
+    "merge",
+    "push",
+    "release",
+    "deployment"
+  ]
+}

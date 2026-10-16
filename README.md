@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 2
 
-В этой feature-ветке — кандидат **1.0.4-beta2** ([приёмка beta2](docs/modx2-1.0.4-beta2-acceptance.md)): универсальные категории, единое добавление сервисов, локальный и HTTPS `custom_js`, тексты заглушек карт и МСК в таблице журнала. [Инструкция](docs/modx2-universal-services.md), [проверки и release gates](docs/modx2-universal-services-acceptance.md). Исторические отчёты ниже относятся к неизменённому main.
+В этой feature-ветке — кандидат **1.0.4-beta3** ([приёмка и ручная проверка](docs/modx2-1.0.4-beta3-acceptance.md)): универсальные категории, единое добавление сервисов, локальный и HTTPS `custom_js`, тексты заглушек карт и МСК в таблице журнала. [Инструкция](docs/modx2-universal-services.md), [проверки и release gates](docs/modx2-universal-services-acceptance.md). Исторические отчёты ниже относятся к неизменённому main.
 
 Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2.8.8**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
 
@@ -44,6 +44,8 @@ Assets регистрирует минимальный JSON через `regClien
 
 English integration: place `[[!CookieConsentAssets]]` once in `<head>` and `[[!CookieConsentBanner]]` once before `</body>`. Add your own `<button type="button" data-cookie-settings-open>Cookie settings</button>`. Alternatively retain one legacy `[[!CookieConsent]]`; never combine the methods. Static translations are resolved in PHP using saved overrides and stock fallbacks.
 
+Старая кнопка «Принять» (`buttons.accept`) включает legacy auto-load: при первом визите включённые сервисы видимых назначенных категорий запускаются до клика. Сохранённый выбор, просрочка и устаревшие версии не обходятся; `getConsent()` и аудит отражают только выбор посетителя. По умолчанию действует строгий режим. До выбора в legacy-режиме CMP не отправляет Google consent-команды, не урезает параметры Google и не переопределяет Consent Mode другого кода сайта/GTM. Это запуск до согласия, а не consent-first. [Ограничения и проверка](docs/modx2-1.0.4-beta3-acceptance.md).
+
 ## Категории, callbacks и карты
 
 Necessary всегда присутствует. Видимость analytics/marketing/external_content **не зависит от наличия интеграций**. На вкладке «Сервисы» каждый раздел имеет отдельный флаг видимости и независимую кнопку сворачивания. При upgrade beta32 старое правило наличия включённых сервисов однократно определяет начальные флаги. Затем используются сохранённые значения. Скрытие/повторное включение инвалидирует разрешение только этой категории, включая посетителей, отсутствовавших между изменениями; скрытая категория не разрешается автоматически.
@@ -60,17 +62,17 @@ window.web86CookieConsent.onAllowed('external_content', async function (stillAll
 </script>
 ```
 
-Без опции `service` достаточно видимой разрешённой категории, даже без зарегистрированных сервисов. С `{service:'yandex_maps'}` требуется включённый экземпляр и совпадающий fingerprint. Callback выполняется один раз на регистрацию за страницу, включая сохранённое согласие и позднюю регистрацию. Возвращаемая `unsubscribe()` отменяет ожидание и делает `stillAllowed()` false; исключения изолированы. Draft Manager и audit не запускают callbacks. Перед reload при отзыве guard прекращает работу; он не отменяет уже отправленные запросы. Не подменяйте consent сохранённым внешним boolean.
+Без опции `service` достаточно видимой разрешённой категории, даже без зарегистрированных сервисов. С `{service:'yandex_maps'}` требуется включённый экземпляр в назначенной категории. Callback выполняется один раз на регистрацию за страницу, включая сохранённое согласие, legacy auto-load и позднюю регистрацию. Возвращаемая `unsubscribe()` отменяет ожидание и делает `stillAllowed()` false; исключения изолированы. Draft Manager и audit не запускают callbacks. Перед reload при отзыве guard прекращает работу; он не отменяет уже отправленные запросы. Не подменяйте consent сохранённым внешним boolean.
 
 [Пример пользовательского CustomScripts](examples/chunks/CookieConsentCustomScripts.html), [адаптация присланных JavaScript-карт](examples/client/yonder-map-many.consent.js), [нейтральная заглушка](examples/chunks/YandexMapPlaceholder.html), [подробный контракт onAllowed и карты](docs/modx2-beta32-callbacks.md). Эти файлы не управляются transport; владелец применяет их отдельно. Реальный клиентский TV/backend/API key в приёмке отсутствовал.
 
-Для штатных iframe-карт используйте `CookieConsentMap` и поддерживаемые Google/Yandex HTTPS embed URLs. До согласия iframe отсутствует. При скрытой external_content кнопка карты не обходит запрет. Отзыв выполняется через общие настройки; отдельной кнопки отзыва у карты нет.
+Для штатных iframe-карт используйте `CookieConsentMap` и поддерживаемые Google/Yandex HTTPS embed URLs. В строгом режиме до согласия iframe отсутствует. При скрытой external_content кнопка карты не обходит запрет. Отзыв выполняется через общие настройки; отдельной кнопки отзыва у карты нет.
 
 ## Сервисы и безопасность
 
 Поддерживаются Яндекс.Метрика, Top.Mail.Ru, GA4, GTM, Google Ads, VK Ads Pixel, Meta Pixel, Google Maps и Яндекс.Карты; можно добавить дополнительные экземпляры с постоянными ключами. Только проверенные SDK URLs, без редактора произвольного JS. VK и Meta — маркетинг; одинаковые включённые ID Mail.Ru/VK в разных категориях отвергаются. Meta использует per-ID init/trackSingle PageView, autoConfig off, consent revoke; без Advanced Matching/CAPI/email/phone. Доставка событий в реальные рекламные кабинеты не заявляется.
 
-GTM запускается по маркетингу и своему fingerprint, без требования всех категорий. До SDK передаются отдельные Google Consent Mode v2 значения. Администратор обязан настроить consent checks тегов внутри контейнера: Consent Mode сам по себе не ограничивает произвольный Custom HTML. Аналитические теги должны требовать analytics_storage. [Ручной тест VK с действительным ID](docs/modx2-beta31-integration.md).
+GTM запускается по назначенной категории, без требования всех категорий. До SDK передаются отдельные Google Consent Mode v2 значения. Администратор обязан настроить consent checks тегов внутри контейнера: Consent Mode сам по себе не ограничивает произвольный Custom HTML. Аналитические теги должны требовать analytics_storage. [Ручной тест VK с действительным ID](docs/modx2-beta31-integration.md).
 
 Интеграция Метрика → `#clientid`/Битрикс24 удалена из ядра. Legacy `clientId: true/false` безопасно удаляется при миграции; неверные типы отвергаются. Новый fingerprint Метрики требует явного повторного разрешения; остальные сервисы не получают автоматических новых прав. При необходимости создайте свой чанк по [YandexMetrikaClientId.html](examples/chunks/YandexMetrikaClientId.html). Он использует конкретный сервис и live guard, не загружает SDK сам и не мешает отправке формы без ClientID. [Описание миграции категорий и ClientID](docs/modx2-beta33-categories.md).
 

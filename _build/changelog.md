@@ -1,3 +1,12 @@
+# Cookie Consent Manager 1.0.4-beta3 — legacy auto-load
+
+- Existing Show legacy Accept now permits enabled services in visible assigned categories on positively known first visits. Strict mode remains the default.
+- Keep effective runtime permission separate from persisted categories_v2 choice and schema 3 audit. No automatic consent record or accept event.
+- Legacy first visits leave Google Consent Mode untouched (no denied/granted commands or custom GTM consent flags) and preserve ordinary GA4/Ads configuration, like direct installation. Explicit choices and rejection still apply Google consent signals; pending CMP Google work is discarded on legacy rejection without deleting site commands.
+- Saved refusal, partial choice, stale versions, expired/invalid/historical records and unavailable storage never qualify for the legacy exception. Explicit rejection stops managed work immediately and reloads safely.
+- Share runtime eligibility across SDKs, custom JS, maps and onAllowed/stillAllowed; preserve deduplication, async guards and revoke queues.
+- Add RU/EN privacy warning and local Chromium/native regression coverage. No video implementation or frontend extraction.
+
 # Cookie Consent Manager 1.0.4-beta2 — acceptance and Manager usability
 
 - Share the visible-category acceptance path for Accept and Accept all; preserve their distinct historical audit event names.

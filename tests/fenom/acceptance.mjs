@@ -164,7 +164,8 @@ try {
       try {
         await navigate(s, language, mode); eq(s.external, []);
         await s.page.locator('[data-cc-action=reject]').click();
-        const rejected = await stored(s.page); eq(JSON.parse(rejected).analytics, false); eq(JSON.parse(rejected).external_content, false);
+        const rejected = await stored(s.page); eq(JSON.parse(rejected).model, 'categories_v2');
+        eq(JSON.parse(rejected).categories.analytics, false); eq(JSON.parse(rejected).categories.external_content, false);
         await s.page.reload({ waitUntil: 'networkidle' }); eq(await stored(s.page), rejected); eq(s.external, [], 'Rejection survives reload');
         await s.page.locator('[data-cookie-settings-open]').click();
         await s.page.locator('[data-cc-category=analytics]').check();

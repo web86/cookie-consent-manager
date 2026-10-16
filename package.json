@@ -11,7 +11,8 @@
     "test:permissions": "node tests/manager-permissions.mjs",
     "build:frontend": "node _build/frontend.mjs",
     "build:guide": "node _build/user-guide.mjs",
-    "test:universal": "node tests/universal/regression.mjs"
+    "test:universal": "node tests/universal/regression.mjs",
+    "test:legacy": "node tests/legacy-autoload/browser.mjs && node tests/legacy-autoload/matrix.mjs"
   },
   "devDependencies": {
     "esbuild": "0.28.2",

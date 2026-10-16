@@ -1,4 +1,4 @@
-/** Cookie Consent Manager / provider integration. No third-party service loads before a choice. */
+/** Cookie Consent Manager: persisted choice and optional legacy runtime permission. */
 (() => {
   'use strict';
 
@@ -12,6 +12,7 @@
   const configuredTtl = Number(root.dataset.ccTtlDays);
   const ttlDays = Number.isFinite(configuredTtl) ? Math.min(3650, Math.max(1, configuredTtl || 90)) : 90;
   const mode = root.dataset.ccMode === 'mock' ? 'mock' : 'live';
+  const legacyMode = root.dataset.ccShowAccept === '1';
   let auditUrl = '';
   try {
     const raw = root.dataset.ccAuditUrl || '';
@@ -43,7 +44,14 @@
   let auditQueue = Promise.resolve();
   let callbacksReady = false;
   let reloading = false;
+  let legacyAutoLoad = false;
   const allowedCallbacks = new Set();
+
+  // One gate for SDKs, maps and callbacks; never serialize runtime permission as consent.
+  function runtimeAllowed(category) {
+    return !reloading && categoryVisibility[category] === true &&
+      (legacyAutoLoad || consent?.categories?.[category] === true);
+  }
 
   function onAllowed(category, callback, options = {}) {
     if (!Object.hasOwn(inputs, category) || typeof callback !== 'function' || !options ||
@@ -54,8 +62,8 @@
     const service = Object.hasOwn(options, 'service') ? services.find(s => s.key === options.service && s.enabled && s.category === category) : null;
     const needsService = Object.hasOwn(options, 'service');
     let cancelled = false, called = false;
-    // Read only the CMP's validated committed state. Also stops work before reload.
-    const stillAllowed = () => !cancelled && callbacksReady && !reloading && categoryVisibility[category] && consent?.categories?.[category] === true &&
+    // Read the CMP's effective permission, including revocation before reload.
+    const stillAllowed = () => !cancelled && callbacksReady && runtimeAllowed(category) &&
       (!needsService || Boolean(service && registry?.allowed(service, consent)));
     const run = () => {
       if (called || !stillAllowed()) return;
@@ -123,6 +131,9 @@
   function readConsent() {
     try {
       const storage = getStorage(), raw = storage?.getItem(STORAGE_KEY), data = JSON.parse(raw || 'null');
+      // Only positively known first visits qualify. Expired, malformed, historical or
+      // policy-invalid records must request a new choice, never become auto-load grants.
+      legacyAutoLoad = Boolean(legacyMode && storage && raw === null && storage.getItem(STORAGE_KEY + '_legacy_v2') === null);
       if (!data || data.version !== version || data.necessary !== true ||
           typeof data.savedAt !== 'number' || !Number.isFinite(data.savedAt) ||
           data.savedAt > Date.now() || Date.now() - data.savedAt > ttlDays * 86400000) return null;
@@ -147,7 +158,7 @@
         saveConsent(value);
       }
       return value;
-    } catch (error) { console.warn(t('error_preference'), error); return null; }
+    } catch (error) { legacyAutoLoad = false; console.warn(t('error_preference'), error); return null; }
   }
 
   function saveConsent(data) {
@@ -189,9 +200,9 @@
   }
 
   function applyConsent(value) {
-    registry?.apply(value, mode);
+    registry?.apply(value, mode, runtimeAllowed, legacyAutoLoad);
     for (const map of maps) {
-      const allowed = categoryVisibility[map.service.category] && value.categories[map.service.category] === true;
+      const allowed = runtimeAllowed(map.service.category) && registry?.allowed(map.service, value);
       if (allowed && !map.frame) {
         const frame = document.createElement('iframe'); frame.title = map.title;
         frame.referrerPolicy = 'strict-origin-when-cross-origin';
@@ -229,14 +240,16 @@
 
   function commit(action, analytics, marketing, external = false) {
     callbacksReady = false;
-    const previous = consent;
+    const previousPermissions = Object.fromEntries(Object.keys(inputs).map(c => [c, runtimeAllowed(c)]));
+    const legacyRejection = legacyAutoLoad && action === 'reject';
+    legacyAutoLoad = false;
     const categories = { analytics: categoryVisibility.analytics && Boolean(analytics), marketing: categoryVisibility.marketing && Boolean(marketing), external_content: categoryVisibility.external_content && Boolean(external) };
     const value = { model: 'categories_v2', version, necessary: true, categories, category_versions: { ...categoryVersions }, savedAt: Date.now(), consentId };
     const persisted = saveConsent(value); consent = value;
     const auditDelivery = emitAudit(action, { stage: 'committed', ...categories });
     hideBanner();
     if (returnFocus?.isConnected) returnFocus.focus({ preventScroll: true });
-    const revoked = previous && Object.keys(inputs).some(k => previous.categories[k] && !categories[k]);
+    const revoked = legacyRejection || Object.keys(inputs).some(k => previousPermissions[k] && !categories[k]);
     if (revoked) {
       reloading = true; registry?.revoke(mode, value);
       for (const map of maps) if (!categories[map.service.category] && map.frame) { map.frame.remove(); map.frame = null; }
@@ -257,7 +270,7 @@
       const template = Array.from(root.querySelectorAll('template[data-cc-map-template]')).find(t => t.dataset.ccMapTemplate === node.dataset.ccMapProvider);
       const headingSource = template?.content.querySelector('h3');
       const title = node.dataset.ccMapTitle || headingSource?.textContent || t('map_title');
-      // All initial markup is inert; only an explicit matching grant creates iframe src.
+      // All initial markup is inert until the common runtime gate permits this instance.
       node.replaceChildren();
       if (!service || !template) { node.textContent = t('map_disabled', { title }); continue; }
       let url;
@@ -359,7 +372,7 @@
     consentId = consent && isUuid(consent.consentId) ? consent.consentId : isUuid(identity) ? identity : newUuid();
     try { if (consentId) getStorage()?.setItem(STORAGE_KEY + '_id', consentId); } catch (_) { /* unavailable */ }
     setupMaps();
-    if (consent) applyConsent(consent);
+    applyConsent(consent);
     if (!consent || needsChoice) showBanner();
     runAllowedCallbacks();
   }
