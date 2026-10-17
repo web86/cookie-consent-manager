@@ -3,7 +3,7 @@
 if(($options[xPDOTransport::PACKAGE_ACTION]??0)===xPDOTransport::ACTION_UNINSTALL)return true;
 try {
     $modx=$transport->xpdo;$version=$modx->getVersionData();
-    if(version_compare(PHP_VERSION,'8.1.0','<')||version_compare($version['full_version'],'2.8.8','<')||version_compare($version['full_version'],'3.0.0','>='))throw new RuntimeException('PHP 8.1+ and MODX 2.8.8+ (not MODX 3) required');
+    if(version_compare(PHP_VERSION,'8.1.0','<')||version_compare($version['full_version'],'2.8.4','<')||version_compare($version['full_version'],'3.0.0','>='))throw new RuntimeException('PHP 8.1+ and MODX 2.8.4+ (not MODX 3) required');
     foreach(['dom','json','mbstring'] as $ext)if(!extension_loaded($ext))throw new RuntimeException('Required extension unavailable');
     $namespace=$modx->getObject('modNamespace',['name'=>'cookie_consent']);
     if($namespace&&$namespace->get('path')!==''&&rtrim($namespace->getCorePath(),'/')!==rtrim($modx->getOption('core_path'),'/').'/components/cookieconsent')throw new RuntimeException('Namespace path conflict');
