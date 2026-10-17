@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 3
 
-Review-сборка **cookieconsent3-1.0.8**, ветка `codex/modx3-banner-layout`, на основе `modx3` (`4815e645bf6d231a4da72a8f773c5f25aaa5f71c`). Версия 1.0.8 согласована с пользователем. Добавлены необязательный переводимый заголовок и три CSS-расположения баннера с сохранением native MODX 3 classes/transport. Sidebar preview не изменён. [Описание и результаты проверок](docs/modx3-banner-layout-acceptance.md). Проверено обновление **0.1.0-beta6 → 1.0.8** без uninstall. Пакет подготовлен для review; публикация релиза и deployment не выполнялись. Сторонний warm Fenom cache не затрагивался.
+Review-сборка **cookieconsent3-1.0.8-pl1**, ветка `codex/modx3-banner-layout`. Исправлено отображение переводимого заголовка в существующем sidebar preview, включая редактирование без сохранения. Frontend-баннер, его три расположения и native MODX 3 classes/transport сохранены. [Проверки исправления и обновления 1.0.8 → 1.0.8-pl1](docs/modx3-banner-preview-pl1.md). Пакет подготовлен для review; публикация релиза и deployment не выполнялись. Сторонний warm Fenom cache не затрагивался.
 
 
 Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.

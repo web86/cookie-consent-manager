@@ -15,7 +15,7 @@ $core=MODX_CORE_PATH.'components/cookieconsent/';$services=MODX_ASSETS_PATH.'js/
 if($op==='install'||$op==='uninstall'){
     $archive=$argv[3]??'';
     if(!str_starts_with($archive,'/opt/cc-updates/artifacts/')&&!str_starts_with($archive,'/opt/cc-reference/.local/modx3/artifacts/'))throw new RuntimeException('Local artifact required');
-    $signature=basename($archive,'.transport.zip');if(!preg_match('/^cookieconsent3-(?:0\.1\.0-beta[0-9]+|1\.0\.8)$/D',$signature))throw new RuntimeException('Signature');
+    $signature=basename($archive,'.transport.zip');if(!preg_match('/^cookieconsent3-(?:0\.1\.0-beta[0-9]+|1\.0\.8(?:-pl1)?)$/D',$signature))throw new RuntimeException('Signature');
     $target=MODX_CORE_PATH.'packages/'.$signature.'.transport.zip';
     if(is_file($target)&&hash_file('sha256',$target)!==hash_file('sha256',$archive))throw new RuntimeException('Immutable archive collision');
     if(!is_file($target)&&!copy($archive,$target))throw new RuntimeException('Native archive copy');

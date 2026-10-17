@@ -1,0 +1,84 @@
+{
+  "platform": "MODX 3",
+  "version": "1.0.8-pl1",
+  "branch": "codex/modx3-banner-layout",
+  "source": "42963504c53e2599734629e80a7089589e00c758",
+  "php_assertions": 122,
+  "local": {
+    "tests": 17,
+    "failed": 0
+  },
+  "frontend_regression": {
+    "tests": 151,
+    "assertions": 1867,
+    "failed": 0
+  },
+  "native_preview": {
+    "tests": 5,
+    "assertions": 106,
+    "failed": 0
+  },
+  "ui_regression": {
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0
+  },
+  "upgrade": {
+    "result": "PASS",
+    "platform": "MODX 3",
+    "case": "ui-refinement-banner3-pl1-a",
+    "upgrade": "1.0.8 -> 1.0.8-pl1",
+    "settings_translated_titles_logs_owner_adapters_preserved": true,
+    "custom_adapter_preserved": true,
+    "native_reinstall": true,
+    "php_errors_added": 0,
+    "reproducible": true,
+    "deprecated_aliases_disabled": true,
+    "archive_sha256": "2be35df74d10278986383b0d9b201bedf33e7bd0749dc52f653be9f1a6062227"
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent3-1.0.8-pl1",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDO\\Transport\\xPDOObjectVehicle": 15,
+        "xPDO\\Transport\\xPDOFileVehicle": 231,
+        "xPDO\\Transport\\xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "2be35df74d10278986383b0d9b201bedf33e7bd0749dc52f653be9f1a6062227",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "package": {
+    "name": "cookieconsent3-1.0.8-pl1.transport.zip",
+    "bytes": 567765,
+    "sha256": "2be35df74d10278986383b0d9b201bedf33e7bd0749dc52f653be9f1a6062227",
+    "reproducible": true
+  },
+  "frontend_assets_renderer_consent_adapters_journal_unchanged": true,
+  "preview_other_markup_unchanged": true
+}

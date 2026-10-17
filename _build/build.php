@@ -15,7 +15,7 @@ if($site===''||$site[0]!=='/'||!is_file($site.'/index.php'))throw new RuntimeExc
 require_once __DIR__.'/../server/src/CookieConsentVersion.php';
 $metadata=json_decode(file_get_contents(__DIR__.'/package.json'),true,8,JSON_THROW_ON_ERROR);
 if($releaseIndex!==null)$metadata['release_index']=$releaseIndex;
-if(!in_array($metadata['release'],['','beta'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
+if(!in_array($metadata['release'],['','beta','pl'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
 $release=$metadata['release']===''?'':$metadata['release'].$metadata['release_index'];
 $versionRelease=$metadata['version'].($release===''?'':'-'.$release);
 $signature=$metadata['name'].'-'.$versionRelease;

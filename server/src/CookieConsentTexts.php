@@ -15,7 +15,7 @@ final class CookieConsentTexts
         return is_file($file) ? (static function($file){$_lang=[];require $file;return $_lang;})($file) : [];
     }
     public static function defaults(): array {return ['schema'=>1,'base_language'=>'ru','locales'=>['ru'=>['notice_html'=>self::lexicon('ru')['notice_html']]]];}
-    public static function validate(array $data): array
+    public static function validate(array $data,bool $preview=false): array
     {
         if (array_diff(array_keys($data),['schema','base_language','locales']) || ($data['schema']??null)!==1 || !is_string($data['base_language']??null) || !is_array($data['locales']??null) || count($data['locales'])>64) throw new InvalidArgumentException('Texts schema');
         $data['base_language']=self::language($data['base_language']);$locales=[];$known=self::lexicon('en');$known['cookie_consent.upgrade_elements']='';
@@ -27,7 +27,8 @@ final class CookieConsentTexts
             foreach ($texts as $key=>$value) {
                 if (!is_string($key) || str_starts_with($key,'m.') || (!array_key_exists($key,$known) && !preg_match('/^service\.[a-z][a-z0-9_]{0,31}\.(?:name|description|map_notice)$/D',$key)) || !is_string($value)) throw new InvalidArgumentException('Text field');
                 if ($key==='notice_html') $value=CookieConsentHtmlSanitizer::clean($value);
-                elseif (strlen($value)>2000 || !mb_check_encoding($value,'UTF-8') || preg_match('/[\x00-\x1f\x7f<>]/',$value)) throw new InvalidArgumentException('Plain text');
+                // Preview may display unsaved title markup literally; saved text validation stays strict.
+                elseif (strlen($value)>2000 || !mb_check_encoding($value,'UTF-8') || preg_match($preview && $key==='banner_title' ? '/[\x00-\x1f\x7f]/' : '/[\x00-\x1f\x7f<>]/',$value)) throw new InvalidArgumentException('Plain text');
                 $locales[$language][$key]=$value;
             }
         }
