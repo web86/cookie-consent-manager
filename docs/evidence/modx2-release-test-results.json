@@ -1,0 +1,397 @@
+{
+  "status": "READY FOR MANUAL TESTING",
+  "platform": "MODX 2.8.8",
+  "branch": "codex/modx2-release-test",
+  "ui_source_commit": "efaca7389ae7a77ba2aadcb9e0077a3e05e355fa",
+  "transport": {
+    "result": "PASS",
+    "signature": "cookieconsent-1.0.7-beta2",
+    "version": "1.0.7-beta2",
+    "size": 551578,
+    "sha256": "64dbcd558899e7a1eb89eb033844cbc93999f05de7427a245fcad34cd09f9d09",
+    "reproducible": true,
+    "assertions": 467,
+    "transport": {
+      "result": "PASS",
+      "assertions": 475,
+      "native": {
+        "signature": "cookieconsent-1.0.7-beta2",
+        "native_vehicles": 248,
+        "vehicle_classes": {
+          "xPDOObjectVehicle": 15,
+          "xPDOFileVehicle": 231,
+          "xPDOScriptVehicle": 2
+        },
+        "runtime_files": 231,
+        "zip_entries": 490,
+        "sha256": "64dbcd558899e7a1eb89eb033844cbc93999f05de7427a245fcad34cd09f9d09",
+        "result": "PASS"
+      },
+      "mock_directory_files_retained": 0,
+      "referenced_mock_factory_retained": true,
+      "negative": [
+        {
+          "case": "test-fixture",
+          "result": "PASS"
+        },
+        {
+          "case": "source-map",
+          "result": "PASS"
+        },
+        {
+          "case": "unknown-runtime",
+          "result": "PASS"
+        },
+        {
+          "case": "changed-runtime-bytes",
+          "result": "PASS"
+        }
+      ]
+    },
+    "source": "efaca7389ae7a77ba2aadcb9e0077a3e05e355fa",
+    "runtime_files": 231
+  },
+  "installed_inventory": {
+    "result": "PASS",
+    "assertions": 463,
+    "runtime_files": 231,
+    "modx": "2.8.8-pl",
+    "signature": "cookieconsent-1.0.7-beta2"
+  },
+  "native_upgrade": {
+    "tests": 6,
+    "assertions": 149,
+    "failed": 0,
+    "old_version": "1.0.6",
+    "results": [
+      {
+        "name": "fresh",
+        "case": "ui-refinement-rt2-b-fresh",
+        "result": "PASS",
+        "assertions": 14,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.7-beta2"
+        ],
+        "settings_retained": null,
+        "historical_jsonl_retained": null,
+        "owner_js_retained": null,
+        "old_bundle_sha256": null,
+        "new_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "old_build_timestamp": 0,
+        "new_build_timestamp": 1792220044,
+        "build_state": "ready",
+        "php_error_delta": 0,
+        "aliases_off": true
+      },
+      {
+        "name": "original",
+        "case": "ui-refinement-rt2-b-original",
+        "result": "PASS",
+        "assertions": 27,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.6",
+          "1.0.7-beta2"
+        ],
+        "settings_retained": true,
+        "historical_jsonl_retained": true,
+        "owner_js_retained": true,
+        "old_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "new_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "old_build_timestamp": 1792220058,
+        "new_build_timestamp": 1792220058,
+        "build_state": "ready",
+        "php_error_delta": 0,
+        "aliases_off": true
+      },
+      {
+        "name": "legacy",
+        "case": "ui-refinement-rt2-b-legacy",
+        "result": "PASS",
+        "assertions": 27,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.6",
+          "1.0.7-beta2"
+        ],
+        "settings_retained": true,
+        "historical_jsonl_retained": true,
+        "owner_js_retained": true,
+        "old_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "new_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "old_build_timestamp": 1792220073,
+        "new_build_timestamp": 1792220073,
+        "build_state": "ready",
+        "php_error_delta": 0,
+        "aliases_off": true
+      },
+      {
+        "name": "edited",
+        "case": "ui-refinement-rt2-b-edited",
+        "result": "PASS",
+        "assertions": 27,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.6",
+          "1.0.7-beta2"
+        ],
+        "settings_retained": true,
+        "historical_jsonl_retained": true,
+        "owner_js_retained": true,
+        "old_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "new_bundle_sha256": "1542bce407e79ef41b26296cf7ea53e3b65c30cd5d237bd0088918829f98ff34",
+        "old_build_timestamp": 1792220087,
+        "new_build_timestamp": 1792220089,
+        "build_state": "ready",
+        "php_error_delta": 0,
+        "aliases_off": true
+      },
+      {
+        "name": "deleted",
+        "case": "ui-refinement-rt2-b-deleted",
+        "result": "PASS",
+        "assertions": 27,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.6",
+          "1.0.7-beta2"
+        ],
+        "settings_retained": true,
+        "historical_jsonl_retained": true,
+        "owner_js_retained": true,
+        "old_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "new_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "old_build_timestamp": 1792220113,
+        "new_build_timestamp": 1792220113,
+        "build_state": "error",
+        "php_error_delta": 1,
+        "aliases_off": true
+      },
+      {
+        "name": "syntax",
+        "case": "ui-refinement-rt2-b-syntax",
+        "result": "PASS",
+        "assertions": 27,
+        "installed_version": "1.0.7-beta2",
+        "baseline_versions": [
+          "1.0.6",
+          "1.0.7-beta2"
+        ],
+        "settings_retained": true,
+        "historical_jsonl_retained": true,
+        "owner_js_retained": true,
+        "old_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "new_bundle_sha256": "18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260",
+        "old_build_timestamp": 1792220131,
+        "new_build_timestamp": 1792220131,
+        "build_state": "error",
+        "php_error_delta": 1,
+        "aliases_off": true
+      }
+    ]
+  },
+  "browser_installed_frontend": {
+    "tests": 7,
+    "assertions": 150,
+    "failed": 0,
+    "results": [
+      {
+        "name": "fresh-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 11
+      },
+      {
+        "name": "original-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "legacy-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 24
+      },
+      {
+        "name": "edited-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "deleted-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "syntax-installed-customer-frontend",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "upgraded-Manager-force-cacheclear-no-recursion",
+        "result": "PASS",
+        "assertions": 7
+      }
+    ],
+    "external_services": "Controlled SDK/player responses; real delivery/playback not verified"
+  },
+  "browser_upgraded_ui": {
+    "modx": "2",
+    "case": "ui-refinement-rt2-b-original",
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0,
+    "errors": [],
+    "results": [
+      {
+        "name": "ru-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "ru-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "ru-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "ru-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "en-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "en-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "en-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "en-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "en-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "neutral-and-pending-build-never-claim-success",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "journal-page-old-records-pagination-filters-csv-and-text-safety",
+        "result": "PASS",
+        "assertions": 15
+      },
+      {
+        "name": "real-consent-event-pathname-only-and-frontend-regression",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "en-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      }
+    ]
+  },
+  "local": {
+    "tests": 15,
+    "failed": 0,
+    "results": [
+      {
+        "name": "version",
+        "result": "PASS"
+      },
+      {
+        "name": "guide",
+        "result": "PASS"
+      },
+      {
+        "name": "php-builder",
+        "result": "PASS"
+      },
+      {
+        "name": "semantics",
+        "result": "PASS"
+      },
+      {
+        "name": "source-build",
+        "result": "PASS"
+      },
+      {
+        "name": "adapter-sync",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-viewer-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-i18n-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-ux-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-universal-audit-schema3.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-urls.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-snippets.php",
+        "result": "PASS"
+      },
+      {
+        "name": "registry",
+        "result": "PASS"
+      },
+      {
+        "name": "adapter-contracts",
+        "result": "PASS"
+      }
+    ]
+  },
+  "manual": "docs/release-test-manual.md",
+  "full_evidence": ".local/release-test/modx2",
+  "database_migration": false,
+  "runtime_change": "Existence checks avoid MODX logging @-suppressed missing optional bundle/error-marker warnings; no change to build recipe, locking, atomic publish, rollback or visitor path.",
+  "limitations": [
+    "External SDK/player responses controlled. Real delivery/playback and customer hosting/CSP require manual testing.",
+    "Chromium only. Full historical Manager ACL matrix not repeated.",
+    "MODX 3 pdoTools3 warm Fenom issue is out of scope and unchanged."
+  ]
+}

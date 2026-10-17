@@ -70,7 +70,13 @@ function rejects(callable $fn, ?string $message=null):void{global $n;try{$fn();}
 $file=$root.'/assets/js/cookie-consent/cached-cookie-consent.min.js';$dir=dirname($file);
 $source=$root.'/assets/js/cookie-consent/embeds/youtube.js';$original=file_get_contents($source);
 $oldPath=getenv('PATH');putenv('PATH='); // Neither Node nor npm can be found by the PHP build.
+// MODX can log suppressed @ warnings; optional absent state must never call I/O.
+$optionalWarnings=[];$captureOptional=static function($severity,$message)use(&$optionalWarnings){if($severity===E_WARNING)$optionalWarnings[]=$message;return true;};
+set_error_handler($captureOptional);
 eq(CookieConsentBundleManager::status($modx)['state'],'fallback','Fresh fallback');
+$metadata=new ReflectionMethod(CookieConsentBundleManager::class,'metadata');
+eq($metadata->invoke(null,$file),null,'Missing first bundle has no metadata');
+restore_error_handler();eq($optionalWarnings,[],'Absent bundle/status produce no PHP warning, including suppressed warnings');
 eq(CookieConsentBundleManager::asset($modx),'','No executable JS until installation builds it');
 rejects(fn()=>CookieConsentBundleManager::rebuild(new BundleFixture($root,'web')),'bundle_forbidden');
 rejects(fn()=>CookieConsentBundleManager::rebuild(new BundleFixture($root,'mgr',false)),'bundle_forbidden');
@@ -87,7 +93,7 @@ eq($modx->cacheManager->refreshes,[['system_settings'=>[]]],'Only native setting
 eq($modx->cacheManager->cleans[0]['cache_key'],'resource','HTML resource cache invalidated');
 $old=file_get_contents($file);$url=CookieConsentBundleManager::asset($modx);$stat=stat($file);
 $refreshes=count($modx->cacheManager->refreshes);
-$skipped=CookieConsentBundleManager::rebuild($modx);eq($skipped['rebuilt'],false,'Unchanged skip');eq($skipped['version'],$first['version'],'Skip preserves timestamp');eq(count($modx->cacheManager->refreshes),$refreshes,'Skip does not refresh cache');
+set_error_handler($captureOptional);$skipped=CookieConsentBundleManager::rebuild($modx);restore_error_handler();eq($optionalWarnings,[],'Unchanged build has no missing error-marker unlink warning');eq($skipped['rebuilt'],false,'Unchanged skip');eq($skipped['version'],$first['version'],'Skip preserves timestamp');eq(count($modx->cacheManager->refreshes),$refreshes,'Skip does not refresh cache');
 clearstatcache(true,$file);eq(stat($file)['ino'],$stat['ino'],'Unchanged inode');eq(file_get_contents($file),$old);
 // Regex, comments, division, template literals, optional chaining, nullish, ASI and UTF-8.
 $syntax="\nwindow.__bundleSyntax=(()=>{const r=/[/*]/g;const q=12/3/2;const v={x:{y:0}};function asi(){return\n{wrong:true};}return [r.test('*'),q,`a\${v.x?.y ?? 9}b`,asi(), 'Привет'];})();\n";

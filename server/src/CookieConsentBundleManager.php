@@ -29,6 +29,7 @@ final class CookieConsentBundleManager
 
     private static function metadata(string $file): ?array
     {
+        if (!is_file($file)) return null;
         $stream = @fopen($file, 'rb');
         if (!$stream) return null;
         try { $line = fgets($stream, 512); } finally { fclose($stream); }
@@ -50,7 +51,8 @@ final class CookieConsentBundleManager
     {
         $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
         $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/js/cookie-consent/';
-        $attempt = json_decode((string)@file_get_contents($dir . 'cookie-consent.last-error.json'), true);
+        $errorFile = $dir . 'cookie-consent.last-error.json';
+        $attempt = is_file($errorFile) ? json_decode((string)@file_get_contents($errorFile), true) : null;
         require_once __DIR__ . '/CookieConsentAdapterInstall.php';
         return ['state' => is_array($attempt) ? 'error' : ($version > 0 ? 'ready' : 'fallback'),
             'built_at' => $version > 0 ? gmdate('Y-m-d\TH:i:s\Z', $version) : null, 'version' => $version > 0 ? $version : null,
@@ -109,7 +111,7 @@ final class CookieConsentBundleManager
             $file = $assets . self::FILE;
             $old = self::metadata($file);
             if (!$force && $old && $old['fingerprint'] === $fingerprint && (int)$modx->getOption(self::VERSION_KEY, null, 0) > 0) {
-                @unlink($dir . 'cookie-consent.last-error.json');
+                if (is_file($dir . 'cookie-consent.last-error.json')) @unlink($dir . 'cookie-consent.last-error.json');
                 return self::status($modx) + ['rebuilt' => false];
             }
             require_once dirname(__DIR__) . '/vendor/peast/autoload.php';
@@ -149,7 +151,7 @@ final class CookieConsentBundleManager
             $modx->cacheManager->refresh(['system_settings' => []]);
             $modx->cacheManager->clean(['cache_key' => $modx->getOption('cache_resource_key', null, 'resource'),
                 'cache_handler' => $modx->getOption('cache_resource_handler', null, $modx->getOption('cache_handler'))]);
-            @unlink($dir . 'cookie-consent.last-error.json');
+            if (is_file($dir . 'cookie-consent.last-error.json')) @unlink($dir . 'cookie-consent.last-error.json');
             return self::status($modx) + ['rebuilt' => true];
         } catch (Throwable $e) {
             try { self::atomic($dir . 'cookie-consent.last-error.json', json_encode(['failed_at' => gmdate('c')], JSON_THROW_ON_ERROR)); } catch (Throwable $ignored) {}

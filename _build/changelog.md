@@ -1,3 +1,11 @@
+# Cookie Consent Manager 1.0.7-beta2 — MODX 2 manual upgrade test
+
+- New unique test signature based on the accepted UI-refinement branch.
+- Include SHA256 adapter preservation, private originals and installed PHP bundle generation.
+- Include RU/EN settings/services/journal refinement and the existing pathname field in the journal table/CSV.
+- Validate native fresh install and 1.0.6 upgrade with user settings, edited/deleted adapters, owner JS and historical JSONL retained.
+- No public release, push or production deployment.
+
 # Cookie Consent Manager 1.0.7-beta1 — MODX 2 local review candidate
 
 - Ship private originals for services/ and synchronize with previous-version SHA256 before building. Retain local modifications, deleted supplied files and additional files; report conflicts without merging JavaScript.
