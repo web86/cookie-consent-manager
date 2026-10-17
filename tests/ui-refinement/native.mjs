@@ -39,7 +39,7 @@ try{
    const a=await p.locator('#ccm-reconsent').boundingBox(),b=await p.locator('#ccm-guide-open').boundingBox();ok(a.x<b.x);eq(a.y,b.y);
    await p.locator('#ccm-guide-open').click();eq(await p.locator('#ccm-guide-dialog').evaluate(e=>e.open),true);await p.keyboard.press('Escape');eq(await p.locator('#ccm-guide-dialog').evaluate(e=>e.open),false);eq(await p.locator('#ccm-guide-open').evaluate(e=>e===document.activeElement),true);
    await p.evaluate(()=>new Promise(resolve=>requestAnimationFrame(()=>requestAnimationFrame(resolve))));await p.locator('#ccm-advanced > summary').focus();await p.keyboard.press('Enter');await p.waitForFunction(()=>document.querySelector('#ccm-advanced > summary').getAttribute('aria-expanded')==='true');
-   eq(await p.locator('#ccm-advanced-content > section').evaluateAll(xs=>xs.map(x=>x.id)),['ccm-log-storage','ccm-adapters-build']);
+   eq(await p.locator('#ccm-advanced-content > section').evaluateAll(xs=>xs.map(x=>x.id)),['ccm-banner-appearance','ccm-log-storage','ccm-adapters-build']);
    await p.keyboard.press('Space');await p.waitForFunction(()=>document.querySelector('#ccm-advanced > summary').getAttribute('aria-expanded')==='false');
    await shot({path:out+'/'+lang+'-settings.png'});
   });

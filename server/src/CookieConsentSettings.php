@@ -7,18 +7,20 @@ final class CookieConsentSettings
 {
     public const KEYS=['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file'];
     public const CATEGORIES=['analytics','marketing','external_content'];
-    public static function defaults(): array {return ['schema'=>1,'ttl_days'=>90,'policy_version'=>'1','buttons'=>['reject'=>true,'configure'=>true,'accept_all'=>true,'accept'=>false],'categories'=>array_fill_keys(self::CATEGORIES,false),'category_versions'=>array_fill_keys(self::CATEGORIES,0)];}
+    public static function defaults(): array {return ['schema'=>1,'ttl_days'=>90,'policy_version'=>'1','buttons'=>['reject'=>true,'configure'=>true,'accept_all'=>true,'accept'=>false],'categories'=>array_fill_keys(self::CATEGORIES,false),'category_versions'=>array_fill_keys(self::CATEGORIES,0),'banner_position'=>'bottom'];}
     public static function options(array $data): array
     {
-        if (!in_array(count($data),[4,6],true) || array_diff(array_keys($data),['schema','ttl_days','policy_version','buttons','categories','category_versions']) || ($data['schema']??null)!==1 ||
+        if (!in_array(count(array_diff_key($data,['banner_position'=>true])),[4,6],true) || array_diff(array_keys($data),['schema','ttl_days','policy_version','buttons','categories','category_versions','banner_position']) || ($data['schema']??null)!==1 ||
             !is_int($data['ttl_days']??null) || $data['ttl_days']<1 || $data['ttl_days']>3650 || !is_string($data['policy_version']??null) || !preg_match('/^[A-Za-z0-9._-]{1,32}$/D',$data['policy_version']) || !is_array($data['buttons']??null)) throw new InvalidArgumentException('General settings');
         if (count($data['buttons'])!==4 || array_diff(array_keys($data['buttons']),['reject','configure','accept_all','accept'])) throw new InvalidArgumentException('Button settings');
         foreach ($data['buttons'] as $v) if (!is_bool($v)) throw new InvalidArgumentException('Button boolean');
-        if(count($data)===6){
+        if(array_key_exists('categories',$data)||array_key_exists('category_versions',$data)){
             foreach(['categories','category_versions'] as $key)if(!is_array($data[$key]??null)||count($data[$key])!==3||array_diff(array_keys($data[$key]),self::CATEGORIES))throw new InvalidArgumentException('Category settings');
             foreach($data['categories'] as $v)if(!is_bool($v))throw new InvalidArgumentException('Category boolean');
             foreach($data['category_versions'] as $v)if(!is_int($v)||$v<0||$v>2147483647)throw new InvalidArgumentException('Category version');
         }
+        if(array_key_exists('banner_position',$data)&&(!is_string($data['banner_position'])||!in_array($data['banner_position'],['bottom','bottom-right','bottom-left'],true)))throw new InvalidArgumentException('Banner position');
+        $data['banner_position'] ??= 'bottom';
         return $data;
     }
     public static function categoryOptions(array $options,array $services): array {

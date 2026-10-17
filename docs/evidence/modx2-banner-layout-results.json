@@ -1,0 +1,88 @@
+{
+  "platform": "MODX 2",
+  "version": "1.0.8",
+  "source": "6220f06d1149de41188f5ef9f53071679af809cf",
+  "branch": "codex/modx2-banner-layout",
+  "php_contract_assertions": 118,
+  "local_suites": {
+    "tests": 15,
+    "failed": 0
+  },
+  "browser": {
+    "tests": 151,
+    "assertions": 1867,
+    "failed": 0
+  },
+  "native_manager": {
+    "tests": 5,
+    "assertions": 93,
+    "failed": 0
+  },
+  "ui_regression": {
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0
+  },
+  "upgrade": {
+    "result": "PASS",
+    "case": "ui-refinement-banner2-a",
+    "upgrade": "1.0.7-beta2 -> 1.0.8",
+    "settings_logs_owner_adapters_preserved": true,
+    "native_reinstall": true,
+    "php_errors_added": 0,
+    "reproducible": true
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent-1.0.8",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 15,
+        "xPDOFileVehicle": 231,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "12f2f89701a27e155e82c0cefc9a1322a40e827f7e648e554b1a1e004fbeb0b6",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "package": {
+    "filename": "cookieconsent-1.0.8.transport.zip",
+    "sha256": "12f2f89701a27e155e82c0cefc9a1322a40e827f7e648e554b1a1e004fbeb0b6",
+    "bytes": 545776,
+    "reproducible": true
+  },
+  "sidebar_preview_source_unchanged": true,
+  "default_rendered_fixture_byte_identical": true,
+  "screenshots": [
+    "docs/screenshots/banner-layout/bottom-desktop.png",
+    "docs/screenshots/banner-layout/bottom-left-desktop.png",
+    "docs/screenshots/banner-layout/bottom-left-mobile.png",
+    "docs/screenshots/banner-layout/bottom-mobile.png",
+    "docs/screenshots/banner-layout/bottom-right-desktop.png",
+    "docs/screenshots/banner-layout/bottom-right-mobile.png"
+  ]
+}

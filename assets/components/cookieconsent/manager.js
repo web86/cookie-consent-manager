@@ -179,11 +179,18 @@
     help.onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>help.focus());
     // MODX Manager's ExtJS keymap prevents the native Escape default. Keep handling local.
     dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();dialog.close();}});
-    actions.append(help);advancedContent.append(storage,build);appendFooter();
+    const appearance=el('section',null,{id:'ccm-banner-appearance',class:'ccm-settings-section'});appearance.append(el('h3',t('banner_appearance')));
+    const position=el('select',null,{id:'ccm-banner-position'});
+    for(const value of ['bottom','bottom-right','bottom-left'])position.append(el('option',t('banner_position_'+value),{value}));
+    position.value=draft.options.banner_position || 'bottom';
+    const positionRow=el('label',null,{class:'ccm-field'});positionRow.append(el('span',t('banner_position')),position);appearance.append(positionRow);
+    position.onchange=()=>{draft.options.banner_position=position.value;changed();};
+    actions.append(help);advancedContent.append(appearance,storage,build);appendFooter();
 
 
     function textSource(language, key) {
       const base = draft.texts.base_language;
+      if(key==='banner_title')return draft.texts.locales[language]?.[key] ?? draft.texts.locales[base]?.[key] ?? '';
       const service = draft.registry.services.find(s => key.startsWith('service.' + s.key + '.'));
       if(key==='map_notice'||key==='map_load'||key.endsWith('.map_notice')) {
         const common=key==='map_load'?'map_load':'map_notice',legacy=common==='map_load'?'embed_settings':'embed_notice';
@@ -292,13 +299,13 @@
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
       languages(editSelect, editLanguage, true);textFields.replaceChildren();
-      const keys=['notice_html','map_notice','map_load',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
+      const keys=['banner_title','notice_html','map_notice','map_load',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
       for(const key of keys) {
         const overrides=draft.texts.locales[editLanguage];
         const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
         const service=draft.registry.services.find(s=>key==='service.'+s.key+'.map_notice');
-        const label=key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):['map_notice','map_load'].includes(key)?t(key):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
-        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'||key.endsWith('map_notice')?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='notice_html'?t('html_help'):undefined);
+        const label=key==='banner_title'?t('banner_title'):key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):['map_notice','map_load'].includes(key)?t(key):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
+        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'||key.endsWith('map_notice')?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='banner_title'?t('banner_title_help'):key==='notice_html'?t('html_help'):undefined);
         input.dataset.textKey=key;textFields.append(row);
       }
       if(window.CodeMirror?.fromTextArea){const cm=window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'),{mode:'htmlmixed',lineNumbers:true});cm.on('change',()=>{draft.texts.locales[editLanguage].notice_html=cm.getValue();changed();});}

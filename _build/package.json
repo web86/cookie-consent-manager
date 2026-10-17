@@ -1,8 +1,8 @@
 {
   "name": "cookieconsent",
-  "version": "1.0.7",
-  "release": "beta",
-  "release_index": 2,
+  "version": "1.0.8",
+  "release": "",
+  "release_index": 0,
   "source_epoch": 1792022400,
   "minimum_php": "8.1.0",
   "minimum_modx": "2.8.8",

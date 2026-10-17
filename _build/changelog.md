@@ -1,3 +1,9 @@
+## 1.0.8
+
+- Optional translated plain-text banner title; empty titles remain hidden.
+- Bottom bar, bottom-right and bottom-left compact layouts with CSS mobile fallback.
+- Existing consent, adapters, journal and Manager sidebar preview retained.
+
 # Cookie Consent Manager 1.0.7-beta2 — MODX 2 manual upgrade test
 
 - New unique test signature based on the accepted UI-refinement branch.
