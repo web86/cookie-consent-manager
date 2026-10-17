@@ -1,9 +1,11 @@
 # Cookie Consent Manager for MODX 3
 
-Review-сборка **cookieconsent3-1.0.8-pl1**, ветка `codex/modx3-banner-layout`. Исправлено отображение переводимого заголовка в существующем sidebar preview, включая редактирование без сохранения. Frontend-баннер, его три расположения и native MODX 3 classes/transport сохранены. [Проверки исправления и обновления 1.0.8 → 1.0.8-pl1](docs/modx3-banner-preview-pl1.md). Пакет подготовлен для review; публикация релиза и deployment не выполнялись. Сторонний warm Fenom cache не затрагивался.
+Review-сборка **cookieconsent3-1.0.8-pl4**, ветка `codex/modx3-compatibility-matrix`. Диапазон MODX расширен до `>=3.1.2,<3.3.0` после независимой матрицы MODX/PHP/xPDO и проверки CMS upgrade. [Отчёт и transport SHA256](docs/modx3-version-compatibility.md). Публикация релиза, deployment и merge в `modx3` не выполнялись.
 
 
-Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
+Самостоятельная версия для **MODX Revolution >=3.1.2,<3.3.0**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
+
+Техническая совместимость пакета не означает безопасность старой CMS. Обновляйте MODX до актуальной безопасной версии с [официальной страницы загрузки](https://modx.com/download), независимо от минимальной версии компонента. MODX 3.1.2 и 3.2.0–3.2.3 содержат исправленные впоследствии уязвимости; такие версии проверяются только в изолированных локальных окружениях.
 
 Историческая база этого переноса: **`cookieconsent3-0.1.0-beta4`** — перенос проверенной MODX 2 **1.0.6** (`db0a722`) поверх актуальной MODX 3 beta3 (`1fd6872`). Новая ветка `codex/modx3-sync-1.0.6`; исходные ветки сохранены. [Приёмка и release gates](docs/modx3-1.0.6-parity-acceptance.md), [differential-аудит](docs/modx3-1.0.6-differential-audit.md).
 
@@ -11,7 +13,7 @@ Review-сборка **cookieconsent3-1.0.8-pl1**, ветка `codex/modx3-banner
 
 **Полный staging/release gate остаётся NO-GO:** официальный pdoTools3 3.1.0 падает при чтении прогретого compiled Fenom cache. Standard и холодный Fenom проверяются отдельно; реальные ошибки не считаются успешными тестами. Подтверждённое live playback видео остаётся отдельным gate. Production deployment и публикация не выполнялись. [Историческая приёмка beta3](docs/modx3-beta3-acceptance.md), [beta2](docs/modx3-implementation-acceptance.md).
 
-Реальная приёмка: MODX 3.2.4-pl, PHP 8.1.34/8.2.34, xPDO 3.1.7, MariaDB 11.8.9, Apache/Chromium. Deprecated global aliases выключены. Сохранены native namespaces, lifecycle, canonical IDs/metadata и язык текущей Manager-сессии. Подробные команды и фактические результаты — в отчёте приёмки.
+Реальная приёмка: MODX 3.1.2-pl и 3.2.0–3.2.4-pl, PHP 8.1.34/8.2.34, комплектные xPDO 3.1.5/3.1.7, MariaDB 11.8.9, Apache/Chromium. Проверены стандартная настройка и выключенные deprecated global aliases. Сохранены native namespaces, lifecycle, canonical IDs/metadata и язык текущей Manager-сессии. Подробные команды и фактические результаты — в отчёте приёмки.
 
 ## Установка и обновление
 
@@ -141,4 +143,4 @@ CSP полезна как дополнительная защита от вне�
 
 [Текущие fixtures и команды приёмки](tests/modx3-sync/README.md). Project `cookie-consent-modx3-sync106`, отдельные DB/volume/credentials/logs, loopback 20888–20895. Исторические baseline suites MODX 3 сохранены отдельно. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
 
-Фактически принята 3.2.4-pl/PHP 8.1.34. Package requires ограничен `>=3.2.4,<3.3.0`; другие PHP/MODX versions, nginx/proxy/client hosting, полный CMS migration и тяжёлые failure/load cases ещё NOT RUN. Следующий этап — review и расширение release gates; GitHub Release/production deployment не выполнены.
+Package requires: PHP `>=8.1.0`, MODX `>=3.1.2,<3.3.0`. Матрица из 12 MODX/PHP конфигураций и CMS upgrade 3.1.2 → 3.2.4 описаны в [отчёте совместимости](docs/modx3-version-compatibility.md). nginx/proxy/client hosting и тяжёлые failure/load cases не входят в эту матрицу. GitHub Release/production deployment не выполнены.
