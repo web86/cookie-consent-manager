@@ -1,0 +1,753 @@
+{
+  "decision": "GO for component compatibility review; official old-CMS warnings remain",
+  "base_commit": "24fb052c83aefe2966f236ba5a466782458f48ed",
+  "requirements": {
+    "php": ">=8.1.0",
+    "modx": ">=2.8.4,<3.0.0"
+  },
+  "audit": {
+    "archives": [
+      {
+        "modx": "2.8.4-pl",
+        "xpdo": "2.8.4-pl",
+        "selected_files": 193,
+        "sha256": "823046a8431bd53f2f2ab965ad95bf952e150aa9155ad6acbf410d00b39f8586",
+        "url": "https://modx.s3.amazonaws.com/releases/2.8.4/modx-2.8.4-pl.zip"
+      },
+      {
+        "modx": "2.8.5-pl",
+        "xpdo": "2.8.5-pl",
+        "selected_files": 193,
+        "sha256": "38b6734965e23cd95a700b2ddca9d148c72bbe1721ffae78a18f1b6c7f51c79e",
+        "url": "https://modx.s3.amazonaws.com/releases/2.8.5/modx-2.8.5-pl.zip"
+      },
+      {
+        "modx": "2.8.6-pl",
+        "xpdo": "2.8.5-pl",
+        "selected_files": 193,
+        "sha256": "7b5f5402ff8948ee0388616ab6245739063c1e0ee62062cdc87f9e619870e3da",
+        "url": "https://modx.s3.amazonaws.com/releases/2.8.6/modx-2.8.6-pl.zip"
+      },
+      {
+        "modx": "2.8.7-pl",
+        "xpdo": "2.8.6-pl",
+        "selected_files": 193,
+        "sha256": "016d7c7f27605d4cc3a731814cd38f23bb0385bc05eece48ccf18a0ed53f11b9",
+        "url": "https://modx.s3.amazonaws.com/releases/2.8.7/modx-2.8.7-pl.zip"
+      },
+      {
+        "modx": "2.8.8-pl",
+        "xpdo": "2.8.6-pl",
+        "selected_files": 193,
+        "sha256": "e2eca7e39406a379ae337ccc552d56c69eec0b37697218226a0bbfef50d072a0",
+        "url": "https://modx.s3.amazonaws.com/releases/2.8.8/modx-2.8.8-pl.zip"
+      }
+    ],
+    "changes": [
+      {
+        "before": "2.8.4",
+        "after": "2.8.5",
+        "changed": [
+          "core/model/modx/modx.class.php",
+          "core/xpdo/om/xpdoquery.class.php",
+          "core/xpdo/xpdo.class.php"
+        ]
+      },
+      {
+        "before": "2.8.5",
+        "after": "2.8.6",
+        "changed": [
+          "core/model/modx/moduser.class.php"
+        ]
+      },
+      {
+        "before": "2.8.6",
+        "after": "2.8.7",
+        "changed": [
+          "core/model/modx/modmenu.class.php",
+          "core/xpdo/cache/xpdocachemanager.class.php"
+        ]
+      },
+      {
+        "before": "2.8.7",
+        "after": "2.8.8",
+        "changed": [
+          "core/model/modx/modconnectorresponse.class.php",
+          "core/model/modx/modlexicon.class.php"
+        ]
+      }
+    ]
+  },
+  "matrix": [
+    {
+      "case": {
+        "name": "m284p81",
+        "modx": "2.8.4-pl",
+        "php": "8.1",
+        "port": 22840
+      },
+      "environment": {
+        "modx": "2.8.4-pl",
+        "php": "8.1.34",
+        "xpdo": "2.8.4-pl",
+        "db": "cc2_compat_m284p81",
+        "mariadb": "10.6.28-MariaDB-ubu2204",
+        "aliases": true
+      },
+      "browser": {
+        "tests": 13,
+        "assertions": 432,
+        "failed": 0,
+        "results": [
+          {
+            "name": "official-install-db-manager-standard",
+            "result": "PASS",
+            "assertions": 2
+          },
+          {
+            "name": "native-candidate-fresh-install-standard",
+            "result": "PASS",
+            "assertions": 8
+          },
+          {
+            "name": "manager-create-settings-services-translations-and-php-bundle",
+            "result": "PASS",
+            "assertions": 9
+          },
+          {
+            "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+            "result": "PASS",
+            "assertions": 254
+          },
+          {
+            "name": "manager-tabs-preview-guide-save-cache-ru-standard",
+            "result": "PASS",
+            "assertions": 13
+          },
+          {
+            "name": "manager-tabs-preview-guide-save-cache-en-standard",
+            "result": "PASS",
+            "assertions": 13
+          },
+          {
+            "name": "frontend-strict-bottom-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-strict-bottom-right-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-strict-bottom-left-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-legacy-bottom-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "frontend-legacy-bottom-right-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "frontend-legacy-bottom-left-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "journal-http-csv-acl",
+            "result": "PASS",
+            "assertions": 16
+          }
+        ]
+      },
+      "targeted": [
+        {
+          "result": "PASS",
+          "modx_source": "2.8.4-pl",
+          "php": "8.1.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.5-pl",
+          "php": "8.1.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.6-pl",
+          "php": "8.1.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.7-pl",
+          "php": "8.1.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.8-pl",
+          "php": "8.1.34",
+          "assertions": 3,
+          "original_xpdo": true
+        }
+      ],
+      "upgrade": {
+        "result": "PASS",
+        "assertions": 24,
+        "info": {
+          "modx": "2.8.8-pl",
+          "php": "8.1.34",
+          "xpdo": "2.8.6-pl",
+          "db": "cc2_compat_m284p81",
+          "mariadb": "10.6.28-MariaDB-ubu2204"
+        },
+        "component_reinstalled": false,
+        "mode": "Strict"
+      },
+      "settings_logs_ids_adapters_preserved": true,
+      "audit_key_preserved": true,
+      "core_integrity": {
+        "case": "m284p81",
+        "result": "PASS",
+        "files": 167,
+        "changed": []
+      }
+    },
+    {
+      "case": {
+        "name": "m284p82",
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 22841
+      },
+      "environment": {
+        "modx": "2.8.4-pl",
+        "php": "8.2.34",
+        "xpdo": "2.8.4-pl",
+        "db": "cc2_compat_m284p82",
+        "mariadb": "10.6.28-MariaDB-ubu2204"
+      },
+      "browser": {
+        "tests": 13,
+        "assertions": 432,
+        "failed": 0,
+        "results": [
+          {
+            "name": "official-install-db-manager-standard",
+            "result": "PASS",
+            "assertions": 2
+          },
+          {
+            "name": "native-candidate-fresh-install-standard",
+            "result": "PASS",
+            "assertions": 8
+          },
+          {
+            "name": "manager-create-settings-services-translations-and-php-bundle",
+            "result": "PASS",
+            "assertions": 9
+          },
+          {
+            "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+            "result": "PASS",
+            "assertions": 254
+          },
+          {
+            "name": "manager-tabs-preview-guide-save-cache-ru-standard",
+            "result": "PASS",
+            "assertions": 13
+          },
+          {
+            "name": "manager-tabs-preview-guide-save-cache-en-standard",
+            "result": "PASS",
+            "assertions": 13
+          },
+          {
+            "name": "frontend-strict-bottom-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-strict-bottom-right-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-strict-bottom-left-standard",
+            "result": "PASS",
+            "assertions": 20
+          },
+          {
+            "name": "frontend-legacy-bottom-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "frontend-legacy-bottom-right-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "frontend-legacy-bottom-left-standard",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "journal-http-csv-acl",
+            "result": "PASS",
+            "assertions": 16
+          }
+        ]
+      },
+      "targeted": [
+        {
+          "result": "PASS",
+          "modx_source": "2.8.4-pl",
+          "php": "8.2.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.5-pl",
+          "php": "8.2.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.6-pl",
+          "php": "8.2.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.7-pl",
+          "php": "8.2.34",
+          "assertions": 3,
+          "original_xpdo": true
+        },
+        {
+          "result": "PASS",
+          "modx_source": "2.8.8-pl",
+          "php": "8.2.34",
+          "assertions": 3,
+          "original_xpdo": true
+        }
+      ],
+      "upgrade": {
+        "result": "PASS",
+        "assertions": 24,
+        "info": {
+          "modx": "2.8.8-pl",
+          "php": "8.2.34",
+          "xpdo": "2.8.6-pl",
+          "db": "cc2_compat_m284p82",
+          "mariadb": "10.6.28-MariaDB-ubu2204"
+        },
+        "component_reinstalled": false,
+        "mode": "Legacy"
+      },
+      "settings_logs_ids_adapters_preserved": true,
+      "audit_key_preserved": true,
+      "core_integrity": {
+        "case": "m284p82",
+        "result": "PASS",
+        "files": 167,
+        "changed": []
+      }
+    }
+  ],
+  "final_fresh": [
+    {
+      "case": {
+        "name": "m284p81final",
+        "modx": "2.8.4-pl",
+        "php": "8.1",
+        "port": 22842
+      },
+      "environment": {
+        "modx": "2.8.4-pl",
+        "php": "8.1.34",
+        "xpdo": "2.8.4-pl",
+        "db": "cc2_compat_m284p81final",
+        "mariadb": "10.6.28-MariaDB-ubu2204"
+      },
+      "acceptance": {
+        "tests": 4,
+        "assertions": 57,
+        "failed": 0,
+        "results": [
+          {
+            "name": "exact-final-zip-fresh-native-install",
+            "result": "PASS",
+            "assertions": 10
+          },
+          {
+            "name": "settings-and-real-cache-triggered-php-minification",
+            "result": "PASS",
+            "assertions": 10
+          },
+          {
+            "name": "all-adapters-ack-jsonl-strict",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "all-adapters-ack-jsonl-legacy",
+            "result": "PASS",
+            "assertions": 18
+          }
+        ]
+      },
+      "core_integrity": {
+        "case": "m284p81final",
+        "result": "PASS",
+        "files": 195,
+        "changed": []
+      },
+      "upstream_reproduction": {
+        "result": "PASS",
+        "php": "8.1.34",
+        "component_loaded": false,
+        "reproduced": [
+          "MagpieRSS::feed_start_element(): Argument #3 ($attrs) must be passed by reference, value given"
+        ]
+      },
+      "adapters": {
+        "strict": {
+          "requests": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=G-MATRIX123",
+            "https://www.googletagmanager.com/gtm.js?id=GTM-MATRIX123",
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://www.google.com/maps/embed?pb=matrix",
+            "https://yandex.ru/map-widget/v1/?ll=37.62%2C55.75&z=10",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?autoplay=0",
+            "https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2/",
+            "https://vk.com/video_ext.php?oid=-226836549&id=456240037&hd=2&hash=3e01dae0a9357708&autoplay=0",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+          ],
+          "queues": {
+            "google": [
+              "G-MATRIX123",
+              "AW-12345678"
+            ],
+            "mail": [
+              "87654321",
+              "45678901"
+            ]
+          },
+          "deliveries": 1
+        },
+        "legacy": {
+          "requests": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=G-MATRIX123",
+            "https://www.googletagmanager.com/gtm.js?id=GTM-MATRIX123",
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://www.google.com/maps/embed?pb=matrix",
+            "https://yandex.ru/map-widget/v1/?ll=37.62%2C55.75&z=10",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?autoplay=0",
+            "https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2/",
+            "https://vk.com/video_ext.php?oid=-226836549&id=456240037&hd=2&hash=3e01dae0a9357708&autoplay=0",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+          ],
+          "queues": {
+            "google": [
+              "G-MATRIX123",
+              "AW-12345678"
+            ],
+            "mail": [
+              "87654321",
+              "45678901"
+            ]
+          },
+          "deliveries": 1
+        }
+      }
+    },
+    {
+      "case": {
+        "name": "m284p82final",
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 22843
+      },
+      "environment": {
+        "modx": "2.8.4-pl",
+        "php": "8.2.34",
+        "xpdo": "2.8.4-pl",
+        "db": "cc2_compat_m284p82final",
+        "mariadb": "10.6.28-MariaDB-ubu2204"
+      },
+      "acceptance": {
+        "tests": 4,
+        "assertions": 57,
+        "failed": 0,
+        "results": [
+          {
+            "name": "exact-final-zip-fresh-native-install",
+            "result": "PASS",
+            "assertions": 10
+          },
+          {
+            "name": "settings-and-real-cache-triggered-php-minification",
+            "result": "PASS",
+            "assertions": 10
+          },
+          {
+            "name": "all-adapters-ack-jsonl-strict",
+            "result": "PASS",
+            "assertions": 19
+          },
+          {
+            "name": "all-adapters-ack-jsonl-legacy",
+            "result": "PASS",
+            "assertions": 18
+          }
+        ]
+      },
+      "core_integrity": {
+        "case": "m284p82final",
+        "result": "PASS",
+        "files": 195,
+        "changed": []
+      },
+      "upstream_reproduction": {
+        "result": "PASS",
+        "php": "8.2.34",
+        "component_loaded": false,
+        "reproduced": [
+          "MagpieRSS::feed_start_element(): Argument #3 ($attrs) must be passed by reference, value given"
+        ]
+      },
+      "adapters": {
+        "strict": {
+          "requests": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=G-MATRIX123",
+            "https://www.googletagmanager.com/gtm.js?id=GTM-MATRIX123",
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://www.google.com/maps/embed?pb=matrix",
+            "https://yandex.ru/map-widget/v1/?ll=37.62%2C55.75&z=10",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?autoplay=0",
+            "https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2/",
+            "https://vk.com/video_ext.php?oid=-226836549&id=456240037&hd=2&hash=3e01dae0a9357708&autoplay=0",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+          ],
+          "queues": {
+            "google": [
+              "G-MATRIX123",
+              "AW-12345678"
+            ],
+            "mail": [
+              "87654321",
+              "45678901"
+            ]
+          },
+          "deliveries": 1
+        },
+        "legacy": {
+          "requests": [
+            "https://mc.yandex.ru/metrika/tag.js",
+            "https://top-fwz1.mail.ru/js/code.js",
+            "https://www.googletagmanager.com/gtag/js?id=G-MATRIX123",
+            "https://www.googletagmanager.com/gtm.js?id=GTM-MATRIX123",
+            "https://connect.facebook.net/en_US/fbevents.js",
+            "https://www.google.com/maps/embed?pb=matrix",
+            "https://yandex.ru/map-widget/v1/?ll=37.62%2C55.75&z=10",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE?autoplay=0",
+            "https://rutube.ru/play/embed/7716bd3e665725c3c008ae7ab4ff02e2/",
+            "https://vk.com/video_ext.php?oid=-226836549&id=456240037&hd=2&hash=3e01dae0a9357708&autoplay=0",
+            "https://www.youtube-nocookie.com/embed/M7lc1UVf-VE"
+          ],
+          "queues": {
+            "google": [
+              "G-MATRIX123",
+              "AW-12345678"
+            ],
+            "mail": [
+              "87654321",
+              "45678901"
+            ]
+          },
+          "deliveries": 1
+        }
+      }
+    }
+  ],
+  "baseline": {
+    "info": {
+      "modx": "2.8.8-pl",
+      "php": "8.2.34",
+      "xpdo": "2.8.6-pl"
+    },
+    "tests": 4,
+    "assertions": 52,
+    "failed": 0,
+    "results": [
+      {
+        "name": "native-upgrade-pl1-pl3-reinstall-preserves",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "manager-preview-guide-save-build-cache-journal",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "frontend-strict-consent-embeds-cache",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "frontend-legacy-consent-embeds-cache",
+        "result": "PASS",
+        "assertions": 8
+      }
+    ],
+    "errors": []
+  },
+  "diagnostics": [
+    {
+      "case": "m284p81",
+      "known_official_core_warnings": {
+        "official setup missing initial settings cache": 2,
+        "official Smarty login template undefined variables": 119,
+        "official Smarty header undefined action": 14,
+        "official Manager RSS callback reference warning": 2172
+      },
+      "known_official_php_deprecations": {},
+      "prior_harness_failures": {
+        "first attempt used MODX 3 language controller URL: deprecated fallback": 1,
+        "first attempt used MODX 3 language controller URL: missing controller": 1
+      },
+      "asynchronous_original_cms_signatures_after_baseline": [],
+      "unexpected_php_or_modx": [],
+      "unexpected_http": []
+    },
+    {
+      "case": "m284p82",
+      "known_official_core_warnings": {
+        "official setup missing initial settings cache": 2,
+        "official Smarty login template undefined variables": 119,
+        "official Smarty header undefined action": 14,
+        "official Manager RSS callback reference warning": 2172
+      },
+      "known_official_php_deprecations": {
+        " Creation of dynamic property modInstallLexicon::$config is deprecated in /var/www/html/setup/includes/modinstalllexicon.class.php on line 35": 1
+      },
+      "prior_harness_failures": {
+        "first attempt used MODX 3 language controller URL: deprecated fallback": 1,
+        "first attempt used MODX 3 language controller URL: missing controller": 1
+      },
+      "asynchronous_original_cms_signatures_after_baseline": [],
+      "unexpected_php_or_modx": [],
+      "unexpected_http": []
+    },
+    {
+      "case": "m284p81final",
+      "known_official_core_warnings": {
+        "official setup missing initial settings cache": 1,
+        "official Smarty login template undefined variables": 17,
+        "official Smarty header undefined action": 2,
+        "official Manager RSS callback reference warning": 362
+      },
+      "known_official_php_deprecations": {},
+      "prior_harness_failures": {},
+      "asynchronous_original_cms_signatures_after_baseline": [
+        "(ERROR @ /var/www/html/core/model/modx/xmlrss/magpierss.class.php : 133) PHP warning: MagpieRSS::feed_start_element(): Argument #3 ($attrs) must be passed by reference, value given"
+      ],
+      "unexpected_php_or_modx": [],
+      "unexpected_http": []
+    },
+    {
+      "case": "m284p82final",
+      "known_official_core_warnings": {
+        "official setup missing initial settings cache": 1,
+        "official Smarty login template undefined variables": 17,
+        "official Smarty header undefined action": 2,
+        "official Manager RSS callback reference warning": 362
+      },
+      "known_official_php_deprecations": {
+        " Creation of dynamic property modInstallLexicon::$config is deprecated in /var/www/html/setup/includes/modinstalllexicon.class.php on line 35": 1
+      },
+      "prior_harness_failures": {},
+      "asynchronous_original_cms_signatures_after_baseline": [
+        "(ERROR @ /var/www/html/core/model/modx/xmlrss/magpierss.class.php : 133) PHP warning: MagpieRSS::feed_start_element(): Argument #3 ($attrs) must be passed by reference, value given"
+      ],
+      "unexpected_php_or_modx": [],
+      "unexpected_http": []
+    }
+  ],
+  "known_original_xpdo_cli_deprecations": {
+    "Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /var/www/html/core/xpdo/xpdo.class.php on line 2804": 30
+  },
+  "prior_harness_attempts": [
+    {
+      "case": "m284p81",
+      "test": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+      "result": "FAIL",
+      "reason": "test reader used wrong suffix"
+    },
+    {
+      "case": "m284p81",
+      "test": "manager-tabs-preview-guide-save-cache-ru-standard",
+      "result": "FAIL",
+      "reason": "test used MODX 3 language controller URL"
+    },
+    {
+      "case": "m284p82",
+      "test": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+      "result": "FAIL",
+      "reason": "test reader used wrong suffix"
+    },
+    {
+      "case": "m284p82",
+      "test": "manager-tabs-preview-guide-save-cache-ru-standard",
+      "result": "FAIL",
+      "reason": "test used MODX 3 language controller URL"
+    }
+  ],
+  "artifact": {
+    "path": ".local/modx2-compatibility/artifacts/release/cookieconsent-1.0.8-pl3.transport.zip",
+    "sha256": "2d2f410fa03ebae88567598c96d95cd4ab2a3a6811e225b8433067a9489b20b6",
+    "candidate_final_cross_php_identical": true,
+    "verification": {
+      "signature": "cookieconsent-1.0.8-pl3",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 15,
+        "xPDOFileVehicle": 231,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "2d2f410fa03ebae88567598c96d95cd4ab2a3a6811e225b8433067a9489b20b6",
+      "result": "PASS"
+    }
+  },
+  "limitations": [
+    "Intermediate CMS installs/browser tests intentionally SKIP; static + targeted original xPDO checks PASS.",
+    "External SDK/player responses controlled locally; actual vendor delivery/playback SKIP.",
+    "Official MODX 2.8.4 warnings/deprecations are recorded, not fixed or hidden."
+  ]
+}

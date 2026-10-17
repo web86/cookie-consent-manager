@@ -94,7 +94,7 @@ foreach($files as $entry){
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native file vehicle failed');
 }
 $end=$builder->createVehicle(['source'=>$verify],['vehicle_class'=>'xPDOScriptVehicle','guid'=>md5('cookieconsent/verify'),xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true]);if(!$builder->putVehicle($end))throw new RuntimeException('Verification vehicle');
-$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.8,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
+$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.4,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
 if(!$builder->pack())throw new RuntimeException('modPackageBuilder pack failed');
 copy($builder->directory.$signature.'.transport.zip',$out.'/'.$signature.'.transport.zip');
 copy($work.'/source-inventory.json',$out.'/'.$signature.'.inventory.json');
