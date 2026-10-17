@@ -1,0 +1,3457 @@
+{
+  "date": "2026-10-17",
+  "baseline_commit": "53b0c34",
+  "result": "GO",
+  "phase": "final-pl4",
+  "matrix_tests": 276,
+  "matrix_assertions": 6538,
+  "archives": [
+    {
+      "modx": "3.1.2-pl",
+      "xpdo": "v3.1.5",
+      "xpdo_reference": "1624c165631b3774439daf36511df8095129f17a",
+      "sha256": "9d1f6cb3bfb1dd1282d7087bb258ce7ef0e5e40da71070dc719d6fcdf917f2c8",
+      "url": "https://modx.s3.amazonaws.com/releases/3.1.2/modx-3.1.2-pl.zip"
+    },
+    {
+      "modx": "3.2.0-pl",
+      "xpdo": "v3.1.7",
+      "xpdo_reference": "70a3046b7aff11ac8fff540e60d9750ebbd8fab9",
+      "sha256": "c34bc2858953c341dc10d507620aa9679d1ca65d9dd1143f48b7a1667fe975f0",
+      "url": "https://modx.s3.amazonaws.com/releases/3.2.0/modx-3.2.0-pl.zip"
+    },
+    {
+      "modx": "3.2.1-pl",
+      "xpdo": "v3.1.7",
+      "xpdo_reference": "70a3046b7aff11ac8fff540e60d9750ebbd8fab9",
+      "sha256": "799c6492f0c5a31dbbf21eb1e1b21e277ffa6c2fb40870e4bc18755aa86f5d28",
+      "url": "https://modx.s3.amazonaws.com/releases/3.2.1/modx-3.2.1-pl.zip"
+    },
+    {
+      "modx": "3.2.2-pl",
+      "xpdo": "v3.1.7",
+      "xpdo_reference": "70a3046b7aff11ac8fff540e60d9750ebbd8fab9",
+      "sha256": "5abe246d7aa4ac57d6692130fe201226afdce159b9262ea09ab06dff8604f6cd",
+      "url": "https://modx.s3.amazonaws.com/releases/3.2.2/modx-3.2.2-pl.zip"
+    },
+    {
+      "modx": "3.2.3-pl",
+      "xpdo": "v3.1.7",
+      "xpdo_reference": "70a3046b7aff11ac8fff540e60d9750ebbd8fab9",
+      "sha256": "49444c18e9bd97c09072c2c53fbd7477926eef52ca5139a3ddc54a0c7044e266",
+      "url": "https://modx.s3.amazonaws.com/releases/3.2.3/modx-3.2.3-pl.zip"
+    },
+    {
+      "modx": "3.2.4-pl",
+      "xpdo": "v3.1.7",
+      "xpdo_reference": "70a3046b7aff11ac8fff540e60d9750ebbd8fab9",
+      "sha256": "2f594240d58c1c003de89eb5f50f615ee177ec624f48d8494476197048b7adc2",
+      "url": "https://modx.s3.amazonaws.com/releases/3.2.4/modx-3.2.4-pl.zip"
+    }
+  ],
+  "images": [
+    "[\"cookie-consent-modx3-php81:local\"] sha256:4d8bf5768037be73eb302215845445e16594bea9c8fed8f08afdd84179867ad2",
+    "[\"cookie-consent-matrix-php82:local\"] sha256:22dcb146e7c0df96968cf049d86612789439ff4a8c5796690ee30cc8efe68b89",
+    "[\"mariadb:11.8\"] sha256:6422478cb8e159f080fb1d8ccf65101e26fe51385787fde7d16c3b165a331f15"
+  ],
+  "baseline_comparison": {
+    "runtime_files": 231,
+    "identical_runtime_files": 229,
+    "changed": [
+      "core/components/cookieconsent/frontend-manifest.json",
+      "core/components/cookieconsent/src/CookieConsentVersion.php"
+    ],
+    "objects_identical": true
+  },
+  "matrix": [
+    {
+      "case": {
+        "name": "m312p81",
+        "modx": "3.1.2-pl",
+        "php": "8.1",
+        "port": 21900
+      },
+      "versions": {
+        "modx": "3.1.2-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.5",
+        "db": "cc3_matrix_m312p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m312p82",
+        "modx": "3.1.2-pl",
+        "php": "8.2",
+        "port": 21901
+      },
+      "versions": {
+        "modx": "3.1.2-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.5",
+        "db": "cc3_matrix_m312p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m320p81",
+        "modx": "3.2.0-pl",
+        "php": "8.1",
+        "port": 21902
+      },
+      "versions": {
+        "modx": "3.2.0-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m320p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m320p82",
+        "modx": "3.2.0-pl",
+        "php": "8.2",
+        "port": 21903
+      },
+      "versions": {
+        "modx": "3.2.0-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m320p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m321p81",
+        "modx": "3.2.1-pl",
+        "php": "8.1",
+        "port": 21904
+      },
+      "versions": {
+        "modx": "3.2.1-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m321p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m321p82",
+        "modx": "3.2.1-pl",
+        "php": "8.2",
+        "port": 21905
+      },
+      "versions": {
+        "modx": "3.2.1-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m321p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m322p81",
+        "modx": "3.2.2-pl",
+        "php": "8.1",
+        "port": 21906
+      },
+      "versions": {
+        "modx": "3.2.2-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m322p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m322p82",
+        "modx": "3.2.2-pl",
+        "php": "8.2",
+        "port": 21907
+      },
+      "versions": {
+        "modx": "3.2.2-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m322p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m323p81",
+        "modx": "3.2.3-pl",
+        "php": "8.1",
+        "port": 21908
+      },
+      "versions": {
+        "modx": "3.2.3-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m323p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 542,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 247
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m323p82",
+        "modx": "3.2.3-pl",
+        "php": "8.2",
+        "port": 21909
+      },
+      "versions": {
+        "modx": "3.2.3-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m323p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 550,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m324p81",
+        "modx": "3.2.4-pl",
+        "php": "8.1",
+        "port": 21910
+      },
+      "versions": {
+        "modx": "3.2.4-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m324p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 555,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m324p82",
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 21911
+      },
+      "versions": {
+        "modx": "3.2.4-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m324p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": true
+      },
+      "result": "PASS",
+      "tests": 23,
+      "assertions": 555,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-default",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-default",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-right-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-strict-bottom-left-default",
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "name": "frontend-legacy-bottom-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-right-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "frontend-legacy-bottom-left-default",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ]
+    }
+  ],
+  "cms_upgrades": [
+    {
+      "case": "m312p81",
+      "from_modx": "3.1.2-pl",
+      "result": "PASS",
+      "assertions": 23,
+      "info": {
+        "modx": "3.2.4-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m312p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "component_reinstalled": false,
+      "preserved_snapshot": true
+    },
+    {
+      "case": "m312p82",
+      "from_modx": "3.1.2-pl",
+      "result": "PASS",
+      "assertions": 23,
+      "info": {
+        "modx": "3.2.4-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m312p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "component_reinstalled": false,
+      "preserved_snapshot": true
+    }
+  ],
+  "local_regression": {
+    "esbuild-video": {
+      "tests": 42,
+      "assertions": 646,
+      "failed": 0,
+      "results": [
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "generated": true,
+            "csp": true
+          },
+          "result": "PASS",
+          "assertions": 21
+        },
+        {
+          "case": {
+            "hidden": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "hidden": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "poster": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "poster": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "case": {
+            "bulk": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "bulk": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "case": {
+            "dialog": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "language": "ru"
+          },
+          "result": "PASS",
+          "assertions": 17
+        }
+      ]
+    },
+    "esbuild-texts": {
+      "tests": 32,
+      "assertions": 779,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-strict-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "unregistered-template-key-fails-closed",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "previous-bundle-after-failed-administrative-rebuild",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "documented-local-poster",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-external-poster",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-landscape",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-portrait",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-fixed-size",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "documented-responsive",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "php-video": {
+      "tests": 42,
+      "assertions": 646,
+      "failed": 0,
+      "results": [
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "analytics",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "marketing",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": false
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "category": "external_content",
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": false,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "all"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "reject"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "partial"
+          },
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "expired"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "policy"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "legacy": true,
+            "stored": "stale"
+          },
+          "result": "PASS",
+          "assertions": 17
+        },
+        {
+          "case": {
+            "loader": "youtube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "rutube",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "loader": "vk_video",
+            "generated": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "generated": true,
+            "csp": true
+          },
+          "result": "PASS",
+          "assertions": 21
+        },
+        {
+          "case": {
+            "hidden": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "hidden": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "case": {
+            "poster": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "poster": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "case": {
+            "bulk": true
+          },
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "case": {
+            "bulk": true,
+            "legacy": true
+          },
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "case": {
+            "dialog": true
+          },
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "case": {
+            "language": "ru"
+          },
+          "result": "PASS",
+          "assertions": 17
+        }
+      ]
+    },
+    "php-texts": {
+      "tests": 32,
+      "assertions": 779,
+      "failed": 0,
+      "results": [
+        {
+          "name": "ru-strict-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-strict-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "ru-legacy-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-strict-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-analytics-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-analytics-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-marketing-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-marketing-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-external_content-default",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "en-legacy-external_content-custom",
+          "result": "PASS",
+          "assertions": 30
+        },
+        {
+          "name": "unregistered-template-key-fails-closed",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "previous-bundle-after-failed-administrative-rebuild",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "documented-local-poster",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-external-poster",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-landscape",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-portrait",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "documented-fixed-size",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "documented-responsive",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    "php81-local": [
+      {
+        "result": "PASS",
+        "assertions": 122,
+        "failed": 0
+      },
+      {
+        "suite": "Universal service category/path/text contract",
+        "tests": 1,
+        "assertions": 137,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+        "tests": 1,
+        "assertions": 7,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "result": "PASS",
+        "assertions": 31
+      },
+      {
+        "result": "PASS",
+        "assertions": 49
+      }
+    ],
+    "php82-local": [
+      {
+        "result": "PASS",
+        "assertions": 122,
+        "failed": 0
+      },
+      {
+        "suite": "Universal service category/path/text contract",
+        "tests": 1,
+        "assertions": 137,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "suite": "Mixed audit schemas / append-only UTC / category-only current records / CSV",
+        "tests": 1,
+        "assertions": 7,
+        "failed": 0,
+        "result": "PASS"
+      },
+      {
+        "result": "PASS",
+        "assertions": 31
+      },
+      {
+        "result": "PASS",
+        "assertions": 49
+      },
+      {
+        "result": "PASS",
+        "assertions": 73,
+        "php": "8.2.34",
+        "node_available_during_build": false,
+        "php_bundle_bytes": 39682
+      }
+    ],
+    "php81-bundle-unprivileged": [
+      {
+        "result": "PASS",
+        "assertions": 73,
+        "php": "8.1.34",
+        "node_available_during_build": false,
+        "php_bundle_bytes": 39682
+      }
+    ]
+  },
+  "requirement_boundaries": {
+    "php81": {
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.1.34"
+    },
+    "php82": {
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.2.34"
+    }
+  },
+  "native_inventory": {
+    "signature": "cookieconsent3-1.0.8-pl4",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDO\\Transport\\xPDOObjectVehicle": 15,
+      "xPDO\\Transport\\xPDOFileVehicle": 231,
+      "xPDO\\Transport\\xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 490,
+    "sha256": "4e9fa131d523abf3f649c4337550e092ad2e50d697e062050d1401c4dfe5ea63",
+    "result": "PASS"
+  },
+  "strict_native_lifecycle": [
+    {
+      "case": "m312p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m312p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m320p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m320p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m321p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m321p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m322p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m322p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m323p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m323p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m324p81",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    },
+    {
+      "case": "m324p82",
+      "result": "PASS",
+      "fresh_install_aliases": false,
+      "tests": 4,
+      "assertions": 278,
+      "groups": [
+        {
+          "name": "official-install-db-manager-default-aliases",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-candidate-fresh-install-default-aliases",
+          "result": "PASS",
+          "assertions": 9
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        }
+      ]
+    }
+  ],
+  "strict_cms_upgrades": [
+    {
+      "case": "m312p81",
+      "mode": "strict",
+      "seeded_logs": true,
+      "key_retained": true,
+      "result": "PASS",
+      "assertions": 23,
+      "info": {
+        "modx": "3.2.4-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m312p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "component_reinstalled": false
+    },
+    {
+      "case": "m312p82",
+      "mode": "strict",
+      "seeded_logs": true,
+      "key_retained": true,
+      "result": "PASS",
+      "assertions": 23,
+      "info": {
+        "modx": "3.2.4-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m312p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "component_reinstalled": false
+    }
+  ],
+  "strict_native_lifecycle_tests": 48,
+  "strict_native_lifecycle_assertions": 3336,
+  "reproducible_archive": true,
+  "server_log_audit": {
+    "full": [
+      {
+        "case": "m312p81",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m312p82",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m320p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m320p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m321p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m321p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m322p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m322p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m323p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m323p82",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m324p81",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m324p82",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      }
+    ],
+    "lifecycle": [
+      {
+        "case": "m312p81",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m312p82",
+        "pre_setup_audit503": 0,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m320p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m320p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m321p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m321p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m322p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m322p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m323p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m323p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m324p81",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      },
+      {
+        "case": "m324p82",
+        "pre_setup_audit503": 1,
+        "unexpected_5xx": [],
+        "php_diagnostics": []
+      }
+    ]
+  },
+  "attempt_history": [
+    {
+      "result": "FAIL",
+      "scope": "initial PHP 8.2 setup environment",
+      "reason": "Existing image lacked gd and zip; new full PHP 8.2.34 image installed official CMS successfully. Initial log retained."
+    },
+    {
+      "result": "FAIL",
+      "scope": "root-only bundle permission fixture",
+      "reason": "Root bypassed chmod denial; unprivileged www-data runs pass on PHP 8.1.34 and 8.2.34."
+    },
+    {
+      "result": "STOP",
+      "scope": "CMS upgrade harness before file overlay",
+      "reason": "Guard rejected stock config.core.php. Upgrade now explicitly preserves all active config files; original snapshot and SQL dump retained."
+    },
+    {
+      "result": "FAIL",
+      "scope": "CMS browser harness expectation",
+      "reason": "Expected Strict while accepted fixture intentionally retained Legacy. Expected iframe count and button now derive from preserved options; both migrations pass."
+    },
+    {
+      "result": "INTERRUPTED",
+      "scope": "m323p81 Playwright teardown after 4 passing groups",
+      "reason": "Pending route.fetch raced context.close. Await unrouteAll(wait); preserve initial log and four verified native groups, continue remaining groups on same site without reset. Final 23 groups pass."
+    },
+    {
+      "result": "HARNESS_ERROR",
+      "scope": "initial API setup request without Origin",
+      "reason": "The harness omitted Origin; Save correctly returned partial=true and left audit not configured, causing first audit HTTP 503. Real browser Save configured it. Corrected API helper includes Origin/Referer and asserts partial=false, ready audit and exact log directory. A separate clean 12-cell lifecycle campaign verifies the rejection, valid setup, seeded logs before native upgrade and 200 deliveries afterward."
+    },
+    {
+      "result": "INFRASTRUCTURE_STOP",
+      "scope": "last three final compose networks",
+      "reason": "Docker default address pools exhausted. Preserved logs and removed only completed task containers/networks with compose down, retaining DB volumes/sites; no global prune or other project changes. Continued unused cells afterward."
+    }
+  ]
+}

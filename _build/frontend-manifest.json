@@ -1,7 +1,7 @@
 {
   "tool": "esbuild",
   "version": "0.28.2",
-  "package_version": "1.0.8-pl1",
+  "package_version": "1.0.8-pl4",
   "inputs": {
     "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
     "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
