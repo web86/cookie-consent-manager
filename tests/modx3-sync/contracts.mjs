@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync} from 'node:fs';
-const source='1c5fb35236c60f10058dfc0e9d49f8e1473dadb3',get=p=>execFileSync('git',['show',source+':'+p]);
+const source='efaca7389ae7a77ba2aadcb9e0077a3e05e355fa',get=p=>execFileSync('git',['show',source+':'+p]);
 let assertions=0;const eq=(a,b,m)=>{assertions++;assert.deepEqual(a,b,m)};
 const manifest=JSON.parse(readFileSync('_build/frontend-manifest.json')),old=JSON.parse(get('_build/frontend-manifest.json'));
 const js=Object.keys(manifest.inputs).filter(p=>p.endsWith('.js'));

@@ -29,6 +29,21 @@
     try { data = await api('get'); } catch (e) { root.textContent = e.message; return; }
     const t = key => data.managerStrings['m.' + key] || data.managerStrings[key] || data.lexicons.en['m.' + key] || '…';
     const el = (tag, text, attributes = {}) => { const node = document.createElement(tag); if (text != null) node.textContent = text; for (const [key, value] of Object.entries(attributes)) node.setAttribute(key, value); return node; };
+    const icon = name => {
+      const paths = {
+        refresh: 'M20 7v5h-5 M4 17v-5h5 M6.1 7a7 7 0 0 1 11.6-2L20 8 M4 16l2.3 3A7 7 0 0 0 18 17',
+        book: 'M12 5v15 M12 5C9 3 5 3 3 4v14c3-1 6-1 9 2 3-3 6-3 9-2V4c-2-1-6-1-9 1',
+        warning: 'M12 8v5 M12 16v.1 M10.3 4.9 2.5 18.4A1.7 1.7 0 0 0 4 21h16a1.7 1.7 0 0 0 1.5-2.6L13.7 4.9a2 2 0 0 0-3.4 0',
+        info: 'M12 11v6 M12 7v.1 M22 12a10 10 0 1 1-20 0 10 10 0 0 1 20 0'
+      };
+      const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      for (const [key, value] of Object.entries({viewBox:'0 0 24 24',fill:'none',stroke:'currentColor','stroke-width':'1.7','stroke-linecap':'round','stroke-linejoin':'round',class:'ccm-icon','aria-hidden':'true',focusable:'false'})) svg.setAttribute(key, value);
+      const path = document.createElementNS(svg.namespaceURI, 'path'); path.setAttribute('d', paths[name]); svg.append(path); return svg;
+    };
+    const note = (text, warning = false) => {
+      const card = el('div', null, {class:'ccm-note' + (warning ? ' ccm-note-warning' : '')});
+      card.append(icon(warning ? 'warning' : 'info'), text); return card;
+    };
     const appendFooter = () => {
       const footer=el('footer',null,{class:'ccm-footer'});
       footer.append(document.createTextNode(t('developer')+' '),el('a','www.web86.site',{href:'https://www.web86.site/',target:'_blank',rel:'noopener noreferrer'}));
@@ -97,39 +112,58 @@
       input.addEventListener(type === 'checkbox' ? 'change' : 'input', () => { callback(type === 'checkbox' ? input.checked : type === 'number' ? Number(input.value) : input.value); if (!provisional) changed(); });
       row.append(input); if (help) row.append(el('small', help)); container.append(row); return input;
     }
-    field(panels.main, t('ttl_days'), draft.options.ttl_days, v => draft.options.ttl_days = v, 'number', 'ccm-ttl').setAttribute('min', '1');
+    const basics=el('div',null,{class:'ccm-basic-settings'});panels.main.append(basics);
+    field(basics, t('ttl_days'), draft.options.ttl_days, v => draft.options.ttl_days = v, 'number', 'ccm-ttl').setAttribute('min', '1');
     document.getElementById('ccm-ttl').setAttribute('max', '3650');
 
     const buttons = {};
     const legacy = () => { for (const key of ['configure', 'accept_all']) buttons[key].disabled = draft.options.buttons.accept; };
-    for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(panels.main, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
-    legacy(); panels.main.append(el('p', t('legacy_help'), { class: 'ccm-help' }));
-    const build=el('section',null,{id:'ccm-adapters-build'});build.append(el('h3',t('adapters_build')));
+    for (const key of ['reject', 'configure', 'accept_all', 'accept']) buttons[key] = field(basics, t('show_' + key), draft.options.buttons[key], v => { draft.options.buttons[key] = v; legacy(); }, 'checkbox', 'ccm-show-' + key);
+    legacy();
+    const warningText=el('p');warningText.append(el('strong',t('attention')+' '),document.createTextNode(t('legacy_help')));
+    const warning=note(warningText,true);warning.id='ccm-legacy-warning';panels.main.append(warning);
+    buttons.accept.setAttribute('aria-describedby',warning.id);
+    const actions=el('div',null,{class:'ccm-settings-actions'});panels.main.append(actions);
+    const advanced=el('details',null,{id:'ccm-advanced',class:'ccm-advanced'});
+    const advancedHeading=el('summary',null,{'aria-expanded':'false','aria-controls':'ccm-advanced-content'});
+    advancedHeading.append(el('span',t('advanced')),el('span',null,{class:'ccm-chevron','aria-hidden':'true'}));
+    const advancedContent=el('div',null,{id:'ccm-advanced-content',class:'ccm-advanced-content'});
+    advanced.append(advancedHeading,advancedContent);panels.main.append(advanced);
+    advanced.addEventListener('toggle',()=>advancedHeading.setAttribute('aria-expanded',String(advanced.open)));
+    const build=el('section',null,{id:'ccm-adapters-build',class:'ccm-settings-section'});build.append(el('h3',t('adapters_build')));
+    const buildRow=el('div',null,{class:'ccm-build-row'}),buildStatus=el('div',null,{class:'ccm-build-status'});
     const buildState=el('p','',{id:'ccm-build-status',role:'status','aria-live':'polite'});
     const buildTime=el('p','',{id:'ccm-build-time'});
     const preservedAdapters=el('p','',{id:'ccm-adapters-preserved',class:'ccm-help'});
-    const buildButton=el('button',t('rebuild_adapters'),{type:'button',id:'ccm-bundle-rebuild'});
-    const showBuild=()=>{const value=data.adapterBuild || {state:'fallback'};buildState.textContent=t('build_'+value.state);buildTime.textContent=t('build_time')+' '+(value.built_at ? new Date(value.built_at).toLocaleString(data.managerLanguage) : '—');preservedAdapters.hidden=!value.preserved;preservedAdapters.textContent=t('adapters_preserved');};
-    showBuild();build.append(buildState,buildTime,preservedAdapters,buildButton,el('p',t('build_help'),{class:'ccm-help'}));panels.main.append(build);
-    buildButton.onclick=async()=>{buildButton.disabled=true;buildState.textContent=t('build_running');try{data.adapterBuild=await api('bundle_rebuild');showBuild();}catch(e){buildState.textContent=t('build_error')+' '+e.message;}finally{buildButton.disabled=false;}};
+    const buildButton=el('button',t('rebuild_adapters'),{type:'button',id:'ccm-bundle-rebuild'});buildButton.prepend(icon('refresh'));
+    const showBuild=(failure='')=>{
+      const value=data.adapterBuild || {state:'fallback'},state=failure?'error':(['ready','error','fallback'].includes(value.state)?value.state:'fallback');
+      buildState.dataset.state=state;buildState.textContent=t('build_'+state)+(failure?' '+failure:'');
+      const date=value.built_at ? new Date(value.built_at) : null;
+      buildTime.replaceChildren(document.createTextNode(t('build_time')+' '),el('strong',date&&Number.isFinite(date.getTime())?date.toLocaleString(data.managerLanguage):'—'));
+      preservedAdapters.hidden=!value.preserved;preservedAdapters.textContent=t('adapters_preserved');
+    };
+    showBuild();buildStatus.append(buildState,buildTime);buildRow.append(buildButton,buildStatus);
+    build.append(buildRow,preservedAdapters,note(el('p',t('build_help'))));
+    buildButton.onclick=async()=>{buildButton.disabled=true;buildState.dataset.state='running';buildState.textContent=t('build_running');try{data.adapterBuild=await api('bundle_rebuild');showBuild();}catch(e){showBuild(e.message);}finally{buildButton.disabled=false;}};
     const auditViewer=window.CookieConsentAuditViewer.mount(panels.logs,{api,t,el,boot,data});
-    const storage=el('section',null,{id:'ccm-log-storage'});storage.append(el('h3',t('consent_journal')));
+    const storage=el('section',null,{id:'ccm-log-storage',class:'ccm-settings-section'});storage.append(el('h3',t('consent_journal')));
     const logMode=el('select',null,{id:'ccm-log-mode','aria-label':t('log_location')});
     for(const mode of ['site','absolute'])logMode.append(el('option',t('log_'+mode),{value:mode}));
     const publicRoot=data.documentRoot;
     draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';
     if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);
-    logMode.value=draft.log_dir_mode;storage.append(el('label',t('log_location')),logMode);
+    logMode.value=draft.log_dir_mode;const logModeRow=el('label',null,{class:'ccm-field'});logModeRow.append(el('span',t('log_location')),logMode);storage.append(logModeRow);
     logMode.onchange=()=>{draft.log_dir_mode=logMode.value;changed();};
-    field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir',t('log_save_help'));
-    storage.append(el('p',t('log_default_help')+' '+data.defaultLogDir,{class:'ccm-help'}),el('p',t('audit_privacy_warning'),{class:'ccm-help',id:'ccm-audit-warning'}));
+    const logInput=field(storage,t('log_dir'),draft.log_dir,v=>draft.log_dir=v,'text','ccm-log-dir');
+    const logNotes=el('div');logNotes.append(el('p',t('log_save_help')),el('p',t('log_default_help')+' '+data.defaultLogDir),el('p',t('audit_privacy_warning'),{id:'ccm-audit-warning'}));storage.append(note(logNotes));
+    logInput.setAttribute('aria-describedby','ccm-log-notes');logNotes.id='ccm-log-notes';
     savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});
-    const advanced=el('details',null,{id:'ccm-advanced'});advanced.append(el('summary',t('advanced')));
-    const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});advanced.append(reconsent);panels.main.append(advanced);
+    const reconsent=el('button',t('reconsent'),{type:'button',id:'ccm-reconsent'});reconsent.prepend(icon('refresh'));actions.append(reconsent);
     reconsent.onclick=async()=>{if(dirty){status.textContent=t('save_first');return;}if(!window.confirm(t('reconsent_confirm')))return;
       reconsent.disabled=true;try{const saved=await api('reconsent',{revision});draft.options=saved.options;revision=saved.revision;status.textContent=t('reconsent_success');}catch(e){status.textContent=e.message;status.dataset.state='error';}finally{reconsent.disabled=false;}};
     const guide=data.guide;
-    const help=el('button',guide.title,{type:'button',id:'ccm-guide-open'});
+    const help=el('button',t('guide_open'),{type:'button',id:'ccm-guide-open'});help.prepend(icon('book'));
     const dialog=el('dialog',null,{id:'ccm-guide-dialog','aria-labelledby':'ccm-guide-title'});
     const close=el('button',guide.close,{type:'button',id:'ccm-guide-close',autofocus:''});
     const heading=el('div',null,{class:'ccm-guide-heading'});heading.append(el('h2',guide.title,{id:'ccm-guide-title'}),close);
@@ -145,7 +179,7 @@
     help.onclick=()=>dialog.showModal();dialog.addEventListener('close',()=>help.focus());
     // MODX Manager's ExtJS keymap prevents the native Escape default. Keep handling local.
     dialog.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();dialog.close();}});
-    panels.main.append(help,storage);appendFooter();
+    actions.append(help);advancedContent.append(storage,build);appendFooter();
 
 
     function textSource(language, key) {
@@ -200,8 +234,9 @@
           categorySelect.value=service.category;const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),categorySelect);details.append(categoryRow);
           categorySelect.onchange=()=>{service.category=categorySelect.value;groupExpanded[service.category]=true;document.getElementById('ccm-group-content-'+service.category).hidden=false;const toggle=document.getElementById('ccm-group-toggle-'+service.category);toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label',t('collapse')+' — '+data.managerStrings[service.category+'_name']);document.getElementById('ccm-group-content-'+service.category).append(card);changed();categorySelect.focus();};
           if(service.loader==='custom_js')pathInput=field(details,t('script_path'),service.config.path,v=>{service.config.path=v;pathInput.setCustomValidity(invalidCustom(service)?t('script_invalid'):'');updateValidity();},'text','ccm-path-'+service.key,t('script_help'));
-          const adapterSource = ['google_maps','yandex_maps'].includes(service.loader) ? 'assets/js/cookie-consent/embeds.js → mount()' : ['youtube','rutube','vk_video'].includes(service.loader) ? 'assets/js/cookie-consent/embeds/' + ({youtube:'youtube',rutube:'rutube',vk_video:'vk-video'}[service.loader]) + '.js → valid()' : 'assets/js/cookie-consent/services/' + ({yandex:'yandex',mailru:'mailru',google_ga4:'google-ga4',google_ads:'google-ads',google_gtm:'google-gtm',vk_ads:'vk-ads',meta_pixel:'meta-pixel',custom_js:'custom-js',mock_marketing:'mock-marketing'}[service.loader] || 'unknown') + '.js → start()';
-          details.append(el('p',t('adapter_source')+' '+(service.loader==='custom_js'?t('script_owned'):adapterSource+' / '+service.loader),{class:'ccm-help'}));
+          const adapterSource = ['google_maps','yandex_maps'].includes(service.loader) ? 'assets/js/cookie-consent/embeds.js' : ['youtube','rutube','vk_video'].includes(service.loader) ? 'assets/js/cookie-consent/embeds/' + ({youtube:'youtube',rutube:'rutube',vk_video:'vk-video'}[service.loader]) + '.js' : 'assets/js/cookie-consent/services/' + ({yandex:'yandex',mailru:'mailru',google_ga4:'google-ga4',google_ads:'google-ads',google_gtm:'google-gtm',vk_ads:'vk-ads',meta_pixel:'meta-pixel',custom_js:'custom-js',mock_marketing:'mock-marketing'}[service.loader] || 'unknown') + '.js';
+          const source=el('p',t('adapter_source')+' '+(service.loader==='custom_js'?service.config.path:adapterSource),{class:'ccm-help ccm-adapter-source'});details.append(source);
+          if(pathInput)pathInput.addEventListener('input',()=>source.textContent=t('adapter_source')+' '+service.config.path);
           if (idPatterns[service.loader]) {
             idInput = field(details, t({ vk_ads: 'pixel_id', meta_pixel: 'pixel_id', google_ga4: 'measurement_id', google_ads: 'conversion_id', google_gtm: 'container_id' }[service.loader] || 'counter_id'), service.config.id || '', v => { if (v) service.config.id = v; else delete service.config.id; updateValidity(); }, 'text', 'ccm-id-' + service.key);
             idError = el('small', '', { id: 'ccm-id-error-' + service.key, class: 'ccm-field-error', role: 'status' });
@@ -221,7 +256,8 @@
       const adapter=el('select',null,{id:'ccm-service-adapter','aria-label':t('adapter')});
       const ready=el('optgroup',null,{label:t('ready_adapter')});
       for(const [key] of Object.entries(data.catalog))if(!['custom_js','mock_marketing'].includes(key))ready.append(el('option',textSource(data.managerLanguage,'service.'+key+'.name'),{value:key}));
-      adapter.append(ready,el('option',t('create_custom_service'),{value:'custom_js'}));
+      adapter.append(el('option',t('create_custom_service'),{value:'custom_js'}),ready);
+      adapter.value='custom_js';
       add.append(el('label',t('adapter')),adapter);
       const existing=el('p'),go=el('button',t('go_existing'),{type:'button',id:'ccm-service-existing'});add.append(existing,go);
       const name=field(add,t('name'),'',()=>{},'text','ccm-service-name',null,true);

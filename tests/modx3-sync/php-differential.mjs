@@ -1,7 +1,7 @@
 // Execute both platforms' pinned shared rendering contracts in isolated PHP processes.
 // No CMS database, installed site or persistent file in the MODX 2 checkout is touched.
 import {dirname} from 'node:path';import assert from 'node:assert/strict';import {execFileSync} from 'node:child_process';import {writeFileSync} from 'node:fs';
-const source=process.env.CC_MODX2_SOURCE||dirname(execFileSync('git',['rev-parse','--path-format=absolute','--git-common-dir'],{encoding:'utf8'}).trim()),expected='1c5fb35236c60f10058dfc0e9d49f8e1473dadb3';
+const source=process.env.CC_MODX2_SOURCE||dirname(execFileSync('git',['rev-parse','--path-format=absolute','--git-common-dir'],{encoding:'utf8'}).trim()),expected='efaca7389ae7a77ba2aadcb9e0077a3e05e355fa';
 assert.equal(execFileSync('git',['-C',source,'rev-parse','HEAD'],{encoding:'utf8'}).trim(),expected,'MODX 2 checkout remains the pinned reference');
 const results=[];let assertions=0;
 for(const lang of ['ru','en'])for(const mode of ['strict','legacy'])for(const category of ['analytics','marketing','external_content'])for(const profile of ['default','custom']){

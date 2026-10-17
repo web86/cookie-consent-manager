@@ -1,0 +1,388 @@
+{
+  "platform": "MODX 3.2.4 / PHP 8.2.34, deprecated aliases disabled",
+  "branch": "codex/modx3-ui-refinement",
+  "source_head": "cbc3d96af240f8c971e02a8c0732a5363324a49a",
+  "version": "0.1.0-beta5",
+  "modx2_reference": "efaca7389ae7a77ba2aadcb9e0077a3e05e355fa",
+  "native": {
+    "modx": "3",
+    "case": "ui-refinement-final-b",
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0,
+    "errors": [],
+    "results": [
+      {
+        "name": "ru-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "ru-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "ru-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "ru-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "en-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "en-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "en-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "en-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "en-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "neutral-and-pending-build-never-claim-success",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "journal-page-old-records-pagination-filters-csv-and-text-safety",
+        "result": "PASS",
+        "assertions": 15
+      },
+      {
+        "name": "real-consent-event-pathname-only-and-frontend-regression",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "en-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      }
+    ]
+  },
+  "regression": {
+    "tests": 31,
+    "failed": 0,
+    "results": [
+      {
+        "name": "modx2-source-parity",
+        "result": "PASS"
+      },
+      {
+        "name": "modx2-php-parity",
+        "result": "PASS"
+      },
+      {
+        "name": "guide",
+        "result": "PASS"
+      },
+      {
+        "name": "version",
+        "result": "PASS"
+      },
+      {
+        "name": "adapter-sync",
+        "result": "PASS"
+      },
+      {
+        "name": "php-bundle",
+        "result": "PASS"
+      },
+      {
+        "name": "semantics",
+        "result": "PASS"
+      },
+      {
+        "name": "source-build",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-viewer-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta21-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta24-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta30-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta31-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta33-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-i18n-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-ux-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-elements-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-universal-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-universal-audit-schema3.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta1042-urls.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-urls.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-snippets.php",
+        "result": "PASS"
+      },
+      {
+        "name": "registry",
+        "result": "PASS"
+      },
+      {
+        "name": "urls",
+        "result": "PASS"
+      },
+      {
+        "name": "esbuild-video-embeds",
+        "result": "PASS"
+      },
+      {
+        "name": "esbuild-placeholder-texts",
+        "result": "PASS"
+      },
+      {
+        "name": "php-video-embeds",
+        "result": "PASS"
+      },
+      {
+        "name": "php-placeholder-texts",
+        "result": "PASS"
+      },
+      {
+        "name": "differential",
+        "result": "PASS"
+      },
+      {
+        "name": "php-differential",
+        "result": "PASS"
+      }
+    ]
+  },
+  "shared_source_parity": {
+    "result": "PASS",
+    "source": "efaca7389ae7a77ba2aadcb9e0077a3e05e355fa",
+    "tests": 1,
+    "assertions": 89
+  },
+  "php_rendering_parity": {
+    "source": "efaca7389ae7a77ba2aadcb9e0077a3e05e355fa",
+    "tests": 24,
+    "assertions": 24,
+    "failed": 0,
+    "results": [
+      {
+        "name": "ru-strict-analytics-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-strict-analytics-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-strict-marketing-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-strict-marketing-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-strict-external_content-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-strict-external_content-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-analytics-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-analytics-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-marketing-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-marketing-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-external_content-default",
+        "result": "PASS"
+      },
+      {
+        "name": "ru-legacy-external_content-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-analytics-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-analytics-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-marketing-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-marketing-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-external_content-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-strict-external_content-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-analytics-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-analytics-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-marketing-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-marketing-custom",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-external_content-default",
+        "result": "PASS"
+      },
+      {
+        "name": "en-legacy-external_content-custom",
+        "result": "PASS"
+      }
+    ]
+  },
+  "inventory": {
+    "result": "PASS",
+    "assertions": 463,
+    "runtime_files": 231,
+    "modx": "3.2.4-pl",
+    "signature": "cookieconsent3-0.1.0-beta5"
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent3-0.1.0-beta5",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDO\\Transport\\xPDOObjectVehicle": 15,
+        "xPDO\\Transport\\xPDOFileVehicle": 231,
+        "xPDO\\Transport\\xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "255e08b40a3fdb3935a4467243e865086ddc5b2ac6700369c4a70ba65803cc98",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "screenshots": [
+    ".local/ui-refinement/modx3/final-b",
+    ".local/ui-refinement/modx3/visual"
+  ],
+  "database_migration": false,
+  "page_field": "Existing pathname-only JSONL/CSV field; summary/UI now include it and display em dash for missing historical page.",
+  "limitations": [
+    "Chromium only; external SDK/player responses controlled, no real vendor delivery/playback acceptance.",
+    "Fresh native install; customer in-place UI upgrade not exercised.",
+    "Neutral metadata simulated at GET display boundary; ready/error/pending operations native.",
+    "Full historical Manager role and Fenom matrices not rerun. Baseline warm compiled Fenom NO-GO unchanged."
+  ]
+}

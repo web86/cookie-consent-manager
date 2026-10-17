@@ -16,7 +16,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Legacy-режим: включите «Показывать старую кнопку „Принять“» на вкладке «Основные». При первом посещении без сохранённого выбора включённые сервисы видимых категорий запускаются до клика. Кнопка «Принять» сохраняет согласие на все видимые категории, «Отклонить» — отказ. Сохранённые отказы, частичный выбор и устаревшее согласие не обходятся."
+              "text": "Legacy-режим: включите «Показывать старую кнопку „Принять“» на вкладке «Настройки». При первом посещении без сохранённого выбора включённые сервисы видимых категорий запускаются до клика. Кнопка «Принять» сохраняет согласие на все видимые категории, «Отклонить» — отказ. Сохранённые отказы, частичный выбор и устаревшее согласие не обходятся."
             }
           ]
         },
@@ -78,7 +78,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Для принудительной пересборки откройте «Основные → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит."
+              "text": "Для принудительной пересборки откройте «Настройки → Дополнительные настройки → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит."
             },
             {
               "type": "paragraph",
@@ -151,7 +151,7 @@
             },
             {
               "type": "paragraph",
-              "text": "Legacy mode: enable Show legacy Accept on General. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed."
+              "text": "Legacy mode: enable Show legacy Accept on Settings. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed."
             }
           ]
         },
@@ -213,7 +213,7 @@
             },
             {
               "type": "paragraph",
-              "text": "To force a rebuild, open General → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build."
+              "text": "To force a rebuild, open Settings → Advanced settings → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build."
             },
             {
               "type": "paragraph",

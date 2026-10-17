@@ -29,11 +29,12 @@
       const exportButton = el('button', t('log_export'), { id: 'ccm-log-export', type: 'button', disabled: 'disabled' }); summary.append(total, exportButton);
       const feedback = el('p', '', { id: 'ccm-log-feedback', role: 'status', 'aria-live': 'polite' });
       const table = el('table', null, { id: 'ccm-log-table' }), head = el('thead'), header = el('tr'), body = el('tbody');
-      for (const name of ['date', 'ip', 'action', 'details']) header.append(el('th', t('log_' + name), { scope: 'col' })); head.append(header); table.append(head, body);
+      for (const name of ['date', 'ip', 'action', 'field_page', 'details']) header.append(el('th', t('log_' + name), { scope: 'col' })); head.append(header); table.append(head, body);
       const pagination = el('div', null, { class: 'ccm-log-pagination' }), previous = el('button', t('log_previous'), { type: 'button', id: 'ccm-log-previous', disabled: 'disabled' }), next = el('button', t('log_next'), { type: 'button', id: 'ccm-log-next', disabled: 'disabled' }), pageLabel = el('span', '', { id: 'ccm-log-page' }); pagination.append(previous, pageLabel, next);
       const dialog = el('dialog', null, { id: 'ccm-log-dialog', 'aria-labelledby': 'ccm-log-detail-title' }), title = el('h3', t('log_details'), { id: 'ccm-log-detail-title' }), details = el('dl'), history = el('button', t('log_history'), { type: 'button', id: 'ccm-log-history' }), close = el('button', t('log_close'), { type: 'button', id: 'ccm-log-close' });
       dialog.append(title, details, history, close); close.onclick = () => dialog.close();
-      container.append(filters, summary, feedback, table, pagination, dialog);
+      const tableRegion=el('div',null,{class:'ccm-log-table-region',role:'region',tabindex:'0','aria-label':t('consent_journal')});tableRegion.append(table);
+      container.append(filters, summary, feedback, tableRegion, pagination, dialog);
       let applied, cursors = [''], page = 0, nextCursor = null, started = false, busy = false, loaded = false;
       const selected = () => ({ year: year.value, month: month.value, event: event.value, search: search.value });
       const setBusy = value => { busy = value; find.disabled = value; exportButton.disabled = value || !loaded; previous.disabled = value || page === 0; next.disabled = value || !nextCursor; container.setAttribute('aria-busy', String(value)); };
@@ -59,9 +60,9 @@
           body.replaceChildren();
           for (const row of result.items) {
             const tr = el('tr'), cell = el('td'), button = el('button', t('log_view'), { type: 'button', class: 'ccm-log-view' }); button.onclick = () => detail(row.locator); cell.append(button);
-            tr.append(el('td', formatMoscow(row.server_time)), el('td', row.ip), el('td', actionLabel(row.event)), cell); body.append(tr);
+            tr.append(el('td', formatMoscow(row.server_time)), el('td', row.ip), el('td', actionLabel(row.event)), el('td', row.page || '—', {class:'ccm-log-path'}), cell); body.append(tr);
           }
-          if (!result.items.length) { const tr = el('tr'); tr.append(el('td', t('log_empty'), { colspan: '4' })); body.append(tr); }
+          if (!result.items.length) { const tr = el('tr'); tr.append(el('td', t('log_empty'), { colspan: '5' })); body.append(tr); }
           const pendingYear = year.value, pendingEvent = event.value;
           year.replaceChildren(); for (const value of [...new Set([currentYear, ...result.years, pendingYear])].filter(v => v !== 'all').sort().reverse()) year.append(el('option', value, { value })); year.append(el('option', t('log_all_years'), { value: 'all' })); year.value = pendingYear;
           event.replaceChildren(el('option', t('log_all_actions'), { value: 'all' }));

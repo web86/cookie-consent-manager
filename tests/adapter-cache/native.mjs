@@ -31,7 +31,7 @@ try{
  await test('web-process-event-never-builds',async()=>{const a=state();control('edit');control('public-refresh');const b=state();eq(b.hash,a.hash);eq(b.inode,a.inode);control('restore');await refresh();});
  await test('public-request-cannot-force-build',async()=>{const publicContext=await browser.newContext();try{const a=state();const r=await publicContext.request.post(origin+'/assets/components/cookieconsent/connector.php',{form:{action:'bundle_rebuild'}});const body=await r.text();eq(r.status()>=400||body.includes('"success":false'),true);eq(state().hash,a.hash);}finally{await publicContext.close();}});
  for(const language of ['ru','en'])await test('Manager-build-guide-draft-'+language,async()=>{
-  ctl(['setting','manager_language'],language);await p.goto(origin+'/manager/?a=language&switch='+language+'&target_a=index&target_namespace=cookie_consent');await p.locator('#ccm-bundle-rebuild').waitFor();
+  ctl(['setting','manager_language'],language);await p.goto(origin+'/manager/?a=language&switch='+language+'&target_a=index&target_namespace=cookie_consent');await p.locator('#ccm-advanced > summary').click();await p.locator('#ccm-bundle-rebuild').waitFor();
   eq(await p.locator('#ccm-adapters-build h3').textContent(),language==='ru'?'Сборка адаптеров':'Adapters build');
   eq(await p.locator('#ccm-bundle-rebuild').textContent(),language==='ru'?'Пересобрать адаптеры':'Rebuild adapters');
   await p.locator('#ccm-ttl').fill('157');const old=state(),events=Number(control('probe-count'));
