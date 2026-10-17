@@ -52,6 +52,8 @@ final class CookieConsentAuditReader
     }
     public static function record(array $data): array {
         if(!in_array($data['schema']??null,[1,2,3],true))throw new InvalidArgumentException('invalid_schema');
+        // Historical records may predate the page field; never rewrite their log files.
+        if(!array_key_exists('page',$data))$data['page']='';
         foreach(['server_time','event_id','consent_id','ip','user_agent','event','stage','policy_version','page'] as $key)if(!is_string($data[$key]??null)||strlen($data[$key])>8192)throw new InvalidArgumentException('invalid_record');
         if(!preg_match('/^[a-z][a-z0-9_]{0,63}$/D',$data['event'])||!preg_match('/^[a-z][a-z0-9_]{0,63}$/D',$data['stage'])||!filter_var($data['ip'],FILTER_VALIDATE_IP))throw new InvalidArgumentException('invalid_record');
         foreach(['event_id','consent_id'] as $key)if(!preg_match('/^[a-f0-9]{8}(?:-[a-f0-9]{4}){3}-[a-f0-9]{12}$/iD',$data[$key]))throw new InvalidArgumentException('invalid_record');
@@ -110,7 +112,7 @@ final class CookieConsentAuditReader
             if(!self::matches($r,$filters))continue;$total++;$key=[$item['time'],$item['file'],$item['offset']];
             if($after!==null&&$key>=$after)continue;$eligible++;
             if($heap->count()===50&&$key<=$heap->top()['priority'])continue;
-            $summary=['server_time'=>$r['server_time'],'ip'=>$r['ip'],'event'=>$r['event'],'locator'=>self::encode(['file'=>$item['file'],'offset'=>$item['offset'],'digest'=>$item['digest']])];
+            $summary=['server_time'=>$r['server_time'],'ip'=>$r['ip'],'event'=>$r['event'],'page'=>$r['page'],'locator'=>self::encode(['file'=>$item['file'],'offset'=>$item['offset'],'digest'=>$item['digest']])];
             $heap->insert($summary,$key);if($heap->count()>50)$heap->extract();
         }
         $rows=[];$last=null;while(!$heap->isEmpty()){$v=$heap->extract();$rows[]=$v['data'];if($last===null)$last=$v['priority'];}$rows=array_reverse($rows);

@@ -1,0 +1,265 @@
+{
+  "platform": "MODX 2.8.8 / PHP 8.2.34",
+  "branch": "codex/modx2-ui-refinement",
+  "source_head": "1c5fb35236c60f10058dfc0e9d49f8e1473dadb3",
+  "version": "1.0.7-beta1",
+  "native": {
+    "modx": "2",
+    "case": "ui-refinement-final-c",
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0,
+    "errors": [],
+    "results": [
+      {
+        "name": "ru-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "ru-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "ru-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "ru-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "en-settings-layout-keyboard-and-guide",
+        "result": "PASS",
+        "assertions": 12
+      },
+      {
+        "name": "en-five-settings-and-collapsed-log-save",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "en-reconsent-confirm-cancel-and-save-first",
+        "result": "PASS",
+        "assertions": 7
+      },
+      {
+        "name": "en-actual-build-status-force-failure-and-draft",
+        "result": "PASS",
+        "assertions": 18
+      },
+      {
+        "name": "en-custom-first-create-edit-and-sources",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "neutral-and-pending-build-never-claim-success",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "journal-page-old-records-pagination-filters-csv-and-text-safety",
+        "result": "PASS",
+        "assertions": 15
+      },
+      {
+        "name": "real-consent-event-pathname-only-and-frontend-regression",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "ru-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "en-narrow-layout-and-journal",
+        "result": "PASS",
+        "assertions": 2
+      }
+    ]
+  },
+  "regression": {
+    "tests": 29,
+    "failed": 0,
+    "results": [
+      {
+        "name": "guide",
+        "result": "PASS"
+      },
+      {
+        "name": "version",
+        "result": "PASS"
+      },
+      {
+        "name": "adapter-sync",
+        "result": "PASS"
+      },
+      {
+        "name": "php-bundle",
+        "result": "PASS"
+      },
+      {
+        "name": "semantics",
+        "result": "PASS"
+      },
+      {
+        "name": "source-build",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-viewer-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta21-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta24-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta30-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta31-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta33-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-i18n-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-manager-ux-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-elements-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-universal-php.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-universal-audit-schema3.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-beta1042-urls.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-urls.php",
+        "result": "PASS"
+      },
+      {
+        "name": "tests-video-embeds-snippets.php",
+        "result": "PASS"
+      },
+      {
+        "name": "registry",
+        "result": "PASS"
+      },
+      {
+        "name": "urls",
+        "result": "PASS"
+      },
+      {
+        "name": "esbuild-video-embeds",
+        "result": "PASS"
+      },
+      {
+        "name": "esbuild-placeholder-texts",
+        "result": "PASS"
+      },
+      {
+        "name": "php-video-embeds",
+        "result": "PASS"
+      },
+      {
+        "name": "php-placeholder-texts",
+        "result": "PASS"
+      },
+      {
+        "name": "differential",
+        "result": "PASS"
+      },
+      {
+        "name": "php-differential",
+        "result": "PASS"
+      }
+    ]
+  },
+  "inventory": {
+    "result": "PASS",
+    "assertions": 463,
+    "runtime_files": 231,
+    "modx": "2.8.8-pl",
+    "signature": "cookieconsent-1.0.7-beta1"
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent-1.0.7-beta1",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 15,
+        "xPDOFileVehicle": 231,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "51702f8d29bfb9b5779ce4f1ced49ade762a5efd404dae095523276f66082427",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "screenshots": ".local/ui-refinement/modx2/final",
+  "database_migration": false,
+  "page_field": "Existing pathname-only JSONL field and CSV column; summary/UI now include it, missing historical page renders as em dash.",
+  "limitations": [
+    "Chromium only; external SDK and iframe responses controlled, no real vendor delivery/playback acceptance.",
+    "Native fixture install is fresh. In-place UI upgrade on an existing customer site not exercised.",
+    "Neutral metadata simulated only at GET display boundary; ready/error/pending operations are native."
+  ]
+}

@@ -10,7 +10,7 @@
 
 Строгий режим (по умолчанию): необязательные сервисы и карты ждут разрешения своей категории. Категории и сервисы включаются на вкладке «Сервисы», а доступные посетителю категории должны быть видимы в настройках cookie.
 
-Legacy-режим: включите «Показывать старую кнопку „Принять“» на вкладке «Основные». При первом посещении без сохранённого выбора включённые сервисы видимых категорий запускаются до клика. Кнопка «Принять» сохраняет согласие на все видимые категории, «Отклонить» — отказ. Сохранённые отказы, частичный выбор и устаревшее согласие не обходятся.
+Legacy-режим: включите «Показывать старую кнопку „Принять“» на вкладке «Настройки». При первом посещении без сохранённого выбора включённые сервисы видимых категорий запускаются до клика. Кнопка «Принять» сохраняет согласие на все видимые категории, «Отклонить» — отказ. Сохранённые отказы, частичный выбор и устаревшее согласие не обходятся.
 
 ### 2. Подключение в шаблоне MODX
 
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: Cookie Consent Manager автоматически обновит общий минифицированный JavaScript-файл.
 
-Для принудительной пересборки откройте «Основные → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
+Для принудительной пересборки откройте «Настройки → Дополнительные настройки → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
 
 Обновление сохраняет изменённые файлы из services/ и не восстанавливает удалённые вами адаптеры. Если изменён и оригинал пакета, ваш вариант остаётся без автоматического слияния. Дополнительные файлы не включаются в сборку автоматически. При удалении обязательного исходника исправьте код или восстановите файл вручную: прежняя рабочая сборка продолжает обслуживать сайт.
 
@@ -119,7 +119,7 @@ A quick guide to Cookie Consent Manager. Open Extras → Cookie Consent Manager,
 
 Strict mode (default): optional services and maps wait for permission for their category. Enable the categories and services you need on Services, and make the relevant categories visible in cookie settings.
 
-Legacy mode: enable Show legacy Accept on General. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed.
+Legacy mode: enable Show legacy Accept on Settings. On a first visit with no saved choice, enabled services in visible categories start before a click. Accept records consent for all visible categories; Reject records a refusal. Previously saved refusals, partial choices and outdated consent are not bypassed.
 
 ### 2. Add to your MODX template
 
@@ -170,7 +170,7 @@ stillAllowed() tells your code whether work may continue; check it again after a
 
 An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: Cookie Consent Manager automatically updates the shared minified JavaScript file.
 
-To force a rebuild, open General → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
+To force a rebuild, open Settings → Advanced settings → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
 
 Updates retain edited files in services/ and do not restore adapters you deleted. If the package original also changed, your file is kept without an automatic merge. Extra files are not added to the bundle automatically. If a required input is missing, fix the code or restore the file manually; the previous working bundle continues serving the site.
 

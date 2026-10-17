@@ -38,7 +38,7 @@ try {
   });
   await openManager('ru');
   await test('ru-component-menu-tabs-and-system-language',async()=>{
-    equal(await page.locator('[role=tab]').allTextContents(),['Основные','Сервисы','Тексты','Журнал']);
+    equal(await page.locator('[role=tab]').allTextContents(),['Настройки','Сервисы','Тексты','Журнал']);
     equal(await page.locator('#ccm-edit-language').inputValue(),'ru');
     const menu = docker(['web','php','-r','define("MODX_API_MODE",true);ob_start();require "/var/www/html/index.php";while(ob_get_level())ob_end_clean();echo json_encode($modx->getObject("modMenu",["text"=>"Cookie Consent Manager"])->toArray());']);
     equal(JSON.parse(menu).namespace,'cookie_consent');equal(JSON.parse(menu).action,'index');
