@@ -14,7 +14,7 @@ $site=$argv[1]??'';$out=$argv[2]??($root.'/.local/artifacts');$releaseIndex=isse
 if($site===''||$site[0]!=='/'||!is_file($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
 $metadata=json_decode(file_get_contents(__DIR__.'/package.json'),true,8,JSON_THROW_ON_ERROR);
 if($releaseIndex!==null)$metadata['release_index']=$releaseIndex;
-if(!in_array($metadata['release'],['','beta'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
+if(!in_array($metadata['release'],['','beta','pl'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
 $release=$metadata['release']===''?'':$metadata['release'].$metadata['release_index'];
 $versionRelease=$metadata['version'].($release===''?'':'-'.$release);
 $signature=$metadata['name'].'-'.$versionRelease;

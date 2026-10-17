@@ -94,7 +94,7 @@ final class CookieConsentSettings
         $draft['registry']=CookieConsentServiceRegistry::validateJson(json_encode($registry,JSON_THROW_ON_ERROR));
         if (!$strict)foreach($draft['registry']['services'] as &$service)$service['enabled']=$flags[$service['key']];unset($service);
         // read() represents empty locale dictionaries as objects; normalize before revalidation.
-        $draft['texts']=CookieConsentTexts::validate(json_decode(json_encode($draft['texts'],JSON_THROW_ON_ERROR),true,16,JSON_THROW_ON_ERROR));
+        $draft['texts']=CookieConsentTexts::validate(json_decode(json_encode($draft['texts'],JSON_THROW_ON_ERROR),true,16,JSON_THROW_ON_ERROR),!$strict);
         return $draft;
     }
     public static function languages(string $core): array

@@ -1,3 +1,7 @@
+## 1.0.8-pl1
+
+- Fix banner title rendering in the existing Manager sidebar preview, including live translated edits and safe plain-text output.
+
 ## 1.0.8
 
 - Optional translated plain-text banner title; empty titles remain hidden.

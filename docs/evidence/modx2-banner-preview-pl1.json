@@ -1,0 +1,84 @@
+{
+  "platform": "MODX 2",
+  "version": "1.0.8-pl1",
+  "branch": "codex/modx2-banner-layout",
+  "source": "9a6f15c554a304c8d11dd55fb8e43f39960d61b2",
+  "php_assertions": 122,
+  "local": {
+    "tests": 15,
+    "failed": 0
+  },
+  "frontend_regression": {
+    "tests": 151,
+    "assertions": 1867,
+    "failed": 0
+  },
+  "native_preview": {
+    "tests": 5,
+    "assertions": 106,
+    "failed": 0
+  },
+  "ui_regression": {
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0
+  },
+  "upgrade": {
+    "result": "PASS",
+    "platform": "MODX 2",
+    "case": "ui-refinement-banner2-pl1-a",
+    "upgrade": "1.0.8 -> 1.0.8-pl1",
+    "settings_translated_titles_logs_owner_adapters_preserved": true,
+    "custom_adapter_preserved": true,
+    "native_reinstall": true,
+    "php_errors_added": 0,
+    "reproducible": true,
+    "deprecated_aliases_disabled": false,
+    "archive_sha256": "835fbb32c9ae8fe49f2972497e729098a59f8015603d08de9cc504cd829be49d"
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent-1.0.8-pl1",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDOObjectVehicle": 15,
+        "xPDOFileVehicle": 231,
+        "xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "835fbb32c9ae8fe49f2972497e729098a59f8015603d08de9cc504cd829be49d",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "package": {
+    "name": "cookieconsent-1.0.8-pl1.transport.zip",
+    "bytes": 550581,
+    "sha256": "835fbb32c9ae8fe49f2972497e729098a59f8015603d08de9cc504cd829be49d",
+    "reproducible": true
+  },
+  "frontend_assets_renderer_consent_adapters_journal_unchanged": true,
+  "preview_other_markup_unchanged": true
+}

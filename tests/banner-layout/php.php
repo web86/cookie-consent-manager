@@ -23,6 +23,10 @@ eq(CookieConsentTexts::resolve($texts,'de')['banner_title'],'Мы использ
 eq(CookieConsentTexts::resolve($texts,'tr')['banner_title'],'','Explicit empty title does not fall back');
 eq(CookieConsentTexts::validate(json_decode(json_encode($texts),true)),$texts,'Translation save roundtrip');
 $invalid=$texts;$invalid['locales']['en']['banner_title']='<script>alert(1)</script>';reject(fn()=>CookieConsentTexts::validate($invalid));
+$preview=CookieConsentTexts::validate($invalid,true);eq($preview['locales']['en']['banner_title'],'<script>alert(1)</script>','Preview accepts literal markup in unsaved title only');
+reject(fn()=>CookieConsentTexts::validate($preview));
+$other=$texts;$other['locales']['en']['reject']='<b>Reject</b>';reject(fn()=>CookieConsentTexts::validate($other,true));
+$control=$texts;$control['locales']['en']['banner_title']="bad\nline";reject(fn()=>CookieConsentTexts::validate($control,true));
 $markup=file_get_contents(__DIR__.'/../../CookiesPopup.html');
 foreach(['bottom','bottom-right','bottom-left'] as $position)foreach([false,true] as $legacy)foreach(['','  ','Title & <img src=x onerror=alert(1)> [[!Never]] {$never}'] as $title){
  $options=$defaults;$options['banner_position']=$position;$options['buttons']['accept']=$legacy;
