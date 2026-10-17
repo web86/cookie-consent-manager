@@ -1,0 +1,91 @@
+{
+  "platform": "MODX 3",
+  "version": "1.0.8",
+  "source": "4815e645bf6d231a4da72a8f773c5f25aaa5f71c",
+  "branch": "codex/modx3-banner-layout",
+  "modx2_reference": "9a6f15c554a304c8d11dd55fb8e43f39960d61b2",
+  "php_contract_assertions": 118,
+  "local_suites": {
+    "tests": 17,
+    "failed": 0
+  },
+  "browser": {
+    "tests": 151,
+    "assertions": 1867,
+    "failed": 0
+  },
+  "native_manager": {
+    "tests": 5,
+    "assertions": 93,
+    "failed": 0
+  },
+  "ui_regression": {
+    "tests": 15,
+    "assertions": 167,
+    "failed": 0
+  },
+  "upgrade": {
+    "result": "PASS",
+    "case": "ui-refinement-banner3-a",
+    "upgrade": "0.1.0-beta6 -> 1.0.8",
+    "settings_logs_owner_adapters_preserved": true,
+    "native_reinstall": true,
+    "php_errors_added": 0,
+    "reproducible": true,
+    "deprecated_aliases_disabled": true
+  },
+  "transport": {
+    "result": "PASS",
+    "assertions": 475,
+    "native": {
+      "signature": "cookieconsent3-1.0.8",
+      "native_vehicles": 248,
+      "vehicle_classes": {
+        "xPDO\\Transport\\xPDOObjectVehicle": 15,
+        "xPDO\\Transport\\xPDOFileVehicle": 231,
+        "xPDO\\Transport\\xPDOScriptVehicle": 2
+      },
+      "runtime_files": 231,
+      "zip_entries": 490,
+      "sha256": "cf49d5ab77329e1f044ac6c973d9408c1af376134b94e36f725d4ae2d5dac0d4",
+      "result": "PASS"
+    },
+    "mock_directory_files_retained": 0,
+    "referenced_mock_factory_retained": true,
+    "negative": [
+      {
+        "case": "test-fixture",
+        "result": "PASS"
+      },
+      {
+        "case": "source-map",
+        "result": "PASS"
+      },
+      {
+        "case": "unknown-runtime",
+        "result": "PASS"
+      },
+      {
+        "case": "changed-runtime-bytes",
+        "result": "PASS"
+      }
+    ]
+  },
+  "package": {
+    "filename": "cookieconsent3-1.0.8.transport.zip",
+    "sha256": "cf49d5ab77329e1f044ac6c973d9408c1af376134b94e36f725d4ae2d5dac0d4",
+    "bytes": 562910,
+    "reproducible": true
+  },
+  "sidebar_preview_source_unchanged": true,
+  "default_rendered_fixture_byte_identical": true,
+  "cross_platform_screenshots_byte_identical": true,
+  "screenshots": [
+    "docs/screenshots/banner-layout/bottom-desktop.png",
+    "docs/screenshots/banner-layout/bottom-left-desktop.png",
+    "docs/screenshots/banner-layout/bottom-left-mobile.png",
+    "docs/screenshots/banner-layout/bottom-mobile.png",
+    "docs/screenshots/banner-layout/bottom-right-desktop.png",
+    "docs/screenshots/banner-layout/bottom-right-mobile.png"
+  ]
+}

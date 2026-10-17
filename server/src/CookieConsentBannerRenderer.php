@@ -13,6 +13,14 @@ final class CookieConsentBannerRenderer
             foreach($xpath->query('//*[@data-cc-aria]') as $node)$node->setAttribute('aria-label',(string)($strings[$node->getAttribute('data-cc-aria')]??''));
             $notice=$xpath->query('//*[@data-cc-html="notice_html"]')->item(0);
             if($notice){while($notice->firstChild)$notice->removeChild($notice->firstChild);$fragment=new DOMDocument();$fragment->loadHTML('<?xml encoding="UTF-8"><html><body>'.CookieConsentHtmlSanitizer::clean((string)($strings['notice_html']??'')).'</body></html>',LIBXML_NONET);$body=$fragment->getElementsByTagName('body')->item(0);if($body)foreach($body->childNodes as $child)$notice->appendChild($doc->importNode($child,true));}
+            // Insert plain text into the existing text container; empty titles add no markup.
+            $title=(string)($strings['banner_title']??'');
+            if($notice && trim($title)!==''){
+                $heading=$doc->createElement('h2');$heading->setAttribute('class','cookie-warning-title');
+                $heading->appendChild($doc->createTextNode($title));$notice->insertBefore($heading,$notice->firstChild);
+            }
+            $position=$options['banner_position']??'bottom';
+            if(in_array($position,['bottom-right','bottom-left'],true))$root->setAttribute('class',trim($root->getAttribute('class').' cookie-warning--'.$position));
             $root->setAttribute('data-cc-mode',$mode==='mock'?'mock':'live');$root->setAttribute('data-cc-policy-version',$options['policy_version']);$root->setAttribute('data-cc-ttl-days',(string)$options['ttl_days']);$root->setAttribute('data-cc-audit-url',$assets.'components/cookieconsent/audit.php');
             $options=CookieConsentSettings::categoryOptions($options,$services);$visible=['necessary'=>true]+$options['categories'];
             foreach(CookieConsentSettings::CATEGORIES as $category){$root->setAttribute('data-cc-category-'.str_replace('_','-',$category),$visible[$category]?'1':'0');$root->setAttribute('data-cc-category-version-'.str_replace('_','-',$category),(string)$options['category_versions'][$category]);}

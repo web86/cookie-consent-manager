@@ -3,7 +3,7 @@
 declare(strict_types=1);
 if(PHP_SAPI!=='cli'||!getenv('CC_DB_PASSWORD'))exit(1);
 $case=$argv[1]??'';$op=$argv[2]??'';
-if(!preg_match('/^ui-refinement-rt([23])-[a-z0-9-]+$/D',$case,$match))exit(1);
+if(!preg_match('/^ui-refinement-(?:rt|banner)([23])-[a-z0-9-]+$/D',$case,$match))exit(1);
 $major=$match[1];$base='/opt/cc-updates/cases/'.$case.'/';
 $expected=($major==='3'?'cc_adapter3_':'cc_adapter_').str_replace('-','_',$case);
 $destination=(static function($path){require $path;return [$database_server??null,$dbase??null];})($base.'private/core/config/config.inc.php');

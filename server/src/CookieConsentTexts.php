@@ -59,6 +59,8 @@ final class CookieConsentTexts
             // Do not leak a different language's service override over this language's general text.
             $result[$key]=$nonempty([$requestedOverrides[$key]??null,$result['map_notice']]);
         }
+        // Missing titles inherit the base translation; an explicit empty string stays empty.
+        $result['banner_title']=$requestedOverrides['banner_title'] ?? $baseOverrides['banner_title'] ?? '';
         return array_filter($result,static fn($key)=>!str_starts_with($key,'m.') && $key!=='cookie_consent.upgrade_elements',ARRAY_FILTER_USE_KEY);
     }
     /** Encode user string delimiters so later MODX/Fenom passes cannot see template tags. */

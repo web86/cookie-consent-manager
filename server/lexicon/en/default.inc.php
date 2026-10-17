@@ -1,6 +1,7 @@
 <?php
 // Cookie Consent Manager lexicon; user overrides live in system settings.
 $_lang = [
+    'banner_title' => '',
     'notice_html' => 'We use necessary cookies to run this website. Analytics, marketing cookies and external maps are used only with your consent. Read our <a href="/soglasie" target="_blank" rel="noopener noreferrer">consent notice</a> and <a href="/pkd" target="_blank" rel="noopener noreferrer">privacy policy</a>.',
     'region_label' => 'Cookie consent',
     'settings_title' => 'Cookie settings',
@@ -65,6 +66,13 @@ $_lang = [
     'service.vk_video.description' => 'External VK Video video embeds',
     'service.mock_marketing.name' => 'Mock marketing',
     'service.mock_marketing.description' => 'Local advertising simulation',
+    'm.banner_title' => 'Banner title',
+    'm.banner_title_help' => 'Leave empty to hide the title',
+    'm.banner_appearance' => 'Banner appearance',
+    'm.banner_position' => 'Banner position',
+    'm.banner_position_bottom' => 'Bottom (bar)',
+    'm.banner_position_bottom-right' => 'Bottom right (compact)',
+    'm.banner_position_bottom-left' => 'Bottom left (compact)',
     'm.title' => 'Cookie Consent Manager',
     'm.main' => 'Settings',
     'm.services' => 'Services',

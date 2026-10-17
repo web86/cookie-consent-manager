@@ -1,3 +1,9 @@
+## 1.0.8
+
+- Optional translated plain-text banner title; empty titles remain hidden.
+- Bottom bar, bottom-right and bottom-left compact layouts with CSS mobile fallback.
+- Native MODX 3 compatibility, consent, adapters, journal and sidebar preview retained.
+
 # Cookie Consent Manager MODX 3 0.1.0-beta6 — manual upgrade test
 
 - New unique test signature from the accepted UI-refinement branch, preserving native MODX 3 classes and transport.

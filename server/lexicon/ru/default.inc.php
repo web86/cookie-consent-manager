@@ -1,6 +1,7 @@
 <?php
 // Cookie Consent Manager lexicon; user overrides live in system settings.
 $_lang = [
+    'banner_title' => '',
     'notice_html' => 'Мы используем необходимые cookie для работы сайта.
 Аналитические, маркетинговые cookie и внешние карты
 используются только с вашего согласия. Подробнее — в
@@ -70,6 +71,13 @@ $_lang = [
     'service.vk_video.description' => 'Внешние видеовстраивания VK Видео',
     'service.mock_marketing.name' => 'Тестовый маркетинг',
     'service.mock_marketing.description' => 'Локальная имитация рекламы',
+    'm.banner_title' => 'Заголовок баннера',
+    'm.banner_title_help' => 'Если поле пустое, заголовок не отображается',
+    'm.banner_appearance' => 'Оформление баннера',
+    'm.banner_position' => 'Расположение баннера',
+    'm.banner_position_bottom' => 'Внизу (панель)',
+    'm.banner_position_bottom-right' => 'Справа внизу (компактный)',
+    'm.banner_position_bottom-left' => 'Слева внизу (компактный)',
     'm.title' => 'Cookie Consent Manager',
     'm.main' => 'Настройки',
     'm.services' => 'Сервисы',
