@@ -1,4 +1,4 @@
-/** Release prebuilt orchestration; installed administrative PHP rebuilds use the same manifest. */
+/** Local CI/native orchestration. Production JS is built on the installed site. */
 import {execFileSync} from 'node:child_process';
 const [site,out,index]=process.argv.slice(2);if(!site||!out)throw Error('Usage: node _build/transport.mjs /site /container-build-output [beta-index]');
 execFileSync(process.execPath,['_build/version.mjs',...(index?[index]:[])],{stdio:'inherit'});

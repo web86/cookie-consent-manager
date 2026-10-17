@@ -1,8 +1,11 @@
 # Cookie Consent Manager for MODX 3
 
+Локальный review-кандидат: **cookieconsent3-0.1.0-beta5**, ветка `codex/modx3-safe-adapter-updates` от beta4. Модель безопасных SHA256-обновлений services/ и installed PHP production bundle перенесена после успешной MODX 2 1.0.7-beta1 приёмки. Native MODX 3 classes/transport и собственная история сохранены. **Warm Fenom cache NO-GO не исправлен**; прежние release gates ниже действуют. [Схема обновления](docs/adapter-updates.md). Push в modx3, Release и deployment не выполнялись.
+
+
 Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
 
-Текущий кандидат этой feature-ветки: **`cookieconsent3-0.1.0-beta4`** — перенос проверенной MODX 2 **1.0.6** (`db0a722`) поверх актуальной MODX 3 beta3 (`1fd6872`). Новая ветка `codex/modx3-sync-1.0.6`; исходные ветки сохранены. [Приёмка и release gates](docs/modx3-1.0.6-parity-acceptance.md), [differential-аудит](docs/modx3-1.0.6-differential-audit.md).
+Историческая база этого переноса: **`cookieconsent3-0.1.0-beta4`** — перенос проверенной MODX 2 **1.0.6** (`db0a722`) поверх актуальной MODX 3 beta3 (`1fd6872`). Новая ветка `codex/modx3-sync-1.0.6`; исходные ветки сохранены. [Приёмка и release gates](docs/modx3-1.0.6-parity-acceptance.md), [differential-аудит](docs/modx3-1.0.6-differential-audit.md).
 
 Добавлены произвольные категории и экземпляры сервисов, пользовательский JS, category-only consent/audit schema 3, YouTube/RUTUBE/VK Видео, CookieConsentVideo, универсальные инертные template, обновлённый CookieConsentMap, постеры/размеры и общие RU/EN тексты. PHP Peast пересобирает общий bundle при очистке кеша в Manager; принудительная пересборка находится на «Основных». Frontend использует сохранённый timestamp и не проверяет JS-исходники. На установленном сайте Node/npm/Composer не требуются.
 

@@ -63,6 +63,8 @@ document.addEventListener('DOMContentLoaded', function () {
 
 Для принудительной пересборки откройте «Основные → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
 
+Обновление сохраняет изменённые файлы из services/ и не восстанавливает удалённые вами адаптеры. Если изменён и оригинал пакета, ваш вариант остаётся без автоматического слияния. Дополнительные файлы не включаются в сборку автоматически. При удалении обязательного исходника исправьте код или восстановите файл вручную: прежняя рабочая сборка продолжает обслуживать сайт.
+
 ### 6. Видео и встраивания
 
 В «Сервисах» включите YouTube, RUTUBE или VK Видео и назначьте видимую необязательную категорию. В Strict видео ждёт её разрешения. В Legacy действует политика режима: первый визит без сохранённого выбора может загрузить видео до клика; сохранённый отказ, частичный выбор и устаревшее согласие не обходятся.
@@ -173,6 +175,8 @@ stillAllowed() tells your code whether work may continue; check it again after a
 An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: Cookie Consent Manager automatically updates the shared minified JavaScript file.
 
 To force a rebuild, open General → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
+
+Updates retain edited files in services/ and do not restore adapters you deleted. If the package original also changed, your file is kept without an automatic merge. Extra files are not added to the bundle automatically. If a required input is missing, fix the code or restore the file manually; the previous working bundle continues serving the site.
 
 ### 6. Videos and embeds
 

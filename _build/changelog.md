@@ -1,3 +1,10 @@
+# Cookie Consent Manager MODX 3 0.1.0-beta5 — local review candidate
+
+- Port the accepted SHA256 services preservation and installed PHP bundle model from MODX 2 1.0.7-beta1, retaining native MODX 3 classes and transport.
+- Keep private package originals, previous-manifest preflight snapshot and compact per-version checksum metadata; never overwrite modified/deleted/occupied user paths.
+- Exclude production prebuilt JS; use the existing PHP/Peast lock/atomic/fingerprint/timestamp builder at install/update/Manager cache clear/force. Refuse first install without a working bundle; retain previous bundle on upgrade build errors. Native partial installs remain possible.
+- Preserve independent architecture, permissions, paths, settings, consent lifecycle and documented warm Fenom NO-GO/video/staging gates. No push, release or deployment.
+
 # Cookie Consent Manager for MODX 3 — 0.1.0-beta4
 
 - Port the stable MODX 2 1.0.6 behavior into the independent native MODX 3 component.

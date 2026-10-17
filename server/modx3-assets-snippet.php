@@ -9,6 +9,7 @@ try {
     $configuration='<script type="application/json" id="cc-service-registry">'.$registry.'</script>';
     require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentBundleManager.php';
     $assets=(string)$modx->getOption('assets_url');$css='css/cookie-consent.min.css';$js=CookieConsentBundleManager::asset($modx);
+    if($js==='')throw new RuntimeException('Frontend installation incomplete');
     if(!is_file(MODX_ASSETS_PATH.$css))throw new RuntimeException('Frontend bundle missing');
     $url=static fn($path)=>htmlspecialchars($assets.$path.'?v='.substr(hash_file('sha256',MODX_ASSETS_PATH.$path),0,20),ENT_QUOTES,'UTF-8');
     // Insert JSON after resource parsing: structural braces are valid JSON but Fenom syntax.

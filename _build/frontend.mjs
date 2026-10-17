@@ -16,5 +16,7 @@ const output={
  'assets/css/cookie-consent.min.css':(await transform(readFileSync(css,'utf8'),{...options,loader:'css'})).code
 };
 for(const [p,bytes]of Object.entries(output))writeFileSync(p,bytes);
-writeFileSync('_build/frontend-manifest.json',JSON.stringify({tool:'esbuild',version,inputs,outputs:Object.fromEntries(Object.entries(output).map(([p,b])=>[p,{sha256:sha(b),bytes:Buffer.byteLength(b)}]))},null,2)+'\n');
+const meta=JSON.parse(readFileSync('_build/package.json','utf8'));
+const package_version=meta.version+(meta.release?'-'+meta.release+meta.release_index:'');
+writeFileSync('_build/frontend-manifest.json',JSON.stringify({tool:'esbuild',version,package_version,inputs,outputs:Object.fromEntries(Object.entries(output).map(([p,b])=>[p,{sha256:sha(b),bytes:Buffer.byteLength(b)}]))},null,2)+'\n');
 console.log(JSON.stringify({tool:'esbuild',version,outputs:Object.fromEntries(Object.entries(output).map(([p,b])=>[p,{bytes:Buffer.byteLength(b),sha256:sha(b)}]))}));
