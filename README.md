@@ -1,6 +1,6 @@
 # Cookie Consent Manager for MODX 3
 
-Локальный review-кандидат: **cookieconsent3-0.1.0-beta5**, ветка `codex/modx3-safe-adapter-updates` от beta4. Модель безопасных SHA256-обновлений services/ и installed PHP production bundle перенесена после успешной MODX 2 1.0.7-beta1 приёмки. Native MODX 3 classes/transport и собственная история сохранены. **Warm Fenom cache NO-GO не исправлен**; прежние release gates ниже действуют. [Схема обновления](docs/adapter-updates.md). Push в modx3, Release и deployment не выполнялись.
+Тестовая сборка для ручного обновления: **cookieconsent3-0.1.0-beta6**, ветка `codex/modx3-release-test`, исходный UI HEAD `12adbd0eb45e7ebc88a8238420a51bf1585d06b8`. Содержит безопасное SHA256-обновление адаптеров, новый UI RU/EN и колонку «Страница», сохраняя native MODX 3 classes/transport. Это не публичный стабильный релиз. [Ручная проверка обновления](docs/release-test-manual.md). Проверяемый путь: **0.1.0-beta4 → 0.1.0-beta6**, без uninstall. Сторонний warm Fenom cache NO-GO не меняется.
 
 
 Самостоятельная версия для **MODX Revolution 3.2.4-pl**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.

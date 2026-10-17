@@ -1,3 +1,11 @@
+# Cookie Consent Manager MODX 3 0.1.0-beta6 — manual upgrade test
+
+- New unique test signature from the accepted UI-refinement branch, preserving native MODX 3 classes and transport.
+- Include SHA256 adapter preservation, RU/EN Manager refinement and pathname in the journal table/CSV.
+- Avoid MODX logging suppressed missing optional bundle/error-marker file warnings; keep the existing PHP build/atomic/rollback model.
+- Validate fresh native install and beta4 upgrade with settings, edited/deleted adapters, owner JS and historical JSONL retained.
+- No public release, push or production deployment. Third-party pdoTools3 warm Fenom issue is unchanged and out of scope.
+
 # Cookie Consent Manager MODX 3 0.1.0-beta5 — local review candidate
 
 - Port the accepted SHA256 services preservation and installed PHP bundle model from MODX 2 1.0.7-beta1, retaining native MODX 3 classes and transport.
