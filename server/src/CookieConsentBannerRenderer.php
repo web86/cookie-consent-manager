@@ -21,7 +21,7 @@ final class CookieConsentBannerRenderer
             }
             $position=$options['banner_position']??'bottom';
             if(in_array($position,['bottom-right','bottom-left'],true))$root->setAttribute('class',trim($root->getAttribute('class').' cookie-warning--'.$position));
-            $root->setAttribute('data-cc-mode',$mode==='mock'?'mock':'live');$root->setAttribute('data-cc-policy-version',$options['policy_version']);$root->setAttribute('data-cc-ttl-days',(string)$options['ttl_days']);$root->setAttribute('data-cc-audit-url',$assets.'components/cookieconsent/audit.php');
+            $root->setAttribute('data-cc-mode',$mode==='mock'?'mock':'live');$root->setAttribute('data-cc-policy-version',$options['policy_version']);$root->setAttribute('data-cc-ttl-days',(string)$options['ttl_days']);$root->setAttribute('data-cc-audit-url',$assets.'components/cookieconsentmanager3/audit.php');
             $options=CookieConsentSettings::categoryOptions($options,$services);$visible=['necessary'=>true]+$options['categories'];
             foreach(CookieConsentSettings::CATEGORIES as $category){$root->setAttribute('data-cc-category-'.str_replace('_','-',$category),$visible[$category]?'1':'0');$root->setAttribute('data-cc-category-version-'.str_replace('_','-',$category),(string)$options['category_versions'][$category]);}
             foreach($xpath->query('//*[@data-cc-category]') as $input){

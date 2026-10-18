@@ -13,16 +13,18 @@ require $root.'/index.php';
 while (ob_get_level()) ob_end_clean();
 require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
 $namespace=$modx->getObject('MODX\Revolution\modNamespace',['name'=>'cookie_consent']);
+if ($namespace && rtrim($namespace->getCorePath(), '/') !== MODX_CORE_PATH.'components/cookieconsentmanager3') throw new RuntimeException('Namespace path conflict');
 // CLI copying has no native preflight; preserve unknown existing sources.
 $modx->setOption('cookie_consent.install_snapshot',['fresh'=>!$namespace]);
 if (!$namespace) { $namespace=$modx->newObject('MODX\Revolution\modNamespace'); $namespace->set('name','cookie_consent'); $namespace->save(); }
-if (!$namespace->get('path')) $namespace->set('path',MODX_CORE_PATH.'components/cookieconsent/');
-if (!$namespace->get('assets_path')) $namespace->set('assets_path',MODX_ASSETS_PATH.'components/cookieconsent/');
+if (!$namespace->get('path')) $namespace->set('path',MODX_CORE_PATH.'components/cookieconsentmanager3/');
+if (!$namespace->get('assets_path')) $namespace->set('assets_path',MODX_ASSETS_PATH.'components/cookieconsentmanager3/');
 if (!$namespace->save()) throw new RuntimeException('Namespace');
-$menu=$modx->getObject('MODX\Revolution\modMenu',['text'=>'Cookie Consent Manager']);
-if (!$menu) {$menu=$modx->newObject('MODX\Revolution\modMenu');$menu->set('text','Cookie Consent Manager');$menu->fromArray(['text'=>'Cookie Consent Manager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings']);if(!$menu->save())throw new RuntimeException('Menu');}
+if ($modx->getCount('MODX\Revolution\modMenu',['namespace'=>'cookie_consent','action'=>'index'])>1) throw new RuntimeException('Duplicate component menus');
+$menu=$modx->getObject('MODX\Revolution\modMenu',['namespace'=>'cookie_consent','action'=>'index']);
+if (!$menu) {$menu=$modx->newObject('MODX\Revolution\modMenu');$menu->set('text','CookieConsentManager');$menu->fromArray(['text'=>'CookieConsentManager','parent'=>'components','namespace'=>'cookie_consent','action'=>'index','permissions'=>'cookie_consent_manage','description'=>'Cookie consent settings']);if(!$menu->save())throw new RuntimeException('Menu');}
 foreach ($modx->getCollection('MODX\Revolution\modAccessPolicyTemplate') as $template)foreach(['cookie_consent_manage'=>true,'cookie_consent_view_logs'=>false] as $name=>$value) {
-    if(!$modx->getObject('MODX\Revolution\modAccessPermission',['template'=>$template->get('id'),'name'=>$name])){$permission=$modx->newObject('MODX\Revolution\modAccessPermission');$permission->fromArray(['template'=>$template->get('id'),'name'=>$name,'description'=>$name==='cookie_consent_view_logs'?'View/export consent audit logs':'Manage Cookie Consent Manager','value'=>$value]);if(!$permission->save())throw new RuntimeException('Permission');}
+    if(!$modx->getObject('MODX\Revolution\modAccessPermission',['template'=>$template->get('id'),'name'=>$name])){$permission=$modx->newObject('MODX\Revolution\modAccessPermission');$permission->fromArray(['template'=>$template->get('id'),'name'=>$name,'description'=>$name==='cookie_consent_view_logs'?'View/export consent audit logs':'Manage CookieConsentManager','value'=>$value]);if(!$permission->save())throw new RuntimeException('Permission');}
 }
 $values=[
     'cookie_consent.audit_config_file'=>['','textfield'],

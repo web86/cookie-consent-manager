@@ -1,6 +1,6 @@
-# Cookie Consent Manager for MODX 3
+# CookieConsentManager for MODX 3
 
-Review-сборка **cookieconsent3-1.0.8-pl4**, ветка `codex/modx3-compatibility-matrix`. Диапазон MODX расширен до `>=3.1.2,<3.3.0` после независимой матрицы MODX/PHP/xPDO и проверки CMS upgrade. [Отчёт и transport SHA256](docs/modx3-version-compatibility.md). Публикация релиза, deployment и merge в `modx3` не выполнялись.
+Первый публичный кандидат **cookieconsentmanager3-1.0.8-pl5**, ветка `codex/modx3-cookieconsentmanager`. MODX **`>=3.1.2,<3.3.0`**, PHP **`>=8.1.0`**. [Приёмка новой установки и решение Modstore](docs/modx3-first-public-release.md). Исторические пакеты не мигрируются. Автоматическая публикация не выполняется.
 
 
 Самостоятельная версия для **MODX Revolution >=3.1.2,<3.3.0**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
@@ -11,7 +11,7 @@ Review-сборка **cookieconsent3-1.0.8-pl4**, ветка `codex/modx3-compat
 
 Добавлены произвольные категории и экземпляры сервисов, пользовательский JS, category-only consent/audit schema 3, YouTube/RUTUBE/VK Видео, CookieConsentVideo, универсальные инертные template, обновлённый CookieConsentMap, постеры/размеры и общие RU/EN тексты. PHP Peast пересобирает общий bundle при очистке кеша в Manager; принудительная пересборка находится на «Основных». Frontend использует сохранённый timestamp и не проверяет JS-исходники. На установленном сайте Node/npm/Composer не требуются.
 
-**Полный staging/release gate остаётся NO-GO:** официальный pdoTools3 3.1.0 падает при чтении прогретого compiled Fenom cache. Standard и холодный Fenom проверяются отдельно; реальные ошибки не считаются успешными тестами. Подтверждённое live playback видео остаётся отдельным gate. Production deployment и публикация не выполнялись. [Историческая приёмка beta3](docs/modx3-beta3-acceptance.md), [beta2](docs/modx3-implementation-acceptance.md).
+**Область первого публичного выпуска — новая native-установка.** По подтверждённому решению пользователя исторические Fenom/live playback gates вынесены за её пределы. Ограничение прогретого compiled Fenom cache pdoTools3 3.1.0 сохраняется; поддержка этой конфигурации и реальный внешний video playback не заявляются. [Актуальная приёмка](docs/modx3-first-public-release.md).
 
 Реальная приёмка: MODX 3.1.2-pl и 3.2.0–3.2.4-pl, PHP 8.1.34/8.2.34, комплектные xPDO 3.1.5/3.1.7, MariaDB 11.8.9, Apache/Chromium. Проверены стандартная настройка и выключенные deprecated global aliases. Сохранены native namespaces, lifecycle, canonical IDs/metadata и язык текущей Manager-сессии. Подробные команды и фактические результаты — в отчёте приёмки.
 

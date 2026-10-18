@@ -1,7 +1,7 @@
 <?php
 // provider is an instance key, including additional maps; categories come from its registry row.
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager3/src/CookieConsentSettings.php';
     $provider=$modx->getOption('provider',$scriptProperties,'google_maps');
     $src=$modx->getOption('src',$scriptProperties,'');
     if(!is_string($provider)||!is_string($src)||strlen($src)>4096||preg_match('/[\x00-\x20\\\\]/',$src))return '';
@@ -15,7 +15,7 @@ try {
     if(!$google&&!$yandex)return '';
     $allowed=$google?['pb','key','q','center','zoom','maptype','language','region','origin','destination','waypoints','mode','avoid','units','location','heading','pitch','fov']:['um','source','ll','z','l','pt','mode','oid','ol'];
     foreach(explode('&',$parts['query']??'') as $param)if($param!==''&&!in_array(urldecode(explode('=',$param,2)[0]),$allowed,true))return '';
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentEmbedOptions.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager3/src/CookieConsentEmbedOptions.php';
     $attributes=CookieConsentEmbedOptions::attributes($scriptProperties);
     return '<div data-cc-map-provider="'.htmlspecialchars($provider,ENT_QUOTES,'UTF-8').'" data-cc-map-src="'.htmlspecialchars($src,ENT_QUOTES,'UTF-8').'"'.$attributes.'></div>';
 }catch(Throwable $e){return '';}

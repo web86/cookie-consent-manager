@@ -9,7 +9,7 @@ $texts=CookieConsentTexts::defaults();if($custom)$texts['locales'][$language]=['
 $options=CookieConsentSettings::defaults();$options['buttons']['accept']=$legacy;foreach(CookieConsentSettings::CATEGORIES as $c)$options['categories'][$c]=true;
 $strings=CookieConsentTexts::resolve($texts,$language,$services);
 $banner=CookieConsentBannerRenderer::render(file_get_contents(__DIR__.'/../../CookiesPopup.html'),$strings,$options,'/assets/','live',$services);
-$dir=sys_get_temp_dir().'/cc-text-fixture-'.getmypid().'/';mkdir($dir.'components/cookieconsent',0700,true);symlink(realpath(__DIR__.'/../../server/src'),$dir.'components/cookieconsent/src');define('MODX_CORE_PATH',$dir);
+$dir=sys_get_temp_dir().'/cc-text-fixture-'.getmypid().'/';mkdir($dir.'components/cookieconsentmanager3',0700,true);symlink(realpath(__DIR__.'/../../server/src'),$dir.'components/cookieconsentmanager3/src');define('MODX_CORE_PATH',$dir);
 class PlaceholderSetting{function __construct(private string $key,private string $value){}function get($key){return $key==='key'?$this->key:$this->value;}}
 $modx=new class($language,$services,$texts,$options){
  function __construct(private string $language,private array $services,private array $texts,private array $options){}
@@ -21,4 +21,4 @@ try{
  foreach(['youtube'=>'https://youtu.be/M7lc1UVf-VE','rutube'=>'https://rutube.ru/video/7716bd3e665725c3c008ae7ab4ff02e2/','vk_video'=>'https://vkvideo.ru/video_ext.php?oid=-1&id=2'] as $provider=>$url){$scriptProperties=['provider'=>$provider,'url'=>$url];$video=include __DIR__.'/../../server/modx3-video-snippet.php';if(!$video)throw new RuntimeException('Video fixture failed');$html.='<section id="'.$provider.'">'.$video.'</section>';}
  $html.='<div id="company_player" data-cc-embed="company_player"><template><iframe src="https://player.example.test/company" title="Company"></iframe></template></div>';
  echo json_encode(['banner'=>$banner,'html'=>$html,'registry'=>CookieConsentServiceRegistry::publicRegistry(['schema'=>1,'services'=>$services]),'names'=>array_column(array_map(fn($s)=>['key'=>$s['key'],'name'=>$strings['service.'.$s['key'].'.name']],array_filter($services,fn($s)=>$s['enabled'])),'name','key'),'notice'=>$strings['map_notice'],'button'=>$strings['map_load'],'mapNotices'=>['google_maps'=>$strings['service.google_maps.map_notice'],'yandex_maps'=>$strings['service.yandex_maps.map_notice']]],JSON_THROW_ON_ERROR);
-}finally{unlink($dir.'components/cookieconsent/src');rmdir($dir.'components/cookieconsent');rmdir($dir.'components');rmdir($dir);}
+}finally{unlink($dir.'components/cookieconsentmanager3/src');rmdir($dir.'components/cookieconsentmanager3');rmdir($dir.'components');rmdir($dir);}

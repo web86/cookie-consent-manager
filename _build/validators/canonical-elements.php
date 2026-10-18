@@ -8,8 +8,8 @@ try {
     $existing=$transport->xpdo->getObject($class,['name'=>$name]);
     if($existing){$source=$object->get($field);$object->fromArray($existing->toArray('',true),'',true,true);$object->set($field,$source);$object->set('static',false);}
     else{
-        $category=$transport->xpdo->getObject('MODX\Revolution\modCategory',['category'=>'CookieConsent']);
-        if(!$category||$category->get('category')!=='CookieConsent')return false;
+        $category=$transport->xpdo->getObject('MODX\Revolution\modCategory',['category'=>'CookieConsentManager']);
+        if(!$category||$category->get('category')!=='CookieConsentManager')return false;
         $object->set('category',$category->get('id'));
     }
     return true;

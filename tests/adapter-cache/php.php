@@ -54,9 +54,9 @@ if(($argv[1]??'')==='worker') {
 $project=dirname(__DIR__,2);$out=$project.'/.local/adapter-cache';
 if(!is_dir($out))mkdir($out,0755,true);
 $root=$out.'/fixture-'.bin2hex(random_bytes(4));
-mkdir($root.'/core/components/cookieconsent',0755,true);
+mkdir($root.'/core/components/cookieconsentmanager3',0755,true);
 $manifest=$project.'/_build/frontend-manifest.json';
-copy($manifest,$root.'/core/components/cookieconsent/frontend-manifest.json');
+copy($manifest,$root.'/core/components/cookieconsentmanager3/frontend-manifest.json');
 $inputs=json_decode(file_get_contents($manifest),true)['inputs'];
 foreach($inputs as $path=>$unused)if(str_ends_with($path,'.js')) {
     if(!is_dir(dirname($root.'/'.$path)))mkdir(dirname($root.'/'.$path),0755,true);
@@ -119,7 +119,7 @@ file_put_contents($source,$original."\nfunction { broken");
 rejects(fn()=>CookieConsentBundleManager::rebuild($modx));eq(file_get_contents($file),$good,'Parse failure keeps bundle and success metadata');eq(CookieConsentBundleManager::status($modx)['built_at'],$meta['built_at']);eq(CookieConsentBundleManager::status($modx)['state'],'error');eq(CookieConsentBundleManager::status($modx)['version'],$meta['version'],'Syntax error preserves timestamp');
 file_put_contents($source,$original.$syntax);
 eq(CookieConsentBundleManager::rebuild($modx)['rebuilt'],false,'Repaired unchanged sources reuse last success');eq(CookieConsentBundleManager::status($modx)['state'],'ready');
-$manifestPath=$root.'/core/components/cookieconsent/frontend-manifest.json';$valid=file_get_contents($manifestPath);$bad=json_decode($valid,true);
+$manifestPath=$root.'/core/components/cookieconsentmanager3/frontend-manifest.json';$valid=file_get_contents($manifestPath);$bad=json_decode($valid,true);
 foreach(['../escape.js','assets/js/cookie-consent/../escape.js','assets/js/cookie-consent/mock/../../escape.js','/tmp/escape.js','assets/js/cookie-consent/cookie-consent.min.js'] as $path){
     $bad['inputs'][$path]='unused';file_put_contents($manifestPath,json_encode($bad));rejects(fn()=>CookieConsentBundleManager::rebuild($modx),'bundle_manifest');eq(file_get_contents($file),$good,'Unsafe manifest preserves bundle');unset($bad['inputs'][$path]);
 }
