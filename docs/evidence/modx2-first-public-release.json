@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "scope": "First public release, fresh installations only; user revised gates",
+  "signature": "cookieconsentmanager-1.0.8-pl4",
+  "sha256": "8e1b096f2726f62cc7d94fbb183aa37523791b7448b60a38f3413a8f9449bcee",
+  "bytes": 559027,
+  "branch": "codex/modx2-cookieconsentmanager",
+  "native_archive": {
+    "signature": "cookieconsentmanager-1.0.8-pl4",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDOObjectVehicle": 15,
+      "xPDOFileVehicle": 231,
+      "xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 490,
+    "sha256": "8e1b096f2726f62cc7d94fbb183aa37523791b7448b60a38f3413a8f9449bcee",
+    "result": "PASS"
+  },
+  "reproducible": true,
+  "old_component_paths_in_zip": false,
+  "legacy_state_import": false,
+  "namespace": "cookie_consent",
+  "component": "cookieconsentmanager",
+  "cases": [
+    {
+      "case": "rename-84-p82-fresh",
+      "modx": "2.8.4-pl",
+      "php": "8.2",
+      "tests": 4,
+      "assertions": 36,
+      "failed": 0,
+      "results": [
+        {
+          "name": "empty-new-product-and-unrelated-paths",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "native-fresh-install-with-foreign-paths",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "native-reinstall-is-idempotent",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "parse-failure-preserves-user-file-and-working-bundle",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    },
+    {
+      "case": "rename-88-p81-fresh",
+      "modx": "2.8.8-pl",
+      "php": "8.1",
+      "tests": 4,
+      "assertions": 36,
+      "failed": 0,
+      "results": [
+        {
+          "name": "empty-new-product-and-unrelated-paths",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "native-fresh-install-with-foreign-paths",
+          "result": "PASS",
+          "assertions": 22
+        },
+        {
+          "name": "native-reinstall-is-idempotent",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "parse-failure-preserves-user-file-and-working-bundle",
+          "result": "PASS",
+          "assertions": 9
+        }
+      ]
+    }
+  ],
+  "tests": 8,
+  "assertions": 72,
+  "failed": 0,
+  "reused_regression": {
+    "commit": "0444cda18333e7399eedd7665331e44922bbeec9",
+    "evidence": "docs/evidence/modx2-package-rename.json",
+    "native_browser_tests": 72,
+    "native_browser_assertions": 2004,
+    "php_suites": 36,
+    "php_assertions": 2358,
+    "note": "Visitor/Manager/service/audit behavior unchanged. Historical migration groups are retained as history, not a release requirement."
+  },
+  "closed_out_of_scope": [
+    "Historical cookieconsent/cookieconsent3 migration",
+    "Official third-party transport/ClientConfig coexistence acceptance"
+  ],
+  "compatibility": {
+    "modx": ">=2.8.4,<3.0.0",
+    "php": ">=8.1.0"
+  },
+  "modstore_decision": "GO",
+  "fresh_install_decision": "GO",
+  "published": false,
+  "deployed": false
+}

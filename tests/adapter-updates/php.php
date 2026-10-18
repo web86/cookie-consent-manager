@@ -24,7 +24,7 @@ $userCommon='window.common="FTP change";';$userGa4='window.ga4="SSH change";';
 file_put_contents(dirFor($m).'google-common.js',$userCommon);file_put_contents(dirFor($m).'google-ga4.js',$userGa4);unlink(dirFor($m).'deleted.js');
 file_put_contents(dirFor($m).'user-only.js','window.extra="must not execute";');file_put_contents(dirFor($m).'occupied.js','window.occupied="user";');
 foreach(['google-common.js','google-ga4.js','yandex.js'] as $name)touch(dirFor($m).$name,1000000000);
-$m->options['cookie_consent.install_snapshot']=['manifest'=>manifest($old,'1.0.6'),'version'=>'1.0.6','fresh'=>false];
+file_put_contents($m->root.'/core/components/cookieconsentmanager/adapter-checksums.json',json_encode(['schema'=>1,'current'=>'1.0.6','versions'=>['1.0.6'=>manifest($old,'1.0.6')['inputs']]]));
 originals($m,$next,'1.0.7-beta1');$report=CookieConsentAdapterInstall::synchronize($m);
 eq(file_get_contents(dirFor($m).'google-common.js'),$userCommon,'Shared helper retained by SHA, regardless of timestamp');eq(file_get_contents(dirFor($m).'google-ga4.js'),$userGa4);
 eq(file_get_contents(dirFor($m).'yandex.js'),$next['yandex.js'],'Unmodified updated');eq(is_file(dirFor($m).'deleted.js'),false,'Deletion is user intent');
@@ -44,14 +44,4 @@ $corrupt=new AdapterFixture($root.'/corrupt');$corrupt->options['cookie_consent.
 $unsafe=new AdapterFixture($root.'/unsafe');$unsafe->options['cookie_consent.install_snapshot']=['fresh'=>true];originals($unsafe,$old,'1.0.7-beta1');file_put_contents($unsafe->root.'/outside','outside');symlink($unsafe->root.'/outside',dirFor($unsafe).'google-common.js');rejects(fn()=>CookieConsentAdapterInstall::synchronize($unsafe),'adapter_path');eq(file_get_contents($unsafe->root.'/outside'),'outside');unlink(dirFor($unsafe).'google-common.js');link($unsafe->root.'/outside',dirFor($unsafe).'google-common.js');rejects(fn()=>CookieConsentAdapterInstall::synchronize($unsafe),'adapter_path');
 $atomic=$root.'/atomic.js';file_put_contents($atomic,'user');eq(CookieConsentBundleManager::atomic($atomic,'new',hash('sha256','old')),false);eq(file_get_contents($atomic),'user');eq(CookieConsentBundleManager::atomic($atomic,'new',false),false);eq(file_get_contents($atomic),'user');eq(CookieConsentBundleManager::atomic($root.'/new.js','new',false),true);
 $stateFile=$fresh->root.'/core/components/cookieconsentmanager/adapter-checksums.json';$before=file_get_contents(dirFor($fresh).'yandex.js');file_put_contents($stateFile,'not json');try{CookieConsentAdapterInstall::synchronize($fresh);throw new RuntimeException('Expected failure');}catch(JsonException $e){$n++;}eq(file_get_contents(dirFor($fresh).'yandex.js'),$before);
-// Component rename keeps all historical baselines and the same public adapter paths.
-$moved=new AdapterFixture($root.'/component-rename');
-foreach(glob(dirFor($m).'*.js') as $input)copy($input,dirFor($moved).basename($input));
-$history=state($m)['versions'];
-$moved->options['cookie_consent.install_snapshot']=['legacy_state'=>$m->root.'/core/components/cookieconsentmanager/adapter-checksums.json','fresh'=>false];
-originals($moved,$later,'1.0.8-pl4');CookieConsentAdapterInstall::synchronize($moved);
-foreach($history as $version=>$hashes)eq(state($moved)['versions'][$version],$hashes,'Directory rename retains every historical SHA256 baseline');
-eq(file_get_contents(dirFor($moved).'google-common.js'),$userCommon,'Directory rename keeps custom helper');
-eq(is_file(dirFor($moved).'deleted.js'),false,'Directory rename keeps deleted adapter');
-eq(state($m)['versions'],$history,'Legacy history never modified');
 $result=['result'=>'PASS','assertions'=>$n,'php'=>PHP_VERSION];file_put_contents($out.'/php.json',json_encode($result,JSON_PRETTY_PRINT)."\n");echo json_encode($result)."\n";

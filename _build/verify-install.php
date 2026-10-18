@@ -16,10 +16,5 @@ try {
     foreach($modx->getCollection('modAccessPolicyTemplate') as $template)foreach(['cookie_consent_manage'=>true,'cookie_consent_view_logs'=>false] as $name=>$value){$criteria=['template'=>$template->get('id'),'name'=>$name];if(!$modx->getObject('modAccessPermission',$criteria)){$row=$modx->newObject('modAccessPermission');$row->fromArray($criteria+['description'=>$name==='cookie_consent_view_logs'?'View/export consent audit logs':'Manage Cookie Consent Manager','value'=>$value]);if(!$row->save())throw new RuntimeException('Permission definition failed');}}
     require_once $modx->getOption('core_path').'components/cookieconsentmanager/src/CookieConsentBundleInstall.php';
     CookieConsentBundleInstall::run($modx);
-    // The namespace key is also the settings/lexicon API; only its locations change.
-    $namespace=$modx->getObject('modNamespace',['name'=>'cookie_consent']);
-    $namespace->set('path','{core_path}components/cookieconsentmanager/');
-    $namespace->set('assets_path','{assets_path}components/cookieconsentmanager/');
-    if(!$namespace->save())throw new RuntimeException('Namespace path update failed');
     $modx->log(xPDO::LOG_LEVEL_INFO,'Cookie Consent native files verified. Configure private audit in CMP; templates and consent logs were not changed.');return true;
 }catch(Throwable $e){try{$transport->xpdo->log(xPDO::LOG_LEVEL_ERROR,'Cookie Consent verification failed. Partial installation is possible; inspect native logs and restore backup.');}catch(Throwable $ignored){}return false;}

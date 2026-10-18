@@ -1,3 +1,5 @@
+> Historical migration campaign. Do not rerun for the first public release. The current fresh-install checks are in `tests/public-install/`; historical migrations and official third-party transport testing are out of scope.
+
 # MODX 2 package identity acceptance
 
 Read [migration limits and release decision](../../docs/modx2-package-rename.md).

@@ -1,6 +1,6 @@
 # CookieConsentManager for MODX 2
 
-Review-кандидат **cookieconsentmanager-1.0.8-pl4**, ветка `codex/modx2-cookieconsentmanager`. MODX **`>=2.8.4,<3.0.0`**, PHP **`>=8.1.0`**. [Переименование, ограничения миграции и приёмка](docs/modx2-package-rename.md). **Не удаляйте старый пакет cookieconsent после перехода:** его transport может удалить общие JS и cache plugin. Публикация Release и deployment не выполняются.
+Первый публичный кандидат **cookieconsentmanager-1.0.8-pl4**, ветка `codex/modx2-cookieconsentmanager`. MODX **`>=2.8.4,<3.0.0`**, PHP **`>=8.1.0`**. [Приёмка новой установки и решение Modstore](docs/modx2-first-public-release.md). Историческая миграция не входит в выпуск. Автоматическая публикация не выполняется.
 
 Техническая совместимость со старой CMS не заменяет обновления безопасности. Для рабочих сайтов рекомендуется актуальная поддерживаемая безопасная версия MODX из [официальных дистрибутивов](https://modx.com/download/other-downloads). На исходном MODX 2.8.4 остаются предупреждения старого ядра и зависимостей; подробности и границы проверки указаны в отчёте совместимости.
 

@@ -52,20 +52,7 @@ final class CookieConsentAdapterInstall
         $statePath = $core . self::STATE;
         $state = self::state($statePath);
         $snapshot = $modx->getOption('cookie_consent.install_snapshot', null, []);
-        // One-time component-directory move. Public adapter paths and hash keys stay put.
-        // Read through the same validation as normal updates; never execute old PHP.
-        if ($state === null && !empty($snapshot['legacy_state'])) $state = self::state($snapshot['legacy_state']);
-        if ($state === null) {
-            $state = ['schema'=>1, 'current'=>null, 'versions'=>[]];
-            // A malformed/missing legacy manifest is never used to guess ownership.
-            try {
-                $previous = self::hashes($snapshot['manifest'] ?? []);
-                $oldVersion = $snapshot['version'] ?? 'legacy';
-                if (!preg_match('/^[a-zA-Z0-9.-]{1,100}$/D', $oldVersion)) $oldVersion = 'legacy';
-                $state['versions'][$oldVersion] = $previous;
-                $state['current'] = $oldVersion;
-            } catch (Throwable $ignored) {}
-        }
+        if ($state === null) $state = ['schema'=>1, 'current'=>null, 'versions'=>[]];
         if (isset($state['versions'][$version]) && $state['versions'][$version] !== $current) throw new RuntimeException('adapter_version_collision');
         $known = $state['current'] !== null || !empty($snapshot['fresh']);
         $previous = [];

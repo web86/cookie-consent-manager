@@ -1,3 +1,5 @@
+> Исторический отчёт commit 0444cda. Решение NO-GO и требования миграции/проверки стороннего transport отменены новым заданием первого публичного выпуска. Актуальная приёмка: [modx2-first-public-release.md](modx2-first-public-release.md). Эти старые результаты не относятся к новому ZIP после упрощения установщика.
+
 # CookieConsentManager: переименование пакета MODX 2
 
 Кандидат: `cookieconsentmanager-1.0.8-pl4`, ветка `codex/modx2-cookieconsentmanager`, база `main` / `1824a664e43f380722b0c49be9918acc407a32b7`. MODX `>=2.8.4,<3.0.0`, PHP `>=8.1.0`. Итоговые результаты и SHA256 — в `docs/evidence/modx2-package-rename.json`. Это не опубликованный релиз.
