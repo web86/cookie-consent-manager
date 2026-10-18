@@ -1,0 +1,243 @@
+{
+  "decision": "GO",
+  "platform": "MODX 2",
+  "signature": "cookieconsentmanager-1.0.8-pl5",
+  "sha256": "6da54aa517583cf2546f6aa7fa0b851034fa72a59d266781ebc5c0cc3780d965",
+  "bytes": 751618,
+  "native_tests": 18,
+  "native_assertions": 282,
+  "failed": 0,
+  "native_cases": [
+    {
+      "case": {
+        "name": "rename-84-p82-fresh",
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 23310,
+        "fresh": true
+      },
+      "tests": 9,
+      "assertions": 141,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-install-uninstall",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "same-package-reinstall-after-uninstall",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changed-settings-uninstall",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "modified-adapter-is-preserved",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "user-files-and-empty-directory-are-preserved",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "jsonl-private-and-shared-logs-and-private-queue",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "interrupted-file-state-and-failed-uninstall-retry",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "actual-previous-candidate-upgrade-uninstall",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "foreign-objects-category-permission-and-files-are-preserved",
+          "result": "PASS",
+          "assertions": 18
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "rename-88-p81-fresh",
+        "modx": "2.8.8-pl",
+        "php": "8.1",
+        "port": 23311,
+        "fresh": true
+      },
+      "tests": 9,
+      "assertions": 141,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-install-uninstall",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "same-package-reinstall-after-uninstall",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changed-settings-uninstall",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "modified-adapter-is-preserved",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "user-files-and-empty-directory-are-preserved",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "jsonl-private-and-shared-logs-and-private-queue",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "interrupted-file-state-and-failed-uninstall-retry",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "actual-previous-candidate-upgrade-uninstall",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "foreign-objects-category-permission-and-files-are-preserved",
+          "result": "PASS",
+          "assertions": 18
+        }
+      ]
+    }
+  ],
+  "functional_regression": {
+    "case": {
+      "name": "rename-88-p82-fresh",
+      "modx": "2.8.8-pl",
+      "php": "8.2",
+      "port": 23212,
+      "fresh": true
+    },
+    "complete": true,
+    "tests": 13,
+    "assertions": 448,
+    "failed": 0,
+    "results": [
+      {
+        "name": "official-install-db-manager-standard",
+        "result": "PASS",
+        "assertions": 2
+      },
+      {
+        "name": "native-candidate-fresh-install-standard",
+        "result": "PASS",
+        "assertions": 8
+      },
+      {
+        "name": "manager-create-settings-services-translations-and-php-bundle",
+        "result": "PASS",
+        "assertions": 9
+      },
+      {
+        "name": "native-upgrade-and-reinstall-preserve-settings-data-adapter",
+        "result": "PASS",
+        "assertions": 270
+      },
+      {
+        "name": "manager-tabs-preview-guide-save-cache-ru-standard",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "manager-tabs-preview-guide-save-cache-en-standard",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "frontend-strict-bottom-standard",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-strict-bottom-right-standard",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-strict-bottom-left-standard",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-legacy-bottom-standard",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "frontend-legacy-bottom-right-standard",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "frontend-legacy-bottom-left-standard",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "journal-http-csv-acl",
+        "result": "PASS",
+        "assertions": 16
+      }
+    ]
+  },
+  "console_verification": {
+    "tests": 2,
+    "assertions": 8,
+    "result": "PASS"
+  },
+  "archive_verification": {
+    "signature": "cookieconsentmanager-1.0.8-pl5",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDOObjectVehicle": 15,
+      "xPDOFileVehicle": 231,
+      "xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 721,
+    "sha256": "6da54aa517583cf2546f6aa7fa0b851034fa72a59d266781ebc5c0cc3780d965",
+    "result": "PASS"
+  },
+  "compatibility": {
+    "modx": ">=2.8.4,<3.0.0",
+    "php": ">=8.1.0"
+  },
+  "ownership": "Native preserved.php; no new database schema or lifecycle store",
+  "retained_data": [
+    "consent JSONL and .rate in shared/custom log directories",
+    "custom audit configuration files and paths",
+    "modified/unknown public adapters and other unknown or changed files",
+    "pre-existing permission definitions",
+    "foreign replacement objects and categories containing foreign elements"
+  ],
+  "failure_test": "A shipped file was already absent and a different occupied runtime directory was made read-only. Package Manager returned failure and kept installed=true. Restoring permissions and retrying uninstall succeeded.",
+  "historical_candidate_limit": "An older candidate that overwrote its original native category backup on reinstall may lack proof that it created the category. Such an unproven pre-existing category is retained, rather than deleted by name. New ownership receipts survive reinstalls.",
+  "publication_performed": false
+}

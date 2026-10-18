@@ -1,5 +1,7 @@
 # CookieConsentManager MODX 2 — исправление preflight
 
+Этот `pl4` сохранён как предыдущий кандидат. Актуальный `pl5` со штатным uninstall: [отчёт](modx2-uninstall.md).
+
 **GO для новой native-установки и кандидата Modstore.** Ветка `codex/modx2-cookieconsentmanager`, база `3e03babf5c2fdb635306ea96784129f68d7ed162`. Дата проверки: 2026-10-18. Совместимость прежняя: MODX `>=2.8.4,<3.0.0`, PHP `>=8.1.0`.
 
 Исправлена ложная блокировка при наличии одного namespace `cookie_consent` с путями нового продукта, без manifest и остальных признаков компонента. Namespace сам по себе не подтверждает владение. Для своей установленной версии остаётся прежняя проверка namespace + распознанного manifest; reinstall и upgrade используют прежние native vehicles.

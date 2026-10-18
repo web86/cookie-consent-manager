@@ -1,3 +1,11 @@
+# CookieConsentManager 1.0.8-pl5 — native uninstall
+
+- Complete native uninstall of confirmed package objects, service records and generated files.
+- Native preserved.php records ownership across reinstall/upgrade; settings retain UPDATE_OBJECT=false.
+- Disable the build plugin before removing runtime PHP; safely retry interrupted cleanup.
+- Preserve changed adapters, unknown files, shared categories, consent logs and custom paths with warnings.
+- Fresh install after ordinary uninstall requires no manual database cleanup.
+
 # CookieConsentManager 1.0.8-pl4 — MODX 2 first public package
 
 - Independent native package cookieconsentmanager, component directories cookieconsentmanager and category CookieConsentManager.

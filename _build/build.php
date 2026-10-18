@@ -70,12 +70,21 @@ foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2
 }
 $spec=['schema'=>1,'signature'=>$signature,'version_release'=>$versionRelease,'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
 file_put_contents($work.'/source-inventory.json',json_encode($spec,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-$prefix="<?php\n\$spec=".var_export($spec,true).";\n";
+$prefix="<?php\n\$spec=".var_export($spec,true).";\n".preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/ownership.php'))."\n";
 $preflight=$work.'/preflight.php';file_put_contents($preflight,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/preflight.php')));
 $verify=$work.'/verify-install.php';file_put_contents($verify,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/verify-install.php')));
 $canonical=$work.'/canonical-elements.php';file_put_contents($canonical,file_get_contents(__DIR__.'/validators/canonical-elements.php'));
 $logDefault=$work.'/default-log-directory.php';file_put_contents($logDefault,file_get_contents(__DIR__.'/validators/default-log-directory.php'));
 $adapt=$work.'/adapt-menu.php';file_put_contents($adapt,file_get_contents(__DIR__.'/adapt-menu.php'));
+$uninstallFile=$work.'/uninstall-file.php';file_put_contents($uninstallFile,file_get_contents(__DIR__.'/validators/uninstall-file.php'));
+function removalPlan($builder,$vehicle,string $flag,string $key,string $method):void{
+    $meta=end($builder->package->vehicles);$path=$builder->directory.$builder->package->signature.'/'.$meta['filename'];
+    $body=file_get_contents($path);$replacement=var_export($flag,true).' => (!isset($this) || (class_exists('.var_export('CookieConsentTransportOwnership',true).',false) && CookieConsentTransportOwnership::'.$method.'($this->xpdo,'.var_export($key,true).'))),';
+    $body=preg_replace('/'.preg_quote(var_export($flag,true),'/' ).' => (?:true|false),/', $replacement,$body,1,$count);if($count!==1)throw new RuntimeException('Native removal plan payload');
+    if($flag===xPDOTransport::UNINSTALL_OBJECT)$body=str_replace("'preexisting_mode' => 0,", "'preexisting_mode' => (isset(\$options['package_action']) && \$options['package_action'] === 2) ? 1 : 0,",$body);
+    file_put_contents($path,$body);
+}
+
 $modx->loadClass('transport.modPackageBuilder','',false,true);$builder=new modPackageBuilder($modx);$builder->directory=$work.'/native/';mkdir($builder->directory,0700);$builder->createPackage($metadata['name'],$metadata['version'],$release);
 $ns=$modx->newObject('modNamespace');$ns->fromArray($definitions['namespace']['fields'],'',true,true);$builder->registerNamespace($ns,false,false);
 // Standard script vehicle preflight; its return value propagates to native PM.
@@ -83,18 +92,20 @@ $start=$builder->createVehicle(['source'=>$preflight],['vehicle_class'=>'xPDOScr
 $objectNumber=1;
 foreach($definitions as $name=>$def){
     $obj=$modx->newObject($def['class']);$obj->fromArray(array_merge($def['criteria'],$def['fields']),'',true,true);if(in_array($def['class'],['modSnippet','modChunk'],true))$obj->set('id',$objectNumber++);
-    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk','modCategory'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['chunk','CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::UNINSTALL_OBJECT=>false,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsentmanager/'.$name)];
+    $attributes=[xPDOTransport::UNIQUE_KEY=>array_keys($def['criteria']),xPDOTransport::PRESERVE_KEYS=>!in_array($def['class'],['modSnippet','modChunk','modCategory'],true),xPDOTransport::UPDATE_OBJECT=>in_array($name,['chunk','CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::UNINSTALL_OBJECT=>in_array($name,['chunk','CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner'],true),xPDOTransport::PREEXISTING_MODE=>xPDOTransport::PRESERVE_PREEXISTING,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'guid'=>md5('cookieconsentmanager/'.$name)];
     $vehicle=$builder->createVehicle($obj,$attributes);if(in_array($name,['chunk','CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner'],true))$vehicle->validate('php',['source'=>$canonical]);if($name==='cookie_consent.log_dir')$vehicle->validate('php',['source'=>$logDefault]);if($name==='menu')$vehicle->validate('php',['source'=>$adapt]);
     if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native object vehicle failed: '.$name);
+    if($attributes[xPDOTransport::UNINSTALL_OBJECT])removalPlan($builder,$vehicle,xPDOTransport::UNINSTALL_OBJECT,$name,'objectEnabled');
 }
 // One exact file per native vehicle avoids recursive uninstall of untracked files.
 foreach($files as $entry){
     [$kind,$relative]=explode('/',$entry['target'],2);$parent=dirname($relative);$target='return $transport->xpdo->getOption('.var_export($kind.'_path',true).').'.var_export(($parent==='.'?'':$parent.'/'),true).';';
-    $vehicle=$builder->createVehicle(['source'=>$payload.'/'.$entry['source'],'target'=>$target],['vehicle_class'=>'xPDOFileVehicle','guid'=>md5('cookieconsentmanager/file/'.$entry['target']),'relative_target'=>$entry['target'],xPDOTransport::INSTALL_FILES=>true,xPDOTransport::UNINSTALL_FILES=>true,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'copy_preserve_filemtime'=>false]);
-    if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native file vehicle failed');
+    $vehicle=$builder->createVehicle(['source'=>$payload.'/'.$entry['source'],'target'=>$target],['vehicle_class'=>'xPDOFileVehicle','guid'=>md5('cookieconsentmanager/file/'.$entry['target']),'relative_target'=>$entry['target'],'expected_sha256'=>$entry['sha256'],xPDOTransport::PREEXISTING_MODE=>xPDOTransport::PRESERVE_PREEXISTING,xPDOTransport::INSTALL_FILES=>true,xPDOTransport::UNINSTALL_FILES=>true,xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true,'copy_preserve_filemtime'=>false]);
+    $vehicle->validate('php',['source'=>$uninstallFile]);if(!$builder->putVehicle($vehicle))throw new RuntimeException('Native file vehicle failed');
+    removalPlan($builder,$vehicle,xPDOTransport::UNINSTALL_FILES,$entry['target'],'fileEnabled');
 }
 $end=$builder->createVehicle(['source'=>$verify],['vehicle_class'=>'xPDOScriptVehicle','guid'=>md5('cookieconsentmanager/verify'),xPDOTransport::ABORT_INSTALL_ON_VEHICLE_FAIL=>true]);if(!$builder->putVehicle($end))throw new RuntimeException('Verification vehicle');
-$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.4,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
+$builder->setPackageAttributes(['readme'=>file_get_contents(__DIR__.'/package-readme.md')."\n".file_get_contents(__DIR__.'/uninstall-readme.md'),'changelog'=>file_get_contents(__DIR__.'/changelog.md'),'license'=>'Refer to the repository owner for applicable licensing terms.','requires'=>['php'=>'>=8.1.0','modx'=>'>=2.8.4,<3.0.0'],'source_inventory_sha256'=>hash_file('sha256',$work.'/source-inventory.json')]);
 if(!$builder->pack())throw new RuntimeException('modPackageBuilder pack failed');
 copy($builder->directory.$signature.'.transport.zip',$out.'/'.$signature.'.transport.zip');
 copy($work.'/source-inventory.json',$out.'/'.$signature.'.inventory.json');

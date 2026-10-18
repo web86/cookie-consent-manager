@@ -42,7 +42,7 @@ for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
    if(existing)eq(createHash('sha256').update(existing).digest('hex'),createHash('sha256').update(bytes).digest('hex'),'Immutable installed archive');
    else{const up=await ctx.request.post(origin+'/connectors/index.php',{headers:{modAuth:token},multipart:{action:'workspace/packages/upload',HTTP_MODAUTH:token,file:{name:sig+'.transport.zip',mimeType:'application/zip',buffer:bytes}},timeout:120000});eq((await up.json()).success,true,'Native upload');}
    eq((await api('workspace/packages/scanlocal',{},true)).success,true,'Native scan');
-   if(component==='cookieconsentmanager'&&sig===signature&&Object.keys(control('rename-state').history).length&&!control('rename-state').packages[signature]?.installed)eq(control('previous-package',sig).previous,false,'Cross-name transition is ACTION_INSTALL, not ACTION_UPGRADE');
+   if(component==='cookieconsentmanager'&&prior.split('-')[0]!==signature.split('-')[0]&&sig===signature&&Object.keys(control('rename-state').history).length&&!control('rename-state').packages[signature]?.installed)eq(control('previous-package',sig).previous,false,'Cross-name transition is ACTION_INSTALL, not ACTION_UPGRADE');
    const r=await api('workspace/packages/install',{signature:sig},true);eq(r.success,true,'Native install '+JSON.stringify(r));
    const get=await api('workspace/packages/get',{signature:sig},true);ok(get.success&&get.object.installed,'Installed package record');
    activeComponent=sig.startsWith('cookieconsentmanager-')?'cookieconsentmanager':'cookieconsent';
