@@ -43,7 +43,7 @@ final class CookieConsentAdapterInstall
     /** Called under the existing bundle lock, after native copies, before parsing JS. */
     public static function synchronize($modx): array
     {
-        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/';
+        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/';
         $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
         $manifest = json_decode((string)file_get_contents($core . 'frontend-manifest.json'), true, 16, JSON_THROW_ON_ERROR);
         $current = self::hashes($manifest);
@@ -52,6 +52,9 @@ final class CookieConsentAdapterInstall
         $statePath = $core . self::STATE;
         $state = self::state($statePath);
         $snapshot = $modx->getOption('cookie_consent.install_snapshot', null, []);
+        // One-time component-directory move. Public adapter paths and hash keys stay put.
+        // Read through the same validation as normal updates; never execute old PHP.
+        if ($state === null && !empty($snapshot['legacy_state'])) $state = self::state($snapshot['legacy_state']);
         if ($state === null) {
             $state = ['schema'=>1, 'current'=>null, 'versions'=>[]];
             // A malformed/missing legacy manifest is never used to guess ownership.
@@ -114,7 +117,7 @@ final class CookieConsentAdapterInstall
     public static function preserved($modx): int
     {
         try {
-            $state = self::state(rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/' . self::STATE);
+            $state = self::state(rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/' . self::STATE);
             $report = $state['report'] ?? [];
             return count($report['modified'] ?? []) + count($report['deleted'] ?? []) + count($report['unknown'] ?? []);
         } catch (Throwable $ignored) { return 0; }

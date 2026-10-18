@@ -4,7 +4,7 @@
     "ru": {
       "title": "Инструкции и руководство",
       "close": "Закрыть",
-      "intro": "Краткая инструкция по настройке Cookie Consent Manager. Откройте «Компоненты → Cookie Consent Manager», выберите категории и сервисы, затем нажмите «Сохранить». Посетители выбирают категории, а не отдельные сервисы.",
+      "intro": "Краткая инструкция по настройке CookieConsentManager. Откройте «Компоненты → CookieConsentManager», выберите категории и сервисы, затем нажмите «Сохранить». Посетители выбирают категории, а не отдельные сервисы.",
       "warning": "Важно: в Legacy-режиме сторонние сервисы могут запускаться до согласия посетителя. Включайте его только после проверки требований к конфиденциальности для вашего сайта.",
       "sections": [
         {
@@ -74,7 +74,7 @@
           "blocks": [
             {
               "type": "paragraph",
-              "text": "Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: Cookie Consent Manager автоматически обновит общий минифицированный JavaScript-файл."
+              "text": "Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: CookieConsentManager автоматически обновит общий минифицированный JavaScript-файл."
             },
             {
               "type": "paragraph",
@@ -135,7 +135,7 @@
     "en": {
       "title": "Instructions and guide",
       "close": "Close",
-      "intro": "A quick guide to Cookie Consent Manager. Open Extras → Cookie Consent Manager, choose categories and services, then click Save. Visitors consent to categories, not individual services.",
+      "intro": "A quick guide to CookieConsentManager. Open Extras → CookieConsentManager, choose categories and services, then click Save. Visitors consent to categories, not individual services.",
       "warning": "Important: in Legacy mode, third-party services may run before visitors give consent. Enable it only after checking the privacy requirements for your website.",
       "sections": [
         {
@@ -205,7 +205,7 @@
           "blocks": [
             {
               "type": "paragraph",
-              "text": "An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: Cookie Consent Manager automatically updates the shared minified JavaScript file."
+              "text": "An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: CookieConsentManager automatically updates the shared minified JavaScript file."
             },
             {
               "type": "paragraph",

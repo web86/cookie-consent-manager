@@ -2,7 +2,7 @@ import {chromium} from 'playwright';
 import assert from 'node:assert/strict';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 const b=await chromium.launch();let n=0;const eq=(a,c)=>{n++;assert.deepEqual(a,c)};
-try{for(const [lang,timeZone]of [['ru','Asia/Tokyo'],['en','America/New_York']]){const ctx=await b.newContext({locale:lang,timezoneId:timeZone}),p=await ctx.newPage();await p.setContent('<section id="logs"></section>');await p.addScriptTag({content:readFileSync('assets/components/cookieconsent/audit-viewer.js','utf8')});await p.evaluate(async lang=>{
+try{for(const [lang,timeZone]of [['ru','Asia/Tokyo'],['en','America/New_York']]){const ctx=await b.newContext({locale:lang,timezoneId:timeZone}),p=await ctx.newPage();await p.setContent('<section id="logs"></section>');await p.addScriptTag({content:readFileSync('assets/components/cookieconsentmanager/audit-viewer.js','utf8')});await p.evaluate(async lang=>{
  const el=(tag,text,attrs={})=>{const n=document.createElement(tag);if(text!=null)n.textContent=text;for(const[k,v]of Object.entries(attrs))n.setAttribute(k,v);return n};
  const row={server_time:'2026-10-15T11:25:30Z',ip:'192.0.2.1',event:'reject',locator:'test'};
  const api=async action=>action==='logs_detail'?{record:{...row,categories:{necessary:true},consent_id:'fixture'}}:{items:[row,{...row,server_time:'invalid'}],next:null,total:2,years:['2026'],actions:['reject']};

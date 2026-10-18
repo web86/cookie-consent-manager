@@ -1,8 +1,8 @@
 <?php
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentVideoUrl.php';
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentEmbedOptions.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager/src/CookieConsentSettings.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager/src/CookieConsentVideoUrl.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager/src/CookieConsentEmbedOptions.php';
     $p=$scriptProperties;$provider=$p['provider']??'youtube';$key=$p['service']??$provider;$url=$p['url']??'';
     if(!is_string($provider)||!is_string($key)||!is_string($url))return '';
     $settings=CookieConsentSettings::read($modx);$service=null;

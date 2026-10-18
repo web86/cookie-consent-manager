@@ -1,3 +1,12 @@
+# CookieConsentManager 1.0.8-pl4 — MODX 2 package identity
+
+- Native package family: cookieconsentmanager. Compatibility: MODX >=2.8.4,<3.0.0; PHP >=8.1.0.
+- Private code and administrative endpoints move to components/cookieconsentmanager; old directories are not deleted.
+- Keep cookie_consent namespace/settings, canonical elements, browser storage, JSONL and window.web86CookieConsent. Public adapter paths and administrative JS build/fallback stay unchanged.
+- New elements use CookieConsentManager category to avoid the foreign cookieconsent category under case-insensitive collations. Existing element categories are retained.
+- Carry validated adapter SHA256 history from the old component directory. No automatic uninstall or removal of the old package record.
+- Different package names are independent in native Package Manager. After migration do not uninstall, reinstall or update the old cookieconsent transport: shared JS/plugin ownership makes that unsafe. Back up the database, old package, both component directories, public adapters and private audit configuration/logs first. See docs/modx2-package-rename.md in the source repository.
+
 ## 1.0.8-pl1
 
 - Fix banner title rendering in the existing Manager sidebar preview, including live translated edits and safe plain-text output.

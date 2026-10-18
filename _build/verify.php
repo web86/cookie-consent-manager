@@ -34,7 +34,7 @@ for($i=0;$i<$zip->numFiles;$i++){
             $canonical[$obj['name']]=true;
         }elseif(($payload['update_object']??true)!==false)throw new RuntimeException('Non-element object must retain user values');
         if($payload['class']==='modCategory'){
-            if($obj['category']!=='CookieConsent'||($payload['unique_key']??[])!==['category']||($payload['preserve_keys']??true)!==false||!empty($obj['id']))throw new RuntimeException('Native category policy');
+            if($obj['category']!=='CookieConsentManager'||($payload['unique_key']??[])!==['category']||($payload['preserve_keys']??true)!==false||!empty($obj['id']))throw new RuntimeException('Native category policy');
             $categories++;
         }
         if($payload['class']==='modSystemSetting'){
@@ -46,7 +46,7 @@ for($i=0;$i<$zip->numFiles;$i++){
     }
 }
 if(count($canonical)!==6)throw new RuntimeException('Exactly six canonical elements required');
-if($categories!==1)throw new RuntimeException('Exactly one native CookieConsent category vehicle required');
+if($categories!==1)throw new RuntimeException('Exactly one native CookieConsentManager category vehicle required');
 foreach(['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit'] as $key)if(!array_key_exists($key,$found))throw new RuntimeException('Setting vehicle missing');
 if($found['cookie_consent.log_dir']!==''||$found['cookie_consent.audit_config_file']!==''||$found['cookie_consent.audit']!=='')throw new RuntimeException('Customer paths in ZIP');
 if(count($found)!==6)throw new RuntimeException('Only canonical product settings allowed');
@@ -56,7 +56,7 @@ $runtime=json_decode(file_get_contents(__DIR__.'/transport-files.json'),true,16,
 if(isset($runtime['assets/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS in transport');
 $frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,16,JSON_THROW_ON_ERROR);
 foreach($runtime as $target=>$source)if(str_starts_with($target,'assets/js/cookie-consent/services/'))throw new RuntimeException('User adapter target in transport');
-foreach($frontend['inputs'] as $source=>$hash)if(str_starts_with($source,'assets/js/cookie-consent/services/')&&($runtime['core/components/cookieconsent/adapters/services/'.basename($source)]??null)!==$source)throw new RuntimeException('Missing private adapter original');
+foreach($frontend['inputs'] as $source=>$hash)if(str_starts_with($source,'assets/js/cookie-consent/services/')&&($runtime['core/components/cookieconsentmanager/adapters/services/'.basename($source)]??null)!==$source)throw new RuntimeException('Missing private adapter original');
 $targets=array_keys($runtime);$actual=array_keys($fileVehicles);sort($targets);sort($actual);
 if($actual!==$targets||count($spec['files'])!==count($runtime))throw new RuntimeException('Transport allowlist mismatch');
 $expectedNames=array_keys($expectedZip);$actualNames=array_keys($zipFiles);sort($expectedNames);sort($actualNames);
