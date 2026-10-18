@@ -1,5 +1,8 @@
 # CookieConsentManager — первый публичный выпуск MODX 3
 
+Предыдущий `pl5` сохранён как исторический кандидат. Актуальный `pl6` со штатным uninstall: [отчёт](modx3-uninstall.md).
+
+
 Рабочая ветка `codex/modx3-cookieconsentmanager` создана от актуального `origin/modx3` / `ef96e4f2e4d39ffebae5e63d2bbfbc9cfe48af32` после GO MODX 2 (`codex/modx2-cookieconsentmanager`, `3e03babf5c2fdb635306ea96784129f68d7ed162`). Ветки и независимые реализации не объединялись.
 
 Кандидат **`cookieconsentmanager3-1.0.8-pl5`**. MODX **`>=3.1.2,<3.3.0`**, PHP **`>=8.1.0`**. Продукт предназначен для новых установок. Нет импорта старых пакетов `cookieconsent3`/`cookieconsent`, новых таблиц, общей платформенной обёртки или дополнительных aliases.

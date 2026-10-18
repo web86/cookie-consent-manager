@@ -2,7 +2,7 @@
   "name": "cookieconsentmanager3",
   "version": "1.0.8",
   "release": "pl",
-  "release_index": 5,
+  "release_index": 6,
   "source_epoch": 1792281600,
   "minimum_php": "8.1.0",
   "minimum_modx": "3.1.2",

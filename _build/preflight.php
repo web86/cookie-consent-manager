@@ -1,6 +1,6 @@
 <?php
 // Native preflight checks only this product before any file copy. No rollback claims.
-if(($options[\xPDO\Transport\xPDOTransport::PACKAGE_ACTION]??0)===\xPDO\Transport\xPDOTransport::ACTION_UNINSTALL)return true;
+if(($options[\xPDO\Transport\xPDOTransport::PACKAGE_ACTION]??0)===\xPDO\Transport\xPDOTransport::ACTION_UNINSTALL)return CookieConsentTransportOwnership::finish($transport,$spec);
 try {
     $modx=$transport->xpdo;$version=$modx->getVersionData();
     if(version_compare(PHP_VERSION,'8.1.0','<')||version_compare($version['full_version'],'3.1.2','<')||version_compare($version['full_version'],'3.3.0','>='))throw new RuntimeException('PHP 8.1+ and MODX 3.1.2+ below 3.3 required');
@@ -30,6 +30,7 @@ try {
         for($parent=dirname($target);!is_dir($parent);$parent=dirname($parent))if(is_link($parent))throw new RuntimeException('Symlink parent refused');
         if(realpath($parent)!==$parent||!is_writable($parent)||(is_file($target)&&!is_writable($target)))throw new RuntimeException('Runtime path not writable');
     }
+    CookieConsentTransportOwnership::prepare($transport,$spec);
     $modx->setOption('cookie_consent.install_snapshot',['fresh'=>!$owned&&!is_file($manifestPath)]);
     // This generated checksum file is deliberately absent from native file vehicles.
     $state=$core.'adapter-checksums.json';

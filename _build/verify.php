@@ -23,7 +23,7 @@ for($i=0;$i<$zip->numFiles;$i++){
         if($payload['vehicle_class']==='xPDO\Transport\xPDOFileVehicle'){$target=$payload['relative_target'];if(isset($fileVehicles[$target]))throw new RuntimeException('Duplicate runtime target');$fileVehicles[$target]=$payload['object'];$expectedZip[$payload['object']['source'].$payload['object']['name']]=true;if(empty($payload['uninstall_files']))throw new RuntimeException('Native file uninstall missing');continue;}
         if($payload['vehicle_class']==='xPDO\Transport\xPDOScriptVehicle'){$expectedZip[$payload['object']['source']]=true;continue;}
         $obj=json_decode($payload['object'],true,16,JSON_THROW_ON_ERROR);
-        if(($payload['uninstall_object']??true)!==false)throw new RuntimeException('Object uninstall must retain data');
+        if(($payload['uninstall_object']??false)!==in_array($payload['class'],['MODX\Revolution\modChunk','MODX\Revolution\modSnippet'],true))throw new RuntimeException('Native uninstall policy');
         $isElement=in_array($payload['class'],['MODX\Revolution\modChunk','MODX\Revolution\modSnippet'],true);
         if($isElement){
             $names=['CookiesPopup'=>'MODX\Revolution\modChunk','CookieConsent'=>'MODX\Revolution\modSnippet','CookieConsentMap'=>'MODX\Revolution\modSnippet','CookieConsentVideo'=>'MODX\Revolution\modSnippet','CookieConsentAssets'=>'MODX\Revolution\modSnippet','CookieConsentBanner'=>'MODX\Revolution\modSnippet'];
