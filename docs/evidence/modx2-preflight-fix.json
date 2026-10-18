@@ -1,0 +1,217 @@
+{
+  "result": "PASS",
+  "decision": "GO for MODX 2 native first installation / Modstore candidate",
+  "branch": "codex/modx2-cookieconsentmanager",
+  "base_commit": "3e03babf5c2fdb635306ea96784129f68d7ed162",
+  "signature": "cookieconsentmanager-1.0.8-pl4",
+  "sha256": "b340a51e45132657cfb70c74b01e305f1a1a0c0c6a880e660cb78baf5979352e",
+  "bytes": 559393,
+  "tests": 28,
+  "assertions": 115,
+  "failed": 0,
+  "cases": [
+    {
+      "modx": "2.8.4-pl",
+      "php": "8.2.34",
+      "tests": 4,
+      "assertions": 31,
+      "results": [
+        {
+          "name": "pristine-cms",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "native-pristine-install",
+          "result": "PASS",
+          "assertions": 5
+        },
+        {
+          "name": "native-reinstall-retains-user-adapter-and-settings",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "native-upgrade-action-retains-owned-installation",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ]
+    },
+    {
+      "modx": "2.8.8-pl",
+      "php": "8.1.34",
+      "tests": 24,
+      "assertions": 84,
+      "results": [
+        {
+          "name": "pristine-cms",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "reproduce-original-namespace-only-refusal",
+          "result": "PASS",
+          "assertions": 11
+        },
+        {
+          "name": "reject-foreign-snippet",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-chunk",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-plugin",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-setting",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-foreign-setting",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-menu",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-foreign-menu",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-core-known",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-core-unknown",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-assets-known",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-assets-unknown",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-public",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-adapter",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-css",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-manifest",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-state",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-symlink",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-namespace-core",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "reject-foreign-namespace-assets",
+          "result": "PASS",
+          "assertions": 2
+        },
+        {
+          "name": "retry-after-contended-preflight",
+          "result": "PASS",
+          "assertions": 8
+        },
+        {
+          "name": "native-reinstall-retains-user-adapter-and-settings",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "native-upgrade-action-retains-owned-installation",
+          "result": "PASS",
+          "assertions": 3
+        }
+      ]
+    }
+  ],
+  "verified_refusal_reasons": [
+    "Unowned canonical element conflict: CookieConsent",
+    "Unowned canonical element conflict: CookiesPopup",
+    "Unowned canonical element conflict: CookieConsentCacheBuild",
+    "Unowned cookie_consent objects",
+    "Unowned cookie_consent objects",
+    "Unowned cookie_consent objects",
+    "Unowned cookie_consent objects",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Occupied runtime target; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component files; inspect before retry",
+    "Unowned component symlink; inspect before retry",
+    "Namespace path conflict",
+    "Namespace assets path conflict",
+    "bundle_busy"
+  ],
+  "runtime_inventory_identical_to_previous_candidate": true,
+  "only_changed_archive_entry": "cookieconsentmanager-1.0.8-pl4/xPDOScriptVehicle/5a3a9db7dae67b8bd70c4409e2e8ef14.preflight.script",
+  "reproducible": true,
+  "archive_verification": {
+    "signature": "cookieconsentmanager-1.0.8-pl4",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDOObjectVehicle": 15,
+      "xPDOFileVehicle": 231,
+      "xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 490,
+    "sha256": "b340a51e45132657cfb70c74b01e305f1a1a0c0c6a880e660cb78baf5979352e",
+    "result": "PASS"
+  },
+  "known_core_warning_counts": {
+    "MODX setup cache": 2,
+    "MODX Manager Smarty": 38,
+    "MODX Manager RSS PHP 8.2 reference warning": 362,
+    "xPDO cache directory race": 3
+  },
+  "upgrade_scope": "Real native vehicles invoked with ACTION_UPGRADE on own installation; no historical migration or synthetic release.",
+  "modx3_untouched_commit": "ee299272c864416e0ff49348d732ff42bd85e503",
+  "same_signature_opcache": "The replacement was tested after restarting only its disposable web container to clear old deterministic-mtime hook bytecode."
+}

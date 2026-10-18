@@ -10,13 +10,29 @@ try {
     $core=$base.'cookieconsentmanager/';
     $existing=$namespace?rtrim($namespace->getCorePath(),'/').'/':null;
     if($namespace&&$existing!==$core)throw new RuntimeException('Namespace path conflict');
+    $assets=rtrim($modx->getOption('assets_path'),'/').'/components/cookieconsentmanager/';
+    if($namespace&&$namespace->get('assets_path')&&rtrim($namespace->getAssetsPath(),'/').'/'!==$assets)throw new RuntimeException('Namespace assets path conflict');
     $manifestPath=$core.'frontend-manifest.json';
     $previous=is_file($manifestPath)&&!is_link($manifestPath)&&realpath($manifestPath)===$manifestPath?json_decode((string)file_get_contents($manifestPath),true):null;
     $owned=$namespace&&is_array($previous)&&($previous['tool']??null)==='esbuild'&&is_array($previous['inputs']??null)&&isset($previous['inputs']['assets/js/cookie-consent/consent-manager.js']);
-    if($namespace&&!$owned)throw new RuntimeException('Unrecognized cookie_consent installation; inspect its manifest before installing');
+    // A namespace can survive an interrupted native install. It is neither proof
+    // of ownership nor a conflict by itself: without a manifest, require no data.
     if(!$owned){
         foreach(['modChunk'=>['CookiesPopup'],'modSnippet'=>['CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner'],'modPlugin'=>['CookieConsentCacheBuild']] as $class=>$names)foreach($names as $name)if($modx->getCount($class,['name'=>$name]))throw new RuntimeException('Unowned canonical element conflict: '.$name);
-        if($modx->getCount('modSystemSetting',['namespace'=>'cookie_consent'])||$modx->getCount('modMenu',['namespace'=>'cookie_consent']))throw new RuntimeException('Unowned cookie_consent objects');
+        $settingKeys=[];foreach($spec['objects'] as $definition)if($definition['class']==='modSystemSetting')$settingKeys[]=$definition['criteria']['key'];
+        if($modx->getCount('modSystemSetting',['namespace'=>'cookie_consent','OR:key:IN'=>$settingKeys])||$modx->getCount('modMenu',['namespace'=>'cookie_consent','OR:text:='=>'CookieConsentManager']))throw new RuntimeException('Unowned cookie_consent objects');
+        foreach([$core,$assets,rtrim($modx->getOption('assets_path'),'/').'/js/cookie-consent/'] as $directory){
+            $directory=rtrim($directory,'/');
+            if(is_link($directory)||(file_exists($directory)&&!is_dir($directory)))throw new RuntimeException('Occupied component path; inspect before retry');
+            if(!is_dir($directory))continue;
+            foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory,FilesystemIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $file){
+                if($file->isLink())throw new RuntimeException('Unowned component symlink; inspect before retry');
+                if($file->isDir())continue;
+                // A refused/contended preflight may leave only this empty lock.
+                if($file->getPathname()===rtrim($modx->getOption('assets_path'),'/').'/js/cookie-consent/cookie-consent.build.lock'&&$file->isFile()&&$file->getSize()===0)continue;
+                throw new RuntimeException('Unowned component files; inspect before retry');
+            }
+        }
     }
     if($modx->getCount('modPlugin',['name'=>'CookieConsentCacheBuild'])>1||$modx->getCount('modMenu',['namespace'=>'cookie_consent','action'=>'index'])>1)throw new RuntimeException('Duplicate administrative objects');
     foreach(['modChunk'=>['CookiesPopup'],'modSnippet'=>['CookieConsent','CookieConsentMap','CookieConsentVideo','CookieConsentAssets','CookieConsentBanner']] as $class=>$names)foreach($names as $name)if($modx->getCount($class,['name'=>$name])>1)throw new RuntimeException('Duplicate canonical element names; resolve before installing');
@@ -26,7 +42,7 @@ try {
     foreach($spec['files'] as $entry){
         [$kind,$relative]=explode('/',$entry['target'],2);$root=rtrim($modx->getOption($kind.'_path'),'/');if(realpath($root)!==$root)throw new RuntimeException('Canonical MODX paths required');
         $target=$root.'/'.$relative;if(is_link($target))throw new RuntimeException('Symlink runtime target refused');
-        if($existing!==$core&&str_contains($relative,'components/cookieconsentmanager/')&&is_file($target)&&hash_file('sha256',$target)!==$entry['sha256'])throw new RuntimeException('Occupied new component path; inspect before retry');
+        if(!$owned&&file_exists($target))throw new RuntimeException('Occupied runtime target; inspect before retry');
         for($parent=dirname($target);!is_dir($parent);$parent=dirname($parent))if(is_link($parent))throw new RuntimeException('Symlink parent refused');
         if(realpath($parent)!==$parent||!is_writable($parent)||(is_file($target)&&!is_writable($target)))throw new RuntimeException('Runtime path not writable');
     }
