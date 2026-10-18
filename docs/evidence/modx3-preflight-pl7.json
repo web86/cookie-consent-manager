@@ -1,0 +1,435 @@
+{
+  "result": "GO",
+  "scope": "new native MODX 3 public package, targeted preflight acceptance",
+  "branch": "codex/modx3-cookieconsentmanager",
+  "base_commit": "99d7c320ba8d0c22e6a0a8f2aeaa9d1f61fb069d",
+  "archive": ".local/preflight3-pl7/artifacts/final/release/cookieconsentmanager3-1.0.8-pl7.transport.zip",
+  "audit": {
+    "result": "PASS",
+    "signature": "cookieconsentmanager3-1.0.8-pl7",
+    "sha256": "dfc92eb84782eb08019cd016f025954202ee575677f6363ec37a739940b6d4f0",
+    "bytes": 777488,
+    "runtime_files": 231,
+    "unchanged_runtime_files": 229,
+    "version_stamp_only_changes": [
+      "core/components/cookieconsentmanager3/frontend-manifest.json",
+      "core/components/cookieconsentmanager3/src/CookieConsentVersion.php"
+    ],
+    "native_object_definitions_unchanged": true,
+    "preflight_modx2_reference": "4ba4ef44afe25eae6f6a16843e82161a1ab9d3be",
+    "preflight_parity": true,
+    "protected_files_unchanged": [
+      "_build/ownership.php",
+      "_build/build.php",
+      "_build/verify-install.php",
+      "_build/validators/uninstall-file.php",
+      "_build/transport-files.json"
+    ],
+    "reproducible": true,
+    "prior_pl6_unchanged": true,
+    "old_component_paths": false
+  },
+  "native_and_smoke": {
+    "scenarios": 60,
+    "assertions": 386,
+    "failed": 0
+  },
+  "compatibility": {
+    "suites": 2,
+    "assertions": 26,
+    "failed": 0
+  },
+  "total": {
+    "checks": 62,
+    "assertions": 412,
+    "failed": 0
+  },
+  "cases": [
+    {
+      "environment": {
+        "modx": "3.1.2-pl",
+        "php": "8.1.34",
+        "xpdo": "v3.1.5",
+        "db": "cc3_matrix_m312p81",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "native_and_smoke": {
+        "case": {
+          "name": "m312p81",
+          "modx": "3.1.2-pl",
+          "php": "8.1",
+          "port": 23510
+        },
+        "tests": 30,
+        "assertions": 193,
+        "failed": 0,
+        "results": [
+          {
+            "name": "native-pristine-install-and-uninstall",
+            "result": "PASS",
+            "assertions": 23
+          },
+          {
+            "name": "correct-namespace-only-first-install",
+            "result": "PASS",
+            "assertions": 12
+          },
+          {
+            "name": "old-pl6-namespace-refusal-is-reproducible",
+            "result": "PASS",
+            "assertions": 5
+          },
+          {
+            "name": "reject-foreign-namespace-core",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-namespace-assets",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-snippet",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-chunk",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-plugin",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-setting",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-foreign-setting",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-menu",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-foreign-menu",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-core-known",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-core-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-assets-known",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-assets-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-public",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-public-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-adapter",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-css",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-css-symlink",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-manifest",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-state",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-symlink",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-nonempty-lock",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "held-lock-refusal-and-empty-lock-retry-after-old-preflight",
+            "result": "PASS",
+            "assertions": 9
+          },
+          {
+            "name": "own-native-reinstall-preserves-settings-adapter-and-history",
+            "result": "PASS",
+            "assertions": 22
+          },
+          {
+            "name": "native-upgrade-from-immutable-pl6",
+            "result": "PASS",
+            "assertions": 26
+          },
+          {
+            "name": "native-uninstall-reinstall-no-manual-sql",
+            "result": "PASS",
+            "assertions": 17
+          },
+          {
+            "name": "manager-and-frontend-smoke",
+            "result": "PASS",
+            "assertions": 10
+          }
+        ]
+      },
+      "compatibility": {
+        "result": "PASS",
+        "assertions": 13,
+        "php": "8.1.34"
+      },
+      "error_review": {
+        "expected_preflight_refusals": 24,
+        "fatal_errors": [],
+        "unexpected_errors": [],
+        "upstream_fixture_warnings": [
+          "MODX login: HTTP_ACCEPT_LANGUAGE",
+          "MODX CLI menu: $_SESSION"
+        ]
+      }
+    },
+    {
+      "environment": {
+        "modx": "3.2.4-pl",
+        "php": "8.2.34",
+        "xpdo": "v3.1.7",
+        "db": "cc3_matrix_m324p82",
+        "mariadb": "11.8.9-MariaDB-ubu2404",
+        "aliases": false
+      },
+      "native_and_smoke": {
+        "case": {
+          "name": "m324p82",
+          "modx": "3.2.4-pl",
+          "php": "8.2",
+          "port": 23511
+        },
+        "tests": 30,
+        "assertions": 193,
+        "failed": 0,
+        "results": [
+          {
+            "name": "native-pristine-install-and-uninstall",
+            "result": "PASS",
+            "assertions": 23
+          },
+          {
+            "name": "correct-namespace-only-first-install",
+            "result": "PASS",
+            "assertions": 12
+          },
+          {
+            "name": "old-pl6-namespace-refusal-is-reproducible",
+            "result": "PASS",
+            "assertions": 5
+          },
+          {
+            "name": "reject-foreign-namespace-core",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-namespace-assets",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-snippet",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-chunk",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-plugin",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-setting",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-foreign-setting",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-menu",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-foreign-menu",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-core-known",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-core-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-assets-known",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-assets-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-public",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-public-unknown",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-adapter",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-css",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-css-symlink",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-manifest",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-state",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-symlink",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "reject-foreign-nonempty-lock",
+            "result": "PASS",
+            "assertions": 3
+          },
+          {
+            "name": "held-lock-refusal-and-empty-lock-retry-after-old-preflight",
+            "result": "PASS",
+            "assertions": 9
+          },
+          {
+            "name": "own-native-reinstall-preserves-settings-adapter-and-history",
+            "result": "PASS",
+            "assertions": 22
+          },
+          {
+            "name": "native-upgrade-from-immutable-pl6",
+            "result": "PASS",
+            "assertions": 26
+          },
+          {
+            "name": "native-uninstall-reinstall-no-manual-sql",
+            "result": "PASS",
+            "assertions": 17
+          },
+          {
+            "name": "manager-and-frontend-smoke",
+            "result": "PASS",
+            "assertions": 10
+          }
+        ]
+      },
+      "compatibility": {
+        "result": "PASS",
+        "assertions": 13,
+        "php": "8.2.34"
+      },
+      "error_review": {
+        "expected_preflight_refusals": 24,
+        "fatal_errors": [],
+        "unexpected_errors": [],
+        "upstream_fixture_warnings": [
+          "MODX login: HTTP_ACCEPT_LANGUAGE",
+          "MODX CLI menu: $_SESSION"
+        ]
+      }
+    }
+  ],
+  "protected_refs_unchanged": {
+    "main": "1824a664e43f380722b0c49be9918acc407a32b7",
+    "modx3": "ef96e4f2e4d39ffebae5e63d2bbfbc9cfe48af32",
+    "codex/modx2-cookieconsentmanager": "4ba4ef44afe25eae6f6a16843e82161a1ab9d3be"
+  },
+  "harness_notes": [
+    "Initial overly strict whole adapter-state comparison corrected to verify SHA256 versions; per-run diagnostics legitimately change.",
+    "Smoke fixture explicitly enables google_maps/youtube; disabled defaults intentionally do not mount frames.",
+    "Prior PASS scenarios retained on resume; original attempts remain in local evidence. No package/runtime changes were needed."
+  ],
+  "not_repeated": "Full pl6 functional regression: runtime byte parity apart from two version stamps confirmed.",
+  "publication_performed": false
+}

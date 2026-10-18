@@ -1,3 +1,11 @@
+# CookieConsentManager 1.0.8-pl7 — MODX 3 preflight parity
+
+- Allow a correct namespace alone after an interrupted first installation; it does not prove ownership.
+- Validate namespace core/assets paths and reject unowned canonical settings/menu even in another namespace.
+- Reject unknown component/public JS contents, links and occupied runtime targets; allow empty directories and the standard empty build lock.
+- Retain native MODX 3/xPDO 3 installation, ownership receipts, uninstall and user adapter/settings preservation.
+- No historical package migration; runtime differs from pl6 only by version stamps.
+
 # CookieConsentManager 1.0.8-pl6 — native uninstall
 
 - Complete native uninstall of confirmed package objects, service records and generated files.
