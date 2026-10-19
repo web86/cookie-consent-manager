@@ -25,9 +25,9 @@ summary=json.loads(baseline.stdout)
 check({f['target'] for f in spec['files']}==set(allowlist),'Exact runtime allowlist')
 js=[p for p in manifest['inputs'] if p.endswith('.js')]
 check(len(js)==21 and all(allowlist.get(p)==p for p in js),'All 21 ordered BundleManager sources shipped')
-check(all('assets/js/cookie-consent/embeds/'+p+'.js' in allowlist for p in ['youtube','rutube','vk-video']),'All video adapters')
+check(all('assets/components/cookieconsentmanager3/js/cookie-consent/embeds/'+p+'.js' in allowlist for p in ['youtube','rutube','vk-video']),'All video adapters')
 check(not any('/mock/' in p for p in allowlist),'Test/demo mock directory excluded')
-check('assets/js/cookie-consent/services/mock-marketing.js' in allowlist,'Referenced factory retained among the 21 build sources')
+check('assets/components/cookieconsentmanager3/js/cookie-consent/services/mock-marketing.js' in allowlist,'Referenced factory retained among the 21 build sources')
 for target in allowlist:
     parts=set(Path(target).parts)
     check(not parts.intersection({'.git','.github','.local','node_modules','tests','fixtures','debug','logs','docs','mock','mocks','mok'}),'No development directory: '+target)

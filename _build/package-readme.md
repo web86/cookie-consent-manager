@@ -29,6 +29,8 @@ Legacy-режим: включите «Показывать старую кноп
 
 Для старых шаблонов можно оставить один [[!CookieConsent]] вместо двух вызовов. Не используйте оба варианта одновременно. Уберите прямые подключения счётчиков и пикселей, которые обходят CMP.
 
+Runtime находится в `assets/components/cookieconsentmanager3/`, приватный код — в `core/components/cookieconsentmanager3/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
+
 ### 3. Как добавить свой JavaScript
 
 Откройте «Сервисы» → «+ Добавить сервис» → «+ Создать пользовательский сервис». Укажите название, назначение, категорию и путь к .js-файлу, например /assets/js/my-widget.js, или полный HTTPS-адрес. Включите сервис, убедитесь, что категория видима, и сохраните настройки.
@@ -64,6 +66,8 @@ document.addEventListener('DOMContentLoaded', function () {
 Для принудительной пересборки откройте «Настройки → Дополнительные настройки → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
 
 Обновление сохраняет изменённые файлы из services/ и не восстанавливает удалённые вами адаптеры. Если изменён и оригинал пакета, ваш вариант остаётся без автоматического слияния. Дополнительные файлы не включаются в сборку автоматически. При удалении обязательного исходника исправьте код или восстановите файл вручную: прежняя рабочая сборка продолжает обслуживать сайт.
+
+Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются.
 
 ### 6. Видео и встраивания
 
@@ -142,6 +146,8 @@ Place [[!CookieConsentAssets]] once in <head>, and [[!CookieConsentBanner]] once
 
 Existing templates may keep a single [[!CookieConsent]] call instead of the two snippets. Never use both methods together. Remove direct counter and pixel scripts that bypass the CMP.
 
+Runtime lives under `assets/components/cookieconsentmanager3/`; private code remains under `core/components/cookieconsentmanager3/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup.
+
 ### 3. Add your own JavaScript
 
 Go to Services → + Add service → + Create custom service. Enter a name, purpose, category and a .js path such as /assets/js/my-widget.js, or a full HTTPS URL. Enable the service, make its category visible and Save.
@@ -177,6 +183,8 @@ An adapter is built-in JavaScript that connects a service according to visitor p
 To force a rebuild, open Settings → Advanced settings → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
 
 Updates retain edited files in services/ and do not restore adapters you deleted. If the package original also changed, your file is kept without an automatic merge. Extra files are not added to the bundle automatically. If a required input is missing, fix the code or restore the file manually; the previous working bundle continues serving the site.
+
+Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain.
 
 ### 6. Videos and embeds
 

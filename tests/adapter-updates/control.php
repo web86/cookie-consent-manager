@@ -11,7 +11,7 @@ define('MODX_API_MODE',true);ob_start();require $base.'site/index.php';while(ob_
 if($modx->query('SELECT DATABASE()')->fetchColumn()!==$destination[1])exit(1);
 if(class_exists('modX',false))throw new RuntimeException('Deprecated aliases must be off');
 $modx->setLogTarget('FILE');$modx->setLogLevel(\MODX\Revolution\modX::LOG_LEVEL_INFO);
-$core=MODX_CORE_PATH.'components/cookieconsent/';$services=MODX_ASSETS_PATH.'js/cookie-consent/services/';$bundle=MODX_ASSETS_PATH.'js/cookie-consent/cached-cookie-consent.min.js';
+$core=MODX_CORE_PATH.'components/cookieconsent/';$services=MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/services/';$bundle=MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js';
 if($op==='install'||$op==='uninstall'){
     $archive=$argv[3]??'';
     if(!str_starts_with($archive,'/opt/cc-updates/artifacts/')&&!str_starts_with($archive,'/opt/cc-reference/.local/modx3/artifacts/'))throw new RuntimeException('Local artifact required');
@@ -32,7 +32,7 @@ if($op==='edit'){
     echo json_encode(['path'=>$name,'sha256'=>is_file($file)?hash_file('sha256',$file):null]);exit;
 }
 if($op==='state'){
-    $result=['version'=>$modx->getVersionData()['full_version'],'files'=>[],'bundle'=>is_file($bundle)?hash_file('sha256',$bundle):null,'timestamp'=>(int)$modx->getOption('cookie_consent.bundle_version',null,0),'prebuilt'=>is_file(MODX_ASSETS_PATH.'js/cookie-consent/cookie-consent.min.js'),'elements'=>[],'installed'=>[]];
+    $result=['version'=>$modx->getVersionData()['full_version'],'files'=>[],'bundle'=>is_file($bundle)?hash_file('sha256',$bundle):null,'timestamp'=>(int)$modx->getOption('cookie_consent.bundle_version',null,0),'prebuilt'=>is_file(MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js'),'elements'=>[],'installed'=>[]];
     foreach(glob($services.'*.js')?:[] as $f)$result['files'][basename($f)]=hash_file('sha256',$f);
     if(is_file($core.'adapter-checksums.json'))$result['checksums']=json_decode(file_get_contents($core.'adapter-checksums.json'),true);
     if(is_file($core.'src/CookieConsentBundleManager.php')){require_once $core.'src/CookieConsentBundleManager.php';$result['build']=CookieConsentBundleManager::status($modx);$result['asset']=CookieConsentBundleManager::asset($modx);require_once $core.'src/CookieConsentVersion.php';$result['packageVersion']=CookieConsentVersion::VERSION;}

@@ -63,7 +63,7 @@ if($action==='resource'){
     $modx->cacheManager->refresh();echo '{}';exit;
 }
 if($action==='customize'){
-    $f=MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js';file_put_contents($f,"\n// synthetic owner customization\n",FILE_APPEND);echo json_encode(['sha256'=>hash_file('sha256',$f)]);exit;
+    $f=MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/services/yandex.js';file_put_contents($f,"\n// synthetic owner customization\n",FILE_APPEND);echo json_encode(['sha256'=>hash_file('sha256',$f)]);exit;
 }
 if($action==='custom-script'){
     file_put_contents(MODX_ASSETS_PATH.'js/matrix-custom.js','window.__matrixCustom=(window.__matrixCustom||0)+1;');echo '{}';exit;
@@ -72,6 +72,6 @@ if($action==='snapshot'){
     $settings=[];foreach($modx->getCollection(MODX\Revolution\modSystemSetting::class,['namespace'=>'cookie_consent']) as $s)if($s->get('key')!=='cookie_consent.bundle_version')$settings[$s->get('key')]=$s->get('value');ksort($settings);
     $logs=[];foreach(glob('/opt/cc-private/logs/*') as $f)if(is_file($f))$logs[basename($f)]=hash_file('sha256',$f);
     $elements=[];foreach(['CookiesPopup'=>MODX\Revolution\modChunk::class,'CookieConsent'=>MODX\Revolution\modSnippet::class,'CookieConsentAssets'=>MODX\Revolution\modSnippet::class,'CookieConsentBanner'=>MODX\Revolution\modSnippet::class,'CookieConsentMap'=>MODX\Revolution\modSnippet::class,'CookieConsentVideo'=>MODX\Revolution\modSnippet::class] as $name=>$class){$r=$modx->getObject($class,['name'=>$name]);if($r)$elements[$name]=$r->get('id');}
-    echo json_encode(['settings'=>$settings,'logs'=>$logs,'elements'=>$elements,'adapter'=>is_file(MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js')?hash_file('sha256',MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js'):null]);exit;
+    echo json_encode(['settings'=>$settings,'logs'=>$logs,'elements'=>$elements,'adapter'=>is_file(MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/services/yandex.js')?hash_file('sha256',MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/services/yandex.js'):null]);exit;
 }
 throw new RuntimeException('Unknown action');

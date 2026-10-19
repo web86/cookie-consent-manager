@@ -67,8 +67,8 @@ $releaseVersion=$package['version'].($package['release']?'-'.$package['release']
 $modx=new BundleFixture($root);$n=0;
 function eq($a,$b,$message=''):void{global $n;$n++;if($a!==$b)throw new RuntimeException($message.' '.json_encode([$a,$b]));}
 function rejects(callable $fn, ?string $message=null):void{global $n;try{$fn();}catch(Throwable $e){$n++;if($message!==null&&$e->getMessage()!==$message)throw $e;return;}throw new RuntimeException('Expected rejection');}
-$file=$root.'/assets/js/cookie-consent/cached-cookie-consent.min.js';$dir=dirname($file);
-$source=$root.'/assets/js/cookie-consent/embeds/youtube.js';$original=file_get_contents($source);
+$file=$root.'/assets/components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js';$dir=dirname($file);
+$source=$root.'/assets/components/cookieconsentmanager3/js/cookie-consent/embeds/youtube.js';$original=file_get_contents($source);
 $oldPath=getenv('PATH');putenv('PATH='); // Neither Node nor npm can be found by the PHP build.
 // MODX can log suppressed @ warnings; optional absent state must never call I/O.
 $optionalWarnings=[];$captureOptional=static function($severity,$message)use(&$optionalWarnings){if($severity===E_WARNING)$optionalWarnings[]=$message;return true;};
@@ -120,7 +120,7 @@ rejects(fn()=>CookieConsentBundleManager::rebuild($modx));eq(file_get_contents($
 file_put_contents($source,$original.$syntax);
 eq(CookieConsentBundleManager::rebuild($modx)['rebuilt'],false,'Repaired unchanged sources reuse last success');eq(CookieConsentBundleManager::status($modx)['state'],'ready');
 $manifestPath=$root.'/core/components/cookieconsentmanager3/frontend-manifest.json';$valid=file_get_contents($manifestPath);$bad=json_decode($valid,true);
-foreach(['../escape.js','assets/js/cookie-consent/../escape.js','assets/js/cookie-consent/mock/../../escape.js','/tmp/escape.js','assets/js/cookie-consent/cookie-consent.min.js'] as $path){
+foreach(['../escape.js','assets/components/cookieconsentmanager3/js/cookie-consent/../escape.js','assets/components/cookieconsentmanager3/js/cookie-consent/mock/../../escape.js','/tmp/escape.js','assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js'] as $path){
     $bad['inputs'][$path]='unused';file_put_contents($manifestPath,json_encode($bad));rejects(fn()=>CookieConsentBundleManager::rebuild($modx),'bundle_manifest');eq(file_get_contents($file),$good,'Unsafe manifest preserves bundle');unset($bad['inputs'][$path]);
 }
 file_put_contents($manifestPath,$valid);
@@ -142,9 +142,9 @@ $productionVersion=CookieConsentBundleManager::status($modx)['version'];
 foreach($inputs as $path=>$unused)if(str_ends_with($path,'.js'))unlink($root.'/'.$path);unlink($manifestPath);
 $before=file_get_contents($file);$files=scandir($dir);$stat=stat($file);
 $visitor=new BundleFixture($root,'web',false);
-eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion);eq(file_get_contents($file),$before);eq(scandir($dir),$files);clearstatcache(true,$file);eq(stat($file)['ino'],$stat['ino']);
+eq(CookieConsentBundleManager::asset($visitor),'components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion);eq(file_get_contents($file),$before);eq(scandir($dir),$files);clearstatcache(true,$file);eq(stat($file)['ino'],$stat['ino']);
 unlink($file);
-eq(CookieConsentBundleManager::asset($visitor),'js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion,'Frontend does not track deletion of an active file');eq(is_file($file),false);
+eq(CookieConsentBundleManager::asset($visitor),'components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js?v='.$productionVersion,'Frontend does not track deletion of an active file');eq(is_file($file),false);
 eq($visitor->queries,0,'Frontend never queries system settings');
 unset($visitor->options['cookie_consent.bundle_version']);
 eq(CookieConsentBundleManager::asset($visitor),'','No active version never selects a missing prebuilt');

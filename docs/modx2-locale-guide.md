@@ -23,7 +23,7 @@ are unchanged; no data/consent migration, policy or category version increment.
 
 ## Compatibility
 
-`assets/js/cookie-consent/i18n.js` and `lexicons.json` remain historical standalone
+`assets/components/cookieconsentmanager3/js/cookie-consent/i18n.js` and `lexicons.json` remain historical standalone
 development sources. They are not inputs of the production bundle or shipped
 public transport files; neither is needed by current MODX integration. They were
 not deleted or modified. Old reports/archives are preserved.

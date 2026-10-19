@@ -45,7 +45,7 @@ Live mode — default. Для изолированного mock стенда я�
 
 ## Сборка
 
-Раздельные development sources: `runtime.js`, `provider-registry.js`, `consent-manager.js`, `assets/css/cookie-consent.css`. Старые `i18n.js`/lexicons.json остаются историческими sources и не входят в новый transport production assets. Не подключайте их вместе с bundle. Исторический автономный `demo.html` не является приёмкой новой MODX integration; актуальный stand строится `tests/beta26/provision.php` на настоящем MODX.
+Раздельные development sources: `runtime.js`, `provider-registry.js`, `consent-manager.js`, `assets/components/cookieconsentmanager3/css/cookie-consent.css`. Старые `i18n.js`/lexicons.json остаются историческими sources и не входят в новый transport production assets. Не подключайте их вместе с bundle. Исторический автономный `demo.html` не является приёмкой новой MODX integration; актуальный stand строится `tests/beta26/provision.php` на настоящем MODX.
 
 Toolchain: esbuild **0.28.2**, exact dependency/package-lock integrity, Node 22.23.2 в приёмке. [Официальный transform/minify API](https://esbuild.github.io/api/#minify). Bundle состоит только из трёх публичных source modules, без Manager JS/CSS, vendor SDK implementations и mock fixture content. Reviewed adapters динамически запрашивают SDK после consent; их код и mock path routing сохранены. `document.currentScript.src` у classic deferred bundle даёт base JS directory без query, поэтому relative mock paths корректны.
 
@@ -60,8 +60,8 @@ python3 _build/normalize.py /new/build-directory/cookieconsent-0.1.0-beta26.tran
 
 Public production files:
 
-- `assets/js/cookie-consent/cookie-consent.min.js` — 17243 bytes, SHA256 `764d59ecd0492a8cae443f1c837050df7791c8a2c9da11cbf26c96813f1c7c5e`.
-- `assets/css/cookie-consent.min.css` — 3545 bytes, SHA256 `23bff258002e08e4520fdcf0c6105f46f8db5649d29d54e4f89f42f5924b5193`.
+- `assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js` — 17243 bytes, SHA256 `764d59ecd0492a8cae443f1c837050df7791c8a2c9da11cbf26c96813f1c7c5e`.
+- `assets/components/cookieconsentmanager3/css/cookie-consent.min.css` — 3545 bytes, SHA256 `23bff258002e08e4520fdcf0c6105f46f8db5649d29d54e4f89f42f5924b5193`.
 
 URLs содержат `?v=` с первыми 20 hex content hash: изменение bytes меняет cache key. Manager preview использует тот же min CSS. Transport runtime больше не подключает отдельные public development JS/lexicon/CSS files. Старые неиспользуемые файлы предыдущей установки не удаляются произвольно; убедитесь, что их прямые tags отсутствуют в шаблоне.
 

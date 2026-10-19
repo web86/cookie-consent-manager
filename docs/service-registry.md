@@ -74,7 +74,7 @@ GTM — исполняемый контейнер. Он не загружает�
 
 Google allowlist: HTTPS, ровно `www.google.com`, `/maps/embed` или `/maps/embed/v1/{place,view,directions,search,streetview}`. Yandex: HTTPS, ровно `yandex.ru`, `/map-widget/v1[/]`. Проверяются допустимые имена query-параметров; credentials, нестандартный port, fragment, иной host/path, неизвестные параметры отклоняются. Принятые параметры сохраняются через URL API. Для Google Embed API v1 требуется настроенный ограниченный API key; ключ виден в iframe URL, он не является секретом сервера. Произвольные SDK/script embeds в этой версии не поддерживаются: используйте iframe-эквивалент. Google/Yandex thumbnails, preconnect, prefetch, noscript, CSS backgrounds и любые активные embed из старого шаблона необходимо удалить.
 
-В mock разрешены только `/assets/js/cookie-consent/mock/google_maps.html` и `yandex_maps.html` текущего origin, без query/fragment. Включение внешнего адреса в mock блокируется. Начальные карты, включая карты внутри существующего `<dialog>`, создаются при инициализации. Для добавленных позднее AJAX-карт нужно создать их до инициализации или отдельно разработать lifecycle; автоматический MutationObserver не реализован.
+В mock разрешены только `/assets/components/cookieconsentmanager3/js/cookie-consent/mock/google_maps.html` и `yandex_maps.html` текущего origin, без query/fragment. Включение внешнего адреса в mock блокируется. Начальные карты, включая карты внутри существующего `<dialog>`, создаются при инициализации. Для добавленных позднее AJAX-карт нужно создать их до инициализации или отдельно разработать lifecycle; автоматический MutationObserver не реализован.
 
 ## Аудит
 

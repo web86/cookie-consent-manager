@@ -14,8 +14,7 @@ const web86ServiceLoaders = (() => {
     google_gtm: web86CreateGoogleGtmAdapter(runtime, google),
     vk_ads: web86CreateVkAdsAdapter(runtime, tmr),
     meta_pixel: web86CreateMetaPixelAdapter(runtime),
-    custom_js: web86CreateCustomJsAdapter(runtime),
-    mock_marketing: web86CreateMockMarketingAdapter(runtime)
+    custom_js: web86CreateCustomJsAdapter(runtime)
   }));
   function revoke(mode, value) {
     runtime.stopping = true;

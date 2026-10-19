@@ -22,7 +22,7 @@ Preflight приведён к проверенному `4ba4ef4` MODX 2. Авт�
 | Runtime targets | Занятый target без подтверждённой установки отклоняется, включая общий CSS; symlinks отклоняются |
 | Own reinstall/upgrade | Распознанный manifest сохраняет прежний штатный путь установки и ownership receipts |
 
-Пути MODX 3: `core/components/cookieconsentmanager3/`, `assets/components/cookieconsentmanager3/`, `assets/js/cookie-consent/`. Результат проверки namespace не заменяет проверку остальных объектов/файлов. Пустой assets_path не заявляет чужой assets-каталог и обрабатывается так же, как в проверенном MODX 2.
+Пути MODX 3: `core/components/cookieconsentmanager3/`, `assets/components/cookieconsentmanager3/`, `assets/components/cookieconsentmanager3/js/cookie-consent/`. Результат проверки namespace не заменяет проверку остальных объектов/файлов. Пустой assets_path не заявляет чужой assets-каталог и обрабатывается так же, как в проверенном MODX 2.
 
 В официальном xPDO 3 `Transport/xPDOTransport.php::install()` vehicles выполняются последовательно, с отказом при `ABORT_INSTALL_ON_VEHICLE_FAIL`; наш preflight стоит первым. В `MODX/Revolution/Transport/modPackageBuilder.php::registerNamespace()` третий аргумент false отключает автоматический namespace vehicle. Наш явный vehicle namespace идёт после preflight. Upload/scan не создаёт namespace — это дополнительно проверено нативным тестом. При позднем прерывании ранее сохранённые объекты могут остаться: транспорт не обещает rollback. Поэтому один оставшийся корректный namespace допустим, но чужое содержимое продолжает блокировать установку.
 

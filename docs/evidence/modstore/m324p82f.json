@@ -1,0 +1,185 @@
+{
+  "case": {
+    "name": "m324p82f",
+    "major": 3,
+    "modx": "3.2.4-pl",
+    "php": "8.2",
+    "port": 24511,
+    "custom": true,
+    "fresh_final": true
+  },
+  "checks": {
+    "native-fresh": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "install",
+          "output": "{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "configure",
+          "output": "{}"
+        },
+        {
+          "action": "rebuild",
+          "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        },
+        {
+          "action": "cache",
+          "output": "{\"result\":\"PASS\",\"action\":\"cache\"}"
+        },
+        {
+          "action": "failure",
+          "output": "{\"result\":\"PASS\",\"action\":\"failure\"}"
+        },
+        {
+          "action": "rebuild",
+          "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        }
+      ]
+    },
+    "browser": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "mode": "strict",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "name": "audit-request-validation",
+          "result": "PASS"
+        }
+      ]
+    },
+    "manager": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "checks": [
+        "authenticated CMP",
+        "configured adapter path",
+        "manual rebuild processor",
+        "native clearcache processor and OnSiteRefresh"
+      ]
+    },
+    "native-checks": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "ordinary-http-check-and-log",
+          "output": {
+            "result": "PASS",
+            "event_id": "33c506ba-1234-4123-8123-123456789abc",
+            "recorded": true
+          }
+        },
+        {
+          "action": "restore-refuses-missing-fresh-backup",
+          "result": "PASS"
+        }
+      ],
+      "settings_and_ids_unchanged": true
+    },
+    "native-remove": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "snapshot-uninstall",
+          "output": "{}"
+        },
+        {
+          "action": "uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "verify-uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+        }
+      ]
+    },
+    "bootstrap-error": {
+      "case": {
+        "name": "m324p82f",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24511,
+        "custom": true,
+        "fresh_final": true
+      },
+      "result": "PASS",
+      "http": 503,
+      "generic_body": true,
+      "no_paths": true
+    }
+  }
+}

@@ -28,7 +28,7 @@ if($op==='seed'){
     foreach(['cookie_consent.options'=>$options,'cookie_consent.services'=>$registry,'cookie_consent.texts'=>$texts,'cookie_consent.log_dir'=>$dir] as $key=>$value){$row=$modx->getObject($class('modSystemSetting'),['key'=>$key]);if(!$row)throw new RuntimeException('Install baseline first');$row->set('value',is_array($value)?json_encode($value,JSON_UNESCAPED_UNICODE|JSON_THROW_ON_ERROR):$value);if(!$row->save())throw new RuntimeException('Fixture save');}
     foreach(['2024-02','2024-03'] as $i=>$month){$r=['schema'=>1,'server_time'=>$month.'-01T00:00:00Z','event_id'=>'aaaaaaaa-aaaa-4aaa-8aaa-00000000000'.($i+1),'consent_id'=>'bbbbbbbb-bbbb-4bbb-8bbb-000000000001','ip'=>'127.0.0.1','user_agent'=>'Release upgrade fixture','event'=>'reject','stage'=>'committed','categories'=>['necessary'=>true,'analytics'=>false,'marketing'=>false],'policy_version'=>'1'];if($i)$r['page']='/historical/page/';file_put_contents($dir.'/'.$month.'-cookie-consent.log',json_encode($r)."\n");}
     file_put_contents($assets.'js/customer-owner.js','window.__ccReleaseOwner=(window.__ccReleaseOwner||0)+1;');
-    file_put_contents($assets.'js/cookie-consent/services/customer-extra.js','window.__ccReleaseExtra=true;');
+    file_put_contents($assets.'components/cookieconsentmanager3/js/cookie-consent/services/customer-extra.js','window.__ccReleaseExtra=true;');
     foreach(['CookiesPopup','CookieConsentAssets'] as $name){$row=$modx->getObject($class($name==='CookiesPopup'?'modChunk':'modSnippet'),['name'=>$name]);$row->set('description','Customer metadata retained across upgrade');$row->save();}
     $modx->cacheManager->refresh();echo json_encode(['seeded'=>true]);exit;
 }
@@ -39,7 +39,7 @@ if($op==='page'){
 if($op==='state'){
     $settings=[];foreach($modx->getCollection($class('modSystemSetting'),['key:LIKE'=>'cookie_consent.%']) as $row)if($row->get('key')!=='cookie_consent.bundle_version')$settings[$row->get('key')]=hash('sha256',(string)$row->get('value'));ksort($settings);
     $logs=[];$dir=(string)$modx->getOption('cookie_consent.log_dir',null,'');if(str_starts_with($dir,$base))foreach(glob(rtrim($dir,'/').'/*-cookie-consent.log')?:[] as $file)$logs[basename($file)]=hash_file('sha256',$file);
-    $owner=[];foreach(['js/customer-owner.js','js/cookie-consent/services/customer-extra.js'] as $path)if(is_file($assets.$path))$owner[$path]=hash_file('sha256',$assets.$path);
+    $owner=[];foreach(['js/customer-owner.js','components/cookieconsentmanager3/js/cookie-consent/services/customer-extra.js'] as $path)if(is_file($assets.$path))$owner[$path]=hash_file('sha256',$assets.$path);
     $errors=0;foreach(is_file(MODX_CORE_PATH.'cache/logs/error.log')?file(MODX_CORE_PATH.'cache/logs/error.log'):[] as $line)if(str_contains($line,'(ERROR @'))$errors++;
     echo json_encode(['settings'=>$settings,'logs'=>$logs,'owner'=>$owner,'manifest'=>is_file($core.'frontend-manifest.json')?json_decode(file_get_contents($core.'frontend-manifest.json'),true):null,'checksum_state_exists'=>file_exists($core.'adapter-checksums.json'),'php_error_count'=>$errors,'php'=>PHP_VERSION,'aliases_off'=>$major!=='3'||!class_exists('modX',false)]);exit;
 }

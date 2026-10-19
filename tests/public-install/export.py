@@ -12,7 +12,7 @@ spec=json.loads((folder/(sig+'.inventory.json')).read_text());allow=json.loads((
 assert spec['objects']['namespace']['fields']=={'name':'cookie_consent','path':'{core_path}components/cookieconsentmanager3/','assets_path':'{assets_path}components/cookieconsentmanager3/'}
 for item in spec['files']:
  assert sha(ROOT/allow[item['target']])==item['sha256'],'Source changed after build: '+item['target']
- assert not item['target'].startswith('assets/js/cookie-consent/services/')
+ assert not item['target'].startswith('assets/components/cookieconsentmanager3/js/cookie-consent/services/')
 with zipfile.ZipFile(archive) as z:
  for name in z.namelist():
   b=z.read(name);assert b'components/cookieconsent/' not in b and b'components/cookieconsent3/' not in b and b'legacy_state' not in b,name

@@ -35,16 +35,16 @@ for name, edits in [('fresh',[]),('original',[]),('one',[('google-ga4.js','comme
         for file,kind in edits:ctl(case,'edit',file,kind)
         before=ctl(case,'state')
         if name in ['permissions','firstpermissions']:
-            run(['docker','exec',container,'mkdir','-p','/opt/cc-updates/cases/'+case+'/site/assets/js/cookie-consent'])
-            run(['docker','exec',container,'chmod','0555','/opt/cc-updates/cases/'+case+'/site/assets/js/cookie-consent'])
+            run(['docker','exec',container,'mkdir','-p','/opt/cc-updates/cases/'+case+'/site/assets/components/cookieconsentmanager3/js/cookie-consent'])
+            run(['docker','exec',container,'chmod','0555','/opt/cc-updates/cases/'+case+'/site/assets/components/cookieconsentmanager3/js/cookie-consent'])
         install(case,expected=name not in ['permissions','firstpermissions','firstsyntax']);after=ctl(case,'state')
         if name in ['permissions','firstpermissions']:
             check(after['files'],before['files'],'Denied write preserves all adapters');check(after['bundle'],before['bundle'],'Denied write preserves bundle');check(after['timestamp'],before['timestamp'],'Denied write preserves timestamp')
-            run(['docker','exec',container,'chmod','0755','/opt/cc-updates/cases/'+case+'/site/assets/js/cookie-consent'])
+            run(['docker','exec',container,'chmod','0755','/opt/cc-updates/cases/'+case+'/site/assets/components/cookieconsentmanager3/js/cookie-consent'])
             if name=='firstpermissions':check(after['elements'],before['elements'],'Preflight aborts before canonical objects');check(after['bundle'],None,'No false first-install success')
         elif name=='firstsyntax':
             check(after['bundle'],None,'Fresh parse failure has no working bundle');check(after['timestamp'],0,'No fake success timestamp');check(after['build']['state'],'error','Fresh failure visible');check(after['files']['google-ga4.js'],before['files']['google-ga4.js'],'Invalid user JS retained');check(bool(after['elements']),True,'Native partial installation is explicit, not rolled back')
-            run(['docker','exec',container,'runuser','-u','www-data','--','cp','/opt/cc-updates/cases/'+case+'/private/core/components/cookieconsent/adapters/services/google-ga4.js','/opt/cc-updates/cases/'+case+'/site/assets/js/cookie-consent/services/google-ga4.js'])
+            run(['docker','exec',container,'runuser','-u','www-data','--','cp','/opt/cc-updates/cases/'+case+'/private/core/components/cookieconsent/adapters/services/google-ga4.js','/opt/cc-updates/cases/'+case+'/site/assets/components/cookieconsentmanager3/js/cookie-consent/services/google-ga4.js'])
             install(case);check(ctl(case,'state')['build']['state'],'ready','Manual repair and reinstall completes fresh install')
         else:
             for file,_ in edits:check(after['files'].get(file),before['files'].get(file),'User source/deletion retained '+file)
@@ -61,7 +61,7 @@ for name, edits in [('fresh',[]),('original',[]),('one',[('google-ga4.js','comme
                 check(later['checksums']['current'],'0.1.0-beta6','Next synchronized version recorded');check(len(later['checksums']['versions']),3,'All installed source baselines retained')
                 check(later['files']['yandex.js']!=reinstalled['files']['yandex.js'],True,'New package original updates untouched adapter')
                 if name=='helper':check('google-common.js' in later['checksums']['report']['conflicts'],True,'Changed package and user helper is reported as conflict')
-                future='assets/js/cookie-consent/services/future-fixture.js'
+                future='assets/components/cookieconsentmanager3/js/cookie-consent/services/future-fixture.js'
                 if future in later['checksums']['versions']['0.1.0-beta6']:
                     if name=='occupied':check(later['files']['future-fixture.js'],before['files']['future-fixture.js'],'New package path occupied by user is retained');check('future-fixture.js' in later['checksums']['report']['unknown'],True,'Occupied new source reported')
                     else:check(later['files']['future-fixture.js'],later['checksums']['versions']['0.1.0-beta6'][future],'New explicitly listed input added at free path')

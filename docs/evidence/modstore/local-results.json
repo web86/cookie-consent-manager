@@ -1,0 +1,94 @@
+{
+  "tests": 22,
+  "failed": 0,
+  "results": [
+    {
+      "name": "guide",
+      "result": "PASS"
+    },
+    {
+      "name": "version",
+      "result": "PASS"
+    },
+    {
+      "name": "adapter-sync",
+      "result": "PASS"
+    },
+    {
+      "name": "php-bundle",
+      "result": "PASS"
+    },
+    {
+      "name": "semantics",
+      "result": "PASS"
+    },
+    {
+      "name": "source-and-paths",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-viewer-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta21-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta24-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta30-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta31-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta33-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-manager-i18n-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-manager-ux-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-elements-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-universal-php.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-universal-audit-schema3.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-beta1042-urls.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-video-embeds-urls.php",
+      "result": "PASS"
+    },
+    {
+      "name": "tests-video-embeds-snippets.php",
+      "result": "PASS"
+    },
+    {
+      "name": "video-url-contract",
+      "result": "PASS"
+    }
+  ]
+}

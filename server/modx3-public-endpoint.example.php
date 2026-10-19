@@ -8,7 +8,10 @@ $level=ob_get_level();
 ob_start();
 try {
     if (!defined('MODX_API_MODE')) define('MODX_API_MODE',true);
-    require dirname(__DIR__,3).'/index.php';
+    require __DIR__.'/bootstrap.php';
+    require_once MODX_CORE_PATH.'vendor/autoload.php';
+    $modx=new \MODX\Revolution\modX();
+    $modx->initialize('web');
     if (!isset($modx) || !($modx instanceof \MODX\Revolution\modX)) throw new RuntimeException('MODX unavailable');
     $setting=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.log_dir']);
     $GLOBALS['cookieConsentModxLogDir']=$setting ? (string)$setting->get('value') : '';
