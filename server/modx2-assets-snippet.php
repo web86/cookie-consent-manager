@@ -1,13 +1,13 @@
 <?php
 // Contract: [[!CookieConsentAssets]] exactly once in head. No banner or suppression flags.
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager/src/CookieConsentSettings.php';
     try {
         $data=CookieConsentSettings::read($modx);
         $registry=CookieConsentTexts::safeJson(CookieConsentServiceRegistry::publicRegistry($data['registry']));
     }catch(Throwable $e){$modx->log(modX::LOG_LEVEL_ERROR,'[CookieConsent] Invalid public configuration');$registry='{"schema":1,"services":[]}';}
     $configuration='<script type="application/json" id="cc-service-registry">'.$registry.'</script>';
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentBundleManager.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager/src/CookieConsentBundleManager.php';
     $assets=(string)$modx->getOption('assets_url');$css='css/cookie-consent.min.css';$js=CookieConsentBundleManager::asset($modx);
     if($js==='')throw new RuntimeException('Frontend installation incomplete');
     if(!is_file(MODX_ASSETS_PATH.$css))throw new RuntimeException('Frontend bundle missing');

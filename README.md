@@ -1,6 +1,6 @@
-# Cookie Consent Manager for MODX 2
+# CookieConsentManager for MODX 2
 
-Review-сборка **cookieconsent-1.0.8-pl3**, ветка `codex/modx2-compatibility-284`: поддержка **MODX `>=2.8.4,<3.0.0`**, PHP **`>=8.1.0`**. [Аудит API 2.8.4–2.8.8, приёмка PHP 8.1/8.2, CMS upgrade и SHA256](docs/modx2-version-compatibility.md). Исправление переводимого заголовка preview из [1.0.8-pl1](docs/modx2-banner-preview-pl1.md) сохранено. Пакет подготовлен для review; публикация релиза и deployment не выполнялись.
+Первый публичный кандидат **cookieconsentmanager-1.0.8-pl5**, ветка `codex/modx2-cookieconsentmanager`. MODX **`>=2.8.4,<3.0.0`**, PHP **`>=8.1.0`**. [Штатный uninstall, актуальный ZIP и решение Modstore](docs/modx2-uninstall.md). Историческая миграция не входит в выпуск. Автоматическая публикация не выполняется.
 
 Техническая совместимость со старой CMS не заменяет обновления безопасности. Для рабочих сайтов рекомендуется актуальная поддерживаемая безопасная версия MODX из [официальных дистрибутивов](https://modx.com/download/other-downloads). На исходном MODX 2.8.4 остаются предупреждения старого ядра и зависимостей; подробности и границы проверки указаны в отчёте совместимости.
 
@@ -12,7 +12,7 @@ Review-сборка **cookieconsent-1.0.8-pl3**, ветка `codex/modx2-compati
 
 **Опубликованный стабильный релиз — [v1.0.0](https://github.com/web86/cookie-consent-manager/releases/tag/v1.0.0)**: `cookieconsent-1.0.0.transport.zip`, [Release Notes](docs/release-1.0.0.md) и [приёмка](docs/modx2-1.0.0-acceptance.md). Исторический transport 1.0.2 использован как база проверки обновления; нового стабильного GitHub Release нет.
 
-**Текущий протестированный beta-кандидат в main — `cookieconsent-1.0.3-beta1`**. Интегрированы Fenom JSON fix (#4) и visibility-aware audit fix (#6) через #7; CSP FAQ — через #9. [Приёмка beta](docs/modx2-1.0.3-beta1-acceptance.md): **25 PASS / 778 assertions / 0 FAIL**, включая настоящую native установку и upgrade с 1.0.2. SHA256 неизменённого проверенного ZIP: `3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b`. **GO только для ручной staging-приёмки**; merge в main не публикует стабильный релиз и не означает production acceptance. [Отчёт о консолидации](docs/repository-consolidation-2026-10-15.md).
+**Исторический протестированный beta-кандидат в main — `cookieconsent-1.0.3-beta1`**. Интегрированы Fenom JSON fix (#4) и visibility-aware audit fix (#6) через #7; CSP FAQ — через #9. [Приёмка beta](docs/modx2-1.0.3-beta1-acceptance.md): **25 PASS / 778 assertions / 0 FAIL**, включая настоящую native установку и upgrade с 1.0.2. SHA256 неизменённого проверенного ZIP: `3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b`. **GO только для ручной staging-приёмки**; merge в main не публикует стабильный релиз и не означает production acceptance. [Отчёт о консолидации](docs/repository-consolidation-2026-10-15.md).
 
 Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, со служебным plugin OnSiteRefresh только для административной пересборки JS, без отдельного lifecycle ledger.
 

@@ -1,8 +1,8 @@
-# Cookie Consent Manager
+# CookieConsentManager
 
 ## RU — Инструкции и руководство
 
-Краткая инструкция по настройке Cookie Consent Manager. Откройте «Компоненты → Cookie Consent Manager», выберите категории и сервисы, затем нажмите «Сохранить». Посетители выбирают категории, а не отдельные сервисы.
+Краткая инструкция по настройке CookieConsentManager. Откройте «Компоненты → CookieConsentManager», выберите категории и сервисы, затем нажмите «Сохранить». Посетители выбирают категории, а не отдельные сервисы.
 
 > Важно: в Legacy-режиме сторонние сервисы могут запускаться до согласия посетителя. Включайте его только после проверки требований к конфиденциальности для вашего сайта.
 
@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ### 5. Изменение JS-адаптеров
 
-Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: Cookie Consent Manager автоматически обновит общий минифицированный JavaScript-файл.
+Адаптер — встроенный JavaScript, который подключает сервис с учётом разрешений посетителя. Путь указан в настройках сервиса рядом с «Исходный код адаптера». Измените этот файл на сервере и очистите кеш MODX в административной панели: CookieConsentManager автоматически обновит общий минифицированный JavaScript-файл.
 
 Для принудительной пересборки откройте «Настройки → Дополнительные настройки → Сборка адаптеров → Пересобрать адаптеры». Здесь видны статус и время успешной сборки. При ошибке остаётся прежний рабочий файл: исправьте код или права записи и повторите. Отдельный JS-файл пользовательского сервиса в общую сборку не входит.
 
@@ -111,7 +111,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 ## EN — Instructions and guide
 
-A quick guide to Cookie Consent Manager. Open Extras → Cookie Consent Manager, choose categories and services, then click Save. Visitors consent to categories, not individual services.
+A quick guide to CookieConsentManager. Open Extras → CookieConsentManager, choose categories and services, then click Save. Visitors consent to categories, not individual services.
 
 > Important: in Legacy mode, third-party services may run before visitors give consent. Enable it only after checking the privacy requirements for your website.
 
@@ -168,7 +168,7 @@ stillAllowed() tells your code whether work may continue; check it again after a
 
 ### 5. Edit JS adapters
 
-An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: Cookie Consent Manager automatically updates the shared minified JavaScript file.
+An adapter is built-in JavaScript that connects a service according to visitor permissions. Find its file path next to Adapter source in the service settings. Edit that file on the server, then clear the MODX cache in Manager: CookieConsentManager automatically updates the shared minified JavaScript file.
 
 To force a rebuild, open Settings → Advanced settings → Adapters build → Rebuild adapters. This block shows the status and successful build time. A failed build keeps the previous working file: fix the code or write permissions and retry. A custom service’s separate JS file is not part of this shared build.
 

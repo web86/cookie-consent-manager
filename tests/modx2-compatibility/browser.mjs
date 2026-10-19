@@ -4,18 +4,22 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,writeFileSync,mkdirSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 
-const local=process.env.CC_MATRIX_DIRECTORY||'.local/modx2-compatibility',cases=JSON.parse(readFileSync(local+'/cases.json'));
+const local=process.env.CC_MATRIX_DIRECTORY||'.local/modx2-compatibility',cases=JSON.parse(readFileSync(local+'/'+(process.env.CC_MATRIX_CASES||'cases.json')));
 const names=process.argv.slice(2),browser=await chromium.launch();
 const signature=process.env.CC_MATRIX_SIGNATURE||'cookieconsent-1.0.8-pl3';
 const folder=process.env.CC_MATRIX_ARTIFACTS||local+'/artifacts/pl3';
 const prior=process.env.CC_MATRIX_PRIOR_SIGNATURE||'cookieconsent-1.0.8-pl2';
 const priorFolder=process.env.CC_MATRIX_PRIOR_FOLDER||local+'/artifacts/pl2';
+const component=process.env.CC_MATRIX_COMPONENT||'cookieconsent';
+const fixtureScript=process.env.CC_MATRIX_FIXTURE||'/opt/cc-source/tests/modx2-compatibility/fixture.php';
+const version=signature.slice(signature.indexOf('-')+1);
 const summary=[];
 for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
  const fixture=local+'/'+c.name,out=fixture+'/evidence';mkdirSync(out,{recursive:true});
  const compose=['compose','--env-file',fixture+'/private/compose.env','-f',fixture+'/compose.yaml'];
  const cli=(args,input)=>execFileSync('docker',[...compose,'exec','-T','web',...args],{encoding:'utf8',input,maxBuffer:16*1024*1024}).trim();
- const control=(op,...args)=>JSON.parse(cli(['php','/opt/cc-source/tests/modx2-compatibility/fixture.php',op,...args]));
+ const control=(op,...args)=>JSON.parse(cli(['php',fixtureScript,op,...args]));
+ let activeComponent='cookieconsent';
  const origin='http://127.0.0.1:'+c.port,results=[],contexts=[];
  const previous=process.env.CC_MATRIX_RESUME?JSON.parse(readFileSync(out+'/browser.json')):null;
  if(previous){assert.ok(previous.tests<13);writeFileSync(out+'/browser-attempt-'+Date.now()+'.json',JSON.stringify(previous,null,2)+'\n',{flag:'wx'});}
@@ -31,15 +35,17 @@ for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
   await p.goto(origin+'/manager/?cultureKey='+lang);
   await p.locator('#modx-login-username').fill(credentials.username);await p.locator('#modx-login-password').fill(credentials.password);await p.locator('#modx-login-btn').click();await p.waitForFunction(()=>window.MODx?.siteId);
   const token=await p.evaluate(()=>MODx.siteId);
-  const api=async(action,form={},native=false)=>(await ctx.request.post(origin+(native?'/connectors/index.php':'/assets/components/cookieconsent/connector.php'),{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:120000})).json();
+  const api=async(action,form={},native=false)=>(await ctx.request.post(origin+(native?'/connectors/index.php':'/assets/components/'+activeComponent+'/connector.php'),{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:120000})).json();
   const install=async(sig,dir)=>{
    const bytes=readFileSync(dir+'/'+sig+'.transport.zip');
    let existing;try{existing=readFileSync(fixture+'/site/core/packages/'+sig+'.transport.zip')}catch{}
    if(existing)eq(createHash('sha256').update(existing).digest('hex'),createHash('sha256').update(bytes).digest('hex'),'Immutable installed archive');
    else{const up=await ctx.request.post(origin+'/connectors/index.php',{headers:{modAuth:token},multipart:{action:'workspace/packages/upload',HTTP_MODAUTH:token,file:{name:sig+'.transport.zip',mimeType:'application/zip',buffer:bytes}},timeout:120000});eq((await up.json()).success,true,'Native upload');}
    eq((await api('workspace/packages/scanlocal',{},true)).success,true,'Native scan');
+   if(component==='cookieconsentmanager'&&prior.split('-')[0]!==signature.split('-')[0]&&sig===signature&&Object.keys(control('rename-state').history).length&&!control('rename-state').packages[signature]?.installed)eq(control('previous-package',sig).previous,false,'Cross-name transition is ACTION_INSTALL, not ACTION_UPGRADE');
    const r=await api('workspace/packages/install',{signature:sig},true);eq(r.success,true,'Native install '+JSON.stringify(r));
    const get=await api('workspace/packages/get',{signature:sig},true);ok(get.success&&get.object.installed,'Installed package record');
+   activeComponent=sig.startsWith('cookieconsentmanager-')?'cookieconsentmanager':'cookieconsent';
   };
   return {ctx,p,token,api,install};
  }
@@ -63,10 +69,10 @@ for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
  async function configure(legacy=false,position='bottom'){
   const now=(await admin.api('get')).object,value=draft(now);value.options={...value.options,banner_position:position,categories:{analytics:true,marketing:true,external_content:true},buttons:{reject:true,configure:true,accept_all:true,accept:legacy}};
   eq((await admin.api('save',{revision:now.revision,draft:JSON.stringify(value),site_origin:origin})).success,true,'Save mode and layout');
-  cli(['php','/opt/cc-source/tests/modx2-compatibility/fixture.php','resource'],template(legacy));
+  cli(['php',fixtureScript,'resource'],template(legacy));
  }
  try{
-  if(previous){admin=await manager();assert.equal((await admin.api('get')).object.packageVersion,signature.replace('cookieconsent-',''));if(!previous.results.some(r=>r.name==='native-upgrade-and-reinstall-preserve-settings-data-adapter'&&r.result==='PASS'))await admin.install(prior,priorFolder);}
+  if(previous){activeComponent=component;admin=await manager();assert.equal((await admin.api('get')).object.packageVersion,version);if(!previous.results.some(r=>r.name==='native-upgrade-and-reinstall-preserve-settings-data-adapter'&&r.result==='PASS'))await admin.install(prior,priorFolder);}
   await test('official-install-db-manager-standard',async()=>{const info=control('info');eq(info.modx,c.modx);ok(info.php.startsWith(c.php+'.'));admin=await manager();});
   await test('native-candidate-fresh-install-standard',async()=>{eq(Object.keys(control('snapshot').elements).length,0);await admin.install(prior,priorFolder);eq(Object.keys(control('snapshot').elements).length,6);const d=(await admin.api('get')).object;eq(d.options.categories,{analytics:false,marketing:false,external_content:false});eq(d.adapterBuild.state,'ready');});
   await test('manager-create-settings-services-translations-and-php-bundle',async()=>{
@@ -81,7 +87,7 @@ for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
    const rebuild=await admin.api('bundle_rebuild');eq(rebuild.success,true);eq((await admin.api('get')).object.adapterBuild.state,'ready');
   });
   await test('native-upgrade-and-reinstall-preserve-settings-data-adapter',async()=>{
-   control('customize');await configure(false);const seed=await visitor();try{eq(await seed.p.evaluate(()=>window.__matrixCustom),undefined,'Custom JS blocked before consent');await seed.p.locator('[data-cc-action=accept-all]').click();await seed.p.waitForFunction(()=>__matrixDeliveries.some(e=>e.ok));eq(seed.audit.every(a=>a.status===200),true);}finally{await close(seed.ctx);}const before=control('snapshot');ok(Object.keys(before.logs).length>0,'Seeded consent log required');await admin.install(signature,folder);const after=control('snapshot');eq(after,before,'Native upgrade preserves data and adapter');eq((await admin.api('get')).object.packageVersion,signature.replace('cookieconsent-',''));eq(control('component-versions'),{manifest:signature.replace('cookieconsent-',''),adapters:signature.replace('cookieconsent-','')},'Release stamps agree');await admin.install(signature,folder);eq(control('snapshot'),after,'Native reinstall preserves');eq((await admin.api('bundle_rebuild')).success,true);
+   control('customize');await configure(false);const seed=await visitor();try{eq(await seed.p.evaluate(()=>window.__matrixCustom),undefined,'Custom JS blocked before consent');await seed.p.locator('[data-cc-action=accept-all]').click();await seed.p.waitForFunction(()=>__matrixDeliveries.some(e=>e.ok));eq(seed.audit.every(a=>a.status===200),true);}catch(e){await close(seed.ctx);throw e;}const oldConsent=await seed.p.evaluate(()=>localStorage.getItem('web86_cookie_consent'));const oldQueue=component==='cookieconsentmanager'?control('audit-queue'):null;const renameBefore=component==='cookieconsentmanager'?control('rename-state'):null;const before=control('snapshot');ok(Object.keys(before.logs).length>0,'Seeded consent log required');await admin.install(signature,folder);const after=control('snapshot');eq(after,before,'Native upgrade preserves data and adapter');if(oldQueue)eq(control('audit-queue'),oldQueue,'Private audit secret/rate-limit state retained');await seed.p.reload({waitUntil:'networkidle'});eq(await seed.p.evaluate(()=>localStorage.getItem('web86_cookie_consent')),oldConsent,'Returning browser consent survives package rename');await close(seed.ctx);if(renameBefore){const moved=control('rename-state');eq(moved.trees,renameBefore.trees,'Every old/foreign component file is unchanged');for(const [v,h]of Object.entries(renameBefore.history))eq(moved.history[v],h,'SHA256 history retained '+v);eq(moved.namespace,'{core_path}components/cookieconsentmanager/');for(const count of Object.values(moved.counts))eq(count,1,'Exactly one canonical/admin object');eq(moved.packages[prior].installed,true,'Old package not uninstalled');eq(moved.packages[signature].installed,true,'New independent package installed');}eq((await admin.api('get')).object.packageVersion,version);eq(control('component-versions'),{manifest:version,adapters:version},'Release stamps agree');await admin.install(signature,folder);eq(control('snapshot'),after,'Native reinstall preserves');eq((await admin.api('bundle_rebuild')).success,true);
    await configure(false);const v=await visitor();try{await v.p.locator('[data-cc-action=accept-all]').click();await v.p.waitForFunction(()=>window.__matrixCustom===1);await v.p.waitForFunction(()=>__matrixDeliveries.some(e=>e.ok));eq(v.audit.every(a=>a.status===200),true);for(const a of v.audit){ok(a.body.ok);ok(control('audit-ids').includes(a.body.event_id),'HTTP ACK event_id exists in JSONL');}eq(await v.p.locator('[data-cc-embed] iframe,[data-cc-map-provider] iframe').count(),6);eq(v.errors,[]);}finally{await close(v.ctx);}
    const inv=JSON.parse(readFileSync(folder+'/'+signature+'.inventory.json'));for(const f of inv.files){const target=fixture+'/site/'+f.target;eq(createHash('sha256').update(readFileSync(target)).digest('hex'),f.sha256,'Installed vehicle '+f.target);}
   });
@@ -115,8 +121,8 @@ for(const c of cases.filter(c=>!names.length||names.includes(c.name))){
   }
   await test('journal-http-csv-acl',async()=>{
    const list=await admin.api('logs_list',{year:'2026'});eq(list.success,true);ok(list.object.total>0,'Persisted consent records');
-   const csv=await admin.ctx.request.post(origin+'/assets/components/cookieconsent/connector.php',{headers:{modAuth:admin.token},form:{action:'logs_export',HTTP_MODAUTH:admin.token,year:'2026'}});eq(csv.status(),200);ok(csv.headers()['content-type'].includes('csv'));ok((await csv.text()).length>100);
-   const anon=await browser.newContext();try{for(const action of ['get','save','logs_list','logs_export','bundle_rebuild']){const r=await anon.request.post(origin+'/assets/components/cookieconsent/connector.php',{form:{action}});ok(r.status()>=400||(await r.text()).includes('"success":false'),'Anonymous denied '+action);}}finally{await anon.close();}
+   const csv=await admin.ctx.request.post(origin+'/assets/components/'+activeComponent+'/connector.php',{headers:{modAuth:admin.token},form:{action:'logs_export',HTTP_MODAUTH:admin.token,year:'2026'}});eq(csv.status(),200);ok(csv.headers()['content-type'].includes('csv'));ok((await csv.text()).length>100);
+   const anon=await browser.newContext();try{for(const action of ['get','save','logs_list','logs_export','bundle_rebuild']){const r=await anon.request.post(origin+'/assets/components/'+activeComponent+'/connector.php',{form:{action}});ok(r.status()>=400||(await r.text()).includes('"success":false'),'Anonymous denied '+action);}}finally{await anon.close();}
    await admin.p.goto(origin+'/manager/?a=index&namespace=cookie_consent');await admin.p.locator('#ccm-tab-logs').click();await admin.p.locator('#ccm-log-table tbody tr').first().waitFor();ok(await admin.p.locator('#ccm-log-table tbody tr').count()>0);
    cli(['php','/opt/cc-source/tests/modx2-compatibility/restricted.php']);const restricted=await manager('en',JSON.parse(readFileSync(fixture+'/private/restricted-manager.json')));for(const action of ['get','save','bundle_rebuild','logs_list','logs_export'])eq((await restricted.api(action)).success,false,'Restricted denied '+action);await restricted.ctx.close();
   });

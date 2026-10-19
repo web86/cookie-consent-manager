@@ -1,0 +1,11 @@
+import {readFileSync} from 'node:fs';
+const local=process.env.CC_REGRESSION_DIRECTORY||'.local/uninstall2-final';
+process.env.CC_MATRIX_DIRECTORY=local;
+process.env.CC_MATRIX_CASES='regression-cases.json';
+process.env.CC_MATRIX_SIGNATURE='cookieconsentmanager-1.0.8-pl5';
+process.env.CC_MATRIX_ARTIFACTS=JSON.parse(readFileSync(local+'/current-artifact.json')).folder;
+process.env.CC_MATRIX_PRIOR_SIGNATURE='cookieconsentmanager-1.0.8-pl4';
+process.env.CC_MATRIX_PRIOR_FOLDER='.local/preflight-fix/artifacts/release';
+process.env.CC_MATRIX_COMPONENT='cookieconsentmanager';
+process.env.CC_MATRIX_FIXTURE='/opt/cc-source/tests/package-rename/fixture.php';
+await import('../modx2-compatibility/browser.mjs');

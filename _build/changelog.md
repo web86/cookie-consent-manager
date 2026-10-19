@@ -1,12 +1,17 @@
-## 1.0.8-pl1
+# CookieConsentManager 1.0.8-pl5 — native uninstall
 
-- Fix banner title rendering in the existing Manager sidebar preview, including live translated edits and safe plain-text output.
+- Complete native uninstall of confirmed package objects, service records and generated files.
+- Native preserved.php records ownership across reinstall/upgrade; settings retain UPDATE_OBJECT=false.
+- Disable the build plugin before removing runtime PHP; safely retry interrupted cleanup.
+- Preserve changed adapters, unknown files, shared categories, consent logs and custom paths with warnings.
+- Fresh install after ordinary uninstall requires no manual database cleanup.
 
-## 1.0.8
+# CookieConsentManager 1.0.8-pl4 — MODX 2 first public package
 
-- Optional translated plain-text banner title; empty titles remain hidden.
-- Bottom bar, bottom-right and bottom-left compact layouts with CSS mobile fallback.
-- Existing consent, adapters, journal and Manager sidebar preview retained.
+- Independent native package cookieconsentmanager, component directories cookieconsentmanager and category CookieConsentManager.
+- Namespace cookie_consent, settings, canonical elements and browser API remain unchanged.
+- No migration, old-package state import, uninstall or historical directory switch. Existing adapters within this product retain SHA256-safe updates and administrative build/fallback.
+- Fresh-install release scope: MODX >=2.8.4,<3.0.0, PHP >=8.1.0. Historical package migration and full third-party-extra testing are outside this first public release.
 
 # Cookie Consent Manager 1.0.7-beta2 — MODX 2 manual upgrade test
 

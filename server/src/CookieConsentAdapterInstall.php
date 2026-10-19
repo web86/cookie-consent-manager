@@ -43,7 +43,7 @@ final class CookieConsentAdapterInstall
     /** Called under the existing bundle lock, after native copies, before parsing JS. */
     public static function synchronize($modx): array
     {
-        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/';
+        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/';
         $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
         $manifest = json_decode((string)file_get_contents($core . 'frontend-manifest.json'), true, 16, JSON_THROW_ON_ERROR);
         $current = self::hashes($manifest);
@@ -52,17 +52,7 @@ final class CookieConsentAdapterInstall
         $statePath = $core . self::STATE;
         $state = self::state($statePath);
         $snapshot = $modx->getOption('cookie_consent.install_snapshot', null, []);
-        if ($state === null) {
-            $state = ['schema'=>1, 'current'=>null, 'versions'=>[]];
-            // A malformed/missing legacy manifest is never used to guess ownership.
-            try {
-                $previous = self::hashes($snapshot['manifest'] ?? []);
-                $oldVersion = $snapshot['version'] ?? 'legacy';
-                if (!preg_match('/^[a-zA-Z0-9.-]{1,100}$/D', $oldVersion)) $oldVersion = 'legacy';
-                $state['versions'][$oldVersion] = $previous;
-                $state['current'] = $oldVersion;
-            } catch (Throwable $ignored) {}
-        }
+        if ($state === null) $state = ['schema'=>1, 'current'=>null, 'versions'=>[]];
         if (isset($state['versions'][$version]) && $state['versions'][$version] !== $current) throw new RuntimeException('adapter_version_collision');
         $known = $state['current'] !== null || !empty($snapshot['fresh']);
         $previous = [];
@@ -114,7 +104,7 @@ final class CookieConsentAdapterInstall
     public static function preserved($modx): int
     {
         try {
-            $state = self::state(rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/' . self::STATE);
+            $state = self::state(rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/' . self::STATE);
             $report = $state['report'] ?? [];
             return count($report['modified'] ?? []) + count($report['deleted'] ?? []) + count($report['unknown'] ?? []);
         } catch (Throwable $ignored) { return 0; }
