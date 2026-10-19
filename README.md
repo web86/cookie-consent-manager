@@ -1,34 +1,21 @@
-# CookieConsentManager for MODX 3
+# CookieConsentManager3 — 1.0.8-pl9
 
-Первый публичный кандидат **cookieconsentmanager3-1.0.8-pl6**, ветка `codex/modx3-cookieconsentmanager`. MODX **`>=3.1.2,<3.3.0`**, PHP **`>=8.1.0`**. [Штатный uninstall, актуальный ZIP и решение Modstore](docs/modx3-uninstall.md). Исторические пакеты не мигрируются. Автоматическая публикация не выполняется.
+RU: Runtime находится в `assets/components/cookieconsentmanager3/`, приватный код — в `core/components/cookieconsentmanager3/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
 
+EN: Runtime lives under `assets/components/cookieconsentmanager3/`; private code remains under `core/components/cookieconsentmanager3/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup.
 
-Самостоятельная версия для **MODX Revolution >=3.1.2,<3.3.0**, PHP **8.1+**, xPDO 3 и MariaDB. Ветка `modx3` содержит полный исходный код MODX 3; `main` остаётся версией для MODX 2. Общего CMS adapter, переключателя сборки и дополнительных таблиц компонента нет.
+RU: Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются.
 
-Техническая совместимость пакета не означает безопасность старой CMS. Обновляйте MODX до актуальной безопасной версии с [официальной страницы загрузки](https://modx.com/download), независимо от минимальной версии компонента. MODX 3.1.2 и 3.2.0–3.2.3 содержат исправленные впоследствии уязвимости; такие версии проверяются только в изолированных локальных окружениях.
+EN: Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain.
 
-Историческая база этого переноса: **`cookieconsent3-0.1.0-beta4`** — перенос проверенной MODX 2 **1.0.6** (`db0a722`) поверх актуальной MODX 3 beta3 (`1fd6872`). Новая ветка `codex/modx3-sync-1.0.6`; исходные ветки сохранены. [Приёмка и release gates](docs/modx3-1.0.6-parity-acceptance.md), [differential-аудит](docs/modx3-1.0.6-differential-audit.md).
+RU: Сборка выполняется установщиком, вручную в Manager и при очистке кеша Manager. Frontend загружает готовый bundle без проверки SHA адаптеров. Ошибка сборки сохраняет прежний bundle и версию. Docker-маршрут удалён; тестовый mock-marketing хранится только в tests/.
 
-Добавлены произвольные категории и экземпляры сервисов, пользовательский JS, category-only consent/audit schema 3, YouTube/RUTUBE/VK Видео, CookieConsentVideo, универсальные инертные template, обновлённый CookieConsentMap, постеры/размеры и общие RU/EN тексты. PHP Peast пересобирает общий bundle при очистке кеша в Manager; принудительная пересборка находится на «Основных». Frontend использует сохранённый timestamp и не проверяет JS-исходники. На установленном сайте Node/npm/Composer не требуются.
+EN: Builds remain in installation and authenticated Manager actions (manual rebuild and cache clear). Visitors load the prepared bundle without adapter hashing. Failed builds retain the working bundle/version. Docker-only routing was removed; mock-marketing is confined to tests/.
 
-**Область первого публичного выпуска — новая native-установка.** По подтверждённому решению пользователя исторические Fenom/live playback gates вынесены за её пределы. Ограничение прогретого compiled Fenom cache pdoTools3 3.1.0 сохраняется; поддержка этой конфигурации и реальный внешний video playback не заявляются. [Актуальная приёмка](docs/modx3-uninstall.md).
+RU: restore-elements использует шесть фактических элементов transport-пакета, существующие ID, транзакцию и dry-run по умолчанию. Настройки не меняются.
 
-Реальная приёмка: MODX 3.1.2-pl и 3.2.0–3.2.4-pl, PHP 8.1.34/8.2.34, комплектные xPDO 3.1.5/3.1.7, MariaDB 11.8.9, Apache/Chromium. Проверены стандартная настройка и выключенные deprecated global aliases. Сохранены native namespaces, lifecycle, canonical IDs/metadata и язык текущей Manager-сессии. Подробные команды и фактические результаты — в отчёте приёмки.
+EN: restore-elements uses the six actual transport elements, existing IDs, a transaction and a default dry run. Settings remain unchanged.
 
-## Установка и обновление
-
-1. Сделайте backup БД, runtime, пользовательских/static исходников элементов, private audit config и журналов.
-2. Проверьте SHA256 точного ZIP. Для beta4: `18eae9c7b331e213d637d872e8a1c4668c301b6fc1be6e309ef9f14a6001b69d`.
-3. Загрузите ZIP в штатный MODX Package Management и выполните Install/Upgrade. Setup Options отсутствуют.
-4. Откройте Cookie Consent Manager в меню Extras. Включите нужные сервисы с вашими IDs и независимые флаги видимости категорий. На свежей установке необязательные категории и сервисы выключены, IDs в package defaults отсутствуют.
-5. На «Основных» выберите существующий каталог журнала и нажмите Save. Default — `MODX_CORE_PATH . 'cache/logs/'`. Save проверяет локальную запись/чтение; при необходимости создаёт managed audit configuration в существующей MODX registry. Пустой путь отключает новые записи. Ошибка каталога сохраняет другие корректные настройки и прежний рабочий путь.
-6. Подключите компонент, очистите обычный MODX/HTML/CDN cache и проверьте реальный browser ACK и запись event_id на staging.
-
-Пакет **заменяет source пяти canonical элементов на месте**: CookiesPopup, CookieConsent, CookieConsentAssets, CookieConsentBanner, CookieConsentMap. ID, категории, properties, property sets, description и пользовательские метаданные сохраняются. Static elements становятся DB-backed; исходный static file не изменяется. Пользовательский код держите в своих чанках/JS. Retired CookieConsentRegistry не устанавливается и не вызывается.
-
-Native uninstall удаляет только перечисленные runtime files и сохраняет элементы/settings/categories/menu/ACL, audit config/key и журналы. Заранее уберите component calls из шаблонов; оставшийся пункт меню без controller не будет работать. Purge — отдельное решение владельца. Native preserved.php не заменяет независимый backup и может быть перезаписан reinstall; атомарный DB/FS rollback при поздних сбоях не обещается.
-
-Семейство `cookieconsent3` независимо от MODX 2 `cookieconsent`, но runtime namespace `cookie_consent`, пути и имена данных прежние. Не устанавливайте оба variants одновременно в одной CMS и **не выполняйте старый MODX 2 uninstall поверх нового runtime** на мигрированном сайте. Миграция самой CMS требует отдельного staging clone/backup; это не обычный package upgrade.
 
 ## Подключение
 
@@ -144,3 +131,22 @@ CSP полезна как дополнительная защита от вне�
 [Текущие fixtures и команды приёмки](tests/modx3-sync/README.md). Project `cookie-consent-modx3-sync106`, отдельные DB/volume/credentials/logs, loopback 20888–20895. Исторические baseline suites MODX 3 сохранены отдельно. Старые MODX 2 fixtures не используются и не сбрасываются. Общие setting-mutating suites выполняются последовательно. Исторический reset helper отключён; runtime устанавливается через native Package Management.
 
 Package requires: PHP `>=8.1.0`, MODX `>=3.1.2,<3.3.0`. Матрица из 12 MODX/PHP конфигураций и CMS upgrade 3.1.2 → 3.2.4 описаны в [отчёте совместимости](docs/modx3-version-compatibility.md). nginx/proxy/client hosting и тяжёлые failure/load cases не входят в эту матрицу. GitHub Release/production deployment не выполнены.
+
+
+# 1.0.8-pl9 — исправления modstore / modstore corrections
+
+RU: Runtime находится в `assets/components/cookieconsentmanager3/`, приватный код — в `core/components/cookieconsentmanager3/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
+
+EN: Runtime lives under `assets/components/cookieconsentmanager3/`; private code remains under `core/components/cookieconsentmanager3/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup.
+
+RU: Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются.
+
+EN: Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain.
+
+RU: Сборка выполняется установщиком, вручную в Manager и при очистке кеша Manager. Frontend загружает готовый bundle без проверки SHA адаптеров. Ошибка сборки сохраняет прежний bundle и версию. Docker-маршрут удалён; тестовый mock-marketing хранится только в tests/.
+
+EN: Builds remain in installation and authenticated Manager actions (manual rebuild and cache clear). Visitors load the prepared bundle without adapter hashing. Failed builds retain the working bundle/version. Docker-only routing was removed; mock-marketing is confined to tests/.
+
+RU: restore-elements использует шесть фактических элементов transport-пакета, существующие ID, транзакцию и dry-run по умолчанию. Настройки не меняются.
+
+EN: restore-elements uses the six actual transport elements, existing IDs, a transaction and a default dry run. Settings remain unchanged.

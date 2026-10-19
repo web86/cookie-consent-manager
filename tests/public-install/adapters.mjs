@@ -14,7 +14,7 @@ for(const c of cases){
   const p=await ctx.newPage();await p.goto(origin+'/manager/');const credentials=JSON.parse(readFileSync(f+'/private/manager.json'));
   await p.locator('#modx-login-username').fill(credentials.username);await p.locator('#modx-login-password').fill(credentials.password);await p.locator('#modx-login-btn').click();await p.waitForFunction(()=>window.MODx?.siteId);
   const token=await p.evaluate(()=>MODx.siteId),api=async(action,form={},native=false)=>(await ctx.request.post(origin+(native?'/connectors/index.php':'/assets/components/cookieconsentmanager3/connector.php'),{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:120000})).json();
-  const source=f+'/site/assets/js/cookie-consent/services/yandex.js',bundle=f+'/site/assets/js/cookie-consent/cached-cookie-consent.min.js',error=f+'/site/assets/js/cookie-consent/cookie-consent.last-error.json';
+  const source=f+'/site/assets/components/cookieconsentmanager3/js/cookie-consent/services/yandex.js',bundle=f+'/site/assets/components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js',error=f+'/site/assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.last-error.json';
   const old=readFileSync(source),working=readFileSync(bundle),before=ctl('bundle-state');
   writeFileSync(source,Buffer.concat([old,Buffer.from('\nfunction { invalid\n')]));const changed=readFileSync(source);
   eq((await api('workspace/packages/install',{signature:sig},true)).success,true,'Native reinstall retains working fallback');eq(readFileSync(source),changed);eq(readFileSync(bundle),working);eq(ctl('bundle-state'),before);eq((await api('get')).object.adapterBuild.state,'error');

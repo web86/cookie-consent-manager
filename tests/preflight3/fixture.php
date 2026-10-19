@@ -4,13 +4,13 @@ $preflightAction=$argv[1]??'';$argv[1]='boot';
 require __DIR__.'/../public-install/fixture.php';
 $namespace=$modx->getObject('MODX\Revolution\modNamespace',['name'=>'cookie_consent']);
 $marker='preflight-negative-fixture';
-$roots=[MODX_CORE_PATH.'components/cookieconsentmanager3',MODX_ASSETS_PATH.'components/cookieconsentmanager3',MODX_ASSETS_PATH.'js/cookie-consent'];
+$roots=[MODX_CORE_PATH.'components/cookieconsentmanager3',MODX_ASSETS_PATH.'components/cookieconsentmanager3',MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent'];
 $rows=['MODX\Revolution\modNamespace'=>['name'=>'cookie_consent'],'MODX\Revolution\modChunk'=>['name'=>'CookiesPopup'],'MODX\Revolution\modSnippet'=>['name:IN'=>['CookieConsent','CookieConsentAssets','CookieConsentBanner','CookieConsentMap','CookieConsentVideo']],'MODX\Revolution\modPlugin'=>['name'=>'CookieConsentCacheBuild'],'MODX\Revolution\modSystemSetting'=>['namespace'=>'cookie_consent','OR:key:IN'=>['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit']],'MODX\Revolution\modMenu'=>['namespace'=>'cookie_consent','OR:text:='=>'CookieConsentManager']];
 if($preflightAction==='state'){
     $result=['objects'=>[],'files'=>[],'installed'=>false];
     foreach($rows as $class=>$criteria){$values=[];foreach($modx->getCollection($class,$criteria) as $row)$values[]=$row->toArray();usort($values,static fn($a,$b)=>strcmp(json_encode($a),json_encode($b)));$result['objects'][$class]=$values;}
     foreach($roots as $directory)if(is_dir($directory))foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory,FilesystemIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $file){if($file->isDir()&&!$file->isLink())continue;$result['files'][$file->getPathname()]=$file->isLink()?'link:'.readlink($file->getPathname()):hash_file('sha256',$file->getPathname());}
-    $css=MODX_ASSETS_PATH.'css/cookie-consent.min.css';if(file_exists($css))$result['files'][$css]=hash_file('sha256',$css);ksort($result['files']);
+    $css=MODX_ASSETS_PATH.'components/cookieconsentmanager3/css/cookie-consent.min.css';if(file_exists($css))$result['files'][$css]=hash_file('sha256',$css);ksort($result['files']);
     $p=$modx->getObject('MODX\Revolution\Transport\modTransportPackage',['signature'=>'cookieconsentmanager3-1.0.8-pl7']);$result['installed']=$p&&(bool)$p->get('installed');
     echo json_encode($result);exit;
 }
@@ -33,7 +33,7 @@ if($preflightAction==='conflict'){
         'menu'=>['MODX\Revolution\modMenu',['text'=>'preflight-negative-fixture','namespace'=>'cookie_consent','action'=>'index','description'=>$marker]],
         'foreign-menu'=>['MODX\Revolution\modMenu',['text'=>'CookieConsentManager','namespace'=>'core','action'=>'index','description'=>$marker]],
     ];
-    $files=['core-known'=>$roots[0].'/src/CookieConsentSettings.php','core-unknown'=>$roots[0].'/foreign.txt','assets-known'=>$roots[1].'/manager.js','assets-unknown'=>$roots[1].'/foreign.txt','public'=>$roots[2].'/consent-manager.js','public-unknown'=>$roots[2].'/foreign.txt','adapter'=>$roots[2].'/services/yandex.js','css'=>MODX_ASSETS_PATH.'css/cookie-consent.min.css','css-symlink'=>MODX_ASSETS_PATH.'css/cookie-consent.min.css','manifest'=>$roots[0].'/frontend-manifest.json','state'=>$roots[0].'/adapter-checksums.json','symlink'=>$roots[0].'/foreign-link','nonempty-lock'=>$roots[2].'/cookie-consent.build.lock'];
+    $files=['core-known'=>$roots[0].'/src/CookieConsentSettings.php','core-unknown'=>$roots[0].'/foreign.txt','assets-known'=>$roots[1].'/manager.js','assets-unknown'=>$roots[1].'/foreign.txt','public'=>$roots[2].'/consent-manager.js','public-unknown'=>$roots[2].'/foreign.txt','adapter'=>$roots[2].'/services/yandex.js','css'=>MODX_ASSETS_PATH.'components/cookieconsentmanager3/css/cookie-consent.min.css','css-symlink'=>MODX_ASSETS_PATH.'components/cookieconsentmanager3/css/cookie-consent.min.css','manifest'=>$roots[0].'/frontend-manifest.json','state'=>$roots[0].'/adapter-checksums.json','symlink'=>$roots[0].'/foreign-link','nonempty-lock'=>$roots[2].'/cookie-consent.build.lock'];
     if(isset($definitions[$type])){
         [$class,$fields]=$definitions[$type];$primary=$class==='MODX\Revolution\modSystemSetting'?'key':($class==='MODX\Revolution\modMenu'?'text':'name');$criteria=[$primary=>$fields[$primary]];
         if($mode==='seed'){if($modx->getCount($class,$criteria))throw new RuntimeException('Existing conflict');$row=$modx->newObject($class);$row->fromArray($fields,'',true,true);if(!$row->save())throw new RuntimeException('Conflict seed');}

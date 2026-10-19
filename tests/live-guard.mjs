@@ -14,8 +14,8 @@ const googleMap = 'https://www.google.com/maps/embed?pb=TEST%3AMOCK';
 const yandexMap = 'https://yandex.ru/map-widget/v1/?ll=37.6%2C55.7&z=10';
 const liveHtml = html.replace(/(<script type="application\/json" id="cc-service-registry">)[\s\S]*?(<\/script>)/, '$1' + JSON.stringify(testRegistry) + '$2')
   .replaceAll('data-cc-mode="mock"', 'data-cc-mode="live"')
-  .replaceAll('/assets/js/cookie-consent/mock/google_maps.html', googleMap)
-  .replaceAll('/assets/js/cookie-consent/mock/yandex_maps.html', yandexMap.replaceAll('&', '&amp;'));
+  .replaceAll('/assets/components/cookieconsentmanager3/js/cookie-consent/mock/google_maps.html', googleMap)
+  .replaceAll('/assets/components/cookieconsentmanager3/js/cookie-consent/mock/yandex_maps.html', yandexMap.replaceAll('&', '&amp;'));
 const singleContent=key=>liveHtml.replace(/(<script type="application\/json" id="cc-service-registry">)[\s\S]*?(<\/script>)/,'$1'+JSON.stringify({...testRegistry,services:testRegistry.services.map(s=>({...s,enabled:s.key===key}))})+'$2');
 async function suite(name, cb, content = liveHtml) {
   const ctx = await browser.newContext({ recordHar: { path: `.local/modx3/evidence/live-${name}.har`, content: 'omit' } });

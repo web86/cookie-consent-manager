@@ -18,7 +18,7 @@
 | Namespace / lexicon / настройки | `cookie_consent`, `cookie_consent:default`, `cookie_consent.*` — сохранены, отличаются от известного чужого `cookieconsent` |
 | Канонические элементы | `CookieConsent`, `CookieConsentAssets`, `CookieConsentBanner`, `CookieConsentMap`, `CookieConsentVideo`, `CookiesPopup` — сохранены |
 | Browser API | `window.web86CookieConsent`, `onAllowed()`, `mountEmbeds()` — сохранены |
-| Public adapters / JS / CSS | прежние `assets/js/cookie-consent/`, `assets/css/cookie-consent.min.css` |
+| Public adapters / JS / CSS | прежние `assets/components/cookieconsentmanager3/js/cookie-consent/`, `assets/components/cookieconsentmanager3/css/cookie-consent.min.css` |
 
 Сохранены `MODX\Revolution\*`, `MODX\Revolution\Transport\modPackageBuilder`, namespaced processors и `xPDO\Transport\*` vehicles. Deprecated global aliases отключены **до установки** на всех стендах. Сохранены существующие MODX 3 post-parse registration, private audit queue, logger/CSV, Peast, административные rebuild/lock/atomic/fallback и отсутствие visitor build. Из адаптерного установщика убран только импорт исторического manifest; новые установки сохраняют собственную SHA256-историю для последующих обновлений внутри своего семейства.
 

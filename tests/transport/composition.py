@@ -24,11 +24,11 @@ check(baseline.returncode==0,baseline.stdout)
 summary=json.loads(baseline.stdout)
 check({f['target'] for f in spec['files']}==set(allowlist),'Exact runtime allowlist')
 js=[p for p in manifest['inputs'] if p.endswith('.js')]
-target=lambda p:'core/components/cookieconsent/adapters/services/'+Path(p).name if p.startswith('assets/js/cookie-consent/services/') else p
+target=lambda p:'core/components/cookieconsent/adapters/services/'+Path(p).name if p.startswith('assets/components/cookieconsentmanager3/js/cookie-consent/services/') else p
 check(len(js)==21 and all(allowlist.get(target(p))==p for p in js),'All 21 ordered BundleManager sources shipped; service originals private')
-check(not any(p.startswith('assets/js/cookie-consent/services/') for p in allowlist),'No native vehicle can overwrite user adapters')
-check('assets/js/cookie-consent/cookie-consent.min.js' not in allowlist,'No prebuilt production JS')
-check(all('assets/js/cookie-consent/embeds/'+p+'.js' in allowlist for p in ['youtube','rutube','vk-video']),'All video adapters')
+check(not any(p.startswith('assets/components/cookieconsentmanager3/js/cookie-consent/services/') for p in allowlist),'No native vehicle can overwrite user adapters')
+check('assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js' not in allowlist,'No prebuilt production JS')
+check(all('assets/components/cookieconsentmanager3/js/cookie-consent/embeds/'+p+'.js' in allowlist for p in ['youtube','rutube','vk-video']),'All video adapters')
 check(not any('/mock/' in p for p in allowlist),'Test/demo mock directory excluded')
 check('core/components/cookieconsent/adapters/services/mock-marketing.js' in allowlist,'Referenced factory retained among the 21 fixed build sources')
 for target in allowlist:

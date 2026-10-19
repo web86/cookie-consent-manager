@@ -48,9 +48,7 @@
     "service.google_maps.name": "Google Maps",
     "service.google_maps.description": "External interactive maps",
     "service.yandex_maps.name": "Yandex Maps",
-    "service.yandex_maps.description": "External interactive maps",
-    "service.mock_marketing.name": "Mock marketing",
-    "service.mock_marketing.description": "Local advertising simulation"
+    "service.yandex_maps.description": "External interactive maps"
   },
   "ru": {
     "notice_html": "Мы используем необходимые cookie для работы сайта.\nАналитические, маркетинговые cookie и внешние карты\nиспользуются только с вашего согласия. Подробнее — в\n<a href=\"/soglasie\" target=\"_blank\" rel=\"noopener noreferrer\">согласии</a>\nи\n<a href=\"/pkd\" target=\"_blank\" rel=\"noopener noreferrer\">политике обработки данных</a>.",
@@ -101,8 +99,6 @@
     "service.google_maps.name": "Google Maps",
     "service.google_maps.description": "Внешние интерактивные карты",
     "service.yandex_maps.name": "Яндекс.Карты",
-    "service.yandex_maps.description": "Внешние интерактивные карты",
-    "service.mock_marketing.name": "Тестовый маркетинг",
-    "service.mock_marketing.description": "Локальная имитация рекламы"
+    "service.yandex_maps.description": "Внешние интерактивные карты"
   }
 }

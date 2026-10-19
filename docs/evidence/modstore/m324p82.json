@@ -1,0 +1,302 @@
+{
+  "case": {
+    "name": "m324p82",
+    "major": 3,
+    "modx": "3.2.4-pl",
+    "php": "8.2",
+    "port": 24507,
+    "custom": true
+  },
+  "checks": {
+    "native-upgrade": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager3-1.0.8-pl8\"}"
+        },
+        {
+          "action": "verify-uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+        },
+        {
+          "action": "install",
+          "output": "{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager3-1.0.8-pl7\"}"
+        },
+        {
+          "action": "edit-old",
+          "output": "{\"invalid\":false,\"adapter\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"bundle\":\"18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260\"}"
+        },
+        {
+          "action": "install",
+          "output": "{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl7\",\"1.0.8-pl9\"]}"
+        },
+        {
+          "action": "repair-upgrade",
+          "output": "{}"
+        },
+        {
+          "action": "install",
+          "output": "{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl7\",\"1.0.8-pl9\"]}"
+        },
+        {
+          "action": "configure",
+          "output": "{}"
+        },
+        {
+          "action": "rebuild",
+          "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        },
+        {
+          "action": "cache",
+          "output": "{\"result\":\"PASS\",\"action\":\"cache\"}"
+        },
+        {
+          "action": "failure",
+          "output": "{\"result\":\"PASS\",\"action\":\"failure\"}"
+        },
+        {
+          "action": "rebuild",
+          "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        },
+        {
+          "action": "install",
+          "output": "{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl7\",\"1.0.8-pl9\"]}"
+        }
+      ]
+    },
+    "browser": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "mode": "strict",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "name": "audit-request-validation",
+          "result": "PASS"
+        }
+      ]
+    },
+    "manager": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        "authenticated CMP",
+        "configured adapter path",
+        "manual rebuild processor",
+        "native clearcache processor and OnSiteRefresh"
+      ]
+    },
+    "native-checks": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "ordinary-http-check-and-log",
+          "output": {
+            "result": "PASS",
+            "event_id": "55359b03-1234-4123-8123-123456789abc",
+            "recorded": true
+          }
+        },
+        {
+          "action": "restore-elements-dry-run",
+          "output": {
+            "applied": false,
+            "elements": [
+              {
+                "name": "CookiesPopup",
+                "id": 2,
+                "current_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca",
+                "backup_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca"
+              },
+              {
+                "name": "CookieConsent",
+                "id": 6,
+                "current_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7",
+                "backup_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7"
+              },
+              {
+                "name": "CookieConsentMap",
+                "id": 7,
+                "current_sha256": "a9fd4f7218980aa086385956397e51ce56103e0e7bef3b4259fc879ca99d8fa5",
+                "backup_sha256": "a9fd4f7218980aa086385956397e51ce56103e0e7bef3b4259fc879ca99d8fa5"
+              },
+              {
+                "name": "CookieConsentVideo",
+                "id": 8,
+                "current_sha256": "aa57eda1ce9a5556d0ab2818fdd41d7157b0dc120181836e9b96c25e72bd1f87",
+                "backup_sha256": "aa57eda1ce9a5556d0ab2818fdd41d7157b0dc120181836e9b96c25e72bd1f87"
+              },
+              {
+                "name": "CookieConsentAssets",
+                "id": 9,
+                "current_sha256": "f52f99be60efc97548b1aa42a526397dc87fc153398db415c6bbabd7af3d0c18",
+                "backup_sha256": "f52f99be60efc97548b1aa42a526397dc87fc153398db415c6bbabd7af3d0c18"
+              },
+              {
+                "name": "CookieConsentBanner",
+                "id": 10,
+                "current_sha256": "d64f4d8ada5f444f6460d4e5b986657decd283143bb921ff5c0658406a5b0637",
+                "backup_sha256": "d64f4d8ada5f444f6460d4e5b986657decd283143bb921ff5c0658406a5b0637"
+              }
+            ]
+          }
+        },
+        {
+          "action": "restore-elements-apply",
+          "output": {
+            "applied": true,
+            "elements": [
+              {
+                "name": "CookiesPopup",
+                "id": 2,
+                "current_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca",
+                "backup_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca"
+              },
+              {
+                "name": "CookieConsent",
+                "id": 6,
+                "current_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7",
+                "backup_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7"
+              },
+              {
+                "name": "CookieConsentMap",
+                "id": 7,
+                "current_sha256": "a9fd4f7218980aa086385956397e51ce56103e0e7bef3b4259fc879ca99d8fa5",
+                "backup_sha256": "a9fd4f7218980aa086385956397e51ce56103e0e7bef3b4259fc879ca99d8fa5"
+              },
+              {
+                "name": "CookieConsentVideo",
+                "id": 8,
+                "current_sha256": "aa57eda1ce9a5556d0ab2818fdd41d7157b0dc120181836e9b96c25e72bd1f87",
+                "backup_sha256": "aa57eda1ce9a5556d0ab2818fdd41d7157b0dc120181836e9b96c25e72bd1f87"
+              },
+              {
+                "name": "CookieConsentAssets",
+                "id": 9,
+                "current_sha256": "f52f99be60efc97548b1aa42a526397dc87fc153398db415c6bbabd7af3d0c18",
+                "backup_sha256": "f52f99be60efc97548b1aa42a526397dc87fc153398db415c6bbabd7af3d0c18"
+              },
+              {
+                "name": "CookieConsentBanner",
+                "id": 10,
+                "current_sha256": "d64f4d8ada5f444f6460d4e5b986657decd283143bb921ff5c0658406a5b0637",
+                "backup_sha256": "d64f4d8ada5f444f6460d4e5b986657decd283143bb921ff5c0658406a5b0637"
+              }
+            ]
+          }
+        }
+      ],
+      "settings_and_ids_unchanged": true
+    },
+    "native-remove": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "snapshot-uninstall",
+          "output": "{}"
+        },
+        {
+          "action": "uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+        },
+        {
+          "action": "verify-uninstall",
+          "output": "{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+        }
+      ]
+    },
+    "bootstrap-error": {
+      "case": {
+        "name": "m324p82",
+        "major": 3,
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 24507,
+        "custom": true
+      },
+      "result": "PASS",
+      "http": 503,
+      "generic_body": true,
+      "no_paths": true
+    }
+  }
+}

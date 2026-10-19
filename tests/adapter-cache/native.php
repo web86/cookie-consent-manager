@@ -2,8 +2,8 @@
 // Mutates ONLY the named disposable MODX 3 fixture and this component's adapter.
 require __DIR__.'/../modx3/guard.php';
 require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentBundleManager.php';
-$source=MODX_ASSETS_PATH.'js/cookie-consent/embeds/youtube.js';
-$file=MODX_ASSETS_PATH.'js/cookie-consent/cached-cookie-consent.min.js';
+$source=MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/embeds/youtube.js';
+$file=MODX_ASSETS_PATH.'components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js';
 $op=$argv[1]??'';
 if($op==='deactivate'){
  $row=$modx->getObject('MODX\Revolution\modSystemSetting',['key'=>'cookie_consent.bundle_version']);if($row&&!$row->remove())exit(1);
@@ -35,7 +35,7 @@ if($op==='state'){
  echo json_encode(['build'=>CookieConsentBundleManager::status($modx),'asset'=>CookieConsentBundleManager::asset($modx),'hash'=>is_file($file)?hash_file('sha256',$file):null,'inode'=>is_file($file)?fileinode($file):null,'plugins'=>$modx->getCount('MODX\Revolution\modPlugin',['name'=>'CookieConsentCacheBuild']),'events'=>$plugin?$modx->getCount('MODX\Revolution\modPluginEvent',['pluginid'=>$plugin->get('id'),'event'=>'OnSiteRefresh']):0,'settings'=>$settings,'timestamp'=>(int)$modx->getOption('cookie_consent.bundle_version',null,0)]);exit;
 }
 if($op==='edit'||$op==='break'){file_put_contents($source,$op==='edit'?"\nwindow.__adapterBuildEdited=true;\n":"\nfunction { broken",FILE_APPEND);exit;}
-if($op==='restore'){copy(dirname(__DIR__,2).'/assets/js/cookie-consent/embeds/youtube.js',$source);exit;}
+if($op==='restore'){copy(dirname(__DIR__,2).'/assets/components/cookieconsentmanager3/js/cookie-consent/embeds/youtube.js',$source);exit;}
 if($op==='deny'||$op==='allow'){chmod(dirname($file),$op==='deny'?0555:0755);exit;}
 if($op==='public-refresh'){$modx->initialize('web');$modx->invokeEvent('OnSiteRefresh');exit;}
 if($op==='remove-cache'){if(is_file($file))unlink($file);exit;}

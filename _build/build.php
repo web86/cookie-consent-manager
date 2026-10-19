@@ -40,10 +40,10 @@ foreach($frontend['inputs'] as $path=>$hash)if(hash_file('sha256',$root.'/'.$pat
 foreach($frontend['outputs'] as $path=>$info)if(str_ends_with($path,'.css')&&hash_file('sha256',$root.'/'.$path)!==$info['sha256'])throw new RuntimeException('Frontend hash mismatch');
 // Closed runtime allowlist: no recursive packaging of tests or developer files.
 $runtime=json_decode(file_get_contents(__DIR__.'/transport-files.json'),true,16,JSON_THROW_ON_ERROR);
-foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js')){$target=str_starts_with($path,'assets/js/cookie-consent/services/')?'core/components/cookieconsentmanager3/adapters/services/'.basename($path):$path;if(($runtime[$target]??null)!==$path)throw new RuntimeException('Bundle source missing from transport allowlist');}
-if(isset($runtime['assets/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS must not be shipped');
+foreach(array_keys($frontend['inputs']) as $path)if(str_ends_with($path,'.js')){$target=str_starts_with($path,'assets/components/cookieconsentmanager3/js/cookie-consent/services/')?'core/components/cookieconsentmanager3/adapters/services/'.basename($path):$path;if(($runtime[$target]??null)!==$path)throw new RuntimeException('Bundle source missing from transport allowlist');}
+if(isset($runtime['assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS must not be shipped');
 foreach($runtime as $target=>$source){
-    if(!is_string($source)||!preg_match('~^(?:assets/|core/components/cookieconsentmanager3/)[a-zA-Z0-9_./-]+$~D',$target)||str_contains($target,'..')||str_contains($source,'..'))throw new RuntimeException('Transport allowlist path');
+    if(!is_string($source)||!preg_match('~^(?:assets/components/cookieconsentmanager3/|core/components/cookieconsentmanager3/)[a-zA-Z0-9_./-]+$~D',$target)||str_contains($target,'..')||str_contains($source,'..'))throw new RuntimeException('Transport allowlist path');
     addSource($root.'/'.$source,$target,$files,$payload,$root);
 }
 // HTTP access policy, including existing .htaccess files, belongs to the site owner.

@@ -43,7 +43,7 @@ for(const c of JSON.parse(readFileSync(local+'/cases.json'))){
   }
   await run('held-lock-refusal-and-empty-lock-retry-after-old-preflight',async()=>{
    const child=spawn('docker',[...compose,'exec','-T','-u','www-data','web','php','/opt/cc-source/tests/preflight3/fixture.php','lock'],{stdio:['pipe','pipe','pipe']});let ready='';const exit=once(child,'exit');
-   try{for await(const bytes of child.stdout){ready+=bytes;if(ready.includes('READY'))break;}ok(ready.includes('READY'));const before=ctl('state');eq(Object.keys(before.files),['/var/www/html/assets/js/cookie-consent/cookie-consent.build.lock']);await refused('bundle_busy');}
+   try{for await(const bytes of child.stdout){ready+=bytes;if(ready.includes('READY'))break;}ok(ready.includes('READY'));const before=ctl('state');eq(Object.keys(before.files),['/var/www/html/assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.build.lock']);await refused('bundle_busy');}
    finally{child.stdin.end('\n');const [code]=await exit;eq(code,0);}
    await install();eq(ctl('state').installed,true);eq((await api('get',{},false)).object.adapterBuild.state,'ready');
   });

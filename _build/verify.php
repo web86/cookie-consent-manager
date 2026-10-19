@@ -50,10 +50,10 @@ if(count($found)!==6)throw new RuntimeException('Only canonical product settings
 foreach($spec['files'] as $entry){if(basename($entry['target'])==='.htaccess')throw new RuntimeException('Package must not manage administrator .htaccess');$object=$fileVehicles[$entry['target']]??null;if(!$object||hash('sha256',$zip->getFromName($object['source'].$object['name']))!==$entry['sha256'])throw new RuntimeException('Native file inventory mismatch');}
 // Both the installed payload and every raw ZIP file must be accounted for.
 $runtime=json_decode(file_get_contents(__DIR__.'/transport-files.json'),true,16,JSON_THROW_ON_ERROR);
-if(isset($runtime['assets/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS in transport');
+if(isset($runtime['assets/components/cookieconsentmanager3/js/cookie-consent/cookie-consent.min.js']))throw new RuntimeException('Prebuilt production JS in transport');
 $frontend=json_decode(file_get_contents(__DIR__.'/frontend-manifest.json'),true,16,JSON_THROW_ON_ERROR);
-foreach($runtime as $target=>$source)if(str_starts_with($target,'assets/js/cookie-consent/services/'))throw new RuntimeException('User adapter target in transport');
-foreach($frontend['inputs'] as $source=>$hash)if(str_starts_with($source,'assets/js/cookie-consent/services/')&&($runtime['core/components/cookieconsentmanager3/adapters/services/'.basename($source)]??null)!==$source)throw new RuntimeException('Missing private adapter original');
+foreach($runtime as $target=>$source)if(str_starts_with($target,'assets/components/cookieconsentmanager3/js/cookie-consent/services/'))throw new RuntimeException('User adapter target in transport');
+foreach($frontend['inputs'] as $source=>$hash)if(str_starts_with($source,'assets/components/cookieconsentmanager3/js/cookie-consent/services/')&&($runtime['core/components/cookieconsentmanager3/adapters/services/'.basename($source)]??null)!==$source)throw new RuntimeException('Missing private adapter original');
 $targets=array_keys($runtime);$actual=array_keys($fileVehicles);sort($targets);sort($actual);
 if($actual!==$targets||count($spec['files'])!==count($runtime))throw new RuntimeException('Transport allowlist mismatch');
 $expectedNames=array_keys($expectedZip);$actualNames=array_keys($zipFiles);sort($expectedNames);sort($actualNames);

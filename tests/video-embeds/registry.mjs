@@ -4,7 +4,7 @@ const php=`require 'server/src/CookieConsentSettings.php';${old};$old=CookieCons
 const data=JSON.parse(execFileSync('php',['-r',php],{encoding:'utf8'}));let n=0;const eq=(a,b,m)=>{n++;assert.deepEqual(a,b,m);};
 for(const service of data.old.services)eq(data.new.services.find(s=>s.key===service.key),service,'Historic service unchanged');
 function api(source){const window={web86ScriptUrl:{valid:()=>true}};runInNewContext(source,{window,document:{getElementById:()=>null},console,TextEncoder,URL});return window.web86Providers;}
-const oldJs=api(execFileSync('git',['show',baseline.commit+':assets/js/cookie-consent/provider-registry.js'],{encoding:'utf8'})),newJs=api(readFileSync('assets/js/cookie-consent/provider-registry.js','utf8'));
+const oldJs=api(execFileSync('git',['show',baseline.commit+':assets/js/cookie-consent/provider-registry.js'],{encoding:'utf8'})),newJs=api(readFileSync('assets/components/cookieconsentmanager3/js/cookie-consent/provider-registry.js','utf8'));
 for(const service of data.old.services){const row={...service,enabled:true,config:{...service.config}};if(!service.loader.endsWith('_maps')&&!row.config.id)row.config.id=({google_ga4:'G-ABCD1234',google_gtm:'GTM-ABCD1234',google_ads:'AW-12345678'}[service.loader]||'12345678');const old=oldJs.validate({schema:1,services:[row]});const next=newJs.validate({schema:1,services:[row]});eq(JSON.parse(JSON.stringify(next)),JSON.parse(JSON.stringify(old)),'Historical JS fingerprints unchanged');}
 for(const loader of ['youtube','rutube','vk_video']){
  const stock=data.new.services.find(s=>s.loader===loader);eq(stock.enabled,false);eq(stock.category,'external_content');

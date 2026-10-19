@@ -5,7 +5,7 @@ declare(strict_types=1);
 final class CookieConsentBundleManager
 {
     private const VERSION_KEY = 'cookie_consent.bundle_version';
-    private const FILE = 'js/cookie-consent/cached-cookie-consent.min.js';
+    private const FILE = 'components/cookieconsentmanager3/js/cookie-consent/cached-cookie-consent.min.js';
     private const HEADER = '// CookieConsentBundle ';
     private const RECIPE = 'peast-1.17.6-compact-es2020-v1';
 
@@ -50,7 +50,7 @@ final class CookieConsentBundleManager
     public static function status($modx): array
     {
         $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
-        $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/js/cookie-consent/';
+        $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/components/cookieconsentmanager3/js/cookie-consent/';
         $errorFile = $dir . 'cookie-consent.last-error.json';
         $attempt = is_file($errorFile) ? json_decode((string)@file_get_contents($errorFile), true) : null;
         require_once __DIR__ . '/CookieConsentAdapterInstall.php';
@@ -74,7 +74,7 @@ final class CookieConsentBundleManager
     private static function build($modx, bool $force, ?callable $synchronize = null): array
     {
         $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
-        $dir = $assets . 'js/cookie-consent/';
+        $dir = $assets . 'components/cookieconsentmanager3/js/cookie-consent/';
         if ((!is_dir($dir) && !@mkdir($dir, 0755, true)) || realpath($dir) !== rtrim($dir, '/') || !is_writable($dir)) {
             throw new RuntimeException('bundle_directory');
         }
@@ -89,7 +89,7 @@ final class CookieConsentBundleManager
             if ($synchronize !== null) $synchronize();
             $manifest = json_decode((string)file_get_contents(self::manifest($modx)), true, 16, JSON_THROW_ON_ERROR);
             if (($manifest['tool'] ?? '') !== 'esbuild' || !is_array($manifest['inputs'] ?? null)) throw new RuntimeException('bundle_manifest');
-            $sourceRoot = realpath($assets . 'js/cookie-consent');
+            $sourceRoot = realpath($assets . 'components/cookieconsentmanager3/js/cookie-consent');
             if ($sourceRoot === false) throw new RuntimeException('bundle_manifest');
             $sources = [];
             $hash = hash_init('sha256');
@@ -97,7 +97,7 @@ final class CookieConsentBundleManager
             // The same ordered manifest inputs drive frontend.mjs and installed PHP.
             foreach ($manifest['inputs'] as $path => $unused) {
                 if (!str_ends_with($path, '.js')) continue;
-                if (!preg_match('~^assets/js/cookie-consent/(?:[a-z0-9-]+/)?[a-z0-9-]+\.js$~D', $path) || str_ends_with($path, '.min.js')) throw new RuntimeException('bundle_manifest');
+                if (!preg_match('~^assets/components/cookieconsentmanager3/js/cookie-consent/(?:[a-z0-9-]+/)?[a-z0-9-]+\.js$~D', $path) || str_ends_with($path, '.min.js')) throw new RuntimeException('bundle_manifest');
                 $file = $assets . substr($path, strlen('assets/'));
                 $real = realpath($file);
                 if ($real === false || $real !== $file || !str_starts_with($real, $sourceRoot . '/') || !is_file($real)) throw new RuntimeException('bundle_manifest');

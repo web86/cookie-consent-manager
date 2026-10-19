@@ -47,18 +47,18 @@ for name in ['fresh','original','legacy','edited','deleted','syntax']:
   eq(ctl(case,'install',archive)['success'],True,'Candidate native Package Manager install/upgrade without uninstall')
   after=ctl(case,'state');preserved=own(case,'state')
   eq(after['packageVersion'],version,'Installed new runtime version');eq(after['checksums']['current'],version,'New SHA baseline current')
-  eq(after['checksums']['versions'][version],{p:h for p,h in preserved['manifest']['inputs'].items() if p.startswith('assets/js/cookie-consent/services/')},'New private originals match manifest')
+  eq(after['checksums']['versions'][version],{p:h for p,h in preserved['manifest']['inputs'].items() if p.startswith('assets/components/cookieconsentmanager3/js/cookie-consent/services/')},'New private originals match manifest')
   eq(preserved['aliases_off'],True,'Native namespaces')
   if name!='fresh':
    eq(preserved['settings'],saved['settings'],'All settings, services, mode, category versions, texts and journal configuration retained byte-for-byte')
    eq(preserved['logs'],saved['logs'],'Historical JSONL retained byte-for-byte');eq(len(preserved['logs']),2,'Two historical files')
    eq(preserved['owner'],saved['owner'],'Configured owner JS and extra services file retained')
    eq(after['elements'],before['elements'],'Canonical identity and customer metadata preserved')
-   eq(after['checksums']['versions'][old_version],{p:h for p,h in saved['manifest']['inputs'].items() if p.startswith('assets/js/cookie-consent/services/')},'Initial SHA256 baseline imported from real old manifest')
+   eq(after['checksums']['versions'][old_version],{p:h for p,h in saved['manifest']['inputs'].items() if p.startswith('assets/components/cookieconsentmanager3/js/cookie-consent/services/')},'Initial SHA256 baseline imported from real old manifest')
    eq(list(after['checksums']['versions']),[old_version,version],'Exactly old + new checksum baselines')
    for file in ['google-ga4.js','yandex.js','google-common.js','customer-extra.js']:
     if file in before['files']:eq(after['files'][file],before['files'][file],'Retained actual adapter bytes '+file)
-   eq('assets/js/cookie-consent/services/customer-extra.js' in preserved['manifest']['inputs'],False,'Extra JS excluded from build recipe')
+   eq('assets/components/cookieconsentmanager3/js/cookie-consent/services/customer-extra.js' in preserved['manifest']['inputs'],False,'Extra JS excluded from build recipe')
   else:
    eq(after['prebuilt'],False,'Fresh package contains no prebuilt production JS');eq(list(after['checksums']['versions']),[version],'Fresh baseline')
   if name in ['deleted','syntax']:
