@@ -1,0 +1,30 @@
+CMP — Frontend Build
+Result: PASS (frontend-only; not full regression)
+Branch: codex/modx2-modstore-fixes
+Commit: 4ba4ef44afe25eae6f6a16843e82161a1ab9d3be
+Working tree at start: DIRTY (local preview, not a committed build)
+Started UTC: 2026-10-19T16:20:28.284Z
+Finished UTC: 2026-10-19T16:21:06.297Z
+Node: v22.23.2
+npm: 10.9.8
+Platform: darwin/x64
+Run: local / attempt 1
+
+PASS checkout and pinned toolchain
+PASS npm run build:frontend
+PASS manifest coverage, source SHA256, bundle SHA256 and sizes
+INFO committed manifest already current
+PASS JavaScript syntax; single classic bundle without imports or chunks
+PASS bundle corresponds to sources; second build is byte-for-byte reproducible
+INFO differential: 19 scenarios, 95 assertions; SDK/HTTP requests fulfilled locally
+PASS existing isolated adapter / Strict / Legacy differential tests (--focused)
+PASS public API surface and callback contract (video differential, preserved beta4 API)
+PASS final output hashes after tests
+SKIP tests/frontend-refactor/build.mjs: requires native ZIP/inventory; frontend hash/rebuild checks performed above
+SKIP tests/legacy-autoload/{browser,matrix}.mjs and tests/universal/regression.mjs: require MODX/PHP/DB fixtures
+SKIP native/PHP/Fenom/Manager/upgrade acceptance and real vendor delivery: outside frontend-only scope
+
+assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js: 29388 bytes; SHA256 bf8c6a2c3165048d24dc4f4cfa47a9a42fc2daf3eb26aa288b09ea5a24ebff45
+assets/components/cookieconsentmanager/css/cookie-consent.min.css: 5753 bytes; SHA256 7dde5c98502d8c8b5bade47c847b8c07dd23fdfd8223a927db2c6d944cce9934
+CSS is rebuilt/verified by the existing builder but intentionally excluded from the JS artifact.
+Manifest bytes: 3859

@@ -7,8 +7,8 @@ import {createHash} from 'node:crypto';
 import assert from 'node:assert/strict';
 
 const baseline = JSON.parse(readFileSync(process.env.CC_REFACTOR_BASELINE||'tests/video-embeds/baseline.json'));
-const original = path => execFileSync('git', ['show', `${baseline.commit}:${path}`], {encoding:'utf8'});
-const bundlePath = 'assets/js/cookie-consent/cookie-consent.min.js';
+const original = path => execFileSync('git', ['show', `${baseline.commit}:${path.replace('assets/components/cookieconsentmanager/js/cookie-consent','assets/js/cookie-consent')}`], {encoding:'utf8'});
+const bundlePath = 'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js';
 const bundles = [original(bundlePath), readFileSync(process.env.CC_REFACTOR_CANDIDATE||bundlePath, 'utf8')];
 assert.equal(createHash('sha256').update(bundles[0]).digest('hex'), baseline.sources[bundlePath]);
 const demo = original('demo.html');
@@ -22,24 +22,26 @@ const results = [];
 let assertions = 0;
 const eq = (a,b,m) => { assertions++; assert.deepEqual(a,b,m); };
 
-function fixture(scenario) {
-  const registry = JSON.parse(demo.match(/<script id="cc-service-registry"[^>]*>(.*?)<\/script>/s)[1]);
+function fixture(scenario, modern) {
+  const htmlSource=modern?demo.replaceAll('assets/js/cookie-consent','assets/components/cookieconsentmanager/js/cookie-consent'):demo;
+  const registry = JSON.parse(htmlSource.match(/<script id="cc-service-registry"[^>]*>(.*?)<\/script>/s)[1]);
   registry.services.push(
-    {key:'historical_mock',loader:'mock_marketing',category:'marketing',enabled:true,config:{}},
     {key:'local',loader:'custom_js',purpose:'Local integration',category:'marketing',enabled:true,config:{path:'/assets/integration.js'}},
     {key:'remote',loader:'custom_js',purpose:'Remote integration',category:'marketing',enabled:true,config:{path:'https://cdn.example.test/integration.js?v=2'}},
     {key:'disabled',loader:'custom_js',purpose:'Disabled integration',category:'marketing',enabled:false,config:{path:'/disabled.js'}},
     {...structuredClone(registry.services.find(s=>s.loader==='meta_pixel')),key:'meta_duplicate'}
   );
   if (scenario.category) for (const service of registry.services) service.category = scenario.category;
-  let html = demo.replace(/(<script id="cc-service-registry"[^>]*>).*?(<\/script>)/s, '$1'+JSON.stringify(registry)+'$2')
+  let html = htmlSource.replace(/(<script id="cc-service-registry"[^>]*>).*?(<\/script>)/s, '$1'+JSON.stringify(registry)+'$2')
     .replace('data-cc-audit-url=""', 'data-cc-audit-url="/audit.php"')
     .replace('data-cc-show-accept="0"', `data-cc-show-accept="${scenario.legacy?1:0}"`)
     .replace('data-cc-mode="mock"', `data-cc-mode="${scenario.mode||'live'}"`);
   if (scenario.hidden) html = html.replace('data-cc-category-marketing="1"','data-cc-category-marketing="0"');
   if ((scenario.mode||'live') === 'live') html = html
     .replace('/assets/js/cookie-consent/mock/google_maps.html','https://www.google.com/maps/embed?pb=fixture')
-    .replace('/assets/js/cookie-consent/mock/yandex_maps.html','https://yandex.ru/map-widget/v1/?um=fixture');
+    .replace('/assets/components/cookieconsentmanager/js/cookie-consent/mock/google_maps.html','https://www.google.com/maps/embed?pb=fixture')
+    .replace('/assets/js/cookie-consent/mock/yandex_maps.html','https://yandex.ru/map-widget/v1/?um=fixture')
+    .replace('/assets/components/cookieconsentmanager/js/cookie-consent/mock/yandex_maps.html','https://yandex.ru/map-widget/v1/?um=fixture');
   if (scenario.dialog) html = html.replace('<div data-cc-map-provider="google_maps"', '<dialog id="map-dialog"><div data-cc-map-provider="google_maps"')
     .replace('</div><div data-cc-map-provider="yandex_maps"','</div></dialog><div data-cc-map-provider="yandex_maps"');
   if (scenario.noRoot) html = html.replace('id="cookie-block"', 'id="no-cookie-block"');
@@ -83,9 +85,9 @@ async function exercise(bundle, scenario) {
   }, {timestamp,scenario});
   await context.route('**/*',async route=>{
     const request=route.request(), url=new URL(request.url());
-    if(request.isNavigationRequest() && request.frame()===page.mainFrame()) return route.fulfill({contentType:'text/html',body:fixture(scenario),headers:scenario.csp?{'Content-Security-Policy':"default-src 'self'; script-src 'self' https://cdn.example.test https://mc.yandex.ru https://top-fwz1.mail.ru https://connect.facebook.net https://www.googletagmanager.com; frame-src 'self' https://www.google.com https://yandex.ru; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"}:{}});
+    if(request.isNavigationRequest() && request.frame()===page.mainFrame()) return route.fulfill({contentType:'text/html',body:fixture(scenario,bundle.includes('assets/components/cookieconsentmanager/js/cookie-consent')),headers:scenario.csp?{'Content-Security-Policy':"default-src 'self'; script-src 'self' https://cdn.example.test https://mc.yandex.ru https://top-fwz1.mail.ru https://connect.facebook.net https://www.googletagmanager.com; frame-src 'self' https://www.google.com https://yandex.ru; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"}:{}});
     if(url.pathname.endsWith('cookie-consent.min.js')) return route.fulfill({contentType:'text/javascript',body:bundle});
-    if(url.pathname.endsWith('cookie-consent.min.css')) return route.fulfill({contentType:'text/css',body:readFileSync('assets/css/cookie-consent.min.css','utf8')});
+    if(url.pathname.endsWith('cookie-consent.min.css')) return route.fulfill({contentType:'text/css',body:readFileSync('assets/components/cookieconsentmanager/css/cookie-consent.min.css','utf8')});
     if(url.pathname==='/audit.php') {
       const data=request.postDataJSON();audits.push(data);
       return route.fulfill({contentType:'application/json',body:JSON.stringify({ok:true,event_id:data.event_id,server_time:new Date(timestamp).toISOString()})});
@@ -123,12 +125,12 @@ async function exercise(bundle, scenario) {
       callbacks:window.__callbacks||[],guards:(window.__guards||[]).map(f=>f()),
       focus:document.activeElement?.outerHTML,dialog:document.getElementById('map-dialog')?.open,
       cookies:document.cookie,cspViolations:__cspViolations
-    })),requests:[...requests].sort((a,b)=>a.url.localeCompare(b.url)),audits:structuredClone(audits)});
+    })),requests:[...requests].sort((a,b)=>a.url.replaceAll('assets/components/cookieconsentmanager/js/cookie-consent','assets/js/cookie-consent').localeCompare(b.url.replaceAll('assets/components/cookieconsentmanager/js/cookie-consent','assets/js/cookie-consent'))),audits:structuredClone(audits)});
   };
   try {
     await page.goto(origin+'/',{waitUntil:scenario.pending?'domcontentloaded':'load'});
     if(scenario.pending) await entered;
-    eq(await page.evaluate(()=>web86Providers.services.length),13,'Fixture registry must be accepted');
+    eq(await page.evaluate(()=>web86Providers.services.length),12,'Fixture registry must be accepted');
     if(!scenario.noRoot && bundle === bundles[1]) eq(await page.evaluate(()=>typeof web86CookieConsent.mountEmbeds),'function','New explicit mount API');
     if(scenario.noRoot) return {api:await page.evaluate(()=>typeof window.web86CookieConsent),requests,errors};
     await page.evaluate(()=>{
@@ -161,7 +163,7 @@ async function exercise(bundle, scenario) {
         window.dispatchEvent(new CustomEvent('web86:consent-change',{detail:{categories:{analytics:true,marketing:true,external_content:true}}}));
       });
       // The duplicate bundle must be inert even after consent/SDK initialization.
-      await page.addScriptTag({url:origin+'/assets/js/cookie-consent/cookie-consent.min.js'});
+      await page.addScriptTag({url:origin+'/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js'});
       await snapshot('dedup-and-duplicate-bundle');
       await page.reload({waitUntil:'load'});
       await snapshot('restore');
@@ -190,7 +192,7 @@ try {
     if(process.argv.includes('--dialog') && !scenario.dialog) continue;
     if(process.argv.includes('--focused') && !scenario.category && !scenario.pending && !scenario.dialog) continue;
     const name=JSON.stringify(scenario),before=assertions;
-    const old=await exercise(bundles[0],scenario),candidate=await exercise(bundles[1],scenario);
+    const old=JSON.parse(JSON.stringify(await exercise(bundles[0],scenario)).replaceAll('assets/components/cookieconsentmanager/js/cookie-consent','assets/js/cookie-consent')),candidate=JSON.parse(JSON.stringify(await exercise(bundles[1],scenario)).replaceAll('assets/components/cookieconsentmanager/js/cookie-consent','assets/js/cookie-consent'));
     writeFileSync(out+'/comparison-last.json',JSON.stringify({scenario,baseline:old,candidate},null,2)+'\n');
     eq(candidate,old,name);
     eq(candidate.errors,[],name+' no uncaught errors');

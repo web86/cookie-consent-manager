@@ -6,7 +6,7 @@
   const booleanOptions = { yandex: { webvisor: true, clickmap: true, trackLinks: true, accurateTrackBounce: true }, google_ga4: { send_page_view: true, allow_google_signals: false, allow_ad_personalization_signals: false }, google_ads: { allow_ad_personalization_signals: true, restricted_data_processing: false }, google_maps: { show_title: true }, yandex_maps: { show_title: true } };
   const catalog = Object.freeze({
     yandex: 'analytics', mailru: 'analytics', google_ga4: 'analytics',
-    google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing', mock_marketing: 'marketing',
+    google_gtm: 'marketing', google_ads: 'marketing', vk_ads: 'marketing', meta_pixel: 'marketing',
     google_maps: 'external_content', yandex_maps: 'external_content', custom_js: 'marketing', youtube: 'external_content', rutube: 'external_content', vk_video: 'external_content'
   });
   const hostPatterns = Object.freeze({
@@ -15,7 +15,7 @@
     google_ga4: ['www.googletagmanager.com', '*.google-analytics.com'],
     google_ads: ['www.googletagmanager.com', 'www.googleadservices.com', '*.doubleclick.net', 'www.google.com'],
     vk_ads: ['top-fwz1.mail.ru', 'top.mail.ru'], meta_pixel: ['connect.facebook.net', 'www.facebook.com'],
-    google_gtm: ['www.googletagmanager.com'], mock_marketing: [], custom_js: [],
+    google_gtm: ['www.googletagmanager.com'], custom_js: [],
     google_maps: ['www.google.com', 'maps.googleapis.com', 'maps.gstatic.com'],
     yandex_maps: ['yandex.ru', 'api-maps.yandex.ru', '*.maps.yandex.net']
   });

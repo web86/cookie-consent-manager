@@ -7,7 +7,7 @@ Strict/Legacy и карты сохраняют прежний контракт. 
 
 ## Файлы
 
-Все пути ниже относительно `assets/js/cookie-consent/`:
+Все пути ниже относительно `assets/components/cookieconsentmanager/js/cookie-consent/`:
 
 | Loader | Исходник для обновления интеграции | Общая зависимость |
 | --- | --- | --- |
@@ -130,7 +130,7 @@ const web86CreateExampleAdapter = runtime => ({
 
 `npm run build:frontend` использует pinned esbuild **0.28.2**, deterministic input
 order, прежний ES2020 target и init guard. Manifest содержит hashes всех исходников
-и outputs. Публичный JS остаётся `assets/js/cookie-consent/cookie-consent.min.js`;
+и outputs. Публичный JS остаётся `assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js`;
 PHP Assets по-прежнему добавляет content hash. Исходные adapters не поставляются
 отдельными HTTP assets. Bundle вручную не редактировать.
 

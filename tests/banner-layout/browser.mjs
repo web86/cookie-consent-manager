@@ -3,7 +3,7 @@ import {execFileSync} from 'node:child_process';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import assert from 'node:assert/strict';
 const origin='https://cmp.example.test',out=process.env.CC_BANNER_OUT||'.local/banner-layout/browser';mkdirSync(out,{recursive:true});
-const css=readFileSync('assets/css/cookie-consent.min.css','utf8'),bundle=readFileSync('assets/js/cookie-consent/cookie-consent.min.js','utf8');
+const css=readFileSync('assets/components/cookieconsentmanager/css/cookie-consent.min.css','utf8'),bundle=readFileSync('assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js','utf8');
 const browser=await chromium.launch(),results=[];let n=0;const eq=(a,b,m)=>{n++;assert.deepEqual(a,b,m);},ok=(a,m)=>{n++;assert.ok(a,m);};
 const fixture=(...args)=>JSON.parse(execFileSync('php',['tests/banner-layout/fixture.php',...args],{encoding:'utf8'}));
 async function pageFor(data,width,style=''){

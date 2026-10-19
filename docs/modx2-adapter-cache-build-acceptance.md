@@ -19,11 +19,11 @@
 
 Административный `OnSiteRefresh` и install hook собирают snapshot исходников и SHA256 fingerprint путей/содержимого/рецепта. При совпадении последней успешной сборки запись пропускается. Кнопка Manager с `cookie_consent_manage` принудительно повторяет сборку через обычный POST connector/modAuth. Контекст `web`, неаутентифицированные запросы и роль только просмотра журнала сборку не запускают.
 
-Готовый кеш: `assets/js/cookie-consent/cached-cookie-consent.min.js`. Он лежит рядом с prebuilt, вне `core/cache`, чтобы сохранить относительные пути mock SDK. Стандартный `system/clearcache` MODX 2.8.8 сначала очищает штатные разделы и затем вызывает `OnSiteRefresh`; этот публичный каталог не удаляется. Служебный plugin регистрируется идемпотентно при install/reinstall и удаляется при uninstall. Дополнительных системных настроек нет.
+Готовый кеш: `assets/components/cookieconsentmanager/js/cookie-consent/cached-cookie-consent.min.js`. Он лежит рядом с prebuilt, вне `core/cache`, чтобы сохранить относительные пути mock SDK. Стандартный `system/clearcache` MODX 2.8.8 сначала очищает штатные разделы и затем вызывает `OnSiteRefresh`; этот публичный каталог не удаляется. Служебный plugin регистрируется идемпотентно при install/reinstall и удаляется при uninstall. Дополнительных системных настроек нет.
 
 Конкурентная запись защищена неблокирующим `flock` на фиксированном `cookie-consent.build.lock`. Минифицированный JS и успешные метаданные в его первой строке заменяются **одним rename** из временного файла того же каталога. Ошибка чтения, разбора, записи или блокировки не меняет прежний рабочий bundle. В `cookie-consent.last-error.json` хранится только время неудачной попытки; успешные метаданные остаются внутри прежнего JS. Успешная сборка/проверка прежнего исправного snapshot очищает индикатор ошибки. Поколения кеша не создаются.
 
-Manifest допускает только JS-пути внутри `assets/js/cookie-consent/`; traversal, абсолютные пути, `.min.js` как input и symlink/выход за canonical source root отклоняются. Параметров запроса для выбора путей нет.
+Manifest допускает только JS-пути внутри `assets/components/cookieconsentmanager/js/cookie-consent/`; traversal, абсолютные пути, `.min.js` как input и symlink/выход за canonical source root отклоняются. Параметров запроса для выбора путей нет.
 
 ## Минификация и fallback
 

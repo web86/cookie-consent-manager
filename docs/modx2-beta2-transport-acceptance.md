@@ -19,7 +19,7 @@ Builder использует закрытый `_build/transport-files.json` вм
 
 ## Аудит mock
 
-| Файлы в `assets/js/cookie-consent/mock/` | Кто обращается | Назначение | В beta2 ZIP |
+| Файлы в `assets/components/cookieconsentmanager/js/cookie-consent/mock/` | Кто обращается | Назначение | В beta2 ZIP |
 |---|---|---|---|
 | `yandex.js`, `mailru.js`, `google_ga4.js`, `google_ads.js`, `google_gtm.js`, `vk_ads.js`, `meta_pixel.js` | `service-runtime.js:25–26` через `service-loaders.js:36` | Подмена SDK только при явном `mode=mock` | Нет |
 | `marketing.js` | Там же, loader `mock_marketing` переименовывается в `marketing` | Исторический тестовый pixel | Нет |
@@ -29,7 +29,7 @@ Builder использует закрытый `_build/transport-files.json` вм
 
 Manager Preview **не использует mock-файлы**: `assets/components/cookieconsent/manager.js:278–290` формирует инертный srcdoc с `sandbox` и CSP `default-src 'none'`; `server/processors/preview.class.php` возвращает CSS/данные. Слово site_mock — подпись макета. Внешний Gravatar основной оболочки MODX не относится к preview-frame и блокируется тестовым маршрутом.
 
-**Оставлено из mock-именованных файлов:** только `assets/js/cookie-consent/services/mock-marketing.js`, вне каталога mock. Это один из 21 обязательных manifest inputs (`_build/frontend-manifest.json:19`); закрытый dispatcher безусловно создаёт его фабрику (`service-loaders.js:18`). Удаление одного этого файла ломает сборку/инициализацию. Его live start пустой и не обращается к mock/. Сохранение не меняет JS, порядок manifest или архитектуру.
+**Оставлено из mock-именованных файлов:** только `assets/components/cookieconsentmanager/js/cookie-consent/services/mock-marketing.js`, вне каталога mock. Это один из 21 обязательных manifest inputs (`_build/frontend-manifest.json:19`); закрытый dispatcher безусловно создаёт его фабрику (`service-loaders.js:18`). Удаление одного этого файла ломает сборку/инициализацию. Его live start пустой и не обращается к mock/. Сохранение не меняет JS, порядок manifest или архитектуру.
 
 Каталог mock остаётся в репозитории для локальных тестов/демо; production ZIP не поставляет ресурсы для `&mode=mock`. На чистой установленной beta2 каталога нет. Обновление не добавляет resolver для удаления прежних файлов сайта: старые mock-файлы от предыдущего transport могут остаться на диске, но новый ZIP их не содержит.
 

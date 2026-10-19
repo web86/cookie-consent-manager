@@ -35,7 +35,7 @@ Same-origin poster загружается до выбора. Внешний post
 
 Allowlist `_build/transport-files.json` сохранён. Каталоги tests/fixtures/debug, CI/dev tools/docs, временные файлы/логи/local artifacts, source maps и каталог `mock/` отсутствуют. Проверка состава включает отрицательные случаи для внедрённой fixture, source map, неизвестного файла и изменения runtime bytes. Списки runtime/ZIP сохраняются рядом с отчётом о проверках.
 
-**Mock-файлы:** из каталога `assets/js/cookie-consent/mock/` не поставляется ни одного файла. Сохранён только `assets/js/cookie-consent/services/mock-marketing.js`, вне этого каталога: это один из 21 обязательных manifest inputs, фабрика которого безусловно создаётся dispatcher. Его live start пустой. Исключение сломало бы сборку/инициализацию; архитектура ради удаления не менялась. Подробный исторический аудит десяти исключённых mock SDK/map ресурсов — в [beta2 acceptance](modx2-beta2-transport-acceptance.md).
+**Mock-файлы:** из каталога `assets/components/cookieconsentmanager/js/cookie-consent/mock/` не поставляется ни одного файла. Сохранён только `assets/components/cookieconsentmanager/js/cookie-consent/services/mock-marketing.js`, вне этого каталога: это один из 21 обязательных manifest inputs, фабрика которого безусловно создаётся dispatcher. Его live start пустой. Исключение сломало бы сборку/инициализацию; архитектура ради удаления не менялась. Подробный исторический аудит десяти исключённых mock SDK/map ресурсов — в [beta2 acceptance](modx2-beta2-transport-acceptance.md).
 
 ## Проверки
 

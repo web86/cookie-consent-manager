@@ -8,8 +8,8 @@ import {Script} from 'node:vm';
 const root = '.local/github-frontend-build';
 const artifact = root + '/artifact';
 const manifestPath = '_build/frontend-manifest.json';
-const bundle = 'assets/js/cookie-consent/cookie-consent.min.js';
-const css = 'assets/css/cookie-consent.min.css';
+const bundle = 'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js';
+const css = 'assets/components/cookieconsentmanager/css/cookie-consent.min.css';
 const baselinePath = 'tests/frontend-refactor/service-adapters-baseline.json';
 const sha = bytes => createHash('sha256').update(bytes).digest('hex');
 const git = (...args) => execFileSync('git', args, {encoding:'utf8'}).trim();
@@ -39,11 +39,11 @@ function verifyManifest() {
   assert.equal(value.tool, 'esbuild');
   assert.equal(value.version, '0.28.2');
   // Every production source must be present. Mocks are fixtures, not bundle inputs.
-  const jsDir = 'assets/js/cookie-consent/';
+  const jsDir = 'assets/components/cookieconsentmanager/js/cookie-consent/';
   const sources = readdirSync(jsDir).filter(p => p.endsWith('.js') && !p.endsWith('.min.js')).map(p => jsDir + p)
     .concat(readdirSync(jsDir + 'services').filter(p => p.endsWith('.js')).map(p => jsDir + 'services/' + p))
     .concat(readdirSync(jsDir + 'embeds').filter(p => p.endsWith('.js')).map(p => jsDir + 'embeds/' + p));
-  assert.deepEqual(Object.keys(value.inputs).sort(), [...sources, 'assets/css/cookie-consent.css', 'package-lock.json', '_build/frontend.mjs'].sort());
+  assert.deepEqual(Object.keys(value.inputs).sort(), [...sources, 'assets/components/cookieconsentmanager/css/cookie-consent.css', 'package-lock.json', '_build/frontend.mjs'].sort());
   assert.deepEqual(Object.keys(value.outputs).sort(), [bundle, css].sort());
   for (const [path, hash] of Object.entries(value.inputs)) assert.equal(sha(readFileSync(path)), hash, path + ' source SHA256');
   for (const [path, info] of Object.entries(value.outputs)) {

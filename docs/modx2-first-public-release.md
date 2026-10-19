@@ -14,7 +14,7 @@
 - Категория новых элементов: `CookieConsentManager`; она отличается от известной чужой `cookieconsent` при регистронезависимой collation.
 - Namespace `cookie_consent` сохранён. Он отличается от чужого `cookieconsent` и обеспечивает действующие настройки `cookie_consent.*`, lexicon topic и Manager routing.
 - Сниппеты `CookieConsent`, `CookieConsentAssets`, `CookieConsentBanner`, `CookieConsentMap`, `CookieConsentVideo`, чанк `CookiesPopup`, API `window.web86CookieConsent`, `onAllowed()` и `mountEmbeds()` сохранены.
-- Публичные исходники адаптеров `assets/js/cookie-consent/services/`, рабочая JS-сборка и CSS остаются на своих путях. Они не совпадают с известными чужими `components/cookieconsent/`.
+- Публичные исходники адаптеров `assets/components/cookieconsentmanager/js/cookie-consent/services/`, рабочая JS-сборка и CSS остаются на своих путях. Они не совпадают с известными чужими `components/cookieconsent/`.
 
 Из preflight удалены распознавание старого component-каталога, чтение прежнего Version/manifest для миграции и предупреждение о ручной работе со старым package record. Удалены импорт старого `adapter-checksums.json` и позднее переключение namespace. Namespace создаётся обычным native object vehicle с правильными путями. Нет uninstall старых пакетов, новых таблиц, отдельного мигратора или alias layer.
 

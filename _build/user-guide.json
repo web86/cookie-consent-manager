@@ -35,6 +35,10 @@
             {
               "type": "paragraph",
               "text": "Для старых шаблонов можно оставить один [[!CookieConsent]] вместо двух вызовов. Не используйте оба варианта одновременно. Уберите прямые подключения счётчиков и пикселей, которые обходят CMP."
+            },
+            {
+              "type": "paragraph",
+              "text": "Runtime находится в `assets/components/cookieconsentmanager/`, приватный код — в `core/components/cookieconsentmanager/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий."
             }
           ]
         },
@@ -83,6 +87,10 @@
             {
               "type": "paragraph",
               "text": "Обновление сохраняет изменённые файлы из services/ и не восстанавливает удалённые вами адаптеры. Если изменён и оригинал пакета, ваш вариант остаётся без автоматического слияния. Дополнительные файлы не включаются в сборку автоматически. При удалении обязательного исходника исправьте код или восстановите файл вручную: прежняя рабочая сборка продолжает обслуживать сайт."
+            },
+            {
+              "type": "paragraph",
+              "text": "Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются."
             }
           ]
         },
@@ -166,6 +174,10 @@
             {
               "type": "paragraph",
               "text": "Existing templates may keep a single [[!CookieConsent]] call instead of the two snippets. Never use both methods together. Remove direct counter and pixel scripts that bypass the CMP."
+            },
+            {
+              "type": "paragraph",
+              "text": "Runtime lives under `assets/components/cookieconsentmanager/`; private code remains under `core/components/cookieconsentmanager/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup."
             }
           ]
         },
@@ -214,6 +226,10 @@
             {
               "type": "paragraph",
               "text": "Updates retain edited files in services/ and do not restore adapters you deleted. If the package original also changed, your file is kept without an automatic merge. Extra files are not added to the bundle automatically. If a required input is missing, fix the code or restore the file manually; the previous working bundle continues serving the site."
+            },
+            {
+              "type": "paragraph",
+              "text": "Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain."
             }
           ]
         },

@@ -3,13 +3,13 @@
 $preflightAction=$argv[1]??'';$argv[1]='boot';
 require __DIR__.'/../package-rename/fixture.php';
 $marker='preflight-negative-fixture';
-$roots=[MODX_CORE_PATH.'components/cookieconsentmanager',MODX_ASSETS_PATH.'components/cookieconsentmanager',MODX_ASSETS_PATH.'js/cookie-consent'];
+$roots=[MODX_CORE_PATH.'components/cookieconsentmanager',MODX_ASSETS_PATH.'components/cookieconsentmanager',MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent'];
 $rows=['modNamespace'=>['name'=>'cookie_consent'],'modChunk'=>['name'=>'CookiesPopup'],'modSnippet'=>['name:IN'=>['CookieConsent','CookieConsentAssets','CookieConsentBanner','CookieConsentMap','CookieConsentVideo']],'modPlugin'=>['name'=>'CookieConsentCacheBuild'],'modSystemSetting'=>['namespace'=>'cookie_consent','OR:key:IN'=>['cookie_consent.options','cookie_consent.services','cookie_consent.texts','cookie_consent.log_dir','cookie_consent.audit_config_file','cookie_consent.audit']],'modMenu'=>['namespace'=>'cookie_consent','OR:text:='=>'CookieConsentManager']];
 if($preflightAction==='state'){
     $result=['objects'=>[],'files'=>[],'installed'=>false];
     foreach($rows as $class=>$criteria){$values=[];foreach($modx->getCollection($class,$criteria) as $row)$values[]=$row->toArray();usort($values,static fn($a,$b)=>strcmp(json_encode($a),json_encode($b)));$result['objects'][$class]=$values;}
     foreach($roots as $directory)if(is_dir($directory))foreach(new RecursiveIteratorIterator(new RecursiveDirectoryIterator($directory,FilesystemIterator::SKIP_DOTS),RecursiveIteratorIterator::SELF_FIRST) as $file){if($file->isDir()&&!$file->isLink())continue;$result['files'][$file->getPathname()]=$file->isLink()?'link:'.readlink($file->getPathname()):hash_file('sha256',$file->getPathname());}
-    $css=MODX_ASSETS_PATH.'css/cookie-consent.min.css';if(file_exists($css))$result['files'][$css]=hash_file('sha256',$css);ksort($result['files']);
+    $css=MODX_ASSETS_PATH.'components/cookieconsentmanager/css/cookie-consent.min.css';if(file_exists($css))$result['files'][$css]=hash_file('sha256',$css);ksort($result['files']);
     $p=$modx->getObject('transport.modTransportPackage',['signature'=>'cookieconsentmanager-1.0.8-pl4']);$result['installed']=$p&&(bool)$p->get('installed');
     echo json_encode($result);exit;
 }
@@ -38,7 +38,7 @@ if($preflightAction==='conflict'){
         'menu'=>['modMenu',['text'=>'preflight-negative-fixture','namespace'=>'cookie_consent','action'=>'index','description'=>$marker]],
         'foreign-menu'=>['modMenu',['text'=>'CookieConsentManager','namespace'=>'core','action'=>'index','description'=>$marker]],
     ];
-    $files=['core-known'=>$roots[0].'/src/CookieConsentSettings.php','core-unknown'=>$roots[0].'/foreign.txt','assets-known'=>$roots[1].'/manager.js','assets-unknown'=>$roots[1].'/foreign.txt','public'=>$roots[2].'/consent-manager.js','adapter'=>$roots[2].'/services/yandex.js','css'=>MODX_ASSETS_PATH.'css/cookie-consent.min.css','manifest'=>$roots[0].'/frontend-manifest.json','state'=>$roots[0].'/adapter-checksums.json','symlink'=>$roots[0].'/foreign-link'];
+    $files=['core-known'=>$roots[0].'/src/CookieConsentSettings.php','core-unknown'=>$roots[0].'/foreign.txt','assets-known'=>$roots[1].'/manager.js','assets-unknown'=>$roots[1].'/foreign.txt','public'=>$roots[2].'/consent-manager.js','adapter'=>$roots[2].'/services/yandex.js','css'=>MODX_ASSETS_PATH.'components/cookieconsentmanager/css/cookie-consent.min.css','manifest'=>$roots[0].'/frontend-manifest.json','state'=>$roots[0].'/adapter-checksums.json','symlink'=>$roots[0].'/foreign-link'];
     if(isset($definitions[$type])){
         [$class,$fields]=$definitions[$type];$primary=$class==='modSystemSetting'?'key':($class==='modMenu'?'text':'name');$criteria=[$primary=>$fields[$primary]];
         if($mode==='seed'){if($modx->getCount($class,$criteria))throw new RuntimeException('Existing conflict');$row=$modx->newObject($class);$row->fromArray($fields,'',true,true);if(!$row->save())throw new RuntimeException('Conflict seed');}

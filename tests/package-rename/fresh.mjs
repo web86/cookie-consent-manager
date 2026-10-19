@@ -30,10 +30,10 @@ for(const c of cases){
   });
   await run('native-reinstall-retains-both-addons',async()=>{const snapshot=ctl('snapshot'),state=ctl('rename-state');await install();eq(ctl('snapshot'),snapshot);eq(ctl('rename-state'),state);});
   await run('parse-failure-preserves-user-file-and-working-bundle',async()=>{
-   const file=f+'/site/assets/js/cookie-consent/services/yandex.js',bundle=f+'/site/assets/js/cookie-consent/cached-cookie-consent.min.js';const old=readFileSync(file),working=readFileSync(bundle),version=ctl('bundle-state').version;
+   const file=f+'/site/assets/components/cookieconsentmanager/js/cookie-consent/services/yandex.js',bundle=f+'/site/assets/components/cookieconsentmanager/js/cookie-consent/cached-cookie-consent.min.js';const old=readFileSync(file),working=readFileSync(bundle),version=ctl('bundle-state').version;
    writeFileSync(file,Buffer.concat([old,Buffer.from('\nfunction { invalid\n')]));const changed=readFileSync(file);await install();eq(readFileSync(file),changed);eq(readFileSync(bundle),working);eq(ctl('bundle-state').version,version);eq((await api('get')).object.adapterBuild.state,'error');
    ctl('resource'); // Keep requests visitor-only and confirm no repair/build is attempted there.
-   const log=readFileSync(f+'/site/assets/js/cookie-consent/cookie-consent.last-error.json');await ctx.request.get(origin);eq(readFileSync(bundle),working);eq(readFileSync(f+'/site/assets/js/cookie-consent/cookie-consent.last-error.json'),log);
+   const log=readFileSync(f+'/site/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.last-error.json');await ctx.request.get(origin);eq(readFileSync(bundle),working);eq(readFileSync(f+'/site/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.last-error.json'),log);
    writeFileSync(file,old);eq((await api('bundle_rebuild')).success,true);eq((await api('get')).object.adapterBuild.state,'ready');
   });
  }catch(e){console.error(e);process.exitCode=1;}finally{await ctx.close();}

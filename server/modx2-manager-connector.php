@@ -1,6 +1,6 @@
 <?php
 // Install /assets/components/cookieconsentmanager/connector.php, never disable MODX_REQP.
-require_once dirname(__DIR__,3).'/config.core.php';
+require_once __DIR__.'/bootstrap.php';
 require_once MODX_CORE_PATH.'config/'.MODX_CONFIG_KEY.'.inc.php';
 require_once MODX_CONNECTORS_PATH.'index.php';
 header('Cache-Control: no-store');

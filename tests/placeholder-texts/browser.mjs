@@ -2,8 +2,8 @@ import {chromium} from 'playwright';
 import {readFileSync,mkdirSync,writeFileSync} from 'node:fs';
 import {execFileSync} from 'node:child_process';
 import assert from 'node:assert/strict';
-const bundle=readFileSync(process.env.CC_VIDEO_BUNDLE||'assets/js/cookie-consent/cookie-consent.min.js','utf8');
-const css=readFileSync('assets/css/cookie-consent.min.css','utf8'),origin='https://cmp.example.test';
+const bundle=readFileSync(process.env.CC_VIDEO_BUNDLE||'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js','utf8');
+const css=readFileSync('assets/components/cookieconsentmanager/css/cookie-consent.min.css','utf8'),origin='https://cmp.example.test';
 const browser=await chromium.launch(),results=[];let assertions=0;
 const eq=(a,b,message)=>{assertions++;assert.deepEqual(a,b,message);};
 const documentFor=(fixture,html=fixture.html)=>`<!doctype html><html><head><meta charset="utf-8"><link rel="stylesheet" href="/cookie-consent.min.css"><script defer src="/cookie-consent.min.js"></script></head><body>${html}${fixture.banner}<script id="cc-service-registry" type="application/json">${JSON.stringify(fixture.registry)}</script></body></html>`;
@@ -32,7 +32,7 @@ try{
  });
  await run('previous-bundle-after-failed-administrative-rebuild',async()=>{
   const fixture=JSON.parse(execFileSync('php',['tests/placeholder-texts/fixture.php','en','strict','external_content'],{encoding:'utf8'}));
-  const previous=execFileSync('git',['show','2b7ae675a844728059dd03e5ac54d7a4c38c1d8b:assets/js/cookie-consent/cookie-consent.min.js'],{encoding:'utf8'});
+  const previous=execFileSync('git',['show','2b7ae675a844728059dd03e5ac54d7a4c38c1d8b:assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js'],{encoding:'utf8'});
   const {ctx,p,requests,errors}=await pageFor(documentFor(fixture));await ctx.route('**/cookie-consent.min.js',r=>r.fulfill({contentType:'text/javascript',body:previous}));
   try{await p.goto(origin+'/',{waitUntil:'networkidle'});const notice=await p.locator('#company_player p').textContent();eq(notice.includes('loading this content shares your IP address'),true,'Previous bundle receives a localized common fallback');eq(notice.includes('{provider}'),false,'No unresolved provider token in legacy fallback');eq(await p.locator('#company_player button').textContent(),'Cookie settings');eq(requests,[],'Retained bundle stays Strict');await p.locator('#company_player button').focus();await p.keyboard.press('Enter');await p.locator('[data-cc-category=external_content]').check();await p.locator('[data-cc-action=save]').click();eq(await p.locator('#company_player iframe').count(),1,'Previous bundle still activates trusted content');eq(errors,[]);}finally{await ctx.close();}
  });

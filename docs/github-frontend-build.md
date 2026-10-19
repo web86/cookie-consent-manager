@@ -12,7 +12,7 @@ GitHub Release, автоматических коммитов и deployment. П�
 
 ## Что именно выполняется
 
-- Push в `codex/modx2-*`, изменяющий `assets/js/cookie-consent/**`, frontend CSS,
+- Push в `codex/modx2-*`, изменяющий `assets/components/cookieconsentmanager/js/cookie-consent/**`, frontend CSS,
   `_build/frontend*`, npm-конфигурацию/lockfile, differential fixtures,
   `demo.html` или YAML workflow, запускает сборку автоматически.
 - Для ручного запуска есть `workflow_dispatch` и стандартный выбор **Branch**.
@@ -35,7 +35,7 @@ GitHub Release, автоматических коммитов и deployment. П�
 - Команда остаётся **`npm run build:frontend`**. Исходный builder неизменён:
   явный порядок конкатенации, IIFE, esbuild transform, `es2020`, ASCII,
   minification. Browser imports/chunks не добавляются. Рабочий файл:
-  `assets/js/cookie-consent/cookie-consent.min.js`.
+  `assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js`.
 - Существующая команда также пересобирает CSS. CSS проверяется, но в artifact
   для ручной замены JS не включается. Manifest содержит сведения об обоих outputs.
 
@@ -149,7 +149,7 @@ GitHub использует workflow и helper из выбранной ветк�
 ## Как исправить один адаптер через GitHub
 
 1. Откройте репозиторий, выберите **`codex/modx2-service-adapters`**.
-   Убедитесь, что видите beta5 и каталог `assets/js/cookie-consent/services/`.
+   Убедитесь, что видите beta5 и каталог `assets/components/cookieconsentmanager/js/cookie-consent/services/`.
 2. Откройте нужный адаптер, например `services/yandex.js`, нажмите Edit.
    Прочитайте [SERVICE-ADAPTERS.md](../tests/frontend-refactor/SERVICE-ADAPTERS.md).
    Сохраните действующий loader/категории/API и проверяйте входные параметры.
@@ -215,7 +215,7 @@ Get-Content .\cookie-consent.min.js.sha256
 ```
 
 Полный хеш должен совпасть также с
-`outputs["assets/js/cookie-consent/cookie-consent.min.js"].sha256` в manifest.
+`outputs["assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js"].sha256` в manifest.
 Manifest хранит hashes **репозиторных** sources; на установленном сайте этих
 исходников обычно нет. Проверяйте их по выбранному commit, если расследуете сборку.
 
@@ -232,8 +232,8 @@ Manifest хранит hashes **репозиторных** sources; на уста
    каталог тестового сайта и переименуйте поверх рабочего файла после полной
    загрузки (атомарный rename, если доступен). Сохраните права чтения web server.
    Целевой путь относительно `MODX_ASSETS_PATH`:
-   **`js/cookie-consent/cookie-consent.min.js`**, обычно
-   **`/assets/js/cookie-consent/cookie-consent.min.js`**.
+   **`components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js`**, обычно
+   **`/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js`**.
    Это не `/assets/components/cookieconsent/`. При custom assets path проверьте
    реальные настройки. Повторно сравните SHA файла на сервере с artifact.
 3. Не загружайте build scripts, manifest/отчёт в публичный JS каталог, PHP или
@@ -252,7 +252,7 @@ Manifest хранит hashes **репозиторных** sources; на уста
 
 ```php
 $assets = (string) $modx->getOption('assets_url');
-// Для JS path = js/cookie-consent/cookie-consent.min.js
+// Для JS path = components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js
 $assets.$path.'?v='.substr(hash_file('sha256', MODX_ASSETS_PATH.$path), 0, 20)
 ```
 
@@ -279,7 +279,7 @@ Hash вычисляется по **содержимому фактическог
 
 ```sh
 # Подставьте свой staging URL и новый v из manifest. Не используйте URL production.
-curl --fail --silent --show-error --compressed 'https://staging.example.test/assets/js/cookie-consent/cookie-consent.min.js?v=NEW_FIRST_20_HEX' -o served-cookie-consent.min.js
+curl --fail --silent --show-error --compressed 'https://staging.example.test/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js?v=NEW_FIRST_20_HEX' -o served-cookie-consent.min.js
 shasum -a 256 served-cookie-consent.min.js
 ```
 

@@ -8,7 +8,7 @@ Push, merge, release и production deployment не выполнялись.
 ## Структура и совместимость
 
 ```text
-assets/js/cookie-consent/
+assets/components/cookieconsentmanager/js/cookie-consent/
   runtime.js
   script-url.js
   provider-registry.js

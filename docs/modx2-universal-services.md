@@ -64,7 +64,7 @@ CMP управляет согласием, **не является sandbox**: п
 
 ## Где находится код
 
-В каждой карточке Manager есть справка об исходнике. Для программиста: адаптеры и custom loader — `assets/js/cookie-consent/services/`, отдельный файл на loader; общий dispatcher — `service-loaders.js`; карты/iframe/URL — `assets/js/cookie-consent/embeds.js`; категории/persistence/callbacks — `assets/js/cookie-consent/consent-manager.js`; PHP allowlist — `server/src/CookieConsentServiceRegistry.php`; versioning — `CookieConsentSettings::categoryProcessing()` и Save; SSR — `CookieConsentBannerRenderer.php`. В transport поставляется bundle `cookie-consent.min.js`, пересборка — `npm run build:frontend`. Код сайта храните отдельно от компонента.
+В каждой карточке Manager есть справка об исходнике. Для программиста: адаптеры и custom loader — `assets/components/cookieconsentmanager/js/cookie-consent/services/`, отдельный файл на loader; общий dispatcher — `service-loaders.js`; карты/iframe/URL — `assets/components/cookieconsentmanager/js/cookie-consent/embeds.js`; категории/persistence/callbacks — `assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js`; PHP allowlist — `server/src/CookieConsentServiceRegistry.php`; versioning — `CookieConsentSettings::categoryProcessing()` и Save; SSR — `CookieConsentBannerRenderer.php`. В transport поставляется bundle `cookie-consent.min.js`, пересборка — `npm run build:frontend`. Код сайта храните отдельно от компонента.
 
 ## Проверка в Manager и Network
 

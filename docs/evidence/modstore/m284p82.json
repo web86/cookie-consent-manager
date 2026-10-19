@@ -1,0 +1,335 @@
+{
+  "case": {
+    "name": "m284p82",
+    "major": 2,
+    "modx": "2.8.4-pl",
+    "php": "8.2",
+    "port": 24501,
+    "custom": true
+  },
+  "checks": {
+    "native-upgrade": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "uninstall",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager-1.0.8-pl6\"}"
+        },
+        {
+          "action": "verify-uninstall",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+        },
+        {
+          "action": "install",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager-1.0.8-pl5\"}"
+        },
+        {
+          "action": "edit-old",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"invalid\":false,\"adapter\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"bundle\":\"18616a4243fcc60f1c1450c935103ce598faacaed3b7fb0fc68b7131cca23260\"}"
+        },
+        {
+          "action": "install",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager-1.0.8-pl7\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl5\",\"1.0.8-pl7\"]}"
+        },
+        {
+          "action": "repair-upgrade",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{}"
+        },
+        {
+          "action": "install",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager-1.0.8-pl7\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl5\",\"1.0.8-pl7\"]}"
+        },
+        {
+          "action": "configure",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{}"
+        },
+        {
+          "action": "rebuild",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        },
+        {
+          "action": "cache",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"cache\"}"
+        },
+        {
+          "action": "failure",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"failure\"}"
+        },
+        {
+          "action": "rebuild",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+        },
+        {
+          "action": "install",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"install\",\"signature\":\"cookieconsentmanager-1.0.8-pl7\"}"
+        },
+        {
+          "action": "verify-upgrade",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"adapter_sha256\":\"986e8c4d3c3eeb00eccd263431551bfa0b2925288e52c3ddc391670b47bfd866\",\"extra_sha256\":\"10cfd3375bf1c3d1429bf26702acd0c1257d880ed670b6d8d453755915fad34f\",\"history\":[\"1.0.8-pl5\",\"1.0.8-pl7\"]}"
+        }
+      ]
+    },
+    "browser": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "mode": "strict",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "strict",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-right",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom-left",
+          "result": "PASS"
+        },
+        {
+          "mode": "legacy",
+          "position": "bottom",
+          "result": "PASS"
+        },
+        {
+          "name": "audit-request-validation",
+          "result": "PASS"
+        }
+      ]
+    },
+    "manager": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        "authenticated CMP",
+        "configured adapter path",
+        "manual rebuild processor",
+        "native clearcache processor and OnSiteRefresh"
+      ]
+    },
+    "native-checks": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "ordinary-http-check-and-log",
+          "output": {
+            "result": "PASS",
+            "event_id": "7fd7b141-1234-4123-8123-123456789abc",
+            "recorded": true
+          }
+        },
+        {
+          "action": "restore-elements-dry-run",
+          "output": {
+            "applied": false,
+            "elements": [
+              {
+                "name": "CookiesPopup",
+                "id": 2,
+                "current_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca",
+                "backup_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca"
+              },
+              {
+                "name": "CookieConsent",
+                "id": 6,
+                "current_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7",
+                "backup_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7"
+              },
+              {
+                "name": "CookieConsentMap",
+                "id": 7,
+                "current_sha256": "ca45cb4f9eb5c3a60d3da35ff47fe078127b55cc737426bd69dd0f6539e56bd0",
+                "backup_sha256": "ca45cb4f9eb5c3a60d3da35ff47fe078127b55cc737426bd69dd0f6539e56bd0"
+              },
+              {
+                "name": "CookieConsentVideo",
+                "id": 8,
+                "current_sha256": "c5fa8f35cf4eda206d54d1a068a2b2e536ec9fc4c7f480e413c0eb2d53d83206",
+                "backup_sha256": "c5fa8f35cf4eda206d54d1a068a2b2e536ec9fc4c7f480e413c0eb2d53d83206"
+              },
+              {
+                "name": "CookieConsentAssets",
+                "id": 9,
+                "current_sha256": "1507b6dbcc0dd2ef4cb335a71b0715918d0510d5da7d8a62905187619d51f09b",
+                "backup_sha256": "1507b6dbcc0dd2ef4cb335a71b0715918d0510d5da7d8a62905187619d51f09b"
+              },
+              {
+                "name": "CookieConsentBanner",
+                "id": 10,
+                "current_sha256": "d2b3ce552f516b08dc134c38974e7a756cce4c9fc4f96aa525e669974053b9d5",
+                "backup_sha256": "d2b3ce552f516b08dc134c38974e7a756cce4c9fc4f96aa525e669974053b9d5"
+              }
+            ]
+          }
+        },
+        {
+          "action": "restore-elements-apply",
+          "output": {
+            "applied": true,
+            "elements": [
+              {
+                "name": "CookiesPopup",
+                "id": 2,
+                "current_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca",
+                "backup_sha256": "2fd09020aa7acef73dda7ad87d62499414ae4d1a6a50412ebb170bbec0218cca"
+              },
+              {
+                "name": "CookieConsent",
+                "id": 6,
+                "current_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7",
+                "backup_sha256": "79c168170dd31faf49cab094889c42bbfb019084f12c086b952cab4deec7aaa7"
+              },
+              {
+                "name": "CookieConsentMap",
+                "id": 7,
+                "current_sha256": "ca45cb4f9eb5c3a60d3da35ff47fe078127b55cc737426bd69dd0f6539e56bd0",
+                "backup_sha256": "ca45cb4f9eb5c3a60d3da35ff47fe078127b55cc737426bd69dd0f6539e56bd0"
+              },
+              {
+                "name": "CookieConsentVideo",
+                "id": 8,
+                "current_sha256": "c5fa8f35cf4eda206d54d1a068a2b2e536ec9fc4c7f480e413c0eb2d53d83206",
+                "backup_sha256": "c5fa8f35cf4eda206d54d1a068a2b2e536ec9fc4c7f480e413c0eb2d53d83206"
+              },
+              {
+                "name": "CookieConsentAssets",
+                "id": 9,
+                "current_sha256": "1507b6dbcc0dd2ef4cb335a71b0715918d0510d5da7d8a62905187619d51f09b",
+                "backup_sha256": "1507b6dbcc0dd2ef4cb335a71b0715918d0510d5da7d8a62905187619d51f09b"
+              },
+              {
+                "name": "CookieConsentBanner",
+                "id": 10,
+                "current_sha256": "d2b3ce552f516b08dc134c38974e7a756cce4c9fc4f96aa525e669974053b9d5",
+                "backup_sha256": "d2b3ce552f516b08dc134c38974e7a756cce4c9fc4f96aa525e669974053b9d5"
+              }
+            ]
+          }
+        }
+      ],
+      "settings_and_ids_unchanged": true
+    },
+    "native-remove": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "action": "snapshot-uninstall",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{}"
+        },
+        {
+          "action": "uninstall",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager-1.0.8-pl7\"}"
+        },
+        {
+          "action": "verify-uninstall",
+          "output": "PHP Deprecated:  Creation of dynamic property xPDOQuery_mysql::$xpdo is deprecated in /opt/cc-case/private/core/xpdo/xpdo.class.php on line 2804\n{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+        }
+      ]
+    },
+    "bootstrap-error": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "http": 503,
+      "generic_body": true,
+      "no_paths": true
+    },
+    "php-units": {
+      "case": {
+        "name": "m284p82",
+        "major": 2,
+        "modx": "2.8.4-pl",
+        "php": "8.2",
+        "port": 24501,
+        "custom": true
+      },
+      "result": "PASS",
+      "checks": [
+        {
+          "suite": "lint",
+          "result": "PASS",
+          "files": 202,
+          "php": "8.2.34"
+        },
+        {
+          "suite": "adapter-cache",
+          "result": "PASS",
+          "assertions": 73,
+          "php": "8.2.34",
+          "node_available_during_build": false,
+          "php_bundle_bytes": 39488
+        },
+        {
+          "suite": "adapter-updates",
+          "result": "PASS",
+          "assertions": 58,
+          "php": "8.2.34"
+        }
+      ]
+    }
+  }
+}

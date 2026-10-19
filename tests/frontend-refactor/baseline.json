@@ -5,11 +5,11 @@
     "?? docs/modx2-frontend-inventory.md"
   ],
   "sources": {
-    "assets/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
-    "assets/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
-    "assets/js/cookie-consent/provider-registry.js": "c41bc5125048da7385b6967ca9e5821c7505b2d4ed118dd49600dd36c7cc2550",
-    "assets/js/cookie-consent/consent-manager.js": "4b513bab532474abe5a241e1df8c089522576c4e97267f015513511dbc700c09",
-    "assets/js/cookie-consent/cookie-consent.min.js": "c641196439d5b187461df049018245ec2ad73f9b2723073955b434a2a5ccf796"
+    "assets/components/cookieconsentmanager/js/cookie-consent/runtime.js": "cb74204b90dd2a0ed66f5127ef2b99b5401bda171663dcdb9f140f4e55eadfa2",
+    "assets/components/cookieconsentmanager/js/cookie-consent/script-url.js": "717188cdfda1ce2dab6bd9a0b3b60ccadca19de53fc2fab39829abedbdfd36eb",
+    "assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js": "c41bc5125048da7385b6967ca9e5821c7505b2d4ed118dd49600dd36c7cc2550",
+    "assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js": "4b513bab532474abe5a241e1df8c089522576c4e97267f015513511dbc700c09",
+    "assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js": "c641196439d5b187461df049018245ec2ad73f9b2723073955b434a2a5ccf796"
   },
   "native": {
     "signature": "cookieconsent-1.0.4-beta3",

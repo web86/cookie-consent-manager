@@ -1,20 +1,21 @@
-# CookieConsentManager for MODX 2
+# CookieConsentManager — 1.0.8-pl7
 
-Первый публичный кандидат **cookieconsentmanager-1.0.8-pl5**, ветка `codex/modx2-cookieconsentmanager`. MODX **`>=2.8.4,<3.0.0`**, PHP **`>=8.1.0`**. [Штатный uninstall, актуальный ZIP и решение Modstore](docs/modx2-uninstall.md). Историческая миграция не входит в выпуск. Автоматическая публикация не выполняется.
+RU: Runtime находится в `assets/components/cookieconsentmanager/`, приватный код — в `core/components/cookieconsentmanager/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
 
-Техническая совместимость со старой CMS не заменяет обновления безопасности. Для рабочих сайтов рекомендуется актуальная поддерживаемая безопасная версия MODX из [официальных дистрибутивов](https://modx.com/download/other-downloads). На исходном MODX 2.8.4 остаются предупреждения старого ядра и зависимостей; подробности и границы проверки указаны в отчёте совместимости.
+EN: Runtime lives under `assets/components/cookieconsentmanager/`; private code remains under `core/components/cookieconsentmanager/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup.
 
-Предыдущая стабильная версия компонента — **1.0.6**: YouTube, RUTUBE, VK Видео, доверенные template embeds, `mountEmbeds(root)` и административная PHP-сборка адаптеров. В «Текстах» доступны общий текст внешнего содержимого, отдельные тексты Google Maps и Яндекс Карт и единая подпись «Настройки cookie» / “Cookie settings”. [Подключение видео и CSP FAQ](docs/modx2-video-embeds.md), [HTML-примеры постеров и размеров RU/EN](docs/modx2-embed-display-examples.md), [состав transport и проверки 1.0.6](docs/modx2-1.0.6-placeholder-texts-acceptance.md). Установочный transport собирается native MODX builder; публикация GitHub Release и deployment не выполняются. Исторические отчёты ниже относятся к прежним версиям, в том числе [transport 1.0.5-beta2 для staging](docs/modx2-beta2-transport-acceptance.md).
+RU: Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются.
 
-Ветка `codex/modx2-adapter-cache-build` добавляет административную пересборку адаптеров без Node.js: измените исходник по пути из настроек сервиса и очистите кеш MODX в Manager. Принудительная кнопка — «Основные → Сборка адаптеров → Пересобрать адаптеры». Встроенная инструкция RU/EN содержит редактирование адаптеров и три способа подключения видео. Историческая [приёмка сборщика](docs/modx2-adapter-cache-build-acceptance.md).
+EN: Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain.
 
-Ветка [`main`](https://github.com/web86/cookie-consent-manager/tree/main) содержит независимую реализацию для **MODX Revolution 2**. Эта feature-сборка подтверждает совместимость с **2.8.4–2.8.8**, PHP **8.1/8.2**; объявляемый диапазон — **`>=2.8.4,<3.0.0`**, PHP **8.1+**. MODX 3 развивается отдельно в [`modx3`](https://github.com/web86/cookie-consent-manager/tree/modx3), семейство `cookieconsent3`; ветки не объединяются друг с другом.
+RU: Сборка выполняется установщиком, вручную в Manager и при очистке кеша Manager. Frontend загружает готовый bundle без проверки SHA адаптеров. Ошибка сборки сохраняет прежний bundle и версию. Docker-маршрут удалён; тестовый mock-marketing хранится только в tests/.
 
-**Опубликованный стабильный релиз — [v1.0.0](https://github.com/web86/cookie-consent-manager/releases/tag/v1.0.0)**: `cookieconsent-1.0.0.transport.zip`, [Release Notes](docs/release-1.0.0.md) и [приёмка](docs/modx2-1.0.0-acceptance.md). Исторический transport 1.0.2 использован как база проверки обновления; нового стабильного GitHub Release нет.
+EN: Builds remain in installation and authenticated Manager actions (manual rebuild and cache clear). Visitors load the prepared bundle without adapter hashing. Failed builds retain the working bundle/version. Docker-only routing was removed; mock-marketing is confined to tests/.
 
-**Исторический протестированный beta-кандидат в main — `cookieconsent-1.0.3-beta1`**. Интегрированы Fenom JSON fix (#4) и visibility-aware audit fix (#6) через #7; CSP FAQ — через #9. [Приёмка beta](docs/modx2-1.0.3-beta1-acceptance.md): **25 PASS / 778 assertions / 0 FAIL**, включая настоящую native установку и upgrade с 1.0.2. SHA256 неизменённого проверенного ZIP: `3e4b5a6227429516ea90a186f954ad875fe4da0c067c0c7796ab197dfc46a02b`. **GO только для ручной staging-приёмки**; merge в main не публикует стабильный релиз и не означает production acceptance. [Отчёт о консолидации](docs/repository-consolidation-2026-10-15.md).
+RU: restore-elements использует шесть фактических элементов transport-пакета, существующие ID, транзакцию и dry-run по умолчанию. Настройки не меняются.
 
-Компонент управляет согласиями, загружает сторонние сервисы после разрешения, локализует баннер на стороне PHP и записывает события через публичный PHP receiver в месячные JSONL-журналы. В Manager доступны сервисы, независимая видимость категорий, пользовательские RU/EN/дополнительные переводы, настройки журнала, Audit Viewer и CSV. Нативные install/upgrade/reinstall/uninstall используют modPackageBuilder, vehicles и штатные resolvers, со служебным plugin OnSiteRefresh только для административной пересборки JS, без отдельного lifecycle ledger.
+EN: restore-elements uses the six actual transport elements, existing IDs, a transaction and a default dry run. Settings remain unchanged.
+
 
 ## Установка и обновление
 
@@ -33,7 +34,7 @@
 
 Путь к исходнику виден в настройках сервиса. Измените `.js` на сервере и очистите кеш через Manager: сборщик использует тот же упорядоченный `_build/frontend-manifest.json`, что и Node release-builder. В «Основные → Сборка адаптеров» видны результат, время последней успешной сборки и принудительная кнопка. Пользовательские `custom_js` загружаются отдельно.
 
-PHP/Peast 1.17.6 разбирает ES2020 в AST и минифицирует без переименования переменных; Node/npm/Composer на хостинге не нужны. Готовый `assets/js/cookie-consent/cached-cookie-consent.min.js` публикуется атомарным rename под flock, вне `core/cache`. После успешной публикации в `cookie_consent.bundle_version` сохраняется Unix timestamp. С версии 1.0.7-beta1 transport не содержит prebuilt JS: первая установка обязана собрать рабочий файл, иначе Package Management сообщает об ошибке. При ошибке обновления прежние JS и timestamp сохраняются. Frontend выбирает путь и `?v=` только по уже загруженной настройке MODX, без чтения/проверок JS, SQL, fingerprint или сборки. Удаление активного файла вручную не отслеживается посетителями: восстановите его административной пересборкой.
+PHP/Peast 1.17.6 разбирает ES2020 в AST и минифицирует без переименования переменных; Node/npm/Composer на хостинге не нужны. Готовый `assets/components/cookieconsentmanager/js/cookie-consent/cached-cookie-consent.min.js` публикуется атомарным rename под flock, вне `core/cache`. После успешной публикации в `cookie_consent.bundle_version` сохраняется Unix timestamp. С версии 1.0.7-beta1 transport не содержит prebuilt JS: первая установка обязана собрать рабочий файл, иначе Package Management сообщает об ошибке. При ошибке обновления прежние JS и timestamp сохраняются. Frontend выбирает путь и `?v=` только по уже загруженной настройке MODX, без чтения/проверок JS, SQL, fingerprint или сборки. Удаление активного файла вручную не отслеживается посетителями: восстановите его административной пересборкой.
 
 Источники адаптеров и PHP-зависимость включены в transport. Установка/reinstall прогревает кеш; настройки и согласия не меняются. Uninstall удаляет служебный plugin, но сохраняет созданный кеш как непоставляемый файл. При ручном удалении runtime уберите и этот кеш. CDN/HTML-кеш, игнорирующий query `v`, администратор обновляет отдельно.
 
@@ -184,3 +185,22 @@ Frontend MODX 2: `runtime.js` → `script-url.js` → `provider-registry.js` →
 `CookieConsentMap` сохраняет прежний вызов и получает необязательные `title`, `cssClass`, `width`, `height`, `aspectRatio`, `loading`, `poster`, `allowFullscreen`, `referrerPolicy`. До разрешения допускается только same-origin poster; внешняя обложка не запрашивается.
 
 [Полные RU примеры трёх способов, форматы YouTube/RUTUBE/VK, таблица параметров, AJAX, карты и CSP FAQ](docs/modx2-video-embeds.md). [Native acceptance и ограничения](docs/modx2-video-embeds-acceptance.md). Краткое руководство Manager RU/EN содержит шестой раздел «Видео и встраивания»; его источник — `_build/user-guide.json`.
+
+
+# 1.0.8-pl7 — исправления modstore / modstore corrections
+
+RU: Runtime находится в `assets/components/cookieconsentmanager/`, приватный код — в `core/components/cookieconsentmanager/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
+
+EN: Runtime lives under `assets/components/cookieconsentmanager/`; private code remains under `core/components/cookieconsentmanager/`. The installer generates `bootstrap.php` beside `audit.php` from the actual `config.core.php`, including relocated assets and core, without extra setup.
+
+RU: Обновление переносит JS-файлы из старого services/ без изменения байтов и сохраняет историю SHA-256. Удалённые адаптеры не восстанавливаются. Конфликт разных файлов останавливает перенос без перезаписи. Очистка после успешной сборки удаляет только известные старые файлы с точным совпадением SHA-256; чужие и изменённые файлы сохраняются.
+
+EN: Upgrades move user JS adapters unchanged and retain SHA-256 history. Deleted adapters stay deleted; conflicting destination files stop migration without overwriting either version. After a successful build, cleanup removes only exact known legacy hashes; unknown/changed files remain.
+
+RU: Сборка выполняется установщиком, вручную в Manager и при очистке кеша Manager. Frontend загружает готовый bundle без проверки SHA адаптеров. Ошибка сборки сохраняет прежний bundle и версию. Docker-маршрут удалён; тестовый mock-marketing хранится только в tests/.
+
+EN: Builds remain in installation and authenticated Manager actions (manual rebuild and cache clear). Visitors load the prepared bundle without adapter hashing. Failed builds retain the working bundle/version. Docker-only routing was removed; mock-marketing is confined to tests/.
+
+RU: restore-elements использует шесть фактических элементов transport-пакета, существующие ID, транзакцию и dry-run по умолчанию. Настройки не меняются.
+
+EN: restore-elements uses the six actual transport elements, existing IDs, a transaction and a default dry run. Settings remain unchanged.

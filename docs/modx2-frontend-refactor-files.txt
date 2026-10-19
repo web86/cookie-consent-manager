@@ -7,11 +7,11 @@ _build/package.json
 _build/user-guide-manifest.json
 _build/user-guide.json
 assets/components/cookieconsent/manager.js
-assets/js/cookie-consent/consent-manager.js
-assets/js/cookie-consent/cookie-consent.min.js
-assets/js/cookie-consent/embeds.js
-assets/js/cookie-consent/provider-registry.js
-assets/js/cookie-consent/service-loaders.js
+assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js
+assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js
+assets/components/cookieconsentmanager/js/cookie-consent/embeds.js
+assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js
+assets/components/cookieconsentmanager/js/cookie-consent/service-loaders.js
 docs/evidence/modx2-frontend-refactor.json
 docs/modx2-frontend-refactor-acceptance.md
 docs/modx2-frontend-refactor-files.txt

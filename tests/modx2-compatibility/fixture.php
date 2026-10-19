@@ -74,13 +74,13 @@ if($action==='resource'){
     $modx->cacheManager->refresh();echo '{}';exit;
 }
 if($action==='customize'){
-    $f=MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js';file_put_contents($f,"\n// synthetic owner customization\n",FILE_APPEND);echo json_encode(['sha256'=>hash_file('sha256',$f)]);exit;
+    $f=MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/services/yandex.js';file_put_contents($f,"\n// synthetic owner customization\n",FILE_APPEND);echo json_encode(['sha256'=>hash_file('sha256',$f)]);exit;
 }
 if($action==='cache-edit'){
-    file_put_contents(MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js',"\nwindow.__matrixCacheProbe=(window.__matrixCacheProbe||0)+1;\n",FILE_APPEND);echo '{}';exit;
+    file_put_contents(MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/services/yandex.js',"\nwindow.__matrixCacheProbe=(window.__matrixCacheProbe||0)+1;\n",FILE_APPEND);echo '{}';exit;
 }
 if($action==='bundle-state'){
-    $file=MODX_ASSETS_PATH.'js/cookie-consent/cached-cookie-consent.min.js';echo json_encode(['sha256'=>is_file($file)?hash_file('sha256',$file):null,'version'=>(int)$modx->getOption('cookie_consent.bundle_version')]);exit;
+    $file=MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/cached-cookie-consent.min.js';echo json_encode(['sha256'=>is_file($file)?hash_file('sha256',$file):null,'version'=>(int)$modx->getOption('cookie_consent.bundle_version')]);exit;
 }
 if($action==='custom-script'){
     file_put_contents(MODX_ASSETS_PATH.'js/matrix-custom.js','window.__matrixCustom=(window.__matrixCustom||0)+1;');echo '{}';exit;
@@ -89,6 +89,6 @@ if($action==='snapshot'){
     $settings=[];foreach($modx->getCollection('modSystemSetting',['namespace'=>'cookie_consent']) as $s)if($s->get('key')!=='cookie_consent.bundle_version')$settings[$s->get('key')]=$s->get('value');ksort($settings);
     $logs=[];foreach(glob('/opt/cc-private/logs/*') as $f)if(is_file($f))$logs[basename($f)]=hash_file('sha256',$f);
     $elements=[];foreach(['CookiesPopup'=>'modChunk','CookieConsent'=>'modSnippet','CookieConsentAssets'=>'modSnippet','CookieConsentBanner'=>'modSnippet','CookieConsentMap'=>'modSnippet','CookieConsentVideo'=>'modSnippet'] as $name=>$class){$r=$modx->getObject($class,['name'=>$name]);if($r)$elements[$name]=$r->get('id');}
-    echo json_encode(['settings'=>$settings,'logs'=>$logs,'elements'=>$elements,'adapter'=>is_file(MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js')?hash_file('sha256',MODX_ASSETS_PATH.'js/cookie-consent/services/yandex.js'):null]);exit;
+    echo json_encode(['settings'=>$settings,'logs'=>$logs,'elements'=>$elements,'adapter'=>is_file(MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/services/yandex.js')?hash_file('sha256',MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/services/yandex.js'):null]);exit;
 }
 throw new RuntimeException('Unknown action');
