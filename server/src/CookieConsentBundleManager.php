@@ -68,7 +68,7 @@ final class CookieConsentBundleManager
 
     private static function manifest($modx): string
     {
-        return rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsent/frontend-manifest.json';
+        return rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager3/frontend-manifest.json';
     }
 
     private static function build($modx, bool $force, ?callable $synchronize = null): array

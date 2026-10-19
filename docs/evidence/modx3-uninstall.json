@@ -1,0 +1,280 @@
+{
+  "decision": "GO",
+  "platform": "MODX 3",
+  "signature": "cookieconsentmanager3-1.0.8-pl6",
+  "sha256": "5bb0477eda935a67f7cdc2415d7c4f8eb8a37ec424ef1e7484d5314982512f76",
+  "bytes": 776884,
+  "native_tests": 18,
+  "native_assertions": 282,
+  "failed": 0,
+  "native_cases": [
+    {
+      "case": {
+        "name": "m312p81",
+        "modx": "3.1.2-pl",
+        "php": "8.1",
+        "port": 23410
+      },
+      "tests": 9,
+      "assertions": 141,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-install-uninstall",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "same-package-reinstall-after-uninstall",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changed-settings-uninstall",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "modified-adapter-is-preserved",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "user-files-and-empty-directory-are-preserved",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "jsonl-private-and-shared-logs-and-private-queue",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "interrupted-file-state-and-failed-uninstall-retry",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "actual-previous-candidate-upgrade-uninstall",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "foreign-objects-category-permission-and-files-are-preserved",
+          "result": "PASS",
+          "assertions": 18
+        }
+      ]
+    },
+    {
+      "case": {
+        "name": "m324p82",
+        "modx": "3.2.4-pl",
+        "php": "8.2",
+        "port": 23411
+      },
+      "tests": 9,
+      "assertions": 141,
+      "failed": 0,
+      "results": [
+        {
+          "name": "fresh-install-uninstall",
+          "result": "PASS",
+          "assertions": 27
+        },
+        {
+          "name": "same-package-reinstall-after-uninstall",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "changed-settings-uninstall",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "modified-adapter-is-preserved",
+          "result": "PASS",
+          "assertions": 12
+        },
+        {
+          "name": "user-files-and-empty-directory-are-preserved",
+          "result": "PASS",
+          "assertions": 7
+        },
+        {
+          "name": "jsonl-private-and-shared-logs-and-private-queue",
+          "result": "PASS",
+          "assertions": 16
+        },
+        {
+          "name": "interrupted-file-state-and-failed-uninstall-retry",
+          "result": "PASS",
+          "assertions": 15
+        },
+        {
+          "name": "actual-previous-candidate-upgrade-uninstall",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "foreign-objects-category-permission-and-files-are-preserved",
+          "result": "PASS",
+          "assertions": 18
+        }
+      ]
+    }
+  ],
+  "runtime_identities": [
+    {
+      "modx": "3.1.2-pl",
+      "php": "8.1.34",
+      "xpdo": "v3.1.5",
+      "db": "cc3_matrix_m312p81",
+      "mariadb": "11.8.9-MariaDB-ubu2404",
+      "aliases": false
+    },
+    {
+      "modx": "3.2.4-pl",
+      "php": "8.2.34",
+      "xpdo": "v3.1.7",
+      "db": "cc3_matrix_m324p82",
+      "mariadb": "11.8.9-MariaDB-ubu2404",
+      "aliases": false
+    }
+  ],
+  "compatibility_boundary_checks": [
+    {
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.1.34"
+    },
+    {
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.2.34"
+    }
+  ],
+  "only_changed_runtime_files_since_pl5": [
+    "core/components/cookieconsentmanager3/frontend-manifest.json",
+    "core/components/cookieconsentmanager3/src/CookieConsentVersion.php"
+  ],
+  "functional_regression": {
+    "case": {
+      "name": "m324p82",
+      "modx": "3.2.4-pl",
+      "php": "8.2",
+      "port": 23420
+    },
+    "fresh_install_proof": "Native fresh install in this run",
+    "complete": true,
+    "tests": 14,
+    "assertions": 461,
+    "failed": 0,
+    "results": [
+      {
+        "name": "official-install-db-manager-native-aliases-off",
+        "result": "PASS",
+        "assertions": 3
+      },
+      {
+        "name": "native-fresh-install-aliases-off",
+        "result": "PASS",
+        "assertions": 27
+      },
+      {
+        "name": "manager-create-settings-services-translations-and-php-bundle",
+        "result": "PASS",
+        "assertions": 14
+      },
+      {
+        "name": "native-reinstall-preserves-settings-data-adapter",
+        "result": "PASS",
+        "assertions": 252
+      },
+      {
+        "name": "native-reinstall-and-api-aliases-off",
+        "result": "PASS",
+        "assertions": 6
+      },
+      {
+        "name": "manager-tabs-preview-guide-save-cache-ru-off",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "manager-tabs-preview-guide-save-cache-en-off",
+        "result": "PASS",
+        "assertions": 13
+      },
+      {
+        "name": "frontend-strict-bottom-off",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-strict-bottom-right-off",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-strict-bottom-left-off",
+        "result": "PASS",
+        "assertions": 20
+      },
+      {
+        "name": "frontend-legacy-bottom-off",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "frontend-legacy-bottom-right-off",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "frontend-legacy-bottom-left-off",
+        "result": "PASS",
+        "assertions": 19
+      },
+      {
+        "name": "journal-http-csv-acl",
+        "result": "PASS",
+        "assertions": 16
+      }
+    ]
+  },
+  "console_verification": {
+    "tests": 2,
+    "assertions": 8,
+    "result": "PASS"
+  },
+  "archive_verification": {
+    "signature": "cookieconsentmanager3-1.0.8-pl6",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDO\\Transport\\xPDOObjectVehicle": 15,
+      "xPDO\\Transport\\xPDOFileVehicle": 231,
+      "xPDO\\Transport\\xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 721,
+    "sha256": "5bb0477eda935a67f7cdc2415d7c4f8eb8a37ec424ef1e7484d5314982512f76",
+    "result": "PASS"
+  },
+  "compatibility": {
+    "modx": ">=3.1.2,<3.3.0",
+    "php": ">=8.1.0"
+  },
+  "ownership": "Native preserved.php; no new database schema or lifecycle store",
+  "retained_data": [
+    "consent JSONL and .rate in shared/custom log directories",
+    "custom audit configuration files and paths",
+    "modified/unknown public adapters and other unknown or changed files",
+    "pre-existing permission definitions",
+    "foreign replacement objects and categories containing foreign elements"
+  ],
+  "failure_test": "A shipped file was already absent and a different occupied runtime directory was made read-only. Package Manager returned failure and kept installed=true. Restoring permissions and retrying uninstall succeeded.",
+  "historical_candidate_limit": "An older candidate that overwrote its original native category backup on reinstall may lack proof that it created the category. Such an unproven pre-existing category is retained, rather than deleted by name. New ownership receipts survive reinstalls.",
+  "publication_performed": false
+}

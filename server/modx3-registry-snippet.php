@@ -1,7 +1,7 @@
 <?php
 // Compatibility data snippet. No translation dictionary; static text belongs to PHP markup.
 try {
-    require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
+    require_once MODX_CORE_PATH.'components/cookieconsentmanager3/src/CookieConsentSettings.php';
     $data=CookieConsentSettings::read($modx);
     $json=CookieConsentTexts::safeJson(CookieConsentServiceRegistry::publicRegistry($data['registry']));
 } catch (Throwable $e) {

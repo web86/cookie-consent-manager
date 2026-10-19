@@ -1,0 +1,730 @@
+{
+  "schema": 1,
+  "scope": "First public release, new native installations only; user explicitly accepted native scope excluding historical Fenom/live-playback gates",
+  "branch": "codex/modx3-cookieconsentmanager",
+  "base": "ef96e4f2e4d39ffebae5e63d2bbfbc9cfe48af32",
+  "signature": "cookieconsentmanager3-1.0.8-pl5",
+  "sha256": "652bd25dd5ea52266b39a5ef536be3014902012e7ee090f63d8eef483d259bb7",
+  "bytes": 573995,
+  "native_archive": {
+    "signature": "cookieconsentmanager3-1.0.8-pl5",
+    "native_vehicles": 248,
+    "vehicle_classes": {
+      "xPDO\\Transport\\xPDOObjectVehicle": 15,
+      "xPDO\\Transport\\xPDOFileVehicle": 231,
+      "xPDO\\Transport\\xPDOScriptVehicle": 2
+    },
+    "runtime_files": 231,
+    "zip_entries": 490,
+    "sha256": "652bd25dd5ea52266b39a5ef536be3014902012e7ee090f63d8eef483d259bb7",
+    "result": "PASS"
+  },
+  "reproducible": true,
+  "fresh_install_decision": "GO",
+  "modstore_decision": "GO",
+  "tests": 60,
+  "assertions": 1872,
+  "failed": 0,
+  "physical_checks": 996,
+  "cases": [
+    {
+      "case": "m312p81",
+      "modx": "3.1.2-pl",
+      "php": "8.1.34",
+      "xpdo": "v3.1.5",
+      "deprecated_aliases": false,
+      "fresh_install_proof": "Original native install retained in browser-attempt-composer-prefix.json; same immutable ZIP verified before continuation",
+      "tests": 14,
+      "assertions": 458,
+      "failed": 0,
+      "results": [
+        {
+          "name": "official-install-db-manager-native-aliases-off",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-fresh-install-aliases-off",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-reinstall-preserves-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ],
+      "adapters": {
+        "result": "PASS",
+        "assertions": 10,
+        "source_preserved": true,
+        "fallback": true,
+        "visitor_build": false
+      }
+    },
+    {
+      "case": "m312p82",
+      "modx": "3.1.2-pl",
+      "php": "8.2.34",
+      "xpdo": "v3.1.5",
+      "deprecated_aliases": false,
+      "fresh_install_proof": "Original native install retained in browser-attempt-composer-prefix.json; same immutable ZIP verified before continuation",
+      "tests": 14,
+      "assertions": 458,
+      "failed": 0,
+      "results": [
+        {
+          "name": "official-install-db-manager-native-aliases-off",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-fresh-install-aliases-off",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-reinstall-preserves-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ],
+      "adapters": {
+        "result": "PASS",
+        "assertions": 10,
+        "source_preserved": true,
+        "fallback": true,
+        "visitor_build": false
+      }
+    },
+    {
+      "case": "m324p81",
+      "modx": "3.2.4-pl",
+      "php": "8.1.34",
+      "xpdo": "v3.1.7",
+      "deprecated_aliases": false,
+      "fresh_install_proof": "Original native install retained in browser-attempt-composer-prefix.json; same immutable ZIP verified before continuation",
+      "tests": 14,
+      "assertions": 458,
+      "failed": 0,
+      "results": [
+        {
+          "name": "official-install-db-manager-native-aliases-off",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-fresh-install-aliases-off",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-reinstall-preserves-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ],
+      "adapters": {
+        "result": "PASS",
+        "assertions": 10,
+        "source_preserved": true,
+        "fallback": true,
+        "visitor_build": false
+      }
+    },
+    {
+      "case": "m324p82",
+      "modx": "3.2.4-pl",
+      "php": "8.2.34",
+      "xpdo": "v3.1.7",
+      "deprecated_aliases": false,
+      "fresh_install_proof": "Original native install retained in browser-attempt-composer-prefix.json; same immutable ZIP verified before continuation",
+      "tests": 14,
+      "assertions": 458,
+      "failed": 0,
+      "results": [
+        {
+          "name": "official-install-db-manager-native-aliases-off",
+          "result": "PASS",
+          "assertions": 3
+        },
+        {
+          "name": "native-fresh-install-aliases-off",
+          "result": "PASS",
+          "assertions": 24
+        },
+        {
+          "name": "manager-create-settings-services-translations-and-php-bundle",
+          "result": "PASS",
+          "assertions": 14
+        },
+        {
+          "name": "native-reinstall-preserves-settings-data-adapter",
+          "result": "PASS",
+          "assertions": 252
+        },
+        {
+          "name": "native-reinstall-and-api-aliases-off",
+          "result": "PASS",
+          "assertions": 6
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-ru-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "manager-tabs-preview-guide-save-cache-en-off",
+          "result": "PASS",
+          "assertions": 13
+        },
+        {
+          "name": "frontend-strict-bottom-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-right-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-strict-bottom-left-off",
+          "result": "PASS",
+          "assertions": 20
+        },
+        {
+          "name": "frontend-legacy-bottom-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-right-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "frontend-legacy-bottom-left-off",
+          "result": "PASS",
+          "assertions": 19
+        },
+        {
+          "name": "journal-http-csv-acl",
+          "result": "PASS",
+          "assertions": 16
+        }
+      ],
+      "adapters": {
+        "result": "PASS",
+        "assertions": 10,
+        "source_preserved": true,
+        "fallback": true,
+        "visitor_build": false
+      }
+    }
+  ],
+  "php": {
+    "suites": 38,
+    "assertions": 8572,
+    "failed": 0,
+    "results": [
+      {
+        "php": "8.1",
+        "file": "tests/adapter-updates/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/adapter-cache/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/viewer/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta21/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta24/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta30/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta31/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta33/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/manager-i18n-php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/manager-ux-php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/elements/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/modx3-beta3/visibility.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/universal/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/universal/audit-schema3.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/beta1042/urls.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/video-embeds/urls.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/video-embeds/snippets.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.1",
+        "file": "tests/banner-layout/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/adapter-updates/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/adapter-cache/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/viewer/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta21/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta24/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta30/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta31/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta33/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/manager-i18n-php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/manager-ux-php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/elements/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/modx3-beta3/visibility.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/universal/php.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/universal/audit-schema3.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/beta1042/urls.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/video-embeds/urls.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/video-embeds/snippets.php",
+        "result": "PASS"
+      },
+      {
+        "php": "8.2",
+        "file": "tests/banner-layout/php.php",
+        "result": "PASS"
+      }
+    ]
+  },
+  "requirements": [
+    {
+      "case": "m312p81",
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.1.34"
+    },
+    {
+      "case": "m312p82",
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.2.34"
+    },
+    {
+      "case": "m324p81",
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.1.34"
+    },
+    {
+      "case": "m324p82",
+      "result": "PASS",
+      "assertions": 13,
+      "php": "8.2.34"
+    }
+  ],
+  "contracts": {
+    "result": "PASS",
+    "base": "ef96e4f2e4d39ffebae5e63d2bbfbc9cfe48af32",
+    "assertions": 517
+  },
+  "syntax": {
+    "result": "PASS",
+    "php": [
+      {
+        "result": "PASS",
+        "php": "8.1.34",
+        "files": 220,
+        "errors": []
+      },
+      {
+        "result": "PASS",
+        "php": "8.2.34",
+        "files": 220,
+        "errors": []
+      }
+    ],
+    "js_files": 42,
+    "js_errors": []
+  },
+  "diagnostics": [
+    {
+      "case": "m312p81",
+      "pre_setup_503": 1,
+      "expected": {
+        "unmodified MODX login missing Accept-Language in auxiliary harness": 1,
+        "intentional invalid adapter with working fallback": 1
+      },
+      "unexpected": []
+    },
+    {
+      "case": "m312p82",
+      "pre_setup_503": 1,
+      "expected": {
+        "unmodified MODX login missing Accept-Language in auxiliary harness": 1,
+        "intentional invalid adapter with working fallback": 1
+      },
+      "unexpected": []
+    },
+    {
+      "case": "m324p81",
+      "pre_setup_503": 1,
+      "expected": {
+        "unmodified MODX login missing Accept-Language in auxiliary harness": 1,
+        "intentional invalid adapter with working fallback": 1
+      },
+      "unexpected": []
+    },
+    {
+      "case": "m324p82",
+      "pre_setup_503": 1,
+      "expected": {
+        "unmodified MODX login missing Accept-Language in auxiliary harness": 1,
+        "intentional invalid adapter with working fallback": 1
+      },
+      "unexpected": []
+    }
+  ],
+  "js_regressions": [
+    {
+      "suite": "video-php",
+      "result": "PASS",
+      "pass_lines": 42,
+      "log_sha256": "5fb766f9f9aeed8f3d585ad13457e44f0746e5555002590987117b79340511b3"
+    },
+    {
+      "suite": "placeholder-php",
+      "result": "PASS",
+      "pass_lines": 32,
+      "log_sha256": "9f390ad5ec5fe39e03bf347b892dfae840430efdc05a9492e5d41969b978f5b8"
+    }
+  ],
+  "namespace": "cookie_consent",
+  "component": "cookieconsentmanager3",
+  "old_paths_in_zip": false,
+  "migration": false,
+  "runtime_alias_layer": false,
+  "preserved": [
+    "CookieConsent",
+    "CookieConsentAssets",
+    "CookieConsentBanner",
+    "CookieConsentMap",
+    "CookieConsentVideo",
+    "CookiesPopup",
+    "cookie_consent.*",
+    "window.web86CookieConsent",
+    "onAllowed()",
+    "mountEmbeds()",
+    "public adapter paths",
+    "JSONL format",
+    "administrative PHP build and fallback"
+  ],
+  "compatibility": {
+    "modx": ">=3.1.2,<3.3.0",
+    "php": ">=8.1.0"
+  },
+  "reused_compatibility_evidence": "docs/evidence/modx3-version-compatibility-final.json",
+  "out_of_scope": [
+    "Historical cookieconsent/cookieconsent3 migration",
+    "Full third-party extra transport coexistence test",
+    "Fenom/pdoTools3 3.1.0 warm compiled-cache acceptance",
+    "Real vendor video playback and analytics-account delivery"
+  ],
+  "limitations": [
+    "Existing pdoTools3 3.1.0 Fenom warm-cache issue is unchanged; this configuration is not certified.",
+    "External SDK/iframe network intercepted in automated tests.",
+    "Original harness attempts preserved; empty JSON representation and Composer v-prefix expectations corrected without a product-code change or database reset."
+  ],
+  "main_unchanged": true,
+  "modx3_unchanged": true,
+  "published": false,
+  "deployed": false
+}

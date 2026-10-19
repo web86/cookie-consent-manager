@@ -1,7 +1,7 @@
 <?php
 // Native snippets, real settings/texts/validators; small read-only MODX settings double.
 require_once __DIR__.'/../../server/src/CookieConsentSettings.php';
-$dir=sys_get_temp_dir().'/cc-video-snippets-'.getmypid().'/';mkdir($dir.'components/cookieconsent',0700,true);symlink(realpath(__DIR__.'/../../server/src'),$dir.'components/cookieconsent/src');define('MODX_CORE_PATH',$dir);
+$dir=sys_get_temp_dir().'/cc-video-snippets-'.getmypid().'/';mkdir($dir.'components/cookieconsentmanager3',0700,true);symlink(realpath(__DIR__.'/../../server/src'),$dir.'components/cookieconsentmanager3/src');define('MODX_CORE_PATH',$dir);
 class VideoFixtureSetting {function __construct(private string $key,private string $value){}function get($key){return $key==='key'?$this->key:$this->value;}}
 class VideoFixtureModx {
  public array $registry; public string $language='en'; public ?array $texts=null;
@@ -42,4 +42,4 @@ try{
  eq(snippet('map',['provider'=>'yandex_maps','src'=>$src,'referrerPolicy'=>'unsafe-url']),'','Unsafe referrer rejected');
  }
  echo json_encode(['result'=>'PASS','assertions'=>$n])."\n";
-}finally{unlink($dir.'components/cookieconsent/src');rmdir($dir.'components/cookieconsent');rmdir($dir.'components');rmdir($dir);}
+}finally{unlink($dir.'components/cookieconsentmanager3/src');rmdir($dir.'components/cookieconsentmanager3');rmdir($dir.'components');rmdir($dir);}

@@ -1,7 +1,7 @@
 {
-  "source": "46b51d102ae4133d845216e66b7b82fac9753ff56ccd655479c95f95ea3ae593",
+  "source": "7fc6048ae7e8a3dc08295d7bd2008198af218fdcc627e8bdc68166d18c6d7fd5",
   "outputs": {
-    "_build/package-readme.md": "59b54d2dfbc2c9266ee0cec2b328b0053ada85d76645e84115f6018843f67ff2",
-    "server/src/CookieConsentGuide.php": "578e0ad5b13e857343d9e33c3c59118c3500670f9f5691903f23c2d3a4ab4050"
+    "_build/package-readme.md": "23aea03b1712cecd25a501bc7ef81b218c5b99bb582b64fc8f00cec180004956",
+    "server/src/CookieConsentGuide.php": "3067d8358b7cf5b0be27be2ddd60b4fee1d168f48567989d126eea3499d39558"
   }
 }
