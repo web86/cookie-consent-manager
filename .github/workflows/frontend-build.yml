@@ -5,8 +5,8 @@ on:
   push:
     branches: ['codex/modx2-*']
     paths:
-      - 'assets/js/cookie-consent/**'
-      - 'assets/css/cookie-consent*'
+      - 'assets/components/cookieconsentmanager/js/cookie-consent/**'
+      - 'assets/components/cookieconsentmanager/css/cookie-consent*'
       - '_build/frontend*'
       - 'package.json'
       - 'package-lock.json'

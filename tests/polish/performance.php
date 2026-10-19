@@ -7,5 +7,5 @@ function measure($modx,$callback,$count=100){$times=[];$queries=[];for($i=0;$i<$
 $out=['php'=>PHP_VERSION,'modx'=>$modx->getVersionData()['full_version'],'conditions'=>'Single local PHP process after 5 warmup iterations, identical persisted settings, no state mutation. Snippet SQL counts include native snippet/chunk retrieval.'];
 $out['settings_read_twice']=measure($modx,fn()=>[CookieConsentSettings::read($modx),CookieConsentSettings::read($modx)]);
 foreach(['ru','en']as$lang){$modx->context->config['cultureKey']=$lang;foreach(['live','mock']as$mode)$out['split_'.$lang.'_'.$mode]=measure($modx,fn()=>[$modx->runSnippet('CookieConsentAssets'),$modx->runSnippet('CookieConsentBanner',['mode'=>$mode])]);}
-$out['hash_two_bundles']=measure($modx,fn()=>[hash_file('sha256',MODX_ASSETS_PATH.'css/cookie-consent.min.css'),hash_file('sha256',MODX_ASSETS_PATH.'js/cookie-consent/cookie-consent.min.js')],500);
+$out['hash_two_bundles']=measure($modx,fn()=>[hash_file('sha256',MODX_ASSETS_PATH.'components/cookieconsentmanager/css/cookie-consent.min.css'),hash_file('sha256',MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js')],500);
 echo json_encode($out,JSON_PRETTY_PRINT)."\n";

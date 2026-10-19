@@ -12,7 +12,7 @@ function parse(bytes){
  assert.match(meta.fingerprint,/^[a-f0-9]{64}$/);
  return {body,meta};
 }
-const expected=()=>parse(readFileSync(process.env.CC_FRONTEND_EXPECTED||'assets/js/cookie-consent/cookie-consent.min.js'));
+const expected=()=>parse(readFileSync(process.env.CC_FRONTEND_EXPECTED||'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js'));
 export function frontendHash(bytes){
  const actual=parse(bytes),reference=expected();
  assert.equal(Boolean(actual.meta),Boolean(reference.meta),'Expected build mechanism');

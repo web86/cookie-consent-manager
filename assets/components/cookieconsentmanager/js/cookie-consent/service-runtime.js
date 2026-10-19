@@ -23,7 +23,7 @@ const web86CreateServiceRuntime = () => {
       (state.runtimePermission ? state.runtimePermission(s.category) : value?.categories?.[s.category] === true);
   }
   function mock(s) {
-    return script(new URL(`mock/${s.loader === 'mock_marketing' ? 'marketing' : s.loader}.js`, base));
+    return script(new URL(`mock/${s.loader}.js`, base));
   }
   return Object.assign(state, { t, services, visibility, started, script, allowed, mock });
 };

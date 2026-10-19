@@ -9,7 +9,7 @@ Starting with **CookieConsentManager 1.0.8-pl5 (MODX 2)** and **CookieConsentMan
 
 ## Uninstall procedure
 
-1. Back up the database, `assets/js/cookie-consent/services/` and private consent logs.
+1. Back up the database, `assets/components/cookieconsentmanager/js/cookie-consent/services/` (MODX 2) / `assets/components/cookieconsentmanager3/js/cookie-consent/services/` (MODX 3) and private consent logs.
 2. In Package Manager choose **Uninstall** for the installed `cookieconsentmanager` or `cookieconsentmanager3` package.
 3. Read console warnings. If removal fails, fix the cause and retry. MODX does not guarantee a complete rollback of every transport vehicle.
 4. After successful uninstall, optionally delete the old transport archive record in Package Manager.

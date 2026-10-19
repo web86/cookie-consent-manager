@@ -15,7 +15,7 @@ const web86Embeds = (() => {
   function safeMapUrl(s, raw, mode) {
     if (mode !== 'mock') return mapUrl(s, raw);
     const u = new URL(raw, location.href);
-    if (u.origin !== location.origin || u.username || u.password || u.search || u.hash || u.pathname !== `/assets/js/cookie-consent/mock/${s.loader}.html`) throw Error('Mock map must be first-party fixture');
+    if (u.origin !== location.origin || u.username || u.password || u.search || u.hash || u.pathname !== `/assets/components/cookieconsentmanager/js/cookie-consent/mock/${s.loader}.html`) throw Error('Mock map must be first-party fixture');
     return u.href;
   }
   function videoUrl(provider, raw) {

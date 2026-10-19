@@ -5,9 +5,9 @@ _build/package-readme.md
 _build/package.json
 _build/user-guide-manifest.json
 _build/user-guide.json
-assets/js/cookie-consent/consent-manager.js
-assets/js/cookie-consent/cookie-consent.min.js
-assets/js/cookie-consent/provider-registry.js
+assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js
+assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js
+assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js
 docs/evidence/modx2-1.0.4-beta3.json
 docs/modx2-1.0.4-beta3-acceptance.md
 docs/modx2-1.0.4-beta3-files.txt

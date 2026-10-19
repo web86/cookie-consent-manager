@@ -70,9 +70,9 @@ No changes to main/modx3, pdoTools/Fenom, deployment or public release were made
 - `_build/frontend-manifest.json`
 - `_build/package.json`
 - `assets/components/cookieconsent/manager.js`
-- `assets/css/cookie-consent.css`
-- `assets/css/cookie-consent.min.css`
-- `assets/scss/cookie-consent.scss`
+- `assets/components/cookieconsentmanager/css/cookie-consent.css`
+- `assets/components/cookieconsentmanager/css/cookie-consent.min.css`
+- `assets/components/cookieconsentmanager/scss/cookie-consent.scss`
 - `docs/evidence/modx2-banner-layout-results.json`
 - `docs/modx2-banner-layout-acceptance.md`
 - `docs/screenshots/banner-layout/bottom-desktop.png`

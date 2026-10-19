@@ -12,7 +12,7 @@ spec=json.loads((folder/(sig+'.inventory.json')).read_text());runtime=json.loads
 for item in spec['files']:
     assert item['sha256']==sha(ROOT/runtime[item['target']]),'Source changed after build: '+item['target']
     assert not re.search(r'components/cookieconsent/',item['target'])
-    assert not item['target'].startswith('assets/js/cookie-consent/services/')
+    assert not item['target'].startswith('assets/components/cookieconsentmanager/js/cookie-consent/services/')
 assert spec['objects']['category']['criteria']['category']=='CookieConsentManager'
 assert spec['objects']['namespace']['fields']['name']=='cookie_consent'
 rows=[];physical=0
@@ -52,7 +52,7 @@ for r in php:
 diagnostics=json.loads((LOCAL/'diagnostics.json').read_text());assert len(diagnostics)==8 and all(not r['unexpected'] and not r['unexpected_http'] for r in diagnostics)
 syntax=json.loads((LOCAL/'syntax.json').read_text());assert syntax['result']=='PASS'
 base='1824a664e43f380722b0c49be9918acc407a32b7'
-for p in (ROOT/'assets/js/cookie-consent').rglob('*.js'):
+for p in (ROOT/'assets/components/cookieconsentmanager/js/cookie-consent').rglob('*.js'):
     # The generated build is also expected to be byte-identical, despite the package name.
     rel=str(p.relative_to(ROOT));assert p.read_bytes()==subprocess.check_output(['git','show',base+':'+rel],cwd=ROOT),rel
 result=dict(schema=1,date='2026-10-18',branch='codex/modx2-cookieconsentmanager',base=base,signature=sig,sha256=sha(archive),bytes=archive.stat().st_size,compatibility=dict(modx='>=2.8.4,<3.0.0',php='>=8.1.0'),native_archive=verification,reproducible=True,tests=sum(r['tests'] for r in rows)+4,assertions=sum(r['assertions'] for r in rows)+sum(r['same_family_lifecycle']['assertions'] for r in rows if r['same_family_lifecycle']),failed=0,physical_checks=physical,cases=rows,php=dict(suites=len(php),assertions=php_assertions,failed=0,versions=['8.1.34','8.2.34'],results=php),syntax=syntax,diagnostics=diagnostics,preserved_visitor_js='byte-identical to base, including generated esbuild JS',third_party_fixture=dict(repository='https://github.com/QupeDev/cookieconsent',commit='2fb353a5ebf7974f38be080f5fbcb8baef3ccef8',scope='source trees and native namespace/settings/category/chunk/plugin; foreign banner disabled',official_modstore_zip='NOT RUN',clientconfig='NOT RUN'),migration=dict(native_action='INSTALL across different package names; UPGRADE within cookieconsentmanager family',old_package_record='retained, installed timestamp untouched',automatic_uninstall=False,old_component_files='unchanged',adapter_paths='unchanged',adapter_sha256_history='retained and extended',warning='Do not uninstall/reinstall/update the old cookieconsent transport after migration; it owns shared JS and removes the cache plugin by name.'),modstore_decision='NO-GO',blockers=['Official foreign Modstore transport with ClientConfig coexistence acceptance is not run.','Cross-name migration requires the documented manual restriction on the old package record; user acceptance is outstanding.'],modx3=dict(status='NOT STARTED: MODX 2 acceptance gate not closed',head='ef96e4f2e4d39ffebae5e63d2bbfbc9cfe48af32',candidate='cookieconsentmanager3-1.0.8-pl5',compatibility=dict(modx='>=3.1.2,<3.3.0',php='>=8.1.0')),release_published=False,deployed=False)

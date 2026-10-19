@@ -9,7 +9,7 @@ description: Штатная деинсталляция, сохраняемые �
 
 ## Как удалить компонент
 
-1. Создайте резервную копию базы данных, каталога `assets/js/cookie-consent/services/` и частного каталога журналов.
+1. Создайте резервную копию базы данных, каталога `assets/components/cookieconsentmanager/js/cookie-consent/services/` (MODX 2) / `assets/components/cookieconsentmanager3/js/cookie-consent/services/` (MODX 3) и частного каталога журналов.
 2. Откройте Package Manager и запустите **Деинсталлировать** для установленной версии `cookieconsentmanager` либо `cookieconsentmanager3`.
 3. Проверьте сообщения консоли. Если удаление завершилось ошибкой, устраните названную причину и повторите операцию. MODX не гарантирует автоматический rollback всех transport vehicles.
 4. После успешной деинсталляции при желании удалите ненужный архив пакета из Package Manager.

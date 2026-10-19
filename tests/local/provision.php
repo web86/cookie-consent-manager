@@ -22,7 +22,7 @@ $snippet->set('name','CookieConsentRegistry');
 $snippet->set('snippet',preg_replace('/^<\?php\s*/','',file_get_contents('/opt/cc-source/server/modx2-registry-snippet.php'))); $snippet->save();
 $page=file_get_contents('/opt/cc-source/demo.html');
 $page=str_replace('data-cc-audit-url=""','data-cc-audit-url="/assets/components/cookieconsent/audit.php"',$page);
-$page=str_replace('<script src="assets/js/cookie-consent/provider-registry.js"','[[!CookieConsentRegistry]]<script src="assets/js/cookie-consent/provider-registry.js"',$page);
+$page=str_replace('<script src="assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js"','[[!CookieConsentRegistry]]<script src="assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js"',$page);
 $template=$modx->getObject('modTemplate',['templatename'=>'Consent acceptance']) ?: $modx->newObject('modTemplate');
 $template->set('templatename','Consent acceptance');$template->set('content',$page);$template->save();
 $resource=$modx->getObject('modResource',1) ?: $modx->newObject('modResource');

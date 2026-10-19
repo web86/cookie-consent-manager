@@ -12,7 +12,10 @@ description: Редактирование встроенных адаптеро�
 Точный путь к исходнику показан в карточке сервиса рядом с **«Исходный код адаптера»**. Типовой каталог установленного сайта:
 
 ```text
-assets/js/cookie-consent/services/
+# MODX 2
+assets/components/cookieconsentmanager/js/cookie-consent/services/
+# MODX 3
+assets/components/cookieconsentmanager3/js/cookie-consent/services/
 ```
 
 Файлы этого каталога предназначены для изменений владельца сайта. Установочный пакет дополнительно хранит **оригинальные** версии адаптеров в приватном каталоге `core/components/cookieconsentmanager/adapters/services/` на MODX 2 либо `core/components/cookieconsentmanager3/adapters/services/` на MODX 3.

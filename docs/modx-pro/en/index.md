@@ -47,8 +47,8 @@ items:
 
 | Platform | Native transport package | Supported MODX |
 | --- | --- | --- |
-| MODX 2 | `cookieconsentmanager-1.0.8-pl5` | `>=2.8.4,<3.0.0` |
-| MODX 3 | `cookieconsentmanager3-1.0.8-pl7` | `>=3.1.2,<3.3.0` |
+| MODX 2 | `cookieconsentmanager-1.0.8-pl7` | `>=2.8.4,<3.0.0` |
+| MODX 3 | `cookieconsentmanager3-1.0.8-pl9` | `>=3.1.2,<3.3.0` |
 
 Both require **PHP 8.1+**. Tested combinations include MODX 2.8.4/2.8.8 and MODX 3.1.2/3.2.4 on PHP 8.1/8.2. These are independent packages; automatic migration from unpublished `cookieconsent` or `cookieconsent3` packages is not provided. MODX 3 native testing used deprecated global aliases disabled; warmed pdoTools3/Fenom caches and live third-party playback were not part of the verified scope.
 

@@ -13,5 +13,5 @@ $root=dirname(__DIR__,2);$meta=json_decode(file_get_contents($root.'/_build/pack
 $spec=json_decode(file_get_contents($root.'/.local/artifacts/'.$signature.'.inventory.json'),true);$n=3;
 foreach($spec['files'] as $entry){[$kind,$relative]=explode('/',$entry['target'],2);$path=$modx->getOption($kind.'_path').$relative;$n++;if(!is_file($path)||hash_file('sha256',$path)!==$entry['sha256'])throw new RuntimeException('Installed runtime differs: '.$entry['target']);}
 $n++;if((int)$modx->getOption('cookie_consent.bundle_version',null,0)<=0)throw new RuntimeException('Timestamp missing after install');
-if($modx->getOption('dbname')==='cookie_consent_transport_clean'){$n++;if(is_dir(MODX_ASSETS_PATH.'js/cookie-consent/mock'))throw new RuntimeException('Test mocks present on clean install');}
+if($modx->getOption('dbname')==='cookie_consent_transport_clean'){$n++;if(is_dir(MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/mock'))throw new RuntimeException('Test mocks present on clean install');}
 echo json_encode(['result'=>'PASS','assertions'=>$n,'runtime_files'=>count($spec['files']),'database'=>$modx->getOption('dbname'),'plugins'=>$plugins,'events'=>$events,'state'=>$status['state']])."\n";

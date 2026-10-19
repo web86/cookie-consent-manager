@@ -8,7 +8,7 @@ description: Install CookieConsentManager, add the snippets, configure services 
 ## Installation
 
 1. Back up your database, `core/`, `assets/`, templates and existing consent records.
-2. In MODX Package Manager, install the correct native transport: `cookieconsentmanager-1.0.8-pl5` for MODX 2 or `cookieconsentmanager3-1.0.8-pl7` for MODX 3.
+2. In MODX Package Manager, install the correct native transport: `cookieconsentmanager-1.0.8-pl7` for MODX 2 or `cookieconsentmanager3-1.0.8-pl9` for MODX 3.
 3. Open **Extras → CookieConsentManager** (the menu location can vary).
 4. On **Services**, make the intended categories visible, enable individual integrations and enter real service IDs.
 5. Review labels and translations on **Texts**, then **Save**.

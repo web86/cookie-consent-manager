@@ -12,7 +12,10 @@ A built-in **adapter** is JavaScript source that loads an integration with the v
 The service card shows the exact **Adapter source code** path. Editable files normally live under:
 
 ```text
-assets/js/cookie-consent/services/
+# MODX 2
+assets/components/cookieconsentmanager/js/cookie-consent/services/
+# MODX 3
+assets/components/cookieconsentmanager3/js/cookie-consent/services/
 ```
 
 Package originals are stored privately in `core/components/cookieconsentmanager/adapters/services/` (MODX 2) or `core/components/cookieconsentmanager3/adapters/services/` (MODX 3).

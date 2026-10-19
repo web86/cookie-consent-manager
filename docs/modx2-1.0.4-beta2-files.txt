@@ -11,10 +11,10 @@ _build/user-guide.json
 _build/version.mjs
 assets/components/cookieconsent/manager.css
 assets/components/cookieconsent/manager.js
-assets/js/cookie-consent/consent-manager.js
-assets/js/cookie-consent/cookie-consent.min.js
-assets/js/cookie-consent/provider-registry.js
-assets/js/cookie-consent/script-url.js
+assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js
+assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js
+assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js
+assets/components/cookieconsentmanager/js/cookie-consent/script-url.js
 docs/evidence/modx2-1.0.4-beta2.json
 docs/modx2-1.0.4-beta2-acceptance.md
 docs/modx2-1.0.4-beta2-files.txt

@@ -7,7 +7,7 @@
 ## Перед обновлением
 
 1. Сохраните обычный backup БД и файлов сайта. Дополнительно сохраните текущие
-   `assets/js/cookie-consent/services/`, все собственные JS-файлы по настроенным
+   `assets/components/cookieconsentmanager/js/cookie-consent/services/`, все собственные JS-файлы по настроенным
    путям, `cached-cookie-consent.min.js` и текущее значение `cookie_consent.bundle_version`.
 2. Сохраните приватный `core/components/cookieconsent/` с прежним
    `frontend-manifest.json` и `adapter-checksums.json`, если последний существует.

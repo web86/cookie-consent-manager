@@ -48,7 +48,7 @@ for(const [index,c] of cases.entries()){
    }
    await run('retry-after-contended-preflight',async()=>{
     const child=spawn('docker',[...compose,'exec','-T','-u','www-data','web','php','/opt/cc-source/tests/preflight/fixture.php','lock'],{stdio:['pipe','pipe','pipe']});let ready='';
-    try{for await(const bytes of child.stdout){ready+=bytes;if(ready.includes('READY'))break;}ok(ready.includes('READY'));const before=ctl('state');await install(false);eq(ctl('state'),before);eq(before.objects.modNamespace.length,1);eq(Object.keys(before.files),['/var/www/html/assets/js/cookie-consent/cookie-consent.build.lock']);}
+    try{for await(const bytes of child.stdout){ready+=bytes;if(ready.includes('READY'))break;}ok(ready.includes('READY'));const before=ctl('state');await install(false);eq(ctl('state'),before);eq(before.objects.modNamespace.length,1);eq(Object.keys(before.files),['/var/www/html/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.build.lock']);}
     finally{child.stdin.end('\n');const [code]=await once(child,'exit');eq(code,0);}
     await install();eq(ctl('state').installed,true);
    });
@@ -56,7 +56,7 @@ for(const [index,c] of cases.entries()){
    await run('native-pristine-install',async()=>{await upload(archive);eq(ctl('state').objects.modNamespace,[],'Package Manager upload/scan does not create namespace');await install();eq(ctl('state').installed,true);});
   }
   await run('native-reinstall-retains-user-adapter-and-settings',async()=>{
-   const file=f+'/site/assets/js/cookie-consent/services/yandex.js';writeFileSync(file,readFileSync(file,'utf8')+'\n// preflight reinstall user customization\n');
+   const file=f+'/site/assets/components/cookieconsentmanager/js/cookie-consent/services/yandex.js';writeFileSync(file,readFileSync(file,'utf8')+'\n// preflight reinstall user customization\n');
    const snapshot=oldCtl('snapshot'),state=oldCtl('rename-state');await install();eq(oldCtl('snapshot'),snapshot);eq(oldCtl('rename-state'),state);for(const count of Object.values(state.counts))eq(count,1);
    const data=await api('get',{},false);eq(data.success,true);eq(data.object.adapterBuild.state,'ready');
    await p.goto(origin+'/manager/?a=index&namespace=cookie_consent');await p.locator('#ccm-save').waitFor();eq(errors,[]);

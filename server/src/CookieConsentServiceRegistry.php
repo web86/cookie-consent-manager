@@ -13,7 +13,6 @@ final class CookieConsentServiceRegistry
         'google_gtm' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com']],
         'google_ads' => ['recommended_category'=>'marketing', 'hosts'=>['www.googletagmanager.com','www.googleadservices.com','googleads.g.doubleclick.net','www.google.com']],
         'custom_js' => ['recommended_category'=>'marketing', 'hosts'=>[]],
-        'mock_marketing' => ['recommended_category'=>'marketing', 'hosts'=>[]],
         'google_maps' => ['recommended_category'=>'external_content', 'hosts'=>['www.google.com','maps.googleapis.com','maps.gstatic.com']],
         'youtube' => ['recommended_category'=>'external_content', 'hosts'=>['www.youtube-nocookie.com','www.youtube.com']],
         'rutube' => ['recommended_category'=>'external_content', 'hosts'=>['rutube.ru']],

@@ -6,15 +6,15 @@ $out=dirname(__DIR__,2).'/.local/adapter-updates';if(!is_dir($out))mkdir($out,07
 $root=$out.'/unit-'.bin2hex(random_bytes(5));mkdir($root,0755,true);
 final class AdapterFixture {
     public array $options=[];public array $logs=[];
-    public function __construct(public string $root){mkdir($root.'/core/components/cookieconsentmanager/adapters/services',0755,true);mkdir($root.'/assets/js/cookie-consent/services',0755,true);}
+    public function __construct(public string $root){mkdir($root.'/core/components/cookieconsentmanager/adapters/services',0755,true);mkdir($root.'/assets/components/cookieconsentmanager/js/cookie-consent/services',0755,true);}
     public function getOption($key,$unused=null,$default=null){return match($key){'core_path'=>$this->root.'/core/','assets_path'=>$this->root.'/assets/',default=>$this->options[$key]??$default};}
     public function log($level,$message){$this->logs[]=$message;}
 }
 if(!class_exists('modX')){class modX {const LOG_LEVEL_WARN=2;}}
 $n=0;function eq($a,$b,$message=''){global $n;$n++;if($a!==$b)throw new RuntimeException($message.' '.json_encode([$a,$b]));}
 function rejects($fn,$reason){global $n;try{$fn();}catch(Throwable $e){eq($e->getMessage(),$reason);return;}throw new RuntimeException('Expected '.$reason);}
-function dirFor($m){return $m->root.'/assets/js/cookie-consent/services/';}
-function manifest($files,$version){$inputs=[];foreach($files as $name=>$body)$inputs['assets/js/cookie-consent/services/'.$name]=hash('sha256',$body);return ['tool'=>'esbuild','package_version'=>$version,'inputs'=>$inputs];}
+function dirFor($m){return $m->root.'/assets/components/cookieconsentmanager/js/cookie-consent/services/';}
+function manifest($files,$version){$inputs=[];foreach($files as $name=>$body)$inputs['assets/components/cookieconsentmanager/js/cookie-consent/services/'.$name]=hash('sha256',$body);return ['tool'=>'esbuild','package_version'=>$version,'inputs'=>$inputs];}
 function originals($m,$files,$version){$core=$m->root.'/core/components/cookieconsentmanager/';foreach($files as $name=>$body)file_put_contents($core.'adapters/services/'.$name,$body);file_put_contents($core.'frontend-manifest.json',json_encode(manifest($files,$version)));}
 function state($m){return json_decode(file_get_contents($m->root.'/core/components/cookieconsentmanager/adapter-checksums.json'),true);}
 $old=['google-common.js'=>'window.common=1;','google-ga4.js'=>'window.ga4=1;','yandex.js'=>'window.yandex=1;','deleted.js'=>'window.deleted=1;'];
@@ -44,4 +44,21 @@ $corrupt=new AdapterFixture($root.'/corrupt');$corrupt->options['cookie_consent.
 $unsafe=new AdapterFixture($root.'/unsafe');$unsafe->options['cookie_consent.install_snapshot']=['fresh'=>true];originals($unsafe,$old,'1.0.7-beta1');file_put_contents($unsafe->root.'/outside','outside');symlink($unsafe->root.'/outside',dirFor($unsafe).'google-common.js');rejects(fn()=>CookieConsentAdapterInstall::synchronize($unsafe),'adapter_path');eq(file_get_contents($unsafe->root.'/outside'),'outside');unlink(dirFor($unsafe).'google-common.js');link($unsafe->root.'/outside',dirFor($unsafe).'google-common.js');rejects(fn()=>CookieConsentAdapterInstall::synchronize($unsafe),'adapter_path');
 $atomic=$root.'/atomic.js';file_put_contents($atomic,'user');eq(CookieConsentBundleManager::atomic($atomic,'new',hash('sha256','old')),false);eq(file_get_contents($atomic),'user');eq(CookieConsentBundleManager::atomic($atomic,'new',false),false);eq(file_get_contents($atomic),'user');eq(CookieConsentBundleManager::atomic($root.'/new.js','new',false),true);
 $stateFile=$fresh->root.'/core/components/cookieconsentmanager/adapter-checksums.json';$before=file_get_contents(dirFor($fresh).'yandex.js');file_put_contents($stateFile,'not json');try{CookieConsentAdapterInstall::synchronize($fresh);throw new RuntimeException('Expected failure');}catch(JsonException $e){$n++;}eq(file_get_contents(dirFor($fresh).'yandex.js'),$before);
+// Legacy layout, historical SHA keys and extra user adapters are preserved on relocation.
+$moved=new AdapterFixture($root.'/relocation');originals($moved,$old,'1.0.8-pl6');
+$legacy=$moved->root.'/assets/js/cookie-consent/services/';mkdir($legacy,0755,true);
+$legacyHashes=[];foreach($old as $name=>$bytes){file_put_contents($legacy.$name,$bytes);$legacyHashes['assets/js/cookie-consent/services/'.$name]=hash('sha256',$bytes);}
+file_put_contents($legacy.'google-ga4.js','customer-change');file_put_contents($legacy.'customer-extra.js','extra');unlink($legacy.'deleted.js');
+$oldBundle='// CookieConsentBundle '.json_encode(['fingerprint'=>str_repeat('a',64)])."\nwindow.old=true;\n";file_put_contents(dirname($legacy).'/cached-cookie-consent.min.js',$oldBundle);
+file_put_contents($moved->root.'/core/components/cookieconsentmanager/adapter-checksums.json',json_encode(['schema'=>1,'current'=>'1.0.8-pl5','versions'=>['1.0.8-pl5'=>$legacyHashes]]));
+CookieConsentAdapterInstall::synchronize($moved);
+eq(file_get_contents(dirFor($moved).'google-ga4.js'),'customer-change');eq(file_get_contents(dirFor($moved).'customer-extra.js'),'extra');eq(is_file(dirFor($moved).'deleted.js'),false);
+eq(file_get_contents(dirname(dirFor($moved)).'/cached-cookie-consent.min.js'),$oldBundle,'Old working bundle survives relocation before parsing');eq(is_file($legacy.'google-ga4.js'),false,'No repeated adapter copies');
+CookieConsentAdapterInstall::synchronize($moved);eq(file_get_contents(dirFor($moved).'google-ga4.js'),'customer-change');eq(count(state($moved)['versions']),2);
+// A migration conflict must retain both user versions and publish the working fallback first.
+$conflict=new AdapterFixture($root.'/migration-conflict');originals($conflict,$old,'1.0.8-pl7');$legacy=$conflict->root.'/assets/js/cookie-consent/services/';mkdir($legacy,0755,true);file_put_contents($legacy.'google-common.js','old-user');file_put_contents(dirFor($conflict).'google-common.js','new-user');file_put_contents(dirname($legacy).'/cached-cookie-consent.min.js',$oldBundle);
+file_put_contents($conflict->root.'/core/components/cookieconsentmanager/adapter-checksums.json',json_encode(['schema'=>1,'current'=>'1.0.8-pl5','versions'=>['1.0.8-pl5'=>$legacyHashes]]));
+rejects(fn()=>CookieConsentAdapterInstall::synchronize($conflict),'adapter_migration_conflict');eq(file_get_contents(dirFor($conflict).'google-common.js'),'new-user');eq(file_get_contents($legacy.'google-common.js'),'old-user');eq(file_get_contents(dirname(dirFor($conflict)).'/cached-cookie-consent.min.js'),$oldBundle,'Fallback exists even when migration refuses a conflict');
+// A fresh install must never clean shared files belonging to a different installation.
+$foreign=new AdapterFixture($root.'/fresh-foreign');$foreign->options['cookie_consent.install_snapshot']=['fresh'=>true];originals($foreign,$old,'1.0.8-pl7');CookieConsentAdapterInstall::synchronize($foreign);$legacy=$foreign->root.'/assets/js/cookie-consent/';mkdir($legacy,0755,true);file_put_contents($legacy.'runtime.js','foreign');CookieConsentAdapterInstall::cleanupLegacy($foreign);eq(file_get_contents($legacy.'runtime.js'),'foreign');
 $result=['result'=>'PASS','assertions'=>$n,'php'=>PHP_VERSION];file_put_contents($out.'/php.json',json_encode($result,JSON_PRETTY_PRINT)."\n");echo json_encode($result)."\n";

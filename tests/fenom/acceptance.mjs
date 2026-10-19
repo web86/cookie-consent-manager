@@ -64,7 +64,7 @@ async function structure(s, language, mode) {
   const registry = JSON.parse(raw);
   eq(registry.schema, 1, 'JSON schema unchanged');
   eq(registry.services.filter(s => s.enabled).map(s => s.key).sort(), ['yandex', 'yandex_maps'], 'Enabled provider data retained');
-  for (const path of ['assets/css/cookie-consent.min.css', 'assets/js/cookie-consent/cookie-consent.min.js']) {
+  for (const path of ['assets/components/cookieconsentmanager/css/cookie-consent.min.css', 'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js']) {
     const css = path.endsWith('.css');
     const value = await page.locator(css ? 'link[href*="cookie-consent.min.css"]' : 'script[src*="cookie-consent.min.js"]').getAttribute(css ? 'href' : 'src');
     eq(new URL(value, origin).searchParams.get('v'), css ? hash(readFileSync(path)).slice(0, 20) : expectedFrontendVersion(), 'Content hash cache busting unchanged');

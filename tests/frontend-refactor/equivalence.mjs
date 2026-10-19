@@ -8,7 +8,7 @@ import assert from 'node:assert/strict';
 
 const baseline = JSON.parse(readFileSync(process.env.CC_REFACTOR_BASELINE||'tests/frontend-refactor/service-adapters-baseline.json'));
 const original = path => execFileSync('git', ['show', `${baseline.commit}:${path}`], {encoding:'utf8'});
-const bundlePath = 'assets/js/cookie-consent/cookie-consent.min.js';
+const bundlePath = 'assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js';
 const bundles = [original(bundlePath), readFileSync(process.env.CC_REFACTOR_CANDIDATE||bundlePath, 'utf8')];
 assert.equal(createHash('sha256').update(bundles[0]).digest('hex'), baseline.sources[bundlePath]);
 const demo = original('demo.html');
@@ -38,8 +38,8 @@ function fixture(scenario) {
     .replace('data-cc-mode="mock"', `data-cc-mode="${scenario.mode||'live'}"`);
   if (scenario.hidden) html = html.replace('data-cc-category-marketing="1"','data-cc-category-marketing="0"');
   if ((scenario.mode||'live') === 'live') html = html
-    .replace('/assets/js/cookie-consent/mock/google_maps.html','https://www.google.com/maps/embed?pb=fixture')
-    .replace('/assets/js/cookie-consent/mock/yandex_maps.html','https://yandex.ru/map-widget/v1/?um=fixture');
+    .replace('/assets/components/cookieconsentmanager/js/cookie-consent/mock/google_maps.html','https://www.google.com/maps/embed?pb=fixture')
+    .replace('/assets/components/cookieconsentmanager/js/cookie-consent/mock/yandex_maps.html','https://yandex.ru/map-widget/v1/?um=fixture');
   if (scenario.dialog) html = html.replace('<div data-cc-map-provider="google_maps"', '<dialog id="map-dialog"><div data-cc-map-provider="google_maps"')
     .replace('</div><div data-cc-map-provider="yandex_maps"','</div></dialog><div data-cc-map-provider="yandex_maps"');
   if (scenario.noRoot) html = html.replace('id="cookie-block"', 'id="no-cookie-block"');
@@ -85,7 +85,7 @@ async function exercise(bundle, scenario) {
     const request=route.request(), url=new URL(request.url());
     if(request.isNavigationRequest() && request.frame()===page.mainFrame()) return route.fulfill({contentType:'text/html',body:fixture(scenario),headers:scenario.csp?{'Content-Security-Policy':"default-src 'self'; script-src 'self' https://cdn.example.test https://mc.yandex.ru https://top-fwz1.mail.ru https://connect.facebook.net https://www.googletagmanager.com; frame-src 'self' https://www.google.com https://yandex.ru; style-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'self'"}:{}});
     if(url.pathname.endsWith('cookie-consent.min.js')) return route.fulfill({contentType:'text/javascript',body:bundle});
-    if(url.pathname.endsWith('cookie-consent.min.css')) return route.fulfill({contentType:'text/css',body:readFileSync('assets/css/cookie-consent.min.css','utf8')});
+    if(url.pathname.endsWith('cookie-consent.min.css')) return route.fulfill({contentType:'text/css',body:readFileSync('assets/components/cookieconsentmanager/css/cookie-consent.min.css','utf8')});
     if(url.pathname==='/audit.php') {
       const data=request.postDataJSON();audits.push(data);
       return route.fulfill({contentType:'application/json',body:JSON.stringify({ok:true,event_id:data.event_id,server_time:new Date(timestamp).toISOString()})});
@@ -153,7 +153,7 @@ async function exercise(bundle, scenario) {
         window.dispatchEvent(new CustomEvent('web86:consent-change',{detail:{categories:{analytics:true,marketing:true,external_content:true}}}));
       });
       // The duplicate bundle must be inert even after consent/SDK initialization.
-      await page.addScriptTag({url:origin+'/assets/js/cookie-consent/cookie-consent.min.js'});
+      await page.addScriptTag({url:origin+'/assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js'});
       await snapshot('dedup-and-duplicate-bundle');
       await page.reload({waitUntil:'load'});
       await snapshot('restore');

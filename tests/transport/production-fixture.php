@@ -6,7 +6,7 @@ if($modx->getOption('dbname')!=='cookie_consent_transport_clean')exit(1);
 require_once MODX_CORE_PATH.'components/cookieconsent/src/CookieConsentSettings.php';
 $state='/tmp/cc-beta2-production-settings.json';$op=$argv[1]??'';
 if($op==='prepare'){
- if(is_dir(MODX_ASSETS_PATH.'js/cookie-consent/mock'))throw new RuntimeException('Clean installation contains mock directory');
+ if(is_dir(MODX_ASSETS_PATH.'components/cookieconsentmanager/js/cookie-consent/mock'))throw new RuntimeException('Clean installation contains mock directory');
  $saved=[];foreach(['cookie_consent.options','cookie_consent.services'] as $key)$saved[$key]=$modx->getObject('modSystemSetting',['key'=>$key])->get('value');
  $markup='<!doctype html><html><head>[[!CookieConsentAssets]]</head><body>'.
  '<script>document.addEventListener("DOMContentLoaded",()=>{window.__allowed=0;web86CookieConsent.onAllowed("marketing",()=>window.__allowed++);});</script>'.

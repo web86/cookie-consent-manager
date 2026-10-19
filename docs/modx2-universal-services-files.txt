@@ -8,9 +8,9 @@ _build/user-guide.json
 assets/components/cookieconsent/audit-viewer.js
 assets/components/cookieconsent/manager.css
 assets/components/cookieconsent/manager.js
-assets/js/cookie-consent/consent-manager.js
-assets/js/cookie-consent/cookie-consent.min.js
-assets/js/cookie-consent/provider-registry.js
+assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js
+assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js
+assets/components/cookieconsentmanager/js/cookie-consent/provider-registry.js
 docs/evidence/modx2-universal-services.json
 docs/modx2-universal-services-acceptance.md
 docs/modx2-universal-services-files.txt
