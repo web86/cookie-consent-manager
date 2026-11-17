@@ -22,15 +22,15 @@
     "assets/components/cookieconsentmanager/js/cookie-consent/embeds/rutube.js": "3e881f745f05cbeabc0fe08fc20ad0f8829f3ad3beac1c2e8b8216dd95c76bef",
     "assets/components/cookieconsentmanager/js/cookie-consent/embeds/vk-video.js": "4ab06bfae60bf56a142010e96deb4a7ccfab3e03b99fcb982166058a560b724d",
     "assets/components/cookieconsentmanager/js/cookie-consent/embeds.js": "8d77bbeb301db15b3c8edae4c79533c719d329beec6833b6394116ea1a254eba",
-    "assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js": "d6413ec0640abf47f309d66899070a8cde87866f7070061cf168e5b562e80236",
+    "assets/components/cookieconsentmanager/js/cookie-consent/consent-manager.js": "8978dcb83260b85026664bc873ecd01438c446d4ab11ac8b13a45c226a006fd5",
     "assets/components/cookieconsentmanager/css/cookie-consent.css": "046435d3b2eda3bf0938ab62e3eb309851b908d96041201e26285b12b1ced68b",
     "package-lock.json": "53a82728ea263be512ef6494d9bfd641f0a2b67247b9173d80208c8bfcac2867",
     "_build/frontend.mjs": "6ca547847bbb3252f454f553d3f6dbdb291f31d194a2745c9920f245a91d3c46"
   },
   "outputs": {
     "assets/components/cookieconsentmanager/js/cookie-consent/cookie-consent.min.js": {
-      "sha256": "bf8c6a2c3165048d24dc4f4cfa47a9a42fc2daf3eb26aa288b09ea5a24ebff45",
-      "bytes": 29388
+      "sha256": "062e1bd411b432c7bcba8e8f4239454964116a3da6ba739380460e0155085c6e",
+      "bytes": 29624
     },
     "assets/components/cookieconsentmanager/css/cookie-consent.min.css": {
       "sha256": "7dde5c98502d8c8b5bade47c847b8c07dd23fdfd8223a927db2c6d944cce9934",

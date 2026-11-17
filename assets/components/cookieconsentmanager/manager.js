@@ -4,7 +4,7 @@
   const start = async () => {
     const root = document.getElementById('ccm-page'); if (!root) return;
     const boot = window.CookieConsentManagerBootstrap;
-    let data, draft, revision, editLanguage, previewLanguage, previewState = 'banner', activeTab = 'main', dirty = false, previewTimer, sequence = 0;
+    let data, draft, revision, editLanguage, previewState = 'banner', activeTab = 'main', dirty = false, previewTimer, sequence = 0;
     const api = async (action, values = {}) => {
       let response, json;
       const fail = (code, requestId = '') => Error((data?.managerStrings['m.error'] || boot.errorMessage || 'Request failed; draft retained') + ` (${action}, HTTP ${response?.status || 0}, ${code}${requestId ? ', ' + requestId : ''})`);
@@ -85,8 +85,8 @@
     const invalidId = service => Boolean(idPatterns[service.loader]) && ((service.enabled && !Object.hasOwn(service.config, 'id')) || (Object.hasOwn(service.config, 'id') && (typeof service.config.id !== 'string' || !idPatterns[service.loader].test(service.config.id))));
     try { draft = { options: clone(data.options), registry: editableRegistry(data.registry), texts: editableTexts(data.texts), log_dir: data.log_dir, audit_config_file: data.audit_config_file || '' }; }
     catch (e) { root.removeAttribute('aria-busy'); root.setAttribute('role', 'alert'); root.textContent = e.message; return; }
-    revision = data.revision; editLanguage = data.managerLanguage; previewLanguage = editLanguage;
-    draft.texts.locales[editLanguage] ||= {};
+    revision = data.revision; editLanguage = data.managerLanguage;
+    if (!Object.hasOwn(draft.texts.locales, editLanguage)) draft.texts.locales[editLanguage] = {};
     document.body.classList.add('ccm-manager');
     const scrollHost = root.closest('.x-panel-body'); if (scrollHost) scrollHost.classList.add('ccm-scroll-host');
     let savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts});
@@ -101,7 +101,7 @@
     for (const key of ['main', 'services', 'texts', 'logs']) {
       const button = el('button', t(key), { type: 'button', role: 'tab', id: 'ccm-tab-' + key, 'aria-controls': 'ccm-panel-' + key, 'aria-selected': String(key === 'main') });
       const panel = el('section', null, { role: 'tabpanel', id: 'ccm-panel-' + key, 'aria-labelledby': button.id, class: 'ccm-panel' }); panel.hidden = key !== 'main'; panels[key] = panel;
-      button.onclick = () => { activeTab=key;root.classList.toggle('ccm-page-logs',key==='logs');aside.hidden=key==='logs';layout.classList.toggle('ccm-layout-logs',key==='logs');if(key==='logs')auditViewer.loadInitial();previewLanguage = key === 'texts' ? editLanguage : data.managerLanguage; schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
+      button.onclick = () => { activeTab=key;root.classList.toggle('ccm-page-logs',key==='logs');aside.hidden=key==='logs';layout.classList.toggle('ccm-layout-logs',key==='logs');if(key==='logs')auditViewer.loadInitial();schedulePreview(); for (const [name, content] of Object.entries(panels)) { content.hidden = name !== key; document.getElementById('ccm-tab-' + name).setAttribute('aria-selected', String(name === key)); } };
       tabs.append(button); main.append(panel);
     }
     function changed() { dirty = true; status.textContent = t('unsaved'); status.dataset.state = 'dirty'; schedulePreview(); }
@@ -199,10 +199,6 @@
       const serviceFallback = service ? (key.endsWith('.name') ? service.name : service.purpose) : '';
       return draft.texts.locales[language]?.[key] ?? data.lexicons[language]?.[key] ?? draft.texts.locales[base]?.[key] ?? data.lexicons[base]?.[key] ?? data.lexicons.en[key] ?? serviceFallback;
     }
-    function languages(select, selected, available = false) {
-      select.replaceChildren(); const codes = [...new Set([...(available ? data.availableLanguages : Object.keys(draft.texts.locales)), selected])].sort();
-      for (const code of codes) select.append(el('option', code, { value: code })); select.value = selected;
-    }
     const settingsExpanded = new Set();
     const groupExpanded = { analytics: true, marketing: true, external_content: true };
     function renderServices() {
@@ -295,22 +291,76 @@
       };
     }
     const editorControls = el('div', null, { class: 'ccm-language-controls' }); panels.texts.append(editorControls);
-    const editSelect = el('select', null, { id: 'ccm-edit-language', 'aria-label': t('language') }); editorControls.append(el('label', t('language')), editSelect);
+    const editSelect = el('select', null, { id: 'ccm-edit-language' });
+    editorControls.append(el('label', t('language'), { for: editSelect.id }), editSelect);
+    const addLanguage = el('form', null, { class: 'ccm-language-controls' });
+    const languageLabel = el('label', t('custom_language'), { class: 'ccm-field' });
+    const languageCode = el('input', null, { type: 'text', id: 'ccm-custom-language' });
+    languageLabel.append(languageCode);
+    addLanguage.append(languageLabel);
+    languageCode.required = true;
+    languageCode.maxLength = 32;
+    languageCode.addEventListener('input', () => languageCode.setCustomValidity(''));
+    addLanguage.append(el('button', t('add_language'), { type: 'submit' }));
+    panels.texts.append(addLanguage);
     const textFields = el('div', null, { id: 'ccm-text-fields' }); panels.texts.append(textFields);
     function renderTexts() {
-      languages(editSelect, editLanguage, true);textFields.replaceChildren();
-      const keys=['banner_title','notice_html','map_notice','map_load',...draft.registry.services.filter(s=>['google_maps','yandex_maps'].includes(s.loader)).map(s=>'service.'+s.key+'.map_notice'),...['necessary','analytics','marketing','external_content'].flatMap(c=>[c+'_name',c+'_description'])];
-      for(const key of keys) {
-        const overrides=draft.texts.locales[editLanguage];
-        const row=el('div',null,{class:'ccm-text-row','data-text-row':key});
-        const service=draft.registry.services.find(s=>key==='service.'+s.key+'.map_notice');
-        const label=key==='banner_title'?t('banner_title'):key==='notice_html'?t('banner')+' — HTML':service?textSource(editLanguage,'service.'+service.key+'.name')+' — '+t('map_notice'):['map_notice','map_load'].includes(key)?t(key):data.lexicons[editLanguage]?.[key]||data.lexicons.en[key];
-        const input=field(row,label,textSource(editLanguage,key),v=>overrides[key]=v,key==='notice_html'||key.endsWith('map_notice')?'textarea':'text',key==='notice_html'?'ccm-notice-html':undefined,key==='banner_title'?t('banner_title_help'):key==='notice_html'?t('html_help'):undefined);
-        input.dataset.textKey=key;textFields.append(row);
+      const overrides = draft.texts.locales[editLanguage];
+      const codes = [...new Set([...data.availableLanguages, ...Object.keys(draft.texts.locales)])].sort();
+      editSelect.replaceChildren(...codes.map(code => el('option', code, { value: code })));
+      editSelect.value = editLanguage;
+      textFields.replaceChildren();
+      const mapServices = draft.registry.services.filter(s => ['google_maps', 'yandex_maps'].includes(s.loader));
+      const groups = {
+        banner: ['banner_title', 'notice_html', 'region_label'],
+        text_buttons: ['reject', 'configure', 'accept_all', 'accept', 'save', 'back', 'reopen', 'settings_title', 'settings_intro'],
+        text_categories: ['necessary_aria', ...['necessary', 'analytics', 'marketing', 'external_content'].flatMap(c => [c + '_name', c + '_description'])],
+        text_external: ['map_notice', 'map_load', ...mapServices.map(s => 'service.' + s.key + '.map_notice'),
+          'map_title', 'map_disabled', 'map_rejected', 'embed_disabled', 'embed_rejected', 'video_title', 'video_rejected', 'video_vk_embed']
+      };
+      const fieldLabels = { save: 'text_save', reopen: 'text_reopen', region_label: 'text_region_label', necessary_aria: 'text_necessary_aria' };
+      for (const [group, keys] of Object.entries(groups)) {
+        const heading = el('h3', t(group), { id: 'ccm-text-group-' + group });
+        const section = el('section', null, { class: 'ccm-service-group', 'aria-labelledby': heading.id });
+        section.append(heading);
+        for (const key of keys) {
+          const row = el('div', null, { class: 'ccm-text-row', 'data-text-row': key });
+          const service = mapServices.find(s => key === 'service.' + s.key + '.map_notice');
+          const label = key === 'notice_html' ? t('banner') + ' — HTML' :
+            service ? (data.managerStrings['service.' + service.key + '.name'] || service.name) + ' — ' + t('map_notice') : t(fieldLabels[key] || key);
+          const help = key === 'banner_title' ? t('banner_title_help') : key === 'notice_html' ? t('html_help') : undefined;
+          const input = field(row, label, textSource(editLanguage, key), value => overrides[key] = value,
+            key === 'notice_html' || key.endsWith('map_notice') ? 'textarea' : 'text',
+            key === 'notice_html' ? 'ccm-notice-html' : undefined, help);
+          input.dataset.textKey = key;
+          section.append(row);
+        }
+        textFields.append(section);
       }
-      if(window.CodeMirror?.fromTextArea){const cm=window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'),{mode:'htmlmixed',lineNumbers:true});cm.on('change',()=>{draft.texts.locales[editLanguage].notice_html=cm.getValue();changed();});}
+      if(window.CodeMirror?.fromTextArea){const cm=window.CodeMirror.fromTextArea(document.getElementById('ccm-notice-html'),{mode:'htmlmixed',lineNumbers:true});cm.on('change',()=>{overrides.notice_html=cm.getValue();changed();});}
     }
-    editSelect.onchange=()=>{editLanguage=editSelect.value;draft.texts.locales[editLanguage] ||= {};previewLanguage=editLanguage;renderTexts();schedulePreview();};
+    function editTexts(language) {
+      editLanguage = language;
+      if (!Object.hasOwn(draft.texts.locales, language)) draft.texts.locales[language] = {};
+      renderTexts();
+      schedulePreview();
+    }
+    editSelect.onchange = () => editTexts(editSelect.value);
+    addLanguage.onsubmit = event => {
+      event.preventDefault();
+      const code = languageCode.value.trim().toLowerCase().replaceAll('_', '-');
+      // Match CookieConsentTexts::language(), which also validates on save.
+      if (code.length < 2 || !/^(?:[a-z][a-z0-9]{1,15}|x)(?:-[a-z0-9]{1,8}){0,2}$/.test(code)) {
+        languageCode.setCustomValidity(t('invalid_language'));
+        languageCode.reportValidity();
+        return;
+      }
+      const added = !Object.hasOwn(draft.texts.locales, code);
+      editTexts(code);
+      if (added) changed();
+      languageCode.value = '';
+      editSelect.focus();
+    };
     aside.append(el('h3', t('preview')));
     const states = el('div', null, { class: 'ccm-preview-states' });
     for (const key of ['banner', 'preferences', 'map']) { const button = el('button', t(key === 'map' ? 'embeds' : key), { type: 'button', 'data-preview-state': key }); button.onclick = () => { previewState = key; schedulePreview(); }; states.append(button); }
@@ -323,8 +373,8 @@
       let content = '';
       if (previewState === 'banner') content = `<div class="cookie-warning-2"><div class="cookie-warning-text">${strings.banner_title?.trim() ? `<h2 class="cookie-warning-title">${escape(strings.banner_title)}</h2>` : ''}${strings.notice_html}</div><div class="cookie-warning-buttons">${Object.entries(result.buttons).filter(([, v]) => v).map(([key]) => `<button class="cookie-btn cookie-btn--${['accept','accept_all'].includes(key)?'primary':'secondary'}" type="button">${escape(strings[key])}</button>`).join('')}</div></div>`;
       if (previewState === 'preferences') {
-        const option = (name, description, disabled = false, attrs = '') => `<label class="cookie-option ${attrs ? 'cc-provider' : ''}" ${attrs}><span class="cookie-option__text"><strong>${escape(name)}</strong><small>${escape(description)}</small></span><input type="checkbox" ${disabled ? 'checked disabled' : ''}></label>`;
-        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, true) + ['analytics', 'marketing', 'external_content'].filter(cat => result.visibleCategories[cat]).map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
+        const option = (name, description, requiredLabel) => `<label class="cookie-option"><span class="cookie-option__text"><strong>${escape(name)}</strong><small>${escape(description)}</small></span><input type="checkbox"${requiredLabel ? ' checked disabled aria-label="' + escape(requiredLabel) + '"' : ''}></label>`;
+        content = `<div class="cookie-warning-settings"><h2>${escape(strings.settings_title)}</h2><p>${escape(strings.settings_intro)}</p>` + option(strings.necessary_name, strings.necessary_description, strings.necessary_aria) + ['analytics', 'marketing', 'external_content'].filter(cat => result.visibleCategories[cat]).map(cat => option(strings[cat + '_name'], strings[cat + '_description'])).join('') + `<div class="cookie-warning-settings__buttons"><button type="button" class="cookie-btn cookie-btn--secondary">${escape(strings.back)}</button><button type="button" class="cookie-btn cookie-btn--primary">${escape(strings.save)}</button></div></div>`;
       }
       if (previewState === 'map') content = services.filter(s => ['google_maps','yandex_maps'].includes(s.loader)).map(s => {
         const provider = strings['service.' + s.key + '.name'] || s.name;
@@ -334,13 +384,13 @@
       if (previewState === 'map') content += services.filter(s => ['youtube','rutube','vk_video'].includes(s.loader)).map(s => `<div class="cc-embed-placeholder" data-preview-embed="${escape(s.key)}"><h3>${escape(strings['service.' + s.key + '.name'] || s.name)}</h3><p>${escape(strings.map_notice.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</p><button type="button" ${result.visibleCategories[s.category]?'':'hidden disabled'}>${escape(strings.map_load.split('{provider}').join(strings['service.' + s.key + '.name'] || s.name))}</button></div>`).join('');
       const parsed = new DOMParser().parseFromString(content, 'text/html');
       for (const a of parsed.querySelectorAll('a')) { a.target = '_blank'; a.rel = 'noopener noreferrer'; }
-      frame.srcdoc = '<!doctype html><html lang="' + escape(previewLanguage) + '"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'"><style>' + String(result.publicCss || '').replace(/<\/style/gi, '') + ' .cookie-warning{position:static;box-shadow:none}.cookie-warning .cookie-warning-settings{max-height:none} body{font:14px system-ui;margin:0;background:#edf0f3;color:#182231}main{padding:24px;height:70px;background:#dde4eb}section{background:white;padding:18px}button{padding:9px;margin:4px;border:1px solid #64748b;background:white;border-radius:4px}small{display:block;color:#536171;margin:4px 0}label{display:block;margin:10px 0}.map{padding:12px;border:1px solid #d3dbe4;margin:12px 0}a{color:#245ba0}</style></head><body><main>' + escape(t('site_mock')) + '</main><section class="cookie-warning">' + parsed.body.innerHTML + '</section></body></html>';
+      frame.srcdoc = '<!doctype html><html lang="' + escape(editLanguage) + '"><head><meta charset="utf-8"><meta http-equiv="Content-Security-Policy" content="default-src \'none\'; style-src \'unsafe-inline\'; base-uri \'none\'; form-action \'none\'"><style>' + String(result.publicCss || '').replace(/<\/style/gi, '') + ' .cookie-warning{position:static;box-shadow:none}.cookie-warning .cookie-warning-settings{max-height:none} body{font:14px system-ui;margin:0;background:#edf0f3;color:#182231}main{padding:24px;height:70px;background:#dde4eb}section{background:white;padding:18px}button{padding:9px;margin:4px;border:1px solid #64748b;background:white;border-radius:4px}small{display:block;color:#536171;margin:4px 0}label{display:block;margin:10px 0}.map{padding:12px;border:1px solid #d3dbe4;margin:12px 0}a{color:#245ba0}</style></head><body><main>' + escape(t('site_mock')) + ' <button type="button" data-cookie-settings-open>' + escape(strings.reopen) + '</button></main><section class="cookie-warning" aria-label="' + escape(strings.region_label) + '">' + parsed.body.innerHTML + '</section></body></html>';
       previewStatus.textContent = '';
     }
     function schedulePreview() {
       clearTimeout(previewTimer); const current = ++sequence;
       if(activeTab==='logs')return;
-      previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: previewLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
+      previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: editLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
       const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s) || duplicateId(s) || invalidCustom(s));
@@ -351,7 +401,7 @@
       try {
         const payload={...draft};
         const saved = await api('save', { draft: JSON.stringify(payload), revision,site_origin:location.origin }); revision = saved.revision;
-        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=editableTexts(saved.texts);draft.texts.locales[editLanguage] ||= {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
+        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=editableTexts(saved.texts);if (!Object.hasOwn(draft.texts.locales, editLanguage)) draft.texts.locales[editLanguage] = {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
         if(saved.partial){status.textContent=t('saved_partial')+' '+(data.managerStrings['m.reason_'+saved.journal.reason]||t('log_write_error'));status.dataset.state='partial';}else{status.textContent=dirty?t('unsaved'):t('saved');status.dataset.state=dirty?'dirty':'saved';}schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }
