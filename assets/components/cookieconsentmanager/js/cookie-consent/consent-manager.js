@@ -321,6 +321,13 @@
       }
     });
 
+    // Opt-in labels can be used on settings buttons outside the server-rendered banner.
+    const reopen = root.querySelector('[data-cc-message="reopen"]')?.textContent;
+    if (reopen) {
+      for (const label of document.querySelectorAll('[data-cookie-settings-open][data-cc-text="reopen"], [data-cookie-settings-open] [data-cc-text="reopen"]')) {
+        label.textContent = reopen;
+      }
+    }
     // The settings link may be in any footer across the site.
     document.addEventListener('click', (event) => {
       if (!event.target.closest('[data-cookie-settings-open]')) return;

@@ -50,7 +50,7 @@ English: edit the built-in adapter file shown in its service settings, then clea
 </head>
 <body>
     ...
-    <button type="button" data-cookie-settings-open>Настройки cookie</button>
+    <button type="button" data-cookie-settings-open data-cc-text="reopen">Настройки cookie</button>
     [[!CookieConsentBanner]]
 </body>
 ```
@@ -59,7 +59,11 @@ Assets регистрирует минимальный JSON через `regClien
 
 Для прежней интеграции оставьте единственный `[[!CookieConsent]]` вместо обоих новых сниппетов. **Не смешивайте legacy и split и не повторяйте теги.** Автоматическое исправление ошибочной интеграции не входит в контракт. Frontend подключают только сниппеты. Служебный plugin OnSiteRefresh проверяет контекст Manager; OnParseDocument не используется.
 
-English integration: place `[[!CookieConsentAssets]]` once in `<head>` and `[[!CookieConsentBanner]]` once before `</body>`. Add your own `<button type="button" data-cookie-settings-open>Cookie settings</button>`. Alternatively retain one legacy `[[!CookieConsent]]`; never combine the methods. Static translations are resolved in PHP using saved overrides and stock fallbacks.
+English integration: place `[[!CookieConsentAssets]]` once in `<head>` and `[[!CookieConsentBanner]]` once before `</body>`. Add your own `<button type="button" data-cookie-settings-open data-cc-text="reopen">Cookie settings</button>`. Alternatively retain one legacy `[[!CookieConsent]]`; never combine the methods. Static translations are resolved in PHP using saved overrides and stock fallbacks.
+
+Во вкладке «Тексты» выберите язык или добавьте его код (например, `nl-NL`), заполните поля и сохраните. Предпросмотр показывает выбранный язык сразу. На сайте язык берётся из `cultureKey` контекста. Для кнопки в шаблоне добавьте `data-cc-text="reopen"` к элементу с `data-cookie-settings-open` или к вложенному `span`, если рядом с подписью есть иконка.
+
+In Texts, select a language or add its code (for example, `nl-NL`), edit the labels and save. The live preview uses the selected language. The public site uses the context `cultureKey`. To translate a settings button in your template, add `data-cc-text="reopen"` to the element with `data-cookie-settings-open`, or to a child `span` if the button also has an icon.
 
 Старая кнопка «Принять» (`buttons.accept`) включает legacy auto-load: при первом визите включённые сервисы видимых назначенных категорий запускаются до клика. Сохранённый выбор, просрочка и устаревшие версии не обходятся; `getConsent()` и аудит отражают только выбор посетителя. По умолчанию действует строгий режим. До выбора в legacy-режиме CMP не отправляет Google consent-команды, не урезает параметры Google и не переопределяет Consent Mode другого кода сайта/GTM. Это запуск до согласия, а не consent-first. [Ограничения и проверка](docs/modx2-1.0.4-beta3-acceptance.md).
 

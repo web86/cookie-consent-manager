@@ -18,6 +18,24 @@ foreach(['https://example.test/p?q=1&amp;x=2','http://example.test','/privacy','
 $tag='[[!FakeSnippet]] {php}danger{/php}';$clean=CookieConsentHtmlSanitizer::clean($tag);verify($clean,$tag,'Tags remain literal');$json=CookieConsentTexts::safeJson(['text'=>$clean]);verify(str_contains($json,'[['),false,'MODX tag delimiters encoded');verify(str_contains($json,'{php}'),false,'Fenom delimiters encoded');verify(json_decode($json,true)['text'],$tag,'Literal roundtrip');
 $texts=CookieConsentTexts::defaults();$texts['locales']['fr']=['reject'=>'Refuser'];$texts=CookieConsentTexts::validate($texts);$resolved=CookieConsentTexts::resolve($texts,'fr');verify($resolved['reject'],'Refuser','Local override');verify($resolved['accept_all'],CookieConsentTexts::lexicon('ru')['accept_all'],'Package base fallback');$resolved=CookieConsentTexts::resolve($texts,'en');verify($resolved['accept_all'],'Accept all','Requested bundled lexicon before base');
 $texts['locales']['en']=['reject'=>'Custom'];verify(CookieConsentTexts::resolve($texts,'en')['reject'],'Custom','Override before stock');
+
+$labels=CookieConsentTexts::defaults();
+$labels['locales']['ru']['configure']='Особые настройки';
+$labels['locales']['en']=['accept_all'=>'','reject'=>'Custom refusal'];
+$labels['locales']['nl-NL']=['reject'=>'Weigeren & bewaren','configure'=>"\u{00A0}",'accept'=>'  ','banner_title'=>''];
+$labels=CookieConsentTexts::validate($labels);
+$dutch=CookieConsentTexts::resolve($labels,'nl-NL');
+verify($dutch['reject'],'Weigeren & bewaren','Regional code is normalized');
+verify($dutch['configure'],'Особые настройки','Whitespace-only label uses the configured base override');
+verify($dutch['accept'],CookieConsentTexts::lexicon('ru')['accept'],'Whitespace-only label uses bundled base');
+verify($dutch['banner_title'],'','Optional title may stay empty');
+verify(CookieConsentTexts::resolve($labels,'en')['accept_all'],'Accept all','Bundled requested language precedes base');
+verify(CookieConsentTexts::resolve($labels,'en')['reject'],'Custom refusal','Existing English override is retained');
+verify($labels['locales']['nl-nl']['accept'],'  ','Resolving never rewrites stored text');
+$labels['base_language']='de';
+verify(CookieConsentTexts::resolve($labels,'fr')['accept'],'Accept','Bundled English is the last fallback');
+$labels['locales']['nl-nl']['reopen']='<b>Cookie-instellingen</b>';
+rejects(fn()=>CookieConsentTexts::validate($labels));
 $bad=$defaults;$bad['services'][0]['config']['webvisor']='true';rejects(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)));
 $bad=$defaults;$bad['services'][0]['config']['callback']='evil';rejects(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)));
 $bad=$defaults;$bad['services'][2]['config']['webvisor']=true;rejects(fn()=>CookieConsentServiceRegistry::validateJson(json_encode($bad)));
