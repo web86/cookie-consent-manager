@@ -28,8 +28,11 @@ try{
   await m.p.setViewportSize({width:390,height:844});await m.p.waitForTimeout(250);await m.p.locator('#ccm-tab-texts').click();await m.p.locator('[data-text-key]').last().scrollIntoViewIfNeeded();const last=await m.p.locator('[data-text-key]').last().boundingBox();ok(last.y>=0&&last.y+last.height<=844);const main=await m.p.locator('.ccm-main').boundingBox(),aside=await m.p.locator('.ccm-preview').boundingBox();ok(aside.y>=main.y+main.height);ok(main.x>=0 && main.x+main.width<=390);await m.p.screenshot({path:dir+'/mobile-texts.png'});await m.p.setViewportSize({width:1440,height:900});
  });
  await test('technical-fields-hidden-one-language-select-short-integration',async()=>{
-  eq(await m.p.locator('#ccm-policy,#ccm-audit-config,#ccm-preview-language,#ccm-base-language,#ccm-stock-language,#ccm-custom-language,[id^=ccm-purpose-],[data-restore]').count(),0);
-  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);const names=await m.p.locator('[data-text-key]').evaluateAll(xs=>xs.map(x=>x.dataset.textKey));ok(names.every(k=>k==='notice_html'||k==='map_notice'||k==='map_load'||/^service\.[a-z0-9_]+\.map_notice$/.test(k)||/^(necessary|analytics|marketing|external_content)_(name|description)$/.test(k)));
+  eq(await m.p.locator('#ccm-policy,#ccm-audit-config,#ccm-preview-language,#ccm-base-language,#ccm-stock-language,[id^=ccm-purpose-],[data-restore]').count(),0);
+  await m.p.locator('#ccm-tab-texts').click();eq(await m.p.locator('#ccm-panel-texts select').count(),1);eq(await m.p.locator('#ccm-custom-language').isVisible(),true);
+  for (const [group, key] of [['banner','notice_html'],['text_buttons','reject'],['text_categories','analytics_name'],['text_external','map_load']]) {
+    eq(await m.p.locator('[aria-labelledby="ccm-text-group-'+group+'"] [data-text-key="'+key+'"]').count(),1);
+  }
   await m.p.locator('#ccm-tab-logs').click();await m.p.locator('#ccm-tab-main').click();await m.p.locator('#ccm-guide-open').click();ok((await m.p.locator('#ccm-guide-dialog').textContent()).includes('[[!CookieConsent]]'));await m.p.locator('#ccm-guide-close').click();ok(!(await m.p.locator('#ccm-page').textContent()).includes('upgrade_elements'));
  });
  await test('two-counters-generated-keys-confirmation-save-only-and-auto-preview-locale',async()=>{
