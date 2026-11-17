@@ -45,12 +45,12 @@ try {
   });
   for(const tab of ['main','services','texts','logs']){await page.locator('#ccm-tab-'+tab).click();await page.screenshot({path:`${dir}/manager-ru-${tab}.png`});}
   await test('services-three-groups-individual-settings',async()=>{
-    await page.locator('#ccm-tab-services').click();equal(await page.locator('.ccm-service-group').count(),3);equal(await page.locator('.ccm-service').count(),10);
+    await page.locator('#ccm-tab-services').click();equal(await page.locator('#ccm-panel-services .ccm-service-group').count(),3);equal(await page.locator('.ccm-service').count(),10);
     await page.locator('[data-settings=yandex] summary').click();equal(await page.locator('#ccm-yandex-webvisor').isChecked(),true);
     await page.screenshot({path:`${dir}/services-yandex-settings.png`});
   });
   await test('service-map-translations-editable-and-existing-texts-retained',async()=>{
-    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),2);equal(await page.locator('[data-text-key]').count(),13);equal(await page.locator('[data-text-key=map_load]').count(),1);
+    await page.locator('#ccm-tab-texts').click();equal(await page.locator('[data-text-key^="service."]').count(),2);for (const key of ['notice_html','banner_title','reject','reopen','necessary_aria']) equal(await page.locator('[data-text-key='+key+']').count(),1);equal(await page.locator('[data-text-key=map_load]').count(),1);
   });
   await test('legacy-mode-preview-and-preserved-values',async()=>{
     await page.locator('#ccm-tab-main').click();const configure=await page.locator('#ccm-show-configure').isChecked();
@@ -60,9 +60,10 @@ try {
     const p=await front('ru');equal(await p.locator('[data-cc-action=configure]').isVisible(),false);equal(await p.locator('[data-cc-action=accept-all]').isVisible(),false);equal(await p.locator('[data-cookie-settings-open]').count(),1);await p.close();
     await page.locator('#ccm-show-accept').uncheck();equal(await page.locator('#ccm-show-configure').isChecked(),configure);equal(await page.locator('#ccm-show-configure').isDisabled(),false);await save();
   });
-  await test('languages-from-modx-single-select-and-preserved-draft',async()=>{
+  await test('languages-from-modx-and-custom-entry-with-preserved-draft',async()=>{
     await page.locator('#ccm-tab-texts').click();const languages=await page.locator('#ccm-edit-language option').evaluateAll(xs=>xs.map(x=>x.value));ok(languages.length>20,'MODX inventory');ok(languages.includes('tr')&&languages.includes('ja'));
-    equal(await page.locator('#ccm-stock-language,#ccm-custom-language,#ccm-base-language,[data-restore]').count(),0);
+    equal(await page.locator('#ccm-stock-language,#ccm-base-language,[data-restore]').count(),0);
+    equal(await page.locator('#ccm-custom-language').isVisible(),true);
     await page.locator('#ccm-edit-language').selectOption('tr');await page.locator('[data-text-key=analytics_name]').fill('Istatistik');
     await page.locator('#ccm-edit-language').selectOption('ru');await page.locator('#ccm-edit-language').selectOption('tr');equal(await page.locator('[data-text-key=analytics_name]').inputValue(),'Istatistik');await save();
   });
