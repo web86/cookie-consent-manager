@@ -43,7 +43,11 @@ try{
  await test('default-markup-and-customer-css',async()=>{
   const data=fixture('en','strict','bottom','empty');
   const baseline=JSON.parse(execFileSync('php',[process.env.CC_BANNER_BASE+'/tests/placeholder-texts/fixture.php','en','strict','external_content','default'],{encoding:'utf8'}));
-  const current=JSON.parse(execFileSync('php',['tests/placeholder-texts/fixture.php','en','strict','external_content','default'],{encoding:'utf8'}));eq(current,baseline,'Existing banner/rendered embeds unchanged byte-for-byte');
+  const current=JSON.parse(execFileSync('php',['tests/placeholder-texts/fixture.php','en','strict','external_content','default'],{encoding:'utf8'}));
+  const reopenMessage='<span data-cc-message="reopen">Cookie settings</span>';
+  ok(current.banner.includes(reopenMessage),'Resolved settings button label is available to the runtime');
+  current.banner=current.banner.replace(reopenMessage,'');
+  eq(current,baseline,'Existing banner and embeds match the baseline after removing the new settings label');
   for(const position of ['bottom','bottom-right','bottom-left']){
    const {ctx,p}=await pageFor(fixture('en','strict',position,'short'),1440,'.cookie-warning{background:rgb(20,30,40);color:rgb(230,231,232);font-family:monospace}.cookie-warning .cookie-btn{border-radius:0}');
    try{eq(await p.locator('#cookie-block').evaluate(e=>[getComputedStyle(e).backgroundColor,getComputedStyle(e).color,getComputedStyle(e).fontFamily]),['rgb(20, 30, 40)','rgb(230, 231, 232)','monospace']);eq(await p.locator('[data-cc-action=reject]').evaluate(e=>getComputedStyle(e).borderRadius),'0px','Existing CSS selectors still apply');}finally{await ctx.close();}

@@ -26,10 +26,14 @@ EN: restore-elements uses the six actual transport elements, existing IDs, a tra
     [[!CookieConsentAssets]]
 </head>
 <body>
-    <button type="button" data-cookie-settings-open>Настройки cookie</button>
+    <button type="button" data-cookie-settings-open data-cc-text="reopen">Настройки cookie</button>
     [[!CookieConsentBanner]]
 </body>
 ```
+
+Во вкладке «Тексты» выберите язык или добавьте его код (например, `nl-NL`), заполните поля и сохраните. Предпросмотр показывает выбранный язык сразу. На сайте язык берётся из `cultureKey` контекста. Для кнопки в шаблоне добавьте `data-cc-text="reopen"` к элементу с `data-cookie-settings-open` или к вложенному `span`, если рядом с подписью есть иконка.
+
+In Texts, select a language or add its code (for example, `nl-NL`), edit the labels and save. The live preview uses the selected language. The public site uses the context `cultureKey`. To translate a settings button in your template, add `data-cc-text="reopen"` to the element with `data-cookie-settings-open`, or to a child `span` if the button also has an icon.
 
 Альтернатива для прежних шаблонов — один `[[!CookieConsent]]`. Не смешивайте legacy и split и не повторяйте теги. SSR использует `cultureKey` web context, пользовательские переводы и stock fallback; язык Manager не подменяет язык сайта. Публичный JSON содержит только технические поля; локализованные сообщения и map templates приходят в PHP HTML. Assets использует один JS/CSS bundle с content-hash URL.
 

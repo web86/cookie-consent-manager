@@ -41,8 +41,8 @@ final class CookieConsentTexts
     {
         $language=self::language($language);$base=$data['base_language'];
         $requestedOverrides=(array)($data['locales'][$language]??[]);$baseOverrides=(array)($data['locales'][$base]??[]);
-        $result=array_replace(self::lexicon('en'),self::lexicon($base),$baseOverrides,self::lexicon($language),$requestedOverrides);
-        $requested=self::lexicon($language);$baseLex=self::lexicon($base);
+        $english=self::lexicon('en');$requested=self::lexicon($language);$baseLex=self::lexicon($base);
+        $result=array_replace($english,$baseLex,$baseOverrides,$requested,$requestedOverrides);
         foreach ($services as $s) foreach (['name','description'] as $field) {
             $key='service.'.$s['key'].'.'.$field;$stock='service.'.$s['loader'].'.'.$field;
             // Existing/custom registry display data remains the base fallback; translations are separate.
@@ -50,9 +50,18 @@ final class CookieConsentTexts
                 ($language!==$base && $s['key']===$s['loader'] ? ($requested[$stock]??null) : null) ?? ($field==='name' ? $s['name'] : $s['purpose']);
         }
         $nonempty=static function(array $values): string {foreach($values as $value)if(is_string($value)&&$value!=='')return $value;return '';};
+        // Empty button and accessibility labels fall through without modifying stored overrides.
+        foreach (['reject','configure','accept_all','accept','save','back','reopen','settings_title','region_label','necessary_aria'] as $key) {
+            foreach ([$requestedOverrides,$requested,$baseOverrides,$baseLex,$english] as $source) {
+                if (preg_match('/[^\s\p{Z}]/u',$source[$key]??'')===1) {
+                    $result[$key]=$source[$key];
+                    break;
+                }
+            }
+        }
         // Reuse the existing shared keys. Old embed translations remain a fallback visible in Texts.
         foreach(['map_notice'=>'embed_notice','map_load'=>'embed_settings'] as $key=>$legacy){
-            $result[$key]=$nonempty([$requestedOverrides[$key]??null,$requestedOverrides[$legacy]??null,$requested[$key]??null,$baseOverrides[$key]??null,$baseOverrides[$legacy]??null,$baseLex[$key]??null,self::lexicon('en')[$key]]);
+            $result[$key]=$nonempty([$requestedOverrides[$key]??null,$requestedOverrides[$legacy]??null,$requested[$key]??null,$baseOverrides[$key]??null,$baseOverrides[$legacy]??null,$baseLex[$key]??null,$english[$key]]);
             $result[$legacy]=$result[$key];
         }
         foreach($services as $service)if(in_array($service['loader'],['google_maps','yandex_maps'],true)){
