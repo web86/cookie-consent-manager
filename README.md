@@ -1,4 +1,4 @@
-# CookieConsentManager — 1.0.8-pl7
+# CookieConsentManager — 1.0.9-pl1
 
 RU: Runtime находится в `assets/components/cookieconsentmanager/`, приватный код — в `core/components/cookieconsentmanager/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
 
@@ -208,3 +208,54 @@ EN: Builds remain in installation and authenticated Manager actions (manual rebu
 RU: restore-elements использует шесть фактических элементов transport-пакета, существующие ID, транзакцию и dry-run по умолчанию. Настройки не меняются.
 
 EN: restore-elements uses the six actual transport elements, existing IDs, a transaction and a default dry run. Settings remain unchanged.
+
+
+## Custom JS: HTML attributes / HTML-атрибуты
+
+Configure Ahrefs Web Analytics entirely in the Manager: **Custom JS → Analytics**,
+URL `https://analytics.ahrefs.com/analytics.js`, attribute `data-key` with the
+**public site key** from Ahrefs settings. Enable the service and save.
+Use **Add attribute** for additional rows. The script preview is text only.
+
+Ahrefs можно подключить целиком в менеджере: **Custom JS → Аналитика**,
+URL `https://analytics.ahrefs.com/analytics.js`, атрибут `data-key` со значением
+**публичного ключа сайта** из настроек Ahrefs. Включите сервис и сохраните.
+Кнопка «Добавить атрибут» добавляет строки; предпросмотр показывает только текст.
+
+```json
+{
+  "path": "https://analytics.ahrefs.com/analytics.js",
+  "attributes": {
+    "data-key": "YOUR_AHREFS_KEY",
+    "data-domain": "example.com",
+    "data-mode": "production"
+  }
+}
+```
+
+`attributes` is optional. Missing and `{}` preserve the old fingerprint. Nonempty
+attributes are sorted by name and included in the existing service privacy
+fingerprint: adding, editing or removing one invokes the existing category consent
+checks. Order changes have no effect. Strict waits for consent; Legacy and
+withdrawal keep their existing behavior. Other categories retain their permissions.
+The last attribute's removal returns to the original configuration identity.
+
+Only lowercase `^data-[a-z0-9][a-z0-9_-]*$` names are accepted: at most 20 per
+service, 64 bytes per name, string values up to 2048 UTF-8 bytes (empty allowed).
+Control characters, duplicate names, uppercase spelling, non-string values and
+attributes outside `data-*` are rejected by PHP, Manager and public runtime.
+The registry still has a 32768-byte limit. URL validation and the prohibition on
+duplicate Custom JS paths are unchanged. A shared-runtime URL/attribute conflict
+fails explicitly without a second execution; reload after configuration changes.
+
+HTML attribute values are visible to visitors in their browser. **Do not store
+private API keys, passwords or server tokens in them.**
+
+Поле `attributes` необязательно; отсутствие и `{}` сохраняют прежний fingerprint.
+Добавление, изменение и удаление атрибута запускает существующую проверку повторного
+согласия для категории сервиса. Порядок атрибутов ничего не меняет. Ограничения:
+до 20 атрибутов, имя до 64 байт в нижнем регистре по шаблону выше, строковое значение
+до 2048 байт UTF-8, включая пустую строку. Управляющие символы и дубликаты запрещены.
+Весь registry — до 32768 байт. Допускаются только `data-*`; остальные HTML-атрибуты
+недоступны. **Значения видны посетителям: приватные API-ключи, пароли и серверные
+токены хранить здесь нельзя.** Подробности — во встроенном руководстве RU/EN.

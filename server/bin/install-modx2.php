@@ -2,9 +2,10 @@
 declare(strict_types=1);
 // CLI ONLY: php install-modx2.php /absolute/site/root /absolute/private/logs
 if (PHP_SAPI!=='cli') { http_response_code(404); exit; }
+require_once dirname(__DIR__).'/src/CookieConsentPath.php';
 $root=$argv[1]??'';
 $logDir=$argv[2]??'';
-if ($root==='' || $root[0]!=='/' || !is_file($root.'/index.php')) throw new RuntimeException('MODX root required');
+if (!CookieConsentPath::canonical($root) || !CookieConsentPath::regular($root.'/index.php')) throw new RuntimeException('MODX root required');
 require_once dirname(__DIR__).'/src/CookieConsentPrivatePath.php';
 CookieConsentPrivatePath::directory($logDir,$root);
 define('MODX_API_MODE',true);
@@ -14,7 +15,7 @@ while (ob_get_level()) ob_end_clean();
 require_once dirname(__DIR__).'/src/CookieConsentSettings.php';
 $namespace=$modx->getObject('modNamespace',['name'=>'cookie_consent']);
 // Renaming existing installations requires native preflight and its hash snapshot.
-if ($namespace && rtrim($namespace->getCorePath(), '/') !== MODX_CORE_PATH.'components/cookieconsentmanager') throw new RuntimeException('Use the native transport to migrate the old component path');
+if ($namespace && !CookieConsentPath::same($namespace->getCorePath(),rtrim(CookieConsentPath::spelling(MODX_CORE_PATH),'/').'/components/cookieconsentmanager')) throw new RuntimeException('Use the native transport to migrate the old component path');
 // CLI copying has no native preflight. Existing unknown files are kept conservatively.
 $modx->setOption('cookie_consent.install_snapshot',['fresh'=>!$namespace]);
 if (!$namespace) { $namespace=$modx->newObject('modNamespace'); $namespace->set('name','cookie_consent'); $namespace->save(); }

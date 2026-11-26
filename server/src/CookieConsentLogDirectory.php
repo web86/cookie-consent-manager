@@ -1,31 +1,31 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 require_once __DIR__.'/CookieConsentPrivatePath.php';
 require_once __DIR__.'/CookieConsentAuditConfiguration.php';
 final class CookieConsentLogDirectory
 {
-    /** Lexical normalization does not touch the filesystem. */
+    /** Input spelling only; canonical() must still validate the real filesystem. */
     public static function input(string $dir,string $root,string $mode='absolute'): string {
         if(!in_array($mode,['site','absolute'],true))throw new InvalidArgumentException('log_mode');
-        if($dir===''||str_contains($dir,"\0")||strpbrk($dir,"\\?#")!==false)throw new RuntimeException('log_path');
+        if($dir===''||str_contains($dir,"\0")||strpbrk($dir,"?#")!==false || (DIRECTORY_SEPARATOR!=='\\' && str_contains($dir,'\\')))throw new RuntimeException('log_path');
+        if(DIRECTORY_SEPARATOR==='\\')$dir=str_replace('\\','/',$dir);
         if(preg_match('~(?:^|/)\.\.?(/|$)~',$dir))throw new RuntimeException('log_traversal');
-        if($mode==='site')$dir=rtrim($root,'/').'/'.ltrim($dir,'/');
-        if($dir[0]!=='/')throw new RuntimeException('log_path');
-        return rtrim($dir,'/');
+        if($mode==='site'){
+            if(DIRECTORY_SEPARATOR==='\\' && (str_contains($dir,':')||str_starts_with($dir,'//')))throw new RuntimeException('log_path');
+            $dir=rtrim(CookieConsentPath::spelling($root),'/').'/'.ltrim($dir,'/');
+        }
+        return CookieConsentPath::spelling($dir);
     }
     public static function resolve(string $dir,string $root,string $mode='absolute'): string {
         return self::canonical(self::input($dir,$root,$mode),$root);
     }
     public static function canonical(string $dir,string $root): string {
-        if($dir===''||$dir[0]!=='/'||str_contains($dir,"\0"))throw new RuntimeException('log_path');
-        if(preg_match('~(?:^|/)\.\.?(/|$)~',$dir))throw new RuntimeException('log_traversal');
-        for($p=rtrim($dir,'/');$p!==''&&$p!=='/';$p=dirname($p))if(is_link($p))throw new RuntimeException('log_symlink');
+        CookieConsentPath::spelling($dir);
         if(!file_exists($dir))throw new RuntimeException('log_missing');if(!is_dir($dir))throw new RuntimeException('log_not_directory');
-        $real=realpath($dir);if(!$real||$real!==rtrim($dir,'/'))throw new RuntimeException('log_path');
-        if($real===realpath($root))throw new RuntimeException('log_root');if(!is_writable($real))throw new RuntimeException('log_permissions');return $real;
+        if(!CookieConsentPath::canonical($dir)||!CookieConsentPath::canonical($root))throw new RuntimeException('log_path');
+        if(CookieConsentPath::same($dir,$root))throw new RuntimeException('log_root');if(!is_writable($dir))throw new RuntimeException('log_permissions');return (string)realpath($dir);
     }
-    public static function inside(string $dir,string $root): bool {return str_starts_with($dir,rtrim((string)realpath($root),'/').'/');}
-    public static function validate(string $dir,string $root): string {
-        return self::resolve($dir,$root);
-    }
+    public static function inside(string $dir,string $root): bool {return CookieConsentPath::canonical($dir) && CookieConsentPath::canonical($root) && !CookieConsentPath::outside($dir,$root) && !CookieConsentPath::same($dir,$root);}
+    public static function validate(string $dir,string $root): string {return self::resolve($dir,$root);}
 }

@@ -22,6 +22,7 @@
   const validScriptPath = window.web86ScriptUrl.valid;
   function validate(data) {
     if (!data || data.schema !== 1 || Object.keys(data).sort().join() !== 'schema,services' || !Array.isArray(data.services) || data.services.length > 32) throw Error('Invalid registry');
+    if (new TextEncoder().encode(JSON.stringify(data)).length > 32768) throw Error('Registry too large');
     const keys = new Set();
     const result = data.services.map(s => {
       // Accept cached pre-projection HTML as well as the minimal public contract.
@@ -37,14 +38,20 @@
         if (typeof s[k] !== 'string' || !s[k] || new TextEncoder().encode(s[k]).length > max || /[\x00-\x1f\x7f<>]/.test(s[k])) throw Error('Invalid text');
       }
       if (s.loader === 'custom_js' && (typeof s.purpose !== 'string' || !s.purpose || new TextEncoder().encode(s.purpose).length > 500 || /[\x00-\x1f\x7f<>]/.test(s.purpose))) throw Error('Invalid purpose');
-      const allowed = [...(s.loader === 'custom_js' ? ['path'] : []), ...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
+      const allowed = [...(s.loader === 'custom_js' ? ['path', 'attributes'] : []), ...(['yandex', 'mailru', 'google_ga4', 'google_gtm', 'google_ads', 'vk_ads', 'meta_pixel'].includes(s.loader) ? ['id'] : []), ...Object.keys(booleanOptions[s.loader] || {})];
       if (!s.config || typeof s.config !== 'object' || Array.isArray(s.config) || Object.keys(s.config).some(k => !allowed.includes(k))) throw Error('Invalid config');
       const pattern = { google_ga4: /^G-[A-Z0-9]{4,20}$/, google_gtm: /^GTM-[A-Z0-9]{4,20}$/, google_ads: /^AW-[0-9]{4,20}$/ }[s.loader] || /^[0-9]{1,20}$/;
       if ((s.enabled && allowed.includes('id') && !Object.hasOwn(s.config, 'id')) ||
           (Object.hasOwn(s.config, 'id') && (typeof s.config.id !== 'string' || !pattern.test(s.config.id))) ||
           Object.keys(booleanOptions[s.loader] || {}).some(k => Object.hasOwn(s.config, k) && typeof s.config[k] !== 'boolean')) throw Error('Invalid provider options');
       if (s.loader === 'custom_js' && !validScriptPath(s.config.path)) throw Error('Invalid script path');
-      const config = Object.fromEntries(Object.entries({ ...(booleanOptions[s.loader] || {}), ...s.config }).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
+      const normalized = { ...(booleanOptions[s.loader] || {}), ...s.config };
+      if (Object.hasOwn(normalized, 'attributes')) {
+        const attributes = window.web86CustomJs.attributes(normalized.attributes);
+        if (Object.keys(attributes).length) normalized.attributes = attributes;
+        else delete normalized.attributes;
+      }
+      const config = Object.fromEntries(Object.entries(normalized).sort(([a], [b]) => a < b ? -1 : a > b ? 1 : 0));
       // Legacy v2 identity is used only for one-time storage migration, never to launch a service.
       const privacy = Object.fromEntries(Object.entries(config).filter(([k]) => k !== 'show_title'));
       if (s.loader === 'custom_js') privacy.purpose = s.purpose;
@@ -63,7 +70,7 @@
   let services = [];
   try {
     const node = document.getElementById('cc-service-registry');
-    services = validate(node ? JSON.parse(node.textContent) : { schema: 1, services: [] });
+    services = validate(node ? window.web86CustomJs.parseJson(node.textContent) : { schema: 1, services: [] });
   } catch (e) { console.warn(t('error_registry'), e.message); }
   window.web86Providers = Object.freeze({ services: Object.freeze(services), categories: Object.freeze(categories),
     validate, validScriptPath,

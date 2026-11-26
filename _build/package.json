@@ -1,9 +1,9 @@
 {
   "name": "cookieconsentmanager",
-  "version": "1.0.8",
+  "version": "1.0.9",
   "release": "pl",
-  "release_index": 7,
-  "source_epoch": 1792281600,
+  "release_index": 1,
+  "source_epoch": 1795651200,
   "minimum_php": "8.1.0",
   "minimum_modx": "2.8.4",
   "maximum_modx": "3.0.0"
