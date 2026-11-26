@@ -15,6 +15,8 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 30
     env:
+      CC_NATIVE_BASELINE_INDEX: '128'
+      CC_NATIVE_CANDIDATE_INDEX: '129'
       CC_NATIVE_SCENARIO: ${{ matrix.scenario }}
       CC_NATIVE_WORK: ${{ github.workspace }}/.local/native-windows-fixture
     steps:
