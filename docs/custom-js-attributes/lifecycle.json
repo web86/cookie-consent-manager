@@ -1,0 +1,40 @@
+{
+  "result": "PASS",
+  "checks": [
+    {
+      "action": "rebuild",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+    },
+    {
+      "action": "cache",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"cache\"}"
+    },
+    {
+      "action": "failure",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"failure\"}"
+    },
+    {
+      "action": "rebuild",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"rebuild\"}"
+    },
+    {
+      "action": "snapshot-uninstall",
+      "result": "PASS",
+      "output": "{}"
+    },
+    {
+      "action": "uninstall",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"uninstall\",\"signature\":\"cookieconsentmanager3-1.0.8-pl9\"}"
+    },
+    {
+      "action": "verify-uninstall",
+      "result": "PASS",
+      "output": "{\"result\":\"PASS\",\"action\":\"verify-uninstall\"}"
+    }
+  ]
+}

@@ -79,6 +79,16 @@
     };
     const conflictingPixelId = service => service.enabled && ['mailru','vk_ads'].includes(service.loader) && service.config.id && draft.registry.services.some(other => other.enabled && other.loader === (service.loader === 'mailru' ? 'vk_ads' : 'mailru') && other.config.id && other.config.id.replace(/^0+(?=\d)/,'') === service.config.id.replace(/^0+(?=\d)/,''));
     const validScriptPath = window.web86ScriptUrl.valid;
+    // Keep invalid rows intact for correction; never collapse duplicate names into an object.
+    const attributeDrafts = new Map();
+    const attributeError = service => {
+      if (service.loader !== 'custom_js') return '';
+      try {
+        if (attributeDrafts.has(service.key)) window.web86CustomJs.fromRows(attributeDrafts.get(service.key));
+        else if (Object.hasOwn(service.config, 'attributes')) window.web86CustomJs.attributes(service.config.attributes);
+        return '';
+      } catch (e) { return t(e.message); }
+    };
     const invalidCustom = service => service.loader === 'custom_js' && (!validScriptPath(service.config.path) || draft.registry.services.some(other => other !== service && other.loader === 'custom_js' && window.web86ScriptUrl.identity(other.config.path) === window.web86ScriptUrl.identity(service.config.path)));
     const existingProvider = service => data.registry.services.some(original => original.key === service.key && original.enabled && original.loader === service.loader && original.config.id?.replace(/^0+(?=\d)/, '') === service.config.id?.replace(/^0+(?=\d)/, ''));
     const duplicateId = service => service.enabled && service.config.id && draft.registry.services.some(other => other !== service && other.enabled && other.loader === service.loader && other.config.id?.replace(/^0+(?=\d)/, '') === service.config.id.replace(/^0+(?=\d)/, '') && (!existingProvider(service) || !existingProvider(other)));
@@ -111,6 +121,53 @@
       if (type === 'checkbox') input.checked = Boolean(value); else input.value = value ?? '';
       input.addEventListener(type === 'checkbox' ? 'change' : 'input', () => { callback(type === 'checkbox' ? input.checked : type === 'number' ? Number(input.value) : input.value); if (!provisional) changed(); });
       row.append(input); if (help) row.append(el('small', help)); container.append(row); return input;
+    }
+    function attributesEditor(container, config, id, rows, onChange) {
+      const block = el('fieldset', null, { class: 'ccm-custom-attributes', id: id + '-attributes' });
+      block.append(el('legend', t('attributes_title')), el('p', t('attributes_help'), { class: 'ccm-help' }));
+      const warning = el('p', t('attributes_public'), { class: 'ccm-help', id: id + '-attributes-public' });
+      block.append(note(warning, true));
+      const list = el('div', null, { class: 'ccm-attribute-list' });
+      const error = el('p', '', { class: 'ccm-field-error', id: id + '-attributes-error', role: 'status', 'aria-live': 'polite' });
+      const add = el('button', t('attributes_add'), { type: 'button', 'data-attribute-add': '' });
+      const pre = el('pre', null, { class: 'ccm-script-preview', 'aria-label': t('attributes_preview') }), code = el('code');
+      pre.append(code); block.append(list, add, error, el('p', t('attributes_preview'), { class: 'ccm-help' }), pre); container.append(block);
+      const escape = value => String(value).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+      let inputs = [], message = '';
+      function validate() {
+        let attributes;
+        try { attributes = window.web86CustomJs.fromRows(rows); message = ''; }
+        catch (e) { message = t(e.message); }
+        error.textContent = message; error.hidden = !message;
+        for (const input of inputs) { input.setCustomValidity(message); input.setAttribute('aria-invalid', String(Boolean(message))); }
+        add.disabled = rows.length >= 20;
+        if (!message) {
+          if (Object.keys(attributes).length) config.attributes = attributes;
+          else delete config.attributes;
+        }
+        // Text only: no script element, HTML parsing, SDK fetch or execution.
+        code.textContent = message || !validScriptPath(config.path) ? t('attributes_preview_invalid') : '<script src="' + escape(config.path) + '"' + Object.entries(attributes).map(([name, value]) => '\n    ' + name + '="' + escape(value) + '"').join('') + ' async></script>';
+        return !message;
+      }
+      function render() {
+        list.replaceChildren(); inputs = [];
+        rows.forEach((row, index) => {
+          const line = el('div', null, { class: 'ccm-attribute-row' }); list.append(line);
+          for (const [column, label] of [[0, 'attributes_name_label'], [1, 'attributes_value_label']]) {
+            const input = field(line, t(label) + ' ' + (index + 1), row[column], value => { row[column] = value; validate(); onChange(); }, 'text', id + '-attribute-' + index + '-' + column, null, true);
+            input.setAttribute('data-attribute-' + (column ? 'value' : 'name'), '');
+            input.setAttribute('aria-describedby', warning.id + ' ' + error.id);
+            if (!column) input.placeholder = 'data-key';
+            inputs.push(input);
+          }
+          const remove = el('button', t('attributes_remove'), { type: 'button', 'data-attribute-remove': '', 'aria-label': t('attributes_remove') + ' ' + (index + 1) });
+          remove.onclick = () => { rows.splice(index, 1); render(); onChange(); (inputs[Math.min(index * 2, inputs.length - 1)] || add).focus(); }; line.append(remove);
+        });
+        validate();
+      }
+      add.onclick = () => { if (rows.length >= 20) return; rows.push(['', '']); render(); onChange(); inputs[inputs.length - 2].focus(); };
+      render();
+      return { node: block, validate, focus: () => (inputs.find(input => !input.validity.valid) || add).focus() };
     }
     const basics=el('div',null,{class:'ccm-basic-settings'});panels.main.append(basics);
     field(basics, t('ttl_days'), draft.options.ttl_days, v => draft.options.ttl_days = v, 'number', 'ccm-ttl').setAttribute('min', '1');
@@ -224,7 +281,7 @@
           const validity = el('span', null, { class: 'ccm-config-status' });
           let idInput, idError, pathInput;
           const updateValidity = () => {
-            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict || duplicateId(service) || invalidCustom(service); validity.textContent = invalid ? t(invalidCustom(service)?'script_invalid':duplicateId(service)?'service_invalid':'needs_id') : service.enabled ? t('configured') : t('service_disabled');
+            const conflict = conflictingPixelId(service), invalid = invalidId(service) || conflict || duplicateId(service) || invalidCustom(service) || attributeError(service); validity.textContent = invalid ? (attributeError(service) || t(invalidCustom(service)?'script_invalid':duplicateId(service)?'service_invalid':'needs_id')) : service.enabled ? t('configured') : t('service_disabled');
             validity.dataset.state=invalid?'invalid':service.enabled?'ready':'off';
             if (idInput) { idInput.setAttribute('aria-invalid', String(invalid)); idError.hidden = !invalid; idError.textContent = invalid ? (conflict ? t('pixel_id_conflict') : !service.config.id ? t('id_required') : t('id_invalid').replace('{format}', idFormats[service.loader])) : ''; }
           };
@@ -237,6 +294,11 @@
           categorySelect.value=service.category;const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),categorySelect);details.append(categoryRow);
           categorySelect.onchange=()=>{service.category=categorySelect.value;groupExpanded[service.category]=true;document.getElementById('ccm-group-content-'+service.category).hidden=false;const toggle=document.getElementById('ccm-group-toggle-'+service.category);toggle.setAttribute('aria-expanded','true');toggle.setAttribute('aria-label',t('collapse')+' — '+data.managerStrings[service.category+'_name']);document.getElementById('ccm-group-content-'+service.category).append(card);changed();categorySelect.focus();};
           if(service.loader==='custom_js')pathInput=field(details,t('script_path'),service.config.path,v=>{service.config.path=v;pathInput.setCustomValidity(invalidCustom(service)?t('script_invalid'):'');updateValidity();},'text','ccm-path-'+service.key,t('script_help'));
+          if (service.loader === 'custom_js') {
+            if (!attributeDrafts.has(service.key)) attributeDrafts.set(service.key, Object.entries(service.config.attributes || {}).map(row => [...row]));
+            const editor = attributesEditor(details, service.config, 'ccm-' + service.key, attributeDrafts.get(service.key), () => { changed(); updateValidity(); });
+            pathInput.addEventListener('input', editor.validate);
+          }
           const adapterSource = ['google_maps','yandex_maps'].includes(service.loader) ? data.assetsUrl+'components/cookieconsentmanager3/js/cookie-consent/embeds.js' : ['youtube','rutube','vk_video'].includes(service.loader) ? data.assetsUrl+'components/cookieconsentmanager3/js/cookie-consent/embeds/' + ({youtube:'youtube',rutube:'rutube',vk_video:'vk-video'}[service.loader]) + '.js' : data.assetsUrl+'components/cookieconsentmanager3/js/cookie-consent/services/' + ({yandex:'yandex',mailru:'mailru',google_ga4:'google-ga4',google_ads:'google-ads',google_gtm:'google-gtm',vk_ads:'vk-ads',meta_pixel:'meta-pixel',custom_js:'custom-js'}[service.loader] || 'unknown') + '.js';
           const source=el('p',t('adapter_source')+' '+(service.loader==='custom_js'?service.config.path:adapterSource),{class:'ccm-help ccm-adapter-source'});details.append(source);
           if(pathInput)pathInput.addEventListener('input',()=>source.textContent=t('adapter_source')+' '+service.config.path);
@@ -268,23 +330,27 @@
       const counterId=field(add,t('counter_id'),'',()=>{},'text','ccm-service-id',null,true);
       const path=field(add,t('script_path'),'',()=>{},'text','ccm-service-path',t('script_help'),true);
       path.placeholder=(data.assetsUrl || '/assets/')+'js/integrations/bitrix24.js';
+      const customConfig = { path: '' }, customRows = [];
+      const customEditor = attributesEditor(add, customConfig, 'ccm-service', customRows, () => {});
+      path.addEventListener('input', () => { customConfig.path = path.value; customEditor.validate(); });
       const category=el('select',null,{id:'ccm-service-category','aria-label':t('category')});
       for(const c of ['analytics','marketing','external_content'])category.append(el('option',data.managerStrings[c+'_name'],{value:c}));
       const categoryRow=el('label',null,{class:'ccm-field'});categoryRow.append(el('span',t('category')),category);add.append(categoryRow);
       const error=el('p','',{id:'ccm-service-error',role:'alert'});add.append(error);
       const button=el('button',t('create_service'),{type:'button',id:'ccm-service-create',class:'ccm-primary'}),cancel=el('button',t('close'),{type:'button'});add.append(button,cancel);panels.services.append(add);
       const reveal=key=>{const service=draft.registry.services.find(s=>s.key===key);if(!service)return;groupExpanded[service.category]=true;settingsExpanded.add(key);renderServices();const card=panels.services.querySelector('[data-service="'+key+'"]');card.scrollIntoView({block:'center'});card.querySelector('summary').focus();};
-      const updateForm=()=>{const loader=adapter.value,stock=draft.registry.services.find(s=>s.loader===loader);existing.textContent=stock?t('existing_service'):'';go.hidden=!stock;go.onclick=()=>{add.close();reveal(stock.key);};name.value=loader==='custom_js'?'':textSource(data.managerLanguage,'service.'+loader+'.name');purpose.value=loader==='custom_js'?'':data.lexicons.en['service.'+loader+'.description']||name.value;counterId.parentElement.hidden=!idPatterns[loader];path.parentElement.hidden=loader!=='custom_js';category.value=data.catalog[loader].recommended_category;error.textContent='';button.textContent=stock?t('create_additional'):t('create_service');};
+      const updateForm=()=>{const loader=adapter.value,stock=draft.registry.services.find(s=>s.loader===loader);existing.textContent=stock?t('existing_service'):'';go.hidden=!stock;go.onclick=()=>{add.close();reveal(stock.key);};name.value=loader==='custom_js'?'':textSource(data.managerLanguage,'service.'+loader+'.name');purpose.value=loader==='custom_js'?'':data.lexicons.en['service.'+loader+'.description']||name.value;counterId.parentElement.hidden=!idPatterns[loader];path.parentElement.hidden=loader!=='custom_js';customEditor.node.hidden=loader!=='custom_js';category.value=data.catalog[loader].recommended_category;error.textContent='';button.textContent=stock?t('create_additional'):t('create_service');};
       adapter.onchange=updateForm;updateForm();
       addButton.onclick=()=>{add.showModal();adapter.focus();};cancel.onclick=()=>add.close();add.addEventListener('close',()=>addButton.focus());
       add.addEventListener('keydown',event=>{if(event.key==='Escape'){event.preventDefault();event.stopPropagation();add.close();}});
       button.onclick=()=>{
         if(adapter.value==='custom_js'&&!validScriptPath(path.value)){error.textContent=t('script_invalid');path.setAttribute('aria-invalid','true');path.focus();return;}
         path.removeAttribute('aria-invalid');
+        if (adapter.value === 'custom_js' && !customEditor.validate()) { customEditor.focus(); return; }
         const validText=(value,max)=>value.trim()&&new TextEncoder().encode(value.trim()).length<=max&&!/[<>\x00-\x1f\x7f]/.test(value);
         if(!validText(name.value,100)||!validText(purpose.value,500)||draft.registry.services.length>=32||(idPatterns[adapter.value]&&!idPatterns[adapter.value].test(counterId.value))||(adapter.value==='custom_js'&&(!validScriptPath(path.value)||draft.registry.services.some(s=>s.loader==='custom_js'&&window.web86ScriptUrl.identity(s.config.path)===window.web86ScriptUrl.identity(path.value))))||draft.registry.services.some(s=>s.loader===adapter.value&&s.config.id&&s.config.id.replace(/^0+(?=\d)/,'')===counterId.value.replace(/^0+(?=\d)/,''))){error.textContent=t('service_invalid');return;}
         let key=adapter.value,n=2;while(draft.registry.services.some(s=>s.key===key))key=adapter.value+'_'+n++;
-        const config=idPatterns[adapter.value]?{id:counterId.value}:adapter.value==='custom_js'?{path:path.value}:{};
+        const config=idPatterns[adapter.value]?{id:counterId.value}:adapter.value==='custom_js'?{...customConfig,path:path.value}:{};
         draft.registry.services.push({key,purpose_id:key,loader:adapter.value,category:category.value,enabled:false,name:name.value.trim(),purpose:purpose.value.trim(),config});
         draft.texts.locales[data.managerLanguage] ||= {};draft.texts.locales[data.managerLanguage]['service.'+key+'.name']=name.value.trim();
         add.close();changed();reveal(key);renderTexts();status.textContent=t('service_added');
@@ -389,10 +455,18 @@
     }
     function schedulePreview() {
       clearTimeout(previewTimer); const current = ++sequence;
-      if(activeTab==='logs')return;
+      if(activeTab==='logs'||draft.registry.services.some(s=>attributeError(s)))return;
       previewTimer = setTimeout(async () => { try { const result = await api('preview', { draft: JSON.stringify(draft), language: editLanguage }); if (current === sequence) renderPreview(result); } catch (_) { if (current === sequence) previewStatus.textContent = t('preview_error'); } }, 250);
     }
     save.onclick = async () => {
+      const invalidAttributes = draft.registry.services.find(s => attributeError(s));
+      if (invalidAttributes) {
+        groupExpanded[invalidAttributes.category] = true; settingsExpanded.add(invalidAttributes.key);
+        renderServices(); document.getElementById('ccm-tab-services').click();
+        document.querySelector('#ccm-' + invalidAttributes.key + '-attributes input[aria-invalid="true"]')?.focus();
+        status.textContent = attributeError(invalidAttributes); status.dataset.state = 'error'; return;
+      }
+      if (new TextEncoder().encode(JSON.stringify(draft.registry)).length > 32768) { status.textContent = t('attributes_registry_size'); status.dataset.state = 'error'; return; }
       const invalidService = draft.registry.services.find(s => invalidId(s) || conflictingPixelId(s) || duplicateId(s) || invalidCustom(s));
       if (invalidService) { groupExpanded[invalidService.category]=true;renderServices(); document.getElementById('ccm-tab-services').click(); const input = document.getElementById((invalidService.loader==='custom_js'?'ccm-path-':'ccm-id-') + invalidService.key); input.closest('details').open = true; input.focus(); status.textContent = t(invalidCustom(invalidService)?'script_invalid':duplicateId(invalidService)?'service_invalid':conflictingPixelId(invalidService) ? 'pixel_id_conflict' : 'needs_id'); status.dataset.state = 'error'; return; }
       if (!Number.isInteger(draft.options.ttl_days) || draft.options.ttl_days < 1 || draft.options.ttl_days > 3650 || !/^[A-Za-z0-9._-]{1,32}$/.test(draft.options.policy_version) || draft.registry.services.some(s => s.purpose_id && !/^[a-z][a-z0-9_.-]{0,63}$/.test(s.purpose_id))) { status.textContent = t('error'); status.dataset.state = 'error'; return; }
@@ -401,7 +475,7 @@
       try {
         const payload={...draft};
         const saved = await api('save', { draft: JSON.stringify(payload), revision,site_origin:location.origin }); revision = saved.revision;
-        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);draft.options=saved.options;draft.texts=editableTexts(saved.texts);if (!Object.hasOwn(draft.texts.locales, editLanguage)) draft.texts.locales[editLanguage] = {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
+        if (JSON.stringify(draft) === snapshot) { draft.registry=editableRegistry(saved.registry);attributeDrafts.clear();draft.options=saved.options;draft.texts=editableTexts(saved.texts);if (!Object.hasOwn(draft.texts.locales, editLanguage)) draft.texts.locales[editLanguage] = {};if(!saved.partial){draft.log_dir=saved.log_dir;draft.log_dir_mode=draft.log_dir&&draft.log_dir.startsWith(publicRoot+'/')?'site':'absolute';if(draft.log_dir_mode==='site')draft.log_dir=draft.log_dir.slice(publicRoot.length);logMode.value=draft.log_dir_mode;document.getElementById('ccm-log-dir').value=draft.log_dir;}dirty=Boolean(saved.partial);savedForm=JSON.stringify({options:draft.options,registry:draft.registry,texts:draft.texts,log_dir:draft.log_dir,log_dir_mode:draft.log_dir_mode});renderServices();renderTexts(); }
         if(saved.partial){status.textContent=t('saved_partial')+' '+(data.managerStrings['m.reason_'+saved.journal.reason]||t('log_write_error'));status.dataset.state='partial';}else{status.textContent=dirty?t('unsaved'):t('saved');status.dataset.state=dirty?'dirty':'saved';}schedulePreview();
       } catch (e) { status.textContent = e.message; status.dataset.state = 'error'; }
       finally { save.disabled = false; }

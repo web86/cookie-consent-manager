@@ -7,7 +7,14 @@ abstract class CookieConsentManagerProcessor extends \MODX\Revolution\Processors
     public function draft(): array {
         $raw=$this->getProperty('draft','');
         if (!is_string($raw) || strlen($raw)>393216) throw new InvalidArgumentException('Draft size');
-        $value=json_decode($raw,true,32,JSON_THROW_ON_ERROR);if(!is_array($value))throw new InvalidArgumentException('Draft object');return $value;
+        $objects=CookieConsentServiceRegistry::decodeJson($raw,32);
+        $value=json_decode($raw,true,32,JSON_THROW_ON_ERROR);if(!is_array($value))throw new InvalidArgumentException('Draft object');
+        // Preserve object/array identity until registry validation, including empty attributes.
+        foreach(($objects->registry->services??[]) as $i=>$service){
+            if(($service->config??null) instanceof stdClass && property_exists($service->config,'attributes'))
+                $value['registry']['services'][$i]['config']['attributes']=$service->config->attributes;
+        }
+        return $value;
     }
     public function process(){
         $requestId=bin2hex(random_bytes(8));
