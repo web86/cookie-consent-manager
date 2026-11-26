@@ -57,7 +57,11 @@ final class CookieConsentPath
                 $real = realpath($p);
                 if ($real === false || is_link($p) || self::spelling($real) !== $p) return false;
                 // readlink recognizes Windows mount-point reparse tags as well as symlinks.
-                if (DIRECTORY_SEPARATOR === '\\' && @readlink($p) !== false) return false;
+                if (DIRECTORY_SEPARATOR === '\\') {
+                    // Windows readlink also returns the full path for ordinary files/directories.
+                    $link = @readlink($p);
+                    if ($link !== false && self::spelling($link) !== $p) return false;
+                }
                 if (self::isRoot($p)) return true;
             }
         } catch (RuntimeException $e) { return false; }
