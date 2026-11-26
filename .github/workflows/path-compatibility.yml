@@ -13,6 +13,8 @@ jobs:
         os: [ubuntu-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     steps:
+      - name: Preserve manifest bytes on Windows
+        run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
       - uses: shivammathur/setup-php@v2
         with:
