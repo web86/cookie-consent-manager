@@ -12,7 +12,8 @@ manifest=json.loads((ROOT/'_build/frontend-manifest.json').read_text())
 for path,digest in manifest['inputs'].items():check(sha((ROOT/path).read_bytes())==digest,path)
 for path,d in manifest['outputs'].items():check(sha((ROOT/path).read_bytes())==d['sha256'],path)
 for path in manifest['inputs']:
- if '/services/' in path:
+ # Custom JS intentionally gains data-* support; dedicated PHP/browser tests cover it.
+ if '/services/' in path and not path.endswith('/custom-js.js'):
   old='assets/js/cookie-consent/services/'+Path(path).name
   check((ROOT/path).read_bytes()==subprocess.check_output(['git','show',base+':'+old],cwd=ROOT),'Adapter bytes changed: '+path)
 check(not any('mock-marketing' in path for path in manifest['inputs']),'Mock in build')

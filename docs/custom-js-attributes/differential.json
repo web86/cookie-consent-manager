@@ -1,0 +1,254 @@
+{
+  "baseline": "d8bb0661b6ad13b51e4c5e2b1799918f9ef53ffa",
+  "candidateSHA256": "26a38a18a6e7e91eecde45bf1be976e2e8860046dd4d92608e3f9ee02a0a05ce",
+  "tests": 49,
+  "assertions": 253,
+  "failed": 0,
+  "results": [
+    {
+      "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"analytics\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"marketing\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"mode\":\"live\",\"category\":\"external_content\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"analytics\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"marketing\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"mode\":\"mock\",\"category\":\"external_content\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"analytics\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"marketing\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"live\",\"category\":\"external_content\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"analytics\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"marketing\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"mode\":\"mock\",\"category\":\"external_content\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"all\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"reject\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"partial\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"expired\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"policy\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"stale\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"stored\":\"malformed\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"archive\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"storageError\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"hidden\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"fail\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"siteConsent\":\"denied\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"siteConsent\":\"granted\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":false,\"noRoot\":true}",
+      "result": "PASS",
+      "assertions": 4
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"all\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"reject\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"partial\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"expired\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"policy\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"stale\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"stored\":\"malformed\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"archive\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"storageError\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"hidden\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"fail\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"siteConsent\":\"denied\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"siteConsent\":\"granted\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"noRoot\":true}",
+      "result": "PASS",
+      "assertions": 4
+    },
+    {
+      "name": "{\"dialog\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":true}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"csp\":true}",
+      "result": "PASS",
+      "assertions": 10
+    },
+    {
+      "name": "{\"legacy\":true,\"csp\":true}",
+      "result": "PASS",
+      "assertions": 10
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":\"top-fwz1.mail.ru\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":\"/gtag/js\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":\"/gtm.js\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":\"mc.yandex.ru\"}",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "{\"legacy\":true,\"pending\":\"cdn.example.test/integration.js\"}",
+      "result": "PASS",
+      "assertions": 5
+    }
+  ]
+}

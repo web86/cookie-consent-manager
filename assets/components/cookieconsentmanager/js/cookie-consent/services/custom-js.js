@@ -4,7 +4,7 @@ const web86CreateCustomJsAdapter = (runtime) => {
   return {
     mock: false, // Custom paths run identically in live and mock modes.
     async start(s) {
-      if (runtime.allowed(s, runtime.currentValue)) await script(s.config.path);
+      if (runtime.allowed(s, runtime.currentValue)) await script(s.config.path, s.config.attributes);
     }
   };
 };
