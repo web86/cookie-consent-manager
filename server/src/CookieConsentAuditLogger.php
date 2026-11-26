@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 require_once __DIR__.'/CookieConsentAuditFormat.php';
 /** MODX-independent PHP 8.1+ header-aware line audit logger. Client events are untrusted claims. */
 final class CookieConsentAuditLogger
@@ -15,7 +16,7 @@ final class CookieConsentAuditLogger
         require_once __DIR__.'/CookieConsentPrivatePath.php';
         if (!is_dir($logDir)) throw new RuntimeException('Missing private directory');
         $real = realpath($logDir);
-        if ($real === false || $real!==rtrim($logDir,'/') || is_link($logDir) || !is_writable($real)) throw new RuntimeException('Log directory is not canonical/writable');
+        if ($real === false || !CookieConsentPath::canonical($logDir) || is_link($logDir) || !is_writable($real)) throw new RuntimeException('Log directory is not canonical/writable');
         $this->logDir = $real;
         $this->rateLimitKey = $rateLimitKey;
         $this->rateLimit = $rateLimit;

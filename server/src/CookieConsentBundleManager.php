@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 
 /** Administrative builder. Frontend selection uses only MODX cached settings. */
 final class CookieConsentBundleManager
@@ -50,7 +51,7 @@ final class CookieConsentBundleManager
     public static function status($modx): array
     {
         $version = (int)$modx->getOption(self::VERSION_KEY, null, 0);
-        $dir = rtrim((string)$modx->getOption('assets_path'), '/') . '/components/cookieconsentmanager3/js/cookie-consent/';
+        $dir = rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/components/cookieconsentmanager3/js/cookie-consent/';
         $errorFile = $dir . 'cookie-consent.last-error.json';
         $attempt = is_file($errorFile) ? json_decode((string)@file_get_contents($errorFile), true) : null;
         require_once __DIR__ . '/CookieConsentAdapterInstall.php';
@@ -63,22 +64,24 @@ final class CookieConsentBundleManager
     public static function hasWorking($modx): bool
     {
         return (int)$modx->getOption(self::VERSION_KEY, null, 0) > 0
-            && self::metadata(rtrim((string)$modx->getOption('assets_path'), '/') . '/' . self::FILE) !== null;
+            && self::metadata(rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/' . self::FILE) !== null;
     }
 
     private static function manifest($modx): string
     {
-        return rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager3/frontend-manifest.json';
+        return rtrim(CookieConsentPath::spelling((string)$modx->getOption('core_path')),'/') . '/components/cookieconsentmanager3/frontend-manifest.json';
     }
 
     private static function build($modx, bool $force, ?callable $synchronize = null): array
     {
-        $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
+        $assets = rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/';
         $dir = $assets . 'components/cookieconsentmanager3/js/cookie-consent/';
-        if ((!is_dir($dir) && !@mkdir($dir, 0755, true)) || realpath($dir) !== rtrim($dir, '/') || !is_writable($dir)) {
+        CookieConsentPath::parentDirectory($dir);
+        if ((!is_dir($dir) && !@mkdir($dir, 0755, true)) || !CookieConsentPath::canonical($dir) || !is_writable($dir)) {
             throw new RuntimeException('bundle_directory');
         }
         $lockFile = $dir . 'cookie-consent.build.lock';
+        CookieConsentPath::writableTarget($lockFile);
         if (is_link($lockFile)) throw new RuntimeException('bundle_directory');
         $lock = $synchronize !== null ? $modx->getOption('cookie_consent.install_lock') : null;
         $held = is_resource($lock);
@@ -87,6 +90,7 @@ final class CookieConsentBundleManager
         if (!$held && !flock($lock, LOCK_EX | LOCK_NB)) { fclose($lock); throw new RuntimeException('bundle_busy'); }
         try {
             if ($synchronize !== null) $synchronize();
+            if(!CookieConsentPath::regular(self::manifest($modx)))throw new RuntimeException('bundle_manifest');
             $manifest = json_decode((string)file_get_contents(self::manifest($modx)), true, 16, JSON_THROW_ON_ERROR);
             if (($manifest['tool'] ?? '') !== 'esbuild' || !is_array($manifest['inputs'] ?? null)) throw new RuntimeException('bundle_manifest');
             $sourceRoot = realpath($assets . 'components/cookieconsentmanager3/js/cookie-consent');
@@ -100,7 +104,7 @@ final class CookieConsentBundleManager
                 if (!preg_match('~^assets/components/cookieconsentmanager3/js/cookie-consent/(?:[a-z0-9-]+/)?[a-z0-9-]+\.js$~D', $path) || str_ends_with($path, '.min.js')) throw new RuntimeException('bundle_manifest');
                 $file = $assets . substr($path, strlen('assets/'));
                 $real = realpath($file);
-                if ($real === false || $real !== $file || !str_starts_with($real, $sourceRoot . '/') || !is_file($real)) throw new RuntimeException('bundle_manifest');
+                if ($real === false || !CookieConsentPath::canonical($file) || !CookieConsentPath::inside($file, $sourceRoot) || !CookieConsentPath::regular($file)) throw new RuntimeException('bundle_manifest');
                 $bytes = file_get_contents($real);
                 if ($bytes === false) throw new RuntimeException('bundle_source');
                 $sources[] = $bytes;
@@ -162,13 +166,15 @@ final class CookieConsentBundleManager
     /** Shared atomic publication; an expected hash/absence also guards adapter writes. */
     public static function atomic(string $file, string $bytes, string|false|null $expected = null): bool
     {
+        CookieConsentPath::writableTarget($file);
         $tmp = tempnam(dirname($file), '.cc-');
-        if (!$tmp || dirname($tmp) !== dirname($file)) { if ($tmp) @unlink($tmp); throw new RuntimeException('bundle_write'); }
+        if (!$tmp || !CookieConsentPath::same(dirname($tmp), dirname($file)) || !CookieConsentPath::regular($tmp)) { if ($tmp) @unlink($tmp); throw new RuntimeException('bundle_write'); }
         try {
             if (file_put_contents($tmp, $bytes) !== strlen($bytes) || !chmod($tmp, 0644)) throw new RuntimeException('bundle_write');
             clearstatcache(true, $file);
             if ($expected === false && (file_exists($file) || is_link($file))) return false;
             if (is_string($expected) && (is_link($file) || !is_file($file) || (stat($file)['nlink'] ?? 0) !== 1 || hash_file('sha256', $file) !== $expected)) return false;
+            CookieConsentPath::writableTarget($file);
             if (!rename($tmp, $file)) throw new RuntimeException('bundle_write');
             return true;
         } finally { if (is_file($tmp)) @unlink($tmp); }

@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 
 /** One idempotent install hook shared by native PM and the CLI installer. */
 final class CookieConsentBundleInstall
@@ -8,10 +9,10 @@ final class CookieConsentBundleInstall
     {
         require_once __DIR__ . '/CookieConsentBundleManager.php';
         // Generated on every standard install: assets and core may live outside the site root.
-        $config = rtrim((string)$modx->getOption('base_path'), '/') . '/config.core.php';
-        if (!is_file($config) || is_link($config) || realpath($config) !== $config) throw new RuntimeException('bootstrap_config');
+        $config = rtrim(CookieConsentPath::spelling((string)$modx->getOption('base_path')),'/') . '/config.core.php';
+        if (!is_file($config) || is_link($config) || !CookieConsentPath::canonical($config)) throw new RuntimeException('bootstrap_config');
         $bootstrap = "<?php\n// CookieConsent generated bootstrap\nrequire_once " . var_export($config, true) . ";\n";
-        CookieConsentBundleManager::atomic(rtrim((string)$modx->getOption('assets_path'), '/') . '/components/cookieconsentmanager3/bootstrap.php', $bootstrap);
+        CookieConsentBundleManager::atomic(rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/components/cookieconsentmanager3/bootstrap.php', $bootstrap);
         $name = 'CookieConsentCacheBuild';
         if ($modx->getCount('MODX\Revolution\modPlugin', ['name' => $name]) > 1) throw new RuntimeException('Duplicate cache plugin');
         $plugin = $modx->getObject('MODX\Revolution\modPlugin', ['name' => $name]) ?: $modx->newObject('MODX\Revolution\modPlugin');
