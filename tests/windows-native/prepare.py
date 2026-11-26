@@ -41,7 +41,7 @@ elif sys.argv[1]=='build':
   call(['node','_build/version.mjs'],source)
   manifest=json.loads((source/'_build/frontend-manifest.json').read_text());manifest['package_version']=f'1.0.9-beta{index}';(source/'_build/frontend-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
   out=work/('baseline' if index==125 else 'artifacts');out.mkdir(exist_ok=True)
-  call(['php',str(source/'_build/build.php'),config['site'],str(out)])
+  call(['php',str(source/'_build/build.php'),config['site'].rstrip('/'),str(out)])
   archive=out/f'{product}-1.0.9-beta{index}.transport.zip'
   call(['python',str(source/'_build/normalize.py'),str(archive)])
   call(['php',str(source/'_build/verify.php'),str(archive),str(work/'private/core')])
