@@ -3,4 +3,4 @@ if(($options[\xPDO\Transport\xPDOTransport::PACKAGE_ACTION]??0)!==\xPDO\Transpor
 // Native payload disables missing/retained targets; validate again before deletion.
 if(empty($this->payload['uninstall_files']))return true;
 $file=eval($object['target']).$object['name'];
-return !is_link($file)&&is_file($file)&&realpath($file)===$file&&(stat($file)['nlink']??0)===1&&hash_file('sha256',$file)===$this->payload['expected_sha256'];
+return !is_link($file)&&is_file($file)&&CookieConsentPath::canonical($file)&&(stat($file)['nlink']??0)===1&&hash_file('sha256',$file)===$this->payload['expected_sha256'];

@@ -1,0 +1,32 @@
+name: Windows PHP empty-plan functional probe
+on:
+  push:
+    branches: [codex/modx2-windows-paths, codex/modx3-windows-paths]
+    paths: ['tests/php-probe/**', '.github/workflows/windows-php-probe.yml']
+permissions:
+  contents: read
+jobs:
+  probe:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        php: ['8.3.36', '8.4.28']
+        cache: ['off', 'opcache', 'jit']
+    runs-on: windows-2025
+    timeout-minutes: 10
+    env:
+      CC_MATRIX_ROOT: ${{ github.workspace }}/.local/php-empty-plan-probe
+      CC_REQUESTED_PHP: ${{ matrix.php }}
+      CC_NATIVE_CACHE_MODE: ${{ matrix.cache }}
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - run: python tests/windows-native/runtime.py
+      - run: node tests/php-probe/run.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: empty-plan-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ matrix.php }}-${{ matrix.cache }}-${{ github.run_id }}
+          path: ${{ env.CC_MATRIX_ROOT }}/results/
+          retention-days: 14

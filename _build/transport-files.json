@@ -229,5 +229,6 @@
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Syntax/Token.php": "server/vendor/peast/lib/Peast/Syntax/Token.php",
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Syntax/Utils.php": "server/vendor/peast/lib/Peast/Syntax/Utils.php",
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Traverser.php": "server/vendor/peast/lib/Peast/Traverser.php",
-  "core/components/cookieconsentmanager3/legacy-files.json": "_build/legacy-files.json"
+  "core/components/cookieconsentmanager3/legacy-files.json": "_build/legacy-files.json",
+  "core/components/cookieconsentmanager3/src/CookieConsentPath.php": "server/src/CookieConsentPath.php"
 }

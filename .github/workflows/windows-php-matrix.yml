@@ -1,0 +1,109 @@
+name: Windows PHP functional matrix
+on:
+  push:
+    branches: [codex/modx2-windows-paths, codex/modx3-windows-paths]
+    paths: ['tests/windows-native/**', '.github/workflows/windows-php-matrix.yml']
+  workflow_dispatch:
+    inputs:
+      php_versions:
+        description: 'JSON array of exact official PHP patches'
+        default: '["8.3.36","8.3.37","8.4.27","8.4.28"]'
+      cache_modes:
+        description: 'JSON array: off, opcache, jit (function), tracing'
+        default: '["off","opcache","jit"]'
+      instrument:
+        description: 'Add operation markers to disposable xPDO only'
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  functional:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        php: ${{ fromJSON(inputs.php_versions || '["8.3.36","8.3.37","8.4.27","8.4.28"]') }}
+        cache: ${{ fromJSON(inputs.cache_modes || '["off","opcache","jit"]') }}
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      CC_MATRIX_ROOT: ${{ github.workspace }}/.local/php-functional-matrix
+      CC_REQUESTED_PHP: ${{ matrix.php }}
+      CC_NATIVE_CACHE_MODE: ${{ matrix.cache }}
+      CC_NATIVE_SCENARIO: upgrade
+      CC_NATIVE_BASELINE_INDEX: '128'
+      CC_NATIVE_CANDIDATE_INDEX: '129'
+      CC_INSTRUMENT: ${{ inputs.instrument && 'true' || 'false' }}
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - name: Select exact official PHP in an isolated directory
+        run: python tests/windows-native/runtime.py
+      - run: npm ci --ignore-scripts
+      - name: Functional HTTP, fresh CLI processes and independent controls
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          ./tests/windows-native/database.ps1
+          $env:CC_HTTP_EXIT = '999'; $env:CC_CLI_EXIT = '999'; $env:CC_CONTROL_EXIT = '999'
+          try {
+            $env:CC_NATIVE_WORK = "$env:CC_MATRIX_ROOT/http"
+            $env:CC_NATIVE_DATABASE = 'cc_windows_native_http'
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'HTTP fixture setup failed' }
+            python tests/windows-native/prepare.py build
+            if ($LASTEXITCODE -ne 0) { throw 'Test candidate build failed' }
+            if ($env:CC_INSTRUMENT -eq 'true') {
+              python tests/windows-native/instrument.py
+              if ($LASTEXITCODE -ne 0) { throw 'Application logging setup failed' }
+              $env:CC_NATIVE_TRACE = "$env:CC_NATIVE_WORK/evidence/stages.ndjson"
+            }
+            node tests/windows-native/browser.mjs
+            $env:CC_HTTP_EXIT = "$LASTEXITCODE"
+            $candidate = Get-ChildItem "$env:CC_NATIVE_WORK/artifacts/*.transport.zip" | Select-Object -First 1
+            $env:CC_NATIVE_TEST_ARCHIVE = $candidate.FullName
+            Remove-Item Env:CC_NATIVE_TRACE -ErrorAction SilentlyContinue
+            $env:CC_NATIVE_WORK = "$env:CC_MATRIX_ROOT/cli"
+            $env:CC_NATIVE_DATABASE = 'cc_windows_native_cli'
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'Independent CLI fixture setup failed' }
+            if ($env:CC_INSTRUMENT -eq 'true') {
+              python tests/windows-native/instrument.py
+              $env:CC_NATIVE_TRACE = "$env:CC_NATIVE_WORK/evidence/stages.ndjson"
+            }
+            $phpFlags = @('-d','opcache.enable=0','-d','opcache.enable_cli=0','-d','opcache.jit=disable','-d','opcache.jit_buffer_size=0')
+            if ($env:CC_NATIVE_CACHE_MODE -eq 'opcache') { $phpFlags = @('-d','opcache.enable=1','-d','opcache.enable_cli=1','-d','opcache.jit=disable','-d','opcache.jit_buffer_size=0') }
+            if ($env:CC_NATIVE_CACHE_MODE -eq 'jit') { $phpFlags = @('-d','opcache.enable=1','-d','opcache.enable_cli=1','-d','opcache.jit=1235','-d','opcache.jit_buffer_size=64M') }
+            if ($env:CC_NATIVE_CACHE_MODE -eq 'tracing') { $phpFlags = @('-d','opcache.enable=1','-d','opcache.enable_cli=1','-d','opcache.jit=tracing','-d','opcache.jit_buffer_size=64M') }
+            if ($env:CC_INSTRUMENT -eq 'true') { $phpFlags += @('-d',"auto_prepend_file=$env:GITHUB_WORKSPACE/tests/windows-native/trace.php") }
+            & php @phpFlags tests/windows-native/fixture.php cli-install | Tee-Object "$env:CC_NATIVE_WORK/evidence/install.json"
+            $env:CC_CLI_EXIT = "$LASTEXITCODE"
+            if ($env:CC_CLI_EXIT -eq '0') {
+              & php @phpFlags tests/windows-native/fixture.php cli-uninstall | Tee-Object "$env:CC_NATIVE_WORK/evidence/uninstall.json"
+              $env:CC_CLI_EXIT = "$LASTEXITCODE"
+            }
+            Remove-Item Env:CC_NATIVE_TRACE -ErrorAction SilentlyContinue
+            $env:CC_NATIVE_WORK = "$env:CC_MATRIX_ROOT/control"
+            $env:CC_NATIVE_DATABASE = 'cc_windows_native_control'
+            $env:CC_NATIVE_SCENARIO = 'control'
+            $env:CC_NATIVE_CONTROL = '1'
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'Separate control fixture setup failed' }
+            php tests/windows-native/control.php
+            if ($LASTEXITCODE -ne 0) { throw 'Native control build failed' }
+            node tests/windows-native/browser.mjs
+            $env:CC_CONTROL_EXIT = "$LASTEXITCODE"
+          } finally {
+            python tests/windows-native/collect.py
+            $pidFile = "$env:RUNNER_TEMP/cc-mysql.pid"
+            if (Test-Path $pidFile) { Stop-Process -Id (Get-Content $pidFile) -ErrorAction SilentlyContinue }
+          }
+          if ($env:CC_HTTP_EXIT -ne '0' -or $env:CC_CLI_EXIT -ne '0' -or $env:CC_CONTROL_EXIT -ne '0') { throw 'Functional compatibility failure; see per-scenario results' }
+      - name: Upload functional results and standard logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-matrix-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ matrix.php }}-${{ matrix.cache }}-${{ github.run_id }}
+          path: ${{ env.CC_MATRIX_ROOT }}/results/
+          retention-days: 14
