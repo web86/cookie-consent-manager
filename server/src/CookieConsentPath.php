@@ -102,7 +102,10 @@ final class CookieConsentPath
         if (!self::canonical($path) || !self::canonical($root)) return false;
         $path = self::spelling($path); $root = self::spelling($root);
         // This can refuse a distinct case-sensitive sibling, never grant access to it.
-        if (DIRECTORY_SEPARATOR === '\\') { $path = strtolower($path); $root = strtolower($root); }
+        if (DIRECTORY_SEPARATOR === '\\') {
+            if (!function_exists('mb_strtoupper')) return false;
+            $path = mb_strtoupper($path, 'UTF-8'); $root = mb_strtoupper($root, 'UTF-8');
+        }
         return $path !== $root && !str_starts_with($path, rtrim($root, '/') . '/');
     }
 

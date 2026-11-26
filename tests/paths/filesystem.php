@@ -61,8 +61,8 @@ function cleanup(string $path):void{
 }
 try{
     foreach(['public_html','private-core','external-assets','logs','backup'] as $dir)mkdir($root.'/'.$dir);
+    mkdir($root.'/public_html/child');
     $web=$root.'/public_html';$core=$root.'/private-core';$assets=$root.'/external-assets';
-    if(!CookieConsentPath::canonical($core)){for($p=CookieConsentPath::spelling($core);; $p=CookieConsentPath::parent($p)){echo json_encode(['path'=>$p,'real'=>realpath($p),'link'=>is_link($p),'readlink'=>@readlink($p)]).PHP_EOL;if(CookieConsentPath::isRoot($p))break;}}
     check(CookieConsentPath::canonical($core),'existing canonical directory');
     check(CookieConsentPath::canonical(nativeSpelling($core)),'mixed separators accepted on Windows');
     check(!CookieConsentPath::canonical($core.'/../private-core'),'traversal refused');
@@ -76,6 +76,8 @@ try{
     refused(fn()=>CookieConsentPrivatePath::directory($web,$web),'private webroot');
     refused(fn()=>CookieConsentLogDirectory::input('../logs',$web,'site'),'relative traversal');
     if(DIRECTORY_SEPARATOR==='\\'){
+        refused(fn()=>CookieConsentPrivatePath::directory(strtoupper($web),$web),'private root case alias');
+        refused(fn()=>CookieConsentPrivatePath::directory(strtoupper($web).'/child',$web),'private child case alias');
         check(CookieConsentPath::spelling('c:\\data/more')==='C:/data/more','drive letter');
         check(CookieConsentPath::parent('C:/')==='C:/','drive root terminates');
         check(CookieConsentPath::parent('C:/data')==='C:/','drive immediate parent');
@@ -94,6 +96,10 @@ try{
         check(!CookieConsentPath::canonical($root.'/alias/child'),'symlink ancestor refused');
         refused(fn()=>CookieConsentBundleManager::atomic($root.'/alias/output','bad'),'write through symlink');
         if(DIRECTORY_SEPARATOR==='\\')rmdir($root.'/alias');else unlink($root.'/alias');
+        check(symlink($root.'/sentinel',$root.'/file-link'),'file symlink fixture');
+        check(!CookieConsentPath::regular($root.'/file-link'),'file symlink refused');
+        refused(fn()=>CookieConsentBundleManager::atomic($root.'/file-link','bad'),'file substitution via symlink');
+        unlink($root.'/file-link');
     }else $skips[]='Directory symlink privilege unavailable';
     if(DIRECTORY_SEPARATOR==='\\'){
         $junction=$root.'/junction';

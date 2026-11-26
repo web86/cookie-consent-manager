@@ -26,6 +26,6 @@ final class CookieConsentLogDirectory
         if(!CookieConsentPath::canonical($dir)||!CookieConsentPath::canonical($root))throw new RuntimeException('log_path');
         if(CookieConsentPath::same($dir,$root))throw new RuntimeException('log_root');if(!is_writable($dir))throw new RuntimeException('log_permissions');return (string)realpath($dir);
     }
-    public static function inside(string $dir,string $root): bool {return !CookieConsentPath::outside($dir,$root) && !CookieConsentPath::same($dir,$root);}
+    public static function inside(string $dir,string $root): bool {return CookieConsentPath::canonical($dir) && CookieConsentPath::canonical($root) && !CookieConsentPath::outside($dir,$root) && !CookieConsentPath::same($dir,$root);}
     public static function validate(string $dir,string $root): string {return self::resolve($dir,$root);}
 }
