@@ -1,0 +1,14 @@
+<?php
+// Local fixture only. Both listeners execute installed PHP; no MODX API stubs.
+$work=str_replace('\\','/',getenv('CC_NATIVE_WORK'));$site=$work.'/public_html';
+$path=rawurldecode(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH));
+if(str_contains($path,'..')||str_contains($path,'\\')||str_contains($path,"\0")){http_response_code(400);exit;}
+$_SERVER['DOCUMENT_ROOT']=$site;
+if($path==='/__cc_native_php_environment'){header('Content-Type: application/json');echo json_encode(['php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'opcache_active'=>function_exists('opcache_get_status')&&opcache_get_status(false)!==false,'jit'=>function_exists('opcache_get_status')?(opcache_get_status(false)['jit']??null):null,'opcache_enable'=>ini_get('opcache.enable'),'opcache_enable_cli'=>ini_get('opcache.enable_cli'),'opcache_jit_buffer_size'=>ini_get('opcache.jit_buffer_size')]);exit;}
+if(str_starts_with($path,'/files/')){
+ $target=$work.'/external-assets/'.substr($path,7);
+ if(!is_file($target)){http_response_code(404);exit;}
+ if(str_ends_with($target,'.php')){$_SERVER['SCRIPT_FILENAME']=$target;$_SERVER['SCRIPT_NAME']=$path;$_SERVER['PHP_SELF']=$path;require $target;exit;}
+ $ext=pathinfo($target,PATHINFO_EXTENSION);header('Content-Type: '.(['js'=>'application/javascript','css'=>'text/css','svg'=>'image/svg+xml','png'=>'image/png','gif'=>'image/gif','jpg'=>'image/jpeg','woff'=>'font/woff','woff2'=>'font/woff2'][$ext]??'application/octet-stream'));readfile($target);exit;
+}
+return false;

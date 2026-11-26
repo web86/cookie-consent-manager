@@ -3,6 +3,7 @@
 declare(strict_types=1);
 if(PHP_SAPI!=='cli'){http_response_code(404);exit;}
 $root=dirname(__DIR__);
+require_once $root.'/server/src/CookieConsentPath.php';
 // Fail if build-time guide outputs no longer match the single RU/EN source.
 $guideManifest=json_decode(file_get_contents(__DIR__.'/user-guide-manifest.json'),true,8,JSON_THROW_ON_ERROR);
 if(hash_file('sha256',__DIR__.'/user-guide.json')!==$guideManifest['source'])throw new RuntimeException('Run npm run build:guide');
@@ -11,7 +12,7 @@ $guide=json_decode(file_get_contents(__DIR__.'/user-guide.json'),true,16,JSON_TH
 require_once $root.'/server/src/CookieConsentGuide.php';
 foreach($guide['languages'] as $language=>$document)if(CookieConsentGuide::forLanguage($language)!==$document)throw new RuntimeException('Run npm run build:guide');
 $site=$argv[1]??'';$out=$argv[2]??($root.'/.local/artifacts');$releaseIndex=isset($argv[3])?(int)$argv[3]:null;
-if($site===''||$site[0]!=='/'||!is_file($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
+if(!CookieConsentPath::canonical($site)||!CookieConsentPath::regular($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
 $metadata=json_decode(file_get_contents(__DIR__.'/package.json'),true,8,JSON_THROW_ON_ERROR);
 if($releaseIndex!==null)$metadata['release_index']=$releaseIndex;
 if(!in_array($metadata['release'],['','beta','pl'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
@@ -70,13 +71,14 @@ foreach(['CookieConsent'=>'modx2-consent-snippet.php','CookieConsentMap'=>'modx2
 }
 $spec=['schema'=>1,'signature'=>$signature,'version_release'=>$versionRelease,'source_epoch'=>$metadata['source_epoch'],'files'=>$files,'objects'=>$definitions];
 file_put_contents($work.'/source-inventory.json',json_encode($spec,JSON_PRETTY_PRINT|JSON_UNESCAPED_SLASHES));
-$prefix="<?php\n\$spec=".var_export($spec,true).";\n".preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/ownership.php'))."\n";
+$pathCode=preg_replace('/^<\?php\s*(?:declare\(strict_types=1\);\s*)?/','',file_get_contents($root.'/server/src/CookieConsentPath.php'));
+$prefix="<?php\n".$pathCode."\n\$spec=".var_export($spec,true).";\n".preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/ownership.php'))."\n";
 $preflight=$work.'/preflight.php';file_put_contents($preflight,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/preflight.php')));
 $verify=$work.'/verify-install.php';file_put_contents($verify,$prefix.preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/verify-install.php')));
 $canonical=$work.'/canonical-elements.php';file_put_contents($canonical,file_get_contents(__DIR__.'/validators/canonical-elements.php'));
 $logDefault=$work.'/default-log-directory.php';file_put_contents($logDefault,file_get_contents(__DIR__.'/validators/default-log-directory.php'));
 $adapt=$work.'/adapt-menu.php';file_put_contents($adapt,file_get_contents(__DIR__.'/adapt-menu.php'));
-$uninstallFile=$work.'/uninstall-file.php';file_put_contents($uninstallFile,file_get_contents(__DIR__.'/validators/uninstall-file.php'));
+$uninstallFile=$work.'/uninstall-file.php';file_put_contents($uninstallFile,"<?php\n".$pathCode."\n".preg_replace('/^<\?php\s*/','',file_get_contents(__DIR__.'/validators/uninstall-file.php')));
 function removalPlan($builder,$vehicle,string $flag,string $key,string $method):void{
     $meta=end($builder->package->vehicles);$path=$builder->directory.$builder->package->signature.'/'.$meta['filename'];
     $body=file_get_contents($path);$replacement=var_export($flag,true).' => (!isset($this) || (class_exists('.var_export('CookieConsentTransportOwnership',true).',false) && CookieConsentTransportOwnership::'.$method.'($this->xpdo,'.var_export($key,true).'))),';

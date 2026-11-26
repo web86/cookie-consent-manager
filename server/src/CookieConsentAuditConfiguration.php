@@ -1,15 +1,15 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 require_once __DIR__.'/CookieConsentPrivatePath.php';
 final class CookieConsentAuditConfiguration
 {
     public static function path(string $file,string $webroot,bool $jsonOnly=false): string
     {
-        if ($file==='' || $file[0]!=='/' || preg_match('~(?:^|/)\.\.?(/|$)~',$file) || str_contains($file,"\0")) throw new RuntimeException('Private config path required');
-        $root=realpath($webroot);$dir=realpath(dirname($file));
-        if (!$root || !$dir || $dir!==rtrim(dirname($file),'/') || $dir===$root || str_starts_with($dir,$root.'/')) throw new RuntimeException('Config must be canonical and outside webroot');
+        CookieConsentPath::spelling($file);
+        if (!CookieConsentPath::outside(dirname($file),$webroot)) throw new RuntimeException('Config must be canonical and outside webroot');
         CookieConsentPrivatePath::file($file);
-        if (realpath($file)!==$file || !is_file($file) || !is_readable($file) || ($jsonOnly && strtolower(pathinfo($file,PATHINFO_EXTENSION))!=='json')) throw new RuntimeException('Private config unavailable');
+        if (!CookieConsentPath::canonical($file) || !is_file($file) || !is_readable($file) || ($jsonOnly && strtolower(pathinfo($file,PATHINFO_EXTENSION))!=='json')) throw new RuntimeException('Private config unavailable');
         return $file;
     }
     public static function validate(array $config): array
@@ -34,7 +34,7 @@ final class CookieConsentAuditConfiguration
     }
     public static function webroot(): string {
         $root=$_SERVER['DOCUMENT_ROOT']??'';if($root==='')$root=MODX_BASE_PATH;
-        $real=realpath($root);if(!$real||$real==='/')throw new RuntimeException('document_root_required');return $real;
+        $real=realpath($root);if(!$real||CookieConsentPath::isRoot(CookieConsentPath::spelling($real)))throw new RuntimeException('document_root_required');return $real;
     }
     public static function origin($modx): string {
         $url=(string)$modx->getOption('site_url');$parts=parse_url($url);$origin=($parts['scheme']??'http').'://'.($parts['host']??'').(isset($parts['port'])?':'.$parts['port']:'');

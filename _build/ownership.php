@@ -6,8 +6,8 @@ final class CookieConsentTransportOwnership
     private const KEY='cookie_consent.transport_ownership';
     private static function cls(string $name):string{return $name;}
     private static function warn($m,string $message):void{$m->log(xPDO::LOG_LEVEL_WARN,'CookieConsentManager uninstall: '.$message);}
-    private static function path($m,string $target):string{[$kind,$relative]=explode('/',$target,2);return rtrim($m->getOption($kind.'_path'),'/').'/'.$relative;}
-    private static function regular(string $file):bool{return !is_link($file)&&is_file($file)&&realpath($file)===$file&&(stat($file)['nlink']??0)===1;}
+    private static function path($m,string $target):string{[$kind,$relative]=explode('/',$target,2);return rtrim(CookieConsentPath::spelling($m->getOption($kind.'_path')),'/').'/'.$relative;}
+    private static function regular(string $file):bool{return !is_link($file)&&is_file($file)&&CookieConsentPath::canonical($file)&&(stat($file)['nlink']??0)===1;}
     private static function identity($row):array{return $row?['class'=>$row->_class,'pk'=>$row->getPrimaryKey(),'fields'=>array_intersect_key($row->toArray(),array_flip(['name','key','text','namespace','action','path','assets_path','category','template','description']))]:[];}
     private static function same($row,array $id):bool{
         if(!$row||$row->getPrimaryKey()!=$id['pk'])return false;
@@ -59,9 +59,9 @@ final class CookieConsentTransportOwnership
                 $plan['files'][$entry['target']]=true;
             }
             foreach($spec['objects'] as $key=>$def){$row=$m->getObject($def['class'],$def['criteria']);$plan['objects'][$key]=isset($r['objects'][$key])&&self::same($row,$r['objects'][$key]);if($row&&!$plan['objects'][$key])self::warn($m,'preserved unowned object: '.$key);}
-            $dir=rtrim($m->getOption('assets_path'),'/').'/components/cookieconsentmanager/js/cookie-consent';
+            $dir=rtrim(CookieConsentPath::spelling($m->getOption('assets_path')),'/').'/components/cookieconsentmanager/js/cookie-consent';
             if(is_dir($dir)){
-                if(realpath($dir)!==$dir||!is_writable($dir))throw new RuntimeException('Unsafe/unwritable bundle directory');
+                if(!CookieConsentPath::canonical($dir)||!is_writable($dir))throw new RuntimeException('Unsafe/unwritable bundle directory');
                 $lock=$dir.'/cookie-consent.build.lock';if((file_exists($lock)||is_link($lock))&&!self::regular($lock))throw new RuntimeException('Unsafe bundle lock');
                 $handle=@fopen($lock,'c');if(!$handle||!flock($handle,LOCK_EX|LOCK_NB))throw new RuntimeException('bundle_busy');$m->setOption(self::KEY.'.lock',$handle);
             }
@@ -78,7 +78,7 @@ final class CookieConsentTransportOwnership
             $r=$plan['record'];
             foreach($spec['files'] as $entry)if(!empty($plan['files'][$entry['target']])&&(file_exists(self::path($m,$entry['target']))||is_link(self::path($m,$entry['target']))))throw new RuntimeException('Native file removal incomplete: '.$entry['target']);
             // No external/custom log or config path is traversed, including core/cache/logs/.rate.
-            $core=rtrim($m->getOption('core_path'),'/').'/components/cookieconsentmanager/';$js=rtrim($m->getOption('assets_path'),'/').'/components/cookieconsentmanager/js/cookie-consent/';
+            $core=rtrim(CookieConsentPath::spelling($m->getOption('core_path')),'/').'/components/cookieconsentmanager/';$js=rtrim(CookieConsentPath::spelling($m->getOption('assets_path')),'/').'/components/cookieconsentmanager/js/cookie-consent/';
             $state=$core.'adapter-checksums.json';$data=self::regular($state)&&filesize($state)<=16777216?json_decode((string)file_get_contents($state),true):null;
             $known=[];if(is_array($data)&&($data['schema']??null)===1&&is_array($data['versions']??null))foreach($data['versions'] as $hashes)if(is_array($hashes))foreach($hashes as $path=>$hash)if(preg_match('~^assets/(?:components/cookieconsentmanager/)?js/cookie-consent/services/[a-z0-9-]+\.js$~D',$path)&&is_string($hash)&&preg_match('/^[a-f0-9]{64}$/D',$hash))$known[basename($path)][]=$hash;
             foreach($known as $name=>$hashes){$file=$js.'services/'.$name;if(!file_exists($file)&&!is_link($file))continue;if(self::regular($file)&&in_array(hash_file('sha256',$file),$hashes,true))self::removeFile($file);else self::warn($m,'preserved modified adapter: assets/components/cookieconsentmanager/js/cookie-consent/services/'.$name);}
@@ -102,15 +102,15 @@ final class CookieConsentTransportOwnership
             }
             if($category&&empty($r['category_owned'])&&$m->getObject($category['class'],$category['pk']))self::warn($m,'preserved pre-existing category');
             if($namespace){$row=$m->getObject($namespace['class'],$namespace['pk']);if(self::same($row,$namespace)&&!$row->remove())throw new RuntimeException('Cannot remove namespace');}
-            $bootstrap=rtrim($m->getOption('assets_path'),'/').'/components/cookieconsentmanager/bootstrap.php';
-            $expected="<?php\n// CookieConsent generated bootstrap\nrequire_once ".var_export(rtrim($m->getOption('base_path'),'/').'/config.core.php',true).";\n";
+            $bootstrap=rtrim(CookieConsentPath::spelling($m->getOption('assets_path')),'/').'/components/cookieconsentmanager/bootstrap.php';
+            $expected="<?php\n// CookieConsent generated bootstrap\nrequire_once ".var_export(rtrim(CookieConsentPath::spelling($m->getOption('base_path')),'/').'/config.core.php',true).";\n";
             if(self::regular($bootstrap)&&file_get_contents($bootstrap)===$expected)self::removeFile($bootstrap);
             $lock=$js.'cookie-consent.build.lock';if(self::regular($lock)&&filesize($lock)===0)self::removeFile($lock);
             // Only directories derived from the exact package inventory may be pruned.
             $dirs=[$core=>true,$js=>true,$js.'services/'=>true];
-            foreach($spec['files'] as $entry){$dir=dirname(self::path($m,$entry['target'])).'/';foreach([$core,rtrim($m->getOption('assets_path'),'/').'/components/cookieconsentmanager/',$js] as $root)while(str_starts_with($dir,$root)){$dirs[$dir]=true;if($dir===$root)break;$dir=dirname(rtrim($dir,'/')).'/';}}
+            foreach($spec['files'] as $entry){$dir=CookieConsentPath::spelling(dirname(self::path($m,$entry['target']))).'/';foreach([$core,rtrim(CookieConsentPath::spelling($m->getOption('assets_path')),'/').'/components/cookieconsentmanager/',$js] as $root)while(str_starts_with($dir,CookieConsentPath::spelling($root).'/')){$dirs[$dir]=true;if(rtrim($dir,'/')===rtrim(CookieConsentPath::spelling($root),'/'))break;$dir=dirname(rtrim($dir,'/')).'/';}}
             $paths=array_keys($dirs);usort($paths,static fn($a,$b)=>strlen($b)<=>strlen($a));
-            foreach($paths as $dir){$dir=rtrim($dir,'/');if(is_dir($dir)&&!is_link($dir)&&realpath($dir)===$dir){if(count(scandir($dir))===2){if(!rmdir($dir))throw new RuntimeException('Cannot remove empty package directory');}else self::warn($m,'preserved directory with user/unknown files: '.$dir);}}
+            foreach($paths as $dir){$dir=rtrim($dir,'/');if(is_dir($dir)&&!is_link($dir)&&CookieConsentPath::canonical($dir)){if(count(scandir($dir))===2){if(!rmdir($dir))throw new RuntimeException('Cannot remove empty package directory');}else self::warn($m,'preserved directory with user/unknown files: '.$dir);}}
             $t->_preserved[self::KEY]['done']=true;if(!$t->writePreserved())throw new RuntimeException('Cannot finalize native uninstall ownership');
             $m->log(xPDO::LOG_LEVEL_INFO,'CookieConsentManager uninstall complete; consent logs and custom files/paths retained.');return true;
         }catch(Throwable $e){$m->log(xPDO::LOG_LEVEL_ERROR,'CookieConsentManager uninstall incomplete: '.$e->getMessage());return false;}
