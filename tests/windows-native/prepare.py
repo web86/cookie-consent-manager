@@ -41,18 +41,25 @@ elif sys.argv[1]=='build':
  release_mode=os.environ.get('CC_NATIVE_RELEASE_MODE')=='1'
  original=json.loads((source/'_build/package.json').read_text())
  for index in [baseline,candidate]:
-  metadata=json.loads((source/'_build/package.json').read_text());metadata.update(original if release_mode and index==candidate else dict(version='1.0.9',release='beta',release_index=index))
+  if release_mode and index==candidate:
+   # Restore exact bytes, avoiding Windows text-mode CRLF conversion.
+   with zipfile.ZipFile(work/'source.zip') as z:
+    for name in ['_build/package.json','_build/frontend-manifest.json','server/src/CookieConsentVersion.php']:
+     (source/name).write_bytes(z.read(name))
+   metadata=original
+  else:
+   metadata=dict(original,version='1.0.9',release='beta',release_index=index)
+   (source/'_build/package.json').write_text(json.dumps(metadata,indent=2)+'\n')
+   call(['node','_build/version.mjs'],source)
+   manifest=json.loads((source/'_build/frontend-manifest.json').read_text());manifest['package_version']=f'1.0.9-beta{index}';(source/'_build/frontend-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
   package_version=metadata['version']+'-'+metadata['release']+str(metadata['release_index'])
-  (source/'_build/package.json').write_text(json.dumps(metadata,indent=2)+'\n')
-  call(['node','_build/version.mjs'],source)
-  manifest=json.loads((source/'_build/frontend-manifest.json').read_text());manifest['package_version']=package_version;(source/'_build/frontend-manifest.json').write_text(json.dumps(manifest,indent=2)+'\n')
   out=work/('baseline' if index==baseline else 'artifacts');out.mkdir(exist_ok=True)
   call(['php',str(source/'_build/build.php'),config['site'].rstrip('/'),str(out)])
   archive=out/f'{product}-{package_version}.transport.zip'
   call(['python',str(source/'_build/normalize.py'),str(archive)])
   call(['php',str(source/'_build/verify.php'),str(archive),str(work/'private/core')])
   if index==candidate:
-   # Ensure only three intended version metadata files differ from the PR snapshot.
+   # Final release must be byte-identical to HEAD; beta tests override only version metadata.
    with zipfile.ZipFile(work/'source.zip') as z:
     changed=[n for n in z.namelist() if not n.endswith('/') and (source/n).read_bytes()!=z.read(n)]
    assert sorted(changed)==([] if release_mode else sorted(['_build/package.json','_build/frontend-manifest.json','server/src/CookieConsentVersion.php'])),changed
