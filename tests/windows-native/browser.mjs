@@ -7,12 +7,13 @@ import http from 'node:http';
 import assert from 'node:assert/strict';
 import {randomUUID} from 'node:crypto';
 const repo=fileURLToPath(new URL('../../',import.meta.url));
+const scenario=process.env.CC_NATIVE_SCENARIO||'upgrade';
 const work=process.env.CC_NATIVE_WORK,config=JSON.parse(readFileSync(join(work,'private/config.json'))),origin=config.origin;
 const fixture=join(repo,'tests/windows-native/fixture.php'),router=join(repo,'tests/windows-native/router.php');
 const ctl=(...args)=>execFileSync('php',[fixture,...args],{encoding:'utf8',env:process.env}).trim();
 const results=[],children=[];
 const record=(name,detail={})=>{results.push({name,result:'PASS',...detail});console.log('PASS '+name);save();};
-const save=(status='RUNNING')=>writeFileSync(join(work,'evidence/native-results.json'),JSON.stringify({status,os:process.platform,php:execFileSync('php',['-r','echo PHP_VERSION;'],{encoding:'utf8'}),modx:config.modx,source_sha:config.source_sha,checks:results},null,2)+'\n');
+const save=(status='RUNNING')=>writeFileSync(join(work,'evidence/native-results.json'),JSON.stringify({status,os:process.platform,php:execFileSync('php',['-r','echo PHP_VERSION;'],{encoding:'utf8'}),modx:config.modx,source_sha:config.source_sha,scenario,checks:results},null,2)+'\n');
 let proxy,browser;
 try{
  for(const port of [8091,8092]){
@@ -33,19 +34,19 @@ try{
   const response=await context.request.post(origin+'/connectors/index.php',{headers:{modAuth:token,Origin:origin},multipart:{action:'workspace/packages/upload',HTTP_MODAUTH:token,file:{name:signature+'.transport.zip',mimeType:'application/zip',buffer:readFileSync(file)}},timeout:180000});assert.equal((await response.json()).success,true);await native('workspace/packages/scanlocal');await native('workspace/packages/install',{signature});
   return signature;
  };
- await install(125);record('native Package Manager fresh installation beta125');assert.ok(JSON.parse(ctl('working')).adapter_history.includes('1.0.9-beta125'));record('installed adapter synchronization and PHP JS build');
+ const initial=scenario==='fresh'?126:125;let signature=await install(initial);record('native Package Manager fresh installation beta'+initial);assert.ok(JSON.parse(ctl('working')).adapter_history.includes('1.0.9-beta'+initial));record('installed adapter synchronization and PHP JS build');
  const open=async()=>{await page.goto(origin+'/manager/?a=index&namespace=cookie_consent');await page.locator('#ccm-save').waitFor();};
  await open();await page.locator('#ccm-ttl').fill('137');await page.locator('#ccm-advanced').evaluate(el=>el.open=true);await page.locator('#ccm-log-mode').selectOption('absolute');await page.locator('#ccm-log-dir').fill(join(work,'private/logs').replaceAll('\\','/'));
  const savedResponse=page.waitForResponse(r=>r.url().includes('/connector.php')&&new URLSearchParams(r.request().postData()||'').get('action')==='save');await page.locator('#ccm-save').click();const saved=await (await savedResponse).json();assert.equal(saved.success,true,JSON.stringify(saved));assert.equal(saved.object.partial,false,JSON.stringify(saved));await page.waitForFunction(()=>document.querySelector('#ccm-status')?.dataset.state==='saved');
  await page.reload();await page.locator('#ccm-save').waitFor();assert.equal(await page.locator('#ccm-ttl').inputValue(),'137');record('Manager UI settings save and reload with native persistence');
  const before=JSON.parse(ctl('snapshot'));const edit=JSON.parse(ctl('edit-adapter'));
- const signature=await install(126);assert.deepEqual(JSON.parse(ctl('snapshot')),before,'Native upgrade preserves all settings and element IDs');const working=JSON.parse(ctl('working'));assert.ok(working.adapter_history.includes('1.0.9-beta125'));assert.ok(working.adapter_history.includes('1.0.9-beta126'));assert.equal((await api('get')).packageVersion,'1.0.9-beta126');record('native Package Manager upgrade beta125 to beta126',{history:working.adapter_history});
+ if(scenario==='upgrade'){signature=await install(126);assert.deepEqual(JSON.parse(ctl('snapshot')),before,'Native upgrade preserves all settings and element IDs');const working=JSON.parse(ctl('working'));assert.ok(working.adapter_history.includes('1.0.9-beta125'));assert.ok(working.adapter_history.includes('1.0.9-beta126'));record('native Package Manager upgrade beta125 to beta126',{history:working.adapter_history});}
+ assert.equal((await api('get')).packageVersion,'1.0.9-beta126');
  await open();await page.locator('#ccm-advanced').evaluate(el=>el.open=true);const rebuilt=page.waitForResponse(r=>r.url().includes('/connector.php')&&new URLSearchParams(r.request().postData()||'').get('action')==='bundle_rebuild');await page.locator('#ccm-bundle-rebuild').click();assert.equal((await (await rebuilt).json()).success,true);await page.waitForFunction(()=>document.querySelector('#ccm-build-status')?.dataset.state==='ready');record('Manager UI adapter rebuild');
  await native('system/clearcache');record('native cache clear and build plugin');
  const event={schema:3,event_id:randomUUID(),consent_id:randomUUID(),event:'reject',stage:'committed',analytics:false,marketing:false,external_content:false,policy_version:'1',page:'/',timestamp:new Date().toISOString()};const response=await context.request.post(origin+'/files/components/'+config.product+'/audit.php',{headers:{Origin:origin,'Content-Type':'application/json'},data:event});assert.equal(response.status(),200,await response.text());assert.equal((await response.json()).event_id,event.event_id);record('actual audit HTTP acknowledgement');
  await page.locator('#ccm-tab-logs').click();await page.waitForFunction(()=>Number(document.querySelector('#ccm-log-total')?.textContent?.match(/\d+/)?.[0])>0);await page.screenshot({path:join(work,'evidence/manager-audit.png'),fullPage:true});record('Manager UI audit log reader');
  ctl('snapshot-uninstall');await native('workspace/packages/uninstall',{signature});const removed=JSON.parse(ctl('verify-uninstall'));assert.equal(removed.result,'PASS');record('native Package Manager uninstall',{retained:removed.checks});
- // The final artifact also gets a fresh-install test, isolated from retained customer files.
  save('PASS');
 }catch(error){save('FAIL');console.error(error.stack);process.exitCode=1;}
 finally{if(browser)await browser.close();if(proxy)await new Promise(done=>proxy.close(done));for(const child of children)child.kill();}

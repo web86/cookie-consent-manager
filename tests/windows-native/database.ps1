@@ -10,6 +10,6 @@ if ($LASTEXITCODE -ne 0) { throw 'MySQL initialization failed' }
 $process = Start-Process $server.FullName -ArgumentList @("--datadir=`"$data`"",'--port=3307','--bind-address=127.0.0.1','--mysqlx=0','--console') -PassThru -RedirectStandardOutput "$env:RUNNER_TEMP/cc-mysql.stdout.log" -RedirectStandardError "$env:RUNNER_TEMP/cc-mysql.stderr.log"
 $process.Id | Out-File "$env:RUNNER_TEMP/cc-mysql.pid"
 for ($i=0;$i -lt 40;$i++) {
-    try { $client = New-Object System.Net.Sockets.TcpClient('127.0.0.1',3307); $client.Close(); Write-Host 'Native MySQL ready on loopback:3307'; exit 0 } catch { Start-Sleep -Seconds 1 }
+    try { $client = New-Object System.Net.Sockets.TcpClient('127.0.0.1',3307); $client.Close(); Write-Host 'Native MySQL ready on loopback:3307'; return } catch { Start-Sleep -Seconds 1 }
 }
 throw 'MySQL did not become ready'
