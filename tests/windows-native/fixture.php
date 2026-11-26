@@ -46,6 +46,9 @@ if($task==='snapshot-uninstall'){
  foreach([$component.'customer-note.txt',$assets.'components/'.$config['product'].'/customer-note.txt'] as $file){file_put_contents($file,'native Windows customer marker');$files[]=$file;}
  $files[]=$js.'services/yandex.js';$hashes=[];foreach($files as $file)$hashes[$file]=hash_file('sha256',$file);file_put_contents($work.'/private/retained.json',json_encode($hashes));echo "Retained file snapshot created\n";exit;
 }
+if($task==='native-uninstall'){
+ $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-1.0.9-beta126']);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
+}
 if($task==='verify-uninstall'){
  foreach(json_decode(file_get_contents($work.'/private/retained.json'),true) as $file=>$hash)check(is_file($file)&&hash_file('sha256',$file)===$hash,'User data/log changed');
  check(!$modx->getObject(ccClass('modNamespace'),['name'=>'cookie_consent']),'Namespace retained');check(!is_file($js.'cached-cookie-consent.min.js'),'Generated bundle retained');check(!is_file($assets.'components/'.$config['product'].'/audit.php'),'Public endpoint retained');check(!is_file($assets.'components/'.$config['product'].'/bootstrap.php'),'Bootstrap retained');

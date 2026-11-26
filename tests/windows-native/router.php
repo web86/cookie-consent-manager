@@ -4,6 +4,7 @@ $work=str_replace('\\','/',getenv('CC_NATIVE_WORK'));$site=$work.'/public_html';
 $path=rawurldecode(parse_url($_SERVER['REQUEST_URI'],PHP_URL_PATH));
 if(str_contains($path,'..')||str_contains($path,'\\')||str_contains($path,"\0")){http_response_code(400);exit;}
 $_SERVER['DOCUMENT_ROOT']=$site;
+if($path==='/__cc_native_php_environment'){header('Content-Type: application/json');echo json_encode(['php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'opcache_enable'=>ini_get('opcache.enable'),'opcache_enable_cli'=>ini_get('opcache.enable_cli'),'opcache_jit_buffer_size'=>ini_get('opcache.jit_buffer_size')]);exit;}
 if(str_starts_with($path,'/files/')){
  $target=$work.'/external-assets/'.substr($path,7);
  if(!is_file($target)){http_response_code(404);exit;}
