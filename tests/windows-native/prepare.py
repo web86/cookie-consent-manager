@@ -31,6 +31,7 @@ if sys.argv[1]=='prepare':
  call(['php','index.php','--installmode=new','--config='+str(work/'private/setup.xml')],work/'public_html/setup')
  call(['php',str(repo/'tests/windows-native/fixture.php'),'relocate'])
  (work/'public_html/setup').rename(work/'setup-disabled')
+ call(['php',str(repo/'tests/windows-native/fixture.php'),'configure-cms'])
  print('Native MODX setup and relocated core/assets ready')
 elif sys.argv[1]=='build':
  config=json.loads((work/'private/config.json').read_text());source=work/'candidate'

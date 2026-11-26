@@ -8,9 +8,14 @@ permissions:
   contents: read
 jobs:
   native:
+    strategy:
+      fail-fast: false
+      matrix:
+        scenario: [fresh, upgrade]
     runs-on: windows-2025
     timeout-minutes: 30
     env:
+      CC_NATIVE_SCENARIO: ${{ matrix.scenario }}
       CC_NATIVE_WORK: ${{ github.workspace }}/.local/native-windows-fixture
     steps:
       - run: git config --global core.autocrlf false
@@ -21,21 +26,30 @@ jobs:
           extensions: dom, json, mbstring, pdo_mysql, mysqli, gd, zip, curl, fileinfo, simplexml
           coverage: none
           ini-values: memory_limit=512M, max_execution_time=180, date.timezone=UTC
-      - name: Start isolated native MySQL
-        shell: pwsh
-        run: ./tests/windows-native/database.ps1
-      - name: Native MODX CLI setup and relocated directories
-        run: python tests/windows-native/prepare.py prepare
-      - name: Build unique prerelease transports with native MODX
-        run: python tests/windows-native/prepare.py build
       - run: npm ci --ignore-scripts
-      - name: Native PM lifecycle and Manager UI
-        run: node tests/windows-native/browser.mjs
+      - name: Native MySQL, MODX, transport and Manager acceptance
+        shell: pwsh
+        run: |
+          ./tests/windows-native/database.ps1
+          try {
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'Native MODX setup failed' }
+            python tests/windows-native/prepare.py build
+            if ($LASTEXITCODE -ne 0) { throw 'Native transport build failed' }
+            node tests/windows-native/browser.mjs
+            if ($LASTEXITCODE -ne 0) { throw 'Native Manager lifecycle failed' }
+          } catch {
+            Get-Content "$env:RUNNER_TEMP/cc-mysql.stderr.log" -Tail 30 -ErrorAction SilentlyContinue
+            throw
+          } finally {
+            $pidFile = "$env:RUNNER_TEMP/cc-mysql.pid"
+            if (Test-Path $pidFile) { Stop-Process -Id (Get-Content $pidFile) -ErrorAction SilentlyContinue }
+          }
       - name: Upload test packages and sanitized evidence
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: native-windows-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ github.run_id }}
+          name: native-windows-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ matrix.scenario }}-${{ github.run_id }}
           path: |
             ${{ env.CC_NATIVE_WORK }}/artifacts/*.zip
             ${{ env.CC_NATIVE_WORK }}/artifacts/*.sha256
