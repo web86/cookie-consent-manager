@@ -62,6 +62,7 @@ function cleanup(string $path):void{
 try{
     foreach(['public_html','private-core','external-assets','logs','backup'] as $dir)mkdir($root.'/'.$dir);
     $web=$root.'/public_html';$core=$root.'/private-core';$assets=$root.'/external-assets';
+    if(!CookieConsentPath::canonical($core)){for($p=CookieConsentPath::spelling($core);; $p=CookieConsentPath::parent($p)){echo json_encode(['path'=>$p,'real'=>realpath($p),'link'=>is_link($p),'readlink'=>@readlink($p)]).PHP_EOL;if(CookieConsentPath::isRoot($p))break;}}
     check(CookieConsentPath::canonical($core),'existing canonical directory');
     check(CookieConsentPath::canonical(nativeSpelling($core)),'mixed separators accepted on Windows');
     check(!CookieConsentPath::canonical($core.'/../private-core'),'traversal refused');
@@ -77,6 +78,7 @@ try{
     if(DIRECTORY_SEPARATOR==='\\'){
         check(CookieConsentPath::spelling('c:\\data/more')==='C:/data/more','drive letter');
         check(CookieConsentPath::parent('C:/')==='C:/','drive root terminates');
+        check(CookieConsentPath::parent('C:/data')==='C:/','drive immediate parent');
         check(CookieConsentPath::parent('//server/share/')==='//server/share/','UNC root terminates');
         check(CookieConsentPath::spelling('\\\\server\\share\\folder')==='//server/share/folder','UNC spelling');
         foreach(['C:relative','/root-relative','\\\\?\\C:\\data','C:/data/file:stream','C:/data/space.','C:/data/NUL'] as $bad)refused(fn()=>CookieConsentPath::spelling($bad),'Windows alias '.$bad);
