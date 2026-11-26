@@ -13,7 +13,7 @@ if sys.argv[1]=='prepare':
  if digest!=expected:raise RuntimeError('MODX distribution checksum mismatch')
  with zipfile.ZipFile(archive) as z:z.extractall(work/'unpack')
  next((work/'unpack').iterdir()).rename(work/'public_html');(work/'unpack').rmdir()
- password=secrets.token_hex(24);print('::add-mask::'+password)
+ password=secrets.token_hex(24);print('::add-mask::'+password,flush=True)
  site=(work/'public_html').as_posix()+'/'
  xml=ET.parse(work/'public_html/setup/config.dist.new.xml');root=xml.getroot()
  fields={'database_server':'127.0.0.1;port=3307','database':os.environ.get('CC_NATIVE_DATABASE','cc_windows_native'),'database_user':'root','database_password':'','database_connection_charset':'utf8mb4','database_charset':'utf8mb4','database_collation':'utf8mb4_unicode_ci','http_host':'127.0.0.1:8090','inplace':'1','unpacked':'0','cmsadmin':'acceptance','cmspassword':password,'cmsadminemail':'test@example.invalid','core_path':site+'core/','context_mgr_path':site+'manager/','context_mgr_url':'/manager/','context_connectors_path':site+'connectors/','context_connectors_url':'/connectors/','context_web_path':site,'context_web_url':'/','remove_setup_directory':'0','language':'en'}

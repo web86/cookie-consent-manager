@@ -2,7 +2,7 @@
 declare(strict_types=1);
 $work=str_replace('\\','/',(string)getenv('CC_NATIVE_WORK'));
 if(PHP_SAPI!=='cli'||getenv('GITHUB_ACTIONS')!=='true'||$work===''||!is_file($work.'/private/config.json'))throw new RuntimeException('Disposable Actions fixture required');
-$config=json_decode(file_get_contents($work.'/private/config.json'),true,32,JSON_THROW_ON_ERROR);$database=$config['database']??'cc_windows_native';check(preg_match('/^cc_windows_native(?:_(?:http|cli))?$/D',$database),'Test database name');$major=$config['major'];$site=$config['site'];$task=$argv[1]??'';
+$config=json_decode(file_get_contents($work.'/private/config.json'),true,32,JSON_THROW_ON_ERROR);$database=$config['database']??'cc_windows_native';check(preg_match('/^cc_windows_native(?:_(?:http|cli|control))?$/D',$database),'Test database name');$major=$config['major'];$site=$config['site'];$task=$argv[1]??'';
 function check($v,string $message):void{if(!$v)throw new RuntimeException($message);}
 function ccClass(string $class):string{global $major;return $major===2?($class==='modTransportPackage'?'transport.modTransportPackage':$class):'MODX\\Revolution\\'.($class==='modTransportPackage'?'Transport\\':'').$class;}
 if($task==='prepare-db'){
@@ -50,7 +50,7 @@ if($task==='snapshot-uninstall'){
 if($task==='native-uninstall'){
  $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126')]);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
 }
-if($task==='cli-lifecycle'){
+if($task==='cli-install'){
  $archive=(string)getenv('CC_NATIVE_TEST_ARCHIVE');$signature=$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126');
  check(basename($archive)===$signature.'.transport.zip'&&is_file($archive),'Own candidate archive required');
  $expected=explode(' ',trim(file_get_contents($archive.'.sha256')))[0];check(hash_equals($expected,hash_file('sha256',$archive)),'Candidate hash');
@@ -60,11 +60,16 @@ if($task==='cli-lifecycle'){
  check($package->install(),'Native CLI install');$modx->cacheManager->refresh();
  if(function_exists('cc_stage'))cc_stage('cli.package.install.after');
  check(is_file($js.'cached-cookie-consent.min.js')&&is_file($component.'adapter-checksums.json'),'Build outputs');
+ echo json_encode(['result'=>'PASS','php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'phase'=>'native CLI install and adapter build']);exit;
+}
+if($task==='cli-uninstall'){
+ $signature=$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126');
+ $package=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$signature]);check($package,'Test package');
  if(function_exists('cc_stage'))cc_stage('cli.package.uninstall.before');
  check($package->uninstall(),'Native CLI uninstall');
  if(function_exists('cc_stage'))cc_stage('cli.package.uninstall.after');
- check(!$modx->getObject(ccClass('modNamespace'),['name'=>'cookie_consent']),'Namespace retained');check(!is_file($js.'cached-cookie-consent.min.js'),'Bundle retained');
- echo json_encode(['result'=>'PASS','php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'opcache'=>function_exists('opcache_get_status')?opcache_get_status(false):false,'phases'=>['native install','actual adapter build','native uninstall']]);exit;
+ $stmt=$modx->prepare('SELECT COUNT(*) FROM '.$modx->getTableName(ccClass('modNamespace')).' WHERE name=?');$stmt->execute(['cookie_consent']);check((int)$stmt->fetchColumn()===0,'Namespace retained in database');check(!is_file($js.'cached-cookie-consent.min.js'),'Bundle retained');
+ echo json_encode(['result'=>'PASS','php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'opcache'=>function_exists('opcache_get_status')?opcache_get_status(false):false,'phase'=>'native CLI uninstall']);exit;
 }
 if($task==='verify-uninstall'){
  foreach(json_decode(file_get_contents($work.'/private/retained.json'),true) as $file=>$hash)check(is_file($file)&&hash_file('sha256',$file)===$hash,'User data/log changed');
