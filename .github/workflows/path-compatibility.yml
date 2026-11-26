@@ -1,0 +1,23 @@
+name: Filesystem path compatibility
+on:
+  pull_request:
+  push:
+    branches: [codex/modx2-windows-paths, codex/modx3-windows-paths]
+permissions:
+  contents: read
+jobs:
+  filesystem:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, json, mbstring
+          coverage: none
+      - name: Check paths and filesystem lifecycle
+        run: php tests/paths/filesystem.php

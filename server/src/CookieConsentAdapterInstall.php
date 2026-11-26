@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 
 /** Package originals are private. Only this administrative hook writes services/. */
 final class CookieConsentAdapterInstall
@@ -40,14 +41,15 @@ final class CookieConsentAdapterInstall
     private static function regular(string $path): void
     {
         clearstatcache(true, $path);
-        if (is_link($path) || !is_file($path) || (stat($path)['nlink'] ?? 0) !== 1 || realpath($path) !== $path) throw new RuntimeException('adapter_path');
+        if (is_link($path) || !is_file($path) || (stat($path)['nlink'] ?? 0) !== 1 || !CookieConsentPath::canonical($path)) throw new RuntimeException('adapter_path');
     }
 
     /** Called under the existing bundle lock, after native copies, before parsing JS. */
     public static function synchronize($modx): array
     {
-        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/';
-        $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
+        $core = rtrim(CookieConsentPath::spelling((string)$modx->getOption('core_path')),'/') . '/components/cookieconsentmanager/';
+        $assets = rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/';
+        self::regular($core . 'frontend-manifest.json');
         $manifest = json_decode((string)file_get_contents($core . 'frontend-manifest.json'), true, 16, JSON_THROW_ON_ERROR);
         $current = self::hashes($manifest);
         $version = $manifest['package_version'] ?? null;
@@ -70,8 +72,9 @@ final class CookieConsentAdapterInstall
         foreach ($state['versions'] as $hashes) $previous = array_replace($previous, $hashes);
         if ($state['current'] !== null) $previous = array_replace($previous, $state['versions'][$state['current']]);
         $dir = $assets . 'components/cookieconsentmanager/js/cookie-consent/services';
+        CookieConsentPath::parentDirectory($dir);
         if (!is_dir($dir) && !@mkdir($dir, 0755, true)) throw new RuntimeException('adapter_directory');
-        if (realpath($dir) !== $dir || !is_writable($dir)) throw new RuntimeException('adapter_directory');
+        if (!CookieConsentPath::canonical($dir) || !is_writable($dir)) throw new RuntimeException('adapter_directory');
         // Verify all originals before changing any public file. No directory scans.
         $originals = [];
         foreach ($current as $path => $hash) {
@@ -117,11 +120,11 @@ final class CookieConsentAdapterInstall
     private static function relocate($modx, array &$state): void
     {
         if ($state['current'] === null || !empty($state['layout'])) return;
-        $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
+        $assets = rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/';
         $old = $assets . 'js/cookie-consent/';
         $next = $assets . 'components/cookieconsentmanager/js/cookie-consent/';
         if (!is_dir($old)) return;
-        if (realpath(rtrim($old, '/')) !== rtrim($old, '/')) throw new RuntimeException('adapter_path');
+        if (!CookieConsentPath::canonical($old)) throw new RuntimeException('adapter_path');
         $state['legacy_layout'] = true;
         // Publish the fallback before any adapter move can fail.
         $bundle = $old . 'cached-cookie-consent.min.js';
@@ -134,7 +137,7 @@ final class CookieConsentAdapterInstall
         }
         $services = $old . 'services';
         if (is_dir($services)) {
-            if (realpath($services) !== $services) throw new RuntimeException('adapter_path');
+            if (!CookieConsentPath::canonical($services)) throw new RuntimeException('adapter_path');
             // User-created adapters also move; only regular JS files, never links or unrelated files.
             foreach (scandir($services) as $name) {
                 if ($name === 'mock-marketing.js' || !preg_match('/^[a-zA-Z0-9_.-]+\.js$/D', $name)) continue;
@@ -155,25 +158,25 @@ final class CookieConsentAdapterInstall
     /** Cleanup is an install action after a successful build, using only exact shipped hashes. */
     public static function cleanupLegacy($modx): void
     {
-        $core = rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/';
-        $assets = rtrim((string)$modx->getOption('assets_path'), '/') . '/';
+        $core = rtrim(CookieConsentPath::spelling((string)$modx->getOption('core_path')),'/') . '/components/cookieconsentmanager/';
+        $assets = rtrim(CookieConsentPath::spelling((string)$modx->getOption('assets_path')),'/') . '/';
         $state = self::state($core . self::STATE);
         if (empty($state['legacy_layout'])) return;
         $known = json_decode((string)file_get_contents($core . 'legacy-files.json'), true, 16, JSON_THROW_ON_ERROR);
         foreach ($known as $path => $hash) {
             if (!preg_match('~^assets/(?:js/cookie-consent/(?:[a-z0-9-]+/)?[a-z0-9.-]+\.js|css/cookie-consent\.min\.css)$~D', $path)) throw new RuntimeException('adapter_manifest');
             $file = $assets . substr($path, 7);
-            if (!is_file($file) || is_link($file) || realpath($file) !== $file || (stat($file)['nlink'] ?? 0) !== 1) continue;
+            if (!is_file($file) || is_link($file) || !CookieConsentPath::canonical($file) || (stat($file)['nlink'] ?? 0) !== 1) continue;
             if (hash_equals($hash, hash_file('sha256', $file))) @unlink($file);
         }
         // Remove only the exact migrated bundle after the replacement has built successfully.
         $old = $assets . 'js/cookie-consent/cached-cookie-consent.min.js';
         $next = $assets . 'components/cookieconsentmanager/js/cookie-consent/cached-cookie-consent.min.js';
         $state = self::state($core . self::STATE);
-        if (is_file($old) && !is_link($old) && realpath($old) === $old && (stat($old)['nlink'] ?? 0) === 1 && is_file($next) && hash_file('sha256', $old) === ($state['legacy_bundle_sha256'] ?? null)) @unlink($old);
+        if (is_file($old) && !is_link($old) && CookieConsentPath::canonical($old) && (stat($old)['nlink'] ?? 0) === 1 && is_file($next) && hash_file('sha256', $old) === ($state['legacy_bundle_sha256'] ?? null)) @unlink($old);
         $oldDir = $assets . 'js/cookie-consent/';
         $error = $oldDir . 'cookie-consent.last-error.json';
-        if (is_file($error) && !is_link($error) && realpath($error) === $error && (stat($error)['nlink'] ?? 0) === 1) {
+        if (is_file($error) && !is_link($error) && CookieConsentPath::canonical($error) && (stat($error)['nlink'] ?? 0) === 1) {
             $data = json_decode((string)file_get_contents($error), true);
             if (is_array($data) && array_keys($data) === ['failed_at'] && is_string($data['failed_at'])) @unlink($error);
         }
@@ -181,14 +184,14 @@ final class CookieConsentAdapterInstall
         if (is_resource($modx->getOption('cookie_consent.legacy_lock')) && is_file($lock) && !is_link($lock) && filesize($lock) === 0) @unlink($lock);
         foreach (['services/', 'embeds/', ''] as $part) {
             $dir = rtrim($oldDir . $part, '/');
-            if (is_dir($dir) && !is_link($dir) && realpath($dir) === $dir && count(scandir($dir)) === 2) @rmdir($dir);
+            if (is_dir($dir) && !is_link($dir) && CookieConsentPath::canonical($dir) && count(scandir($dir)) === 2) @rmdir($dir);
         }
     }
 
     public static function preserved($modx): int
     {
         try {
-            $state = self::state(rtrim((string)$modx->getOption('core_path'), '/') . '/components/cookieconsentmanager/' . self::STATE);
+            $state = self::state(rtrim(CookieConsentPath::spelling((string)$modx->getOption('core_path')),'/') . '/components/cookieconsentmanager/' . self::STATE);
             $report = $state['report'] ?? [];
             return count($report['modified'] ?? []) + count($report['deleted'] ?? []) + count($report['unknown'] ?? []);
         } catch (Throwable $ignored) { return 0; }
