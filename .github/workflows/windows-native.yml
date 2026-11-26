@@ -1,0 +1,51 @@
+name: Native Windows MODX acceptance
+on:
+  push:
+    branches: [codex/modx2-windows-paths, codex/modx3-windows-paths]
+    paths: ['tests/windows-native/**', '.github/workflows/windows-native.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  native:
+    runs-on: windows-2025
+    timeout-minutes: 30
+    env:
+      CC_NATIVE_WORK: ${{ runner.temp }}/cc-windows-native
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.3'
+          extensions: dom, json, mbstring, pdo_mysql, mysqli, gd, zip, curl, fileinfo, simplexml
+          coverage: none
+          ini-values: memory_limit=512M, max_execution_time=180, date.timezone=UTC
+      - name: Start isolated native MySQL
+        shell: pwsh
+        run: ./tests/windows-native/database.ps1
+      - name: Native MODX CLI setup and relocated directories
+        run: python tests/windows-native/prepare.py prepare
+      - name: Build unique prerelease transports with native MODX
+        run: python tests/windows-native/prepare.py build
+      - run: npm ci --ignore-scripts
+      - name: Native PM lifecycle and Manager UI
+        run: node tests/windows-native/browser.mjs
+      - name: Upload test packages and sanitized evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-windows-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ github.run_id }}
+          path: |
+            ${{ env.CC_NATIVE_WORK }}/artifacts/*.zip
+            ${{ env.CC_NATIVE_WORK }}/artifacts/*.sha256
+            ${{ env.CC_NATIVE_WORK }}/artifacts/*.json
+            ${{ env.CC_NATIVE_WORK }}/evidence/*.json
+            ${{ env.CC_NATIVE_WORK }}/evidence/*.png
+          retention-days: 14
+      - name: Stop isolated MySQL
+        if: always()
+        shell: pwsh
+        run: |
+          $pidFile = "$env:RUNNER_TEMP/cc-mysql.pid"
+          if (Test-Path $pidFile) { Stop-Process -Id (Get-Content $pidFile) -ErrorAction SilentlyContinue }
