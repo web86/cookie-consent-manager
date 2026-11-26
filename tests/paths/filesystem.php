@@ -107,7 +107,7 @@ try{
     }else $skips[]='Hardlink unavailable';
     mkdir($root.'/locked');
     if(DIRECTORY_SEPARATOR==='\\'){exec('icacls '.escapeshellarg(str_replace('/','\\',$root.'/locked')).' /deny '.escapeshellarg('*S-1-1-0:(W)').' 2>&1',$acl,$aclCode);check($aclCode===0,'deny write ACL');}
-    chmod($root.'/locked',0500);clearstatcache();
+    if(DIRECTORY_SEPARATOR!=='\\')chmod($root.'/locked',0500);clearstatcache();
     if(DIRECTORY_SEPARATOR==='\\'||!is_writable($root.'/locked'))refused(fn()=>CookieConsentBundleManager::atomic($root.'/locked/test','bad'),'unwritable directory');else $skips[]='chmod does not remove write access for this user; ACL probe required on Windows';
     if(DIRECTORY_SEPARATOR==='\\'){exec('icacls '.escapeshellarg(str_replace('/','\\',$root.'/locked')).' /remove:d *S-1-1-0 2>&1',$acl,$aclCode);check($aclCode===0,'restore write ACL');}
     chmod($root.'/locked',0700);

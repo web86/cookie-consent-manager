@@ -8,7 +8,7 @@ final class CookieConsentPrivatePath
     {
         if (!CookieConsentPath::canonical($documentRoot) || CookieConsentPath::isRoot(CookieConsentPath::spelling($documentRoot)) ||
             !CookieConsentPath::canonical($dir) || !is_dir($dir) || !is_writable($dir) ||
-            CookieConsentPath::same($dir,$documentRoot) || CookieConsentPath::inside($dir,$documentRoot)) throw new RuntimeException('Unsafe or unwritable log directory');
+            !CookieConsentPath::outside($dir,$documentRoot)) throw new RuntimeException('Unsafe or unwritable log directory');
         return (string)realpath($dir);
     }
     public static function file(string $file): void

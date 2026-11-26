@@ -7,7 +7,7 @@ final class CookieConsentAuditConfiguration
     public static function path(string $file,string $webroot,bool $jsonOnly=false): string
     {
         CookieConsentPath::spelling($file);
-        if (!CookieConsentPath::canonical($webroot) || !CookieConsentPath::canonical(dirname($file)) || CookieConsentPath::same(dirname($file),$webroot) || CookieConsentPath::inside(dirname($file),$webroot)) throw new RuntimeException('Config must be canonical and outside webroot');
+        if (!CookieConsentPath::outside(dirname($file),$webroot)) throw new RuntimeException('Config must be canonical and outside webroot');
         CookieConsentPrivatePath::file($file);
         if (!CookieConsentPath::canonical($file) || !is_file($file) || !is_readable($file) || ($jsonOnly && strtolower(pathinfo($file,PATHINFO_EXTENSION))!=='json')) throw new RuntimeException('Private config unavailable');
         return $file;

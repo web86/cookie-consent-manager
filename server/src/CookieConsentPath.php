@@ -96,6 +96,16 @@ final class CookieConsentPath
             && str_starts_with(self::spelling($path), rtrim(self::spelling($root), '/') . '/');
     }
 
+    /** Privacy boundary: conservatively reject Windows case aliases as well. */
+    public static function outside(string $path, string $root): bool
+    {
+        if (!self::canonical($path) || !self::canonical($root)) return false;
+        $path = self::spelling($path); $root = self::spelling($root);
+        // This can refuse a distinct case-sensitive sibling, never grant access to it.
+        if (DIRECTORY_SEPARATOR === '\\') { $path = strtolower($path); $root = strtolower($root); }
+        return $path !== $root && !str_starts_with($path, rtrim($root, '/') . '/');
+    }
+
     public static function writableTarget(string $file): void
     {
         $parent = self::parentDirectory($file);
