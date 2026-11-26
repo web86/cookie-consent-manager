@@ -35,7 +35,11 @@ final class CookieConsentPath
     {
         $path = self::spelling($path);
         if (self::isRoot($path)) return $path;
-        return self::spelling(dirname($path));
+        $slash = strrpos($path, '/');
+        $parent = substr($path, 0, $slash === false ? 0 : $slash);
+        if ($parent === '') return '/';
+        if (DIRECTORY_SEPARATOR === '\\' && preg_match('/^[A-Z]:$/D', $parent)) $parent .= '/';
+        return self::spelling($parent);
     }
 
     public static function isRoot(string $path): bool
