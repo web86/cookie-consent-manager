@@ -11,6 +11,10 @@ on:
       cache_modes:
         description: 'JSON array: off, opcache, jit (function), tracing'
         default: '["off","opcache","jit"]'
+      release_package:
+        description: 'Test unchanged package metadata from this release branch'
+        type: boolean
+        default: false
       instrument:
         description: 'Add operation markers to disposable xPDO only'
         type: boolean
@@ -32,6 +36,7 @@ jobs:
       CC_REQUESTED_PHP: ${{ matrix.php }}
       CC_NATIVE_CACHE_MODE: ${{ matrix.cache }}
       CC_NATIVE_SCENARIO: upgrade
+      CC_NATIVE_RELEASE_MODE: ${{ inputs.release_package && '1' || '0' }}
       CC_NATIVE_BASELINE_INDEX: '128'
       CC_NATIVE_CANDIDATE_INDEX: '129'
       CC_INSTRUMENT: ${{ inputs.instrument && 'true' || 'false' }}

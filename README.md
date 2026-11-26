@@ -1,4 +1,4 @@
-# CookieConsentManager3 — 1.0.8-pl9
+# CookieConsentManager — 1.0.9-pl1
 
 RU: Runtime находится в `assets/components/cookieconsentmanager3/`, приватный код — в `core/components/cookieconsentmanager3/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
 

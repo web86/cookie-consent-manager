@@ -175,6 +175,15 @@
               "text": "{\n  \"path\": \"https://analytics.ahrefs.com/analytics.js\",\n  \"attributes\": {\n    \"data-key\": \"YOUR_AHREFS_KEY\",\n    \"data-domain\": \"example.com\",\n    \"data-mode\": \"production\"\n  }\n}"
             }
           ]
+        },
+        {
+          "title": "Windows: OPcache и JIT",
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "Известное ограничение: JIT 1235 может вызывать сбои native lifecycle пакетов MODX/xPDO в Windows. Причина не установлена. Оставьте OPcache включённым и JIT выключенным (opcache.jit=disable, opcache.jit_buffer_size=0), перезапустите обслуживающий PHP-процесс и проверьте его фактическую конфигурацию. Компонент не меняет PHP INI автоматически. OSPanel, IIS/FastCGI, PHP ZTS и настоящие UNC shares не входят в существующую Windows acceptance-матрицу."
+            }
+          ]
         }
       ]
     },
@@ -350,6 +359,15 @@
               "type": "code",
               "language": "json",
               "text": "{\n  \"path\": \"https://analytics.ahrefs.com/analytics.js\",\n  \"attributes\": {\n    \"data-key\": \"YOUR_AHREFS_KEY\",\n    \"data-domain\": \"example.com\",\n    \"data-mode\": \"production\"\n  }\n}"
+            }
+          ]
+        },
+        {
+          "title": "Windows: OPcache and JIT",
+          "blocks": [
+            {
+              "type": "paragraph",
+              "text": "Known limitation: JIT 1235 can fail in the native MODX/xPDO package lifecycle on Windows. Its root cause is not established. Keep OPcache ON and JIT OFF (opcache.jit=disable, opcache.jit_buffer_size=0), restart the serving PHP process and verify its effective configuration. The component does not change PHP INI automatically. OSPanel, IIS/FastCGI, PHP ZTS and real UNC shares are not covered by the existing Windows acceptance matrix."
             }
           ]
         }
