@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-2025
     timeout-minutes: 30
     env:
-      CC_NATIVE_WORK: ${{ runner.temp }}/cc-windows-native
+      CC_NATIVE_WORK: ${{ github.workspace }}/.local/native-windows-fixture
     steps:
       - run: git config --global core.autocrlf false
       - uses: actions/checkout@v4
