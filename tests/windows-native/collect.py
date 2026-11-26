@@ -13,6 +13,8 @@ for scenario in ['http','cli','control']:
   if f.suffix in ['.json','.ndjson','.png']:
    if f.suffix=='.png':shutil.copyfile(f,out/(scenario+'-'+f.name))
    else:(out/(scenario+'-'+f.name)).write_text(clean(f.read_text(errors='replace')))
+ for f in (work/'artifacts').glob('*.json') if (work/'artifacts').exists() else []:
+  (out/(scenario+'-'+f.name)).write_text(clean(f.read_text(errors='replace')))
  trace=work/'evidence/stages.ndjson'
  if trace.exists():
   records=[]
