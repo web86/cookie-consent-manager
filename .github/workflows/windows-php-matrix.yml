@@ -1,0 +1,84 @@
+name: Windows PHP functional matrix
+on:
+  push:
+    branches: [codex/modx2-windows-paths, codex/modx3-windows-paths]
+    paths: ['tests/windows-native/**', '.github/workflows/windows-php-matrix.yml']
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  functional:
+    strategy:
+      fail-fast: false
+      max-parallel: 3
+      matrix:
+        php: ['8.3.36', '8.3.37', '8.4.28']
+        cache: ['off', 'opcache', 'jit']
+    runs-on: windows-2025
+    timeout-minutes: 20
+    env:
+      CC_MATRIX_ROOT: ${{ github.workspace }}/.local/php-functional-matrix
+      CC_REQUESTED_PHP: ${{ matrix.php }}
+      CC_NATIVE_CACHE_MODE: ${{ matrix.cache }}
+      CC_NATIVE_SCENARIO: upgrade
+      CC_NATIVE_BASELINE_INDEX: '128'
+      CC_NATIVE_CANDIDATE_INDEX: '129'
+      CC_NATIVE_CONTROL: '1'
+    steps:
+      - run: git config --global core.autocrlf false
+      - uses: actions/checkout@v4
+      - uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          extensions: dom, json, mbstring, pdo_mysql, mysqli, gd, zip, curl, fileinfo, simplexml, opcache
+          coverage: none
+          ini-values: memory_limit=512M, max_execution_time=180, date.timezone=UTC
+      - run: npm ci --ignore-scripts
+      - name: Functional HTTP and independent native CLI
+        shell: pwsh
+        run: |
+          $ErrorActionPreference = 'Stop'
+          ./tests/windows-native/database.ps1
+          $env:CC_HTTP_EXIT = '999'
+          $env:CC_CLI_EXIT = '999'
+          try {
+            $env:CC_NATIVE_WORK = "$env:CC_MATRIX_ROOT/http"
+            $env:CC_NATIVE_DATABASE = 'cc_windows_native_http'
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'HTTP fixture setup failed' }
+            python tests/windows-native/prepare.py build
+            if ($LASTEXITCODE -ne 0) { throw 'Test candidate build failed' }
+            php tests/windows-native/control.php
+            if ($LASTEXITCODE -ne 0) { throw 'Native control build failed' }
+            python tests/windows-native/instrument.py
+            if ($LASTEXITCODE -ne 0) { throw 'Application logging setup failed' }
+            $env:CC_NATIVE_TRACE = "$env:CC_NATIVE_WORK/evidence/stages.ndjson"
+            node tests/windows-native/browser.mjs
+            $env:CC_HTTP_EXIT = "$LASTEXITCODE"
+            $candidate = Get-ChildItem "$env:CC_NATIVE_WORK/artifacts/*.transport.zip" | Select-Object -First 1
+            $env:CC_NATIVE_TEST_ARCHIVE = $candidate.FullName
+            $env:CC_NATIVE_WORK = "$env:CC_MATRIX_ROOT/cli"
+            $env:CC_NATIVE_DATABASE = 'cc_windows_native_cli'
+            python tests/windows-native/prepare.py prepare
+            if ($LASTEXITCODE -ne 0) { throw 'Independent CLI fixture setup failed' }
+            python tests/windows-native/instrument.py
+            if ($LASTEXITCODE -ne 0) { throw 'CLI logging setup failed' }
+            $env:CC_NATIVE_TRACE = "$env:CC_NATIVE_WORK/evidence/stages.ndjson"
+            $phpFlags = @('-d','opcache.enable=0','-d','opcache.enable_cli=0','-d','opcache.jit=disable','-d','opcache.jit_buffer_size=0')
+            if ($env:CC_NATIVE_CACHE_MODE -eq 'opcache') { $phpFlags = @('-d','opcache.enable=1','-d','opcache.enable_cli=1','-d','opcache.jit=disable','-d','opcache.jit_buffer_size=0') }
+            if ($env:CC_NATIVE_CACHE_MODE -eq 'jit') { $phpFlags = @('-d','opcache.enable=1','-d','opcache.enable_cli=1','-d','opcache.jit=tracing','-d','opcache.jit_buffer_size=64M') }
+            & php @phpFlags '-d' "auto_prepend_file=$env:GITHUB_WORKSPACE/tests/windows-native/trace.php" tests/windows-native/fixture.php cli-lifecycle
+            $env:CC_CLI_EXIT = "$LASTEXITCODE"
+          } finally {
+            python tests/windows-native/collect.py
+            $pidFile = "$env:RUNNER_TEMP/cc-mysql.pid"
+            if (Test-Path $pidFile) { Stop-Process -Id (Get-Content $pidFile) -ErrorAction SilentlyContinue }
+          }
+          if ($env:CC_HTTP_EXIT -ne '0' -or $env:CC_CLI_EXIT -ne '0') { throw 'Functional compatibility failure; see per-scenario results' }
+      - name: Upload functional results and application logs
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: php-matrix-${{ github.ref_name == 'codex/modx2-windows-paths' && 'modx2' || 'modx3' }}-${{ matrix.php }}-${{ matrix.cache }}-${{ github.run_id }}
+          path: ${{ env.CC_MATRIX_ROOT }}/results/
+          retention-days: 14

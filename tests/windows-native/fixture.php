@@ -2,11 +2,11 @@
 declare(strict_types=1);
 $work=str_replace('\\','/',(string)getenv('CC_NATIVE_WORK'));
 if(PHP_SAPI!=='cli'||getenv('GITHUB_ACTIONS')!=='true'||$work===''||!is_file($work.'/private/config.json'))throw new RuntimeException('Disposable Actions fixture required');
-$config=json_decode(file_get_contents($work.'/private/config.json'),true,32,JSON_THROW_ON_ERROR);$major=$config['major'];$site=$config['site'];$task=$argv[1]??'';
+$config=json_decode(file_get_contents($work.'/private/config.json'),true,32,JSON_THROW_ON_ERROR);$database=$config['database']??'cc_windows_native';check(preg_match('/^cc_windows_native(?:_(?:http|cli))?$/D',$database),'Test database name');$major=$config['major'];$site=$config['site'];$task=$argv[1]??'';
 function check($v,string $message):void{if(!$v)throw new RuntimeException($message);}
 function ccClass(string $class):string{global $major;return $major===2?($class==='modTransportPackage'?'transport.modTransportPackage':$class):'MODX\\Revolution\\'.($class==='modTransportPackage'?'Transport\\':'').$class;}
 if($task==='prepare-db'){
- $pdo=new PDO('mysql:host=127.0.0.1;port=3307','root','');$pdo->exec('CREATE DATABASE `cc_windows_native` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');echo "Created disposable database\n";exit;
+ $pdo=new PDO('mysql:host=127.0.0.1;port=3307','root','');$pdo->exec('CREATE DATABASE `'.$database.'` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci');echo "Created disposable database\n";exit;
 }
 if($task==='relocate'){
  check(is_file($site.'core/config/config.inc.php'),'Native CMS setup did not create config');
@@ -20,9 +20,9 @@ if($task==='relocate'){
  if($major===3)file_put_contents($core.'config/config.inc.php',"\n\$config_options['load_deprecated_global_class_aliases']=false;\n",FILE_APPEND);
  echo "Relocated core/assets outside public_html\n";exit;
 }
-$destination=(static function($file){require $file;return [$database_server??null,$dbase??null];})($work.'/private/core/config/config.inc.php');check($destination===['127.0.0.1;port=3307','cc_windows_native'],'Foreign database refused');
+$destination=(static function($file){require $file;return [$database_server??null,$dbase??null];})($work.'/private/core/config/config.inc.php');check($destination===['127.0.0.1;port=3307',$database],'Foreign database refused');
 define('MODX_API_MODE',true);ob_start();require $site.'index.php';while(ob_get_level())ob_end_clean();
-check($modx->query('SELECT DATABASE()')->fetchColumn()==='cc_windows_native','Wrong DB');check($modx->getVersionData()['full_version']===$config['modx'],'Wrong MODX');
+check($modx->query('SELECT DATABASE()')->fetchColumn()===$database,'Wrong DB');check($modx->getVersionData()['full_version']===$config['modx'],'Wrong MODX');
 $modx->setLogTarget('FILE');$modx->setLogLevel(2);
 $core=$work.'/private/core/';$assets=$work.'/external-assets/';$component=$core.'components/'.$config['product'].'/';$js=$assets.'components/'.$config['product'].'/js/cookie-consent/';
 if($task==='configure-cms'){
@@ -31,6 +31,7 @@ if($task==='configure-cms'){
  mkdir($work.'/private/logs',0700);
  $modx->cacheManager->refresh();echo json_encode(['modx'=>$config['modx'],'php'=>PHP_VERSION,'os'=>PHP_OS_FAMILY,'core'=>$modx->getOption('core_path'),'assets'=>$modx->getOption('assets_path')]);exit;
 }
+if($task==='boot')return;
 if($task==='snapshot'){
  $out=['settings'=>[],'element_ids'=>[]];foreach($modx->getCollection(ccClass('modSystemSetting'),['namespace'=>'cookie_consent']) as $row)if($row->get('key')!=='cookie_consent.bundle_version')$out['settings'][$row->get('key')]=$row->get('value');
  foreach(['modSnippet'=>['CookieConsent','CookieConsentAssets','CookieConsentBanner','CookieConsentMap','CookieConsentVideo'],'modChunk'=>['CookiesPopup']] as $class=>$names)foreach($names as $name){$row=$modx->getObject(ccClass($class),['name'=>$name]);$out['element_ids'][$name]=$row?$row->get('id'):null;}
@@ -47,7 +48,23 @@ if($task==='snapshot-uninstall'){
  $files[]=$js.'services/yandex.js';$hashes=[];foreach($files as $file)$hashes[$file]=hash_file('sha256',$file);file_put_contents($work.'/private/retained.json',json_encode($hashes));echo "Retained file snapshot created\n";exit;
 }
 if($task==='native-uninstall'){
- $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-1.0.9-beta126']);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
+ $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126')]);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
+}
+if($task==='cli-lifecycle'){
+ $archive=(string)getenv('CC_NATIVE_TEST_ARCHIVE');$signature=$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126');
+ check(basename($archive)===$signature.'.transport.zip'&&is_file($archive),'Own candidate archive required');
+ $expected=explode(' ',trim(file_get_contents($archive.'.sha256')))[0];check(hash_equals($expected,hash_file('sha256',$archive)),'Candidate hash');
+ if(function_exists('cc_stage'))cc_stage('cli.package.install.before');
+ $target=$core.'packages/'.$signature.'.transport.zip';check(!file_exists($target),'New fixture only');check(copy($archive,$target),'Copy archive');
+ $package=$modx->newObject(ccClass('modTransportPackage'));$package->fromArray(['package_name'=>$config['product'],'state'=>1,'workspace'=>1],'',true,true);$package->set('signature',$signature);$package->setPackageVersionData();check($package->save(),'Register');
+ check($package->install(),'Native CLI install');$modx->cacheManager->refresh();
+ if(function_exists('cc_stage'))cc_stage('cli.package.install.after');
+ check(is_file($js.'cached-cookie-consent.min.js')&&is_file($component.'adapter-checksums.json'),'Build outputs');
+ if(function_exists('cc_stage'))cc_stage('cli.package.uninstall.before');
+ check($package->uninstall(),'Native CLI uninstall');
+ if(function_exists('cc_stage'))cc_stage('cli.package.uninstall.after');
+ check(!$modx->getObject(ccClass('modNamespace'),['name'=>'cookie_consent']),'Namespace retained');check(!is_file($js.'cached-cookie-consent.min.js'),'Bundle retained');
+ echo json_encode(['result'=>'PASS','php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'opcache'=>function_exists('opcache_get_status')?opcache_get_status(false):false,'phases'=>['native install','actual adapter build','native uninstall']]);exit;
 }
 if($task==='verify-uninstall'){
  foreach(json_decode(file_get_contents($work.'/private/retained.json'),true) as $file=>$hash)check(is_file($file)&&hash_file('sha256',$file)===$hash,'User data/log changed');
