@@ -123,6 +123,8 @@ final class CookieConsentSettings
         foreach($registry['services'] as $service){
             if(!$service['enabled']||$service['category']!==$category)continue;
             $config=array_replace(CookieConsentServiceRegistry::BOOL_OPTIONS[$service['loader']]??[],(array)$service['config']);
+            // Compare canonical data by value: stdClass identity must never trigger reconsent.
+            if(isset($config['attributes']))$config['attributes']=(array)$config['attributes'];
             unset($config['show_title']);ksort($config);
             $result[$service['key']]=[$service['loader'],$service['purpose_id']??$service['key'],$service['purpose'],$config];
         }

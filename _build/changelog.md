@@ -1,3 +1,9 @@
+# Unreleased — Custom JS HTML attributes
+
+RU: Custom JS поддерживает необязательные data-* атрибуты, редактор строк и безопасный текстовый предпросмотр. Сервер и публичный runtime проверяют имена, строки UTF-8, лимиты и дубликаты. Непустые атрибуты участвуют в fingerprint и существующей модели повторного согласия; старые конфигурации сохраняют идентичность. Руководство содержит пример Ahrefs и предупреждение о публичности значений.
+
+EN: Custom JS supports optional data-* attributes, a row editor and a safe text preview. Server and public runtime validate names, UTF-8 strings, limits and duplicates. Nonempty attributes participate in fingerprints and existing category reconsent; legacy configurations retain their identity. The guide includes an Ahrefs example and a public-value privacy notice.
+
 # 1.0.8-pl9 — исправления modstore / modstore corrections
 
 RU: Runtime находится в `assets/components/cookieconsentmanager3/`, приватный код — в `core/components/cookieconsentmanager3/`. Пути строятся от настроек MODX. Установщик создаёт `bootstrap.php` рядом с `audit.php` по фактическому `config.core.php`; перенесённые assets и core поддерживаются без ручных действий.
