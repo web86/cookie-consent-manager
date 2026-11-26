@@ -75,15 +75,58 @@ final class CookieConsentServiceRegistry
         $parts=parse_url($path);$port=isset($parts['port'])&&$parts['port']!==443?':'.$parts['port']:'';
         return 'https://'.strtolower($parts['host']).$port.$parts['path'].(array_key_exists('query',$parts)?'?'.$parts['query']:'');
     }
+    /** Decode valid JSON without silently accepting duplicate object members. */
+    public static function decodeJson(string $json, int $depth = 16): mixed
+    {
+        $value=json_decode($json,false,$depth,JSON_THROW_ON_ERROR);
+        $stack=[];$length=strlen($json);
+        // JSON grammar/UTF-8 were checked above. Scan strings linearly: PCRE's JIT
+        // stack can be exhausted by a long valid draft, hiding later duplicate keys.
+        for($offset=0;$offset<$length;$offset++){
+            $token=$json[$offset];
+            if($token==='"'){
+                $start=$offset++;
+                while($json[$offset]!=='"'){
+                    if($json[$offset]==='\\')$offset++;
+                    $offset++;
+                }
+                $token=substr($json,$start,$offset-$start+1);
+            }
+            if($token==='{' || $token==='['){$stack[]=['object'=>$token==='{','key'=>true,'names'=>[]];continue;}
+            if($token==='}' || $token===']'){array_pop($stack);continue;}
+            $i=count($stack)-1;if($i<0 || !$stack[$i]['object'])continue;
+            if($token===','){$stack[$i]['key']=true;continue;}
+            if($token[0]==='"' && $stack[$i]['key']){
+                $name='k:'.json_decode($token,false,2,JSON_THROW_ON_ERROR);
+                if(isset($stack[$i]['names'][$name]))throw new InvalidArgumentException('Duplicate JSON member');
+                $stack[$i]['names'][$name]=true;$stack[$i]['key']=false;
+            }
+        }
+        return $value;
+    }
+    /** Canonical lowercase data-* only; values are public UTF-8 text, never code. */
+    public static function attributes(mixed $attributes): stdClass
+    {
+        if(!$attributes instanceof stdClass)throw new InvalidArgumentException('Attributes must be an object');
+        $values=get_object_vars($attributes);
+        if(count($values)>20)throw new InvalidArgumentException('Too many attributes');
+        foreach($values as $name=>$value){
+            if(strlen($name)>64 || preg_match('/^data-[a-z0-9][a-z0-9_-]*$/D',$name)!==1)throw new InvalidArgumentException('Invalid attribute name');
+            if(!is_string($value) || strlen($value)>2048 || preg_match('//u',$value)!==1 || preg_match('/\\p{Cc}/u',$value))throw new InvalidArgumentException('Invalid attribute value');
+        }
+        ksort($values,SORT_STRING);
+        return (object)$values;
+    }
     public static function validateJson(string $json): array
     {
         if (strlen($json)>32768) throw new InvalidArgumentException('Registry too large');
+        $objects=self::decodeJson($json);
         $data=json_decode($json,true,16,JSON_THROW_ON_ERROR);
         if (!is_array($data) || array_diff(array_keys($data),['schema','services']) ||
             ($data['schema']??null)!==1 || !isset($data['services']) || !is_array($data['services']) ||
             !array_is_list($data['services']) || count($data['services'])>32) throw new InvalidArgumentException('Invalid registry');
         $keys=[];
-        foreach ($data['services'] as &$s) {
+        foreach ($data['services'] as $index=>&$s) {
             $fields=['key','name','purpose','category','enabled','loader','config'];
             if (!is_array($s) || array_diff($fields,array_keys($s)) || array_diff(array_keys($s),array_merge($fields,['purpose_id']))) throw new InvalidArgumentException('Invalid service fields');
             if (!is_string($s['key']) || !preg_match('/^[a-z][a-z0-9_]{0,31}$/D',$s['key']) || isset($keys[$s['key']])) throw new InvalidArgumentException('Invalid service key');
@@ -99,7 +142,7 @@ final class CookieConsentServiceRegistry
                 if (!is_bool($s['config']['clientId'])) throw new InvalidArgumentException('Invalid legacy boolean option');
                 unset($s['config']['clientId']);
             }
-            $allowed=array_merge($s['loader']==='custom_js' ? ['path'] : [],in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
+            $allowed=array_merge($s['loader']==='custom_js' ? ['path','attributes'] : [],in_array($s['loader'],['yandex','mailru','google_ga4','google_gtm','google_ads','vk_ads','meta_pixel'],true) ? ['id'] : [],array_keys(self::BOOL_OPTIONS[$s['loader']]??[]));
             if (array_diff(array_keys($s['config']),$allowed)) throw new InvalidArgumentException('Unknown config');
             $pattern=match($s['loader']) {
                 'google_ga4'=>'/^G-[A-Z0-9]{4,20}$/D', 'google_gtm'=>'/^GTM-[A-Z0-9]{4,20}$/D',
@@ -109,6 +152,11 @@ final class CookieConsentServiceRegistry
             if (in_array('id',$allowed,true) && $s['enabled'] && !array_key_exists('id',$s['config'])) throw new InvalidArgumentException('Enabled provider needs ID');
             foreach (self::BOOL_OPTIONS[$s['loader']]??[] as $key=>$default) if (array_key_exists($key,$s['config']) && !is_bool($s['config'][$key])) throw new InvalidArgumentException('Invalid boolean option');
             if ($s['loader']==='custom_js' && (!self::validScriptPath($s['config']['path']??null))) throw new InvalidArgumentException('Invalid script path');
+            if (array_key_exists('attributes',$s['config'])) {
+                $attributes=self::attributes($objects->services[$index]->config->attributes);
+                if(get_object_vars($attributes))$s['config']['attributes']=$attributes;
+                else unset($s['config']['attributes']);
+            }
             $s['config']=$s['config'] ?: new stdClass();
         }
         unset($s);

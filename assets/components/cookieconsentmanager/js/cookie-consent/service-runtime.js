@@ -8,15 +8,24 @@ const web86CreateServiceRuntime = () => {
   const visibility = Object.fromEntries(Object.keys(categories).map(c => [c, document.getElementById('cookie-block')?.getAttribute('data-cc-category-' + c.replaceAll('_','-')) === '1']));
   const scripts = new Map(), started = new Set();
   const state = { currentValue: undefined, runtimePermission: null, legacyNoChoice: false, stopping: false };
-  function script(url) {
+  function script(url, rawAttributes) {
+    // Validate the complete attribute set before creating or appending any element.
+    const attributes = rawAttributes === undefined ? {} : window.web86CustomJs.attributes(rawAttributes);
+    const identity = JSON.stringify(attributes);
     const href = new URL(String(url), location.href).href;
-    if (!scripts.has(href)) scripts.set(href, new Promise((resolve, reject) => {
+    const existing = scripts.get(href);
+    if (existing && existing.identity !== identity) return Promise.reject(Error('Script attribute conflict'));
+    if (!existing) {
+      const promise = new Promise((resolve, reject) => {
       const el = document.createElement('script');
       el.src = href; el.async = true;
+      for (const [name, value] of Object.entries(attributes)) el.setAttribute(name, value);
       el.onload = resolve; el.onerror = () => reject(Error(t('error_provider')));
       document.head.appendChild(el);
-    }));
-    return scripts.get(href);
+      });
+      scripts.set(href, { identity, promise });
+    }
+    return scripts.get(href).promise;
   }
   function allowed(s, value) {
     return !state.stopping && s.enabled === true && visibility[s.category] &&

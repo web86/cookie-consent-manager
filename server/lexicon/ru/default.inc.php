@@ -394,3 +394,20 @@ $_lang['m.build_help'] = 'После изменения встроенного J
 // Manager settings cards.
 $_lang['m.attention'] = 'Внимание.';
 $_lang['m.guide_open'] = 'Инструкции и руководство';
+
+// Custom JS data-* attributes.
+$_lang['m.attributes_title'] = 'Дополнительные HTML-атрибуты';
+$_lang['m.attributes_help'] = 'Необязательные атрибуты data-* в нижнем регистре: до 20 атрибутов, имя до 64 байт, строковое значение до 2048 байт UTF-8. Пустые значения разрешены. Управляющие символы запрещены.';
+$_lang['m.attributes_public'] = 'Значения HTML-атрибутов доступны посетителям сайта в браузере. Они не предназначены для хранения приватных API-ключей, паролей или серверных токенов.';
+$_lang['m.attributes_add'] = 'Добавить атрибут';
+$_lang['m.attributes_remove'] = 'Удалить атрибут';
+$_lang['m.attributes_name_label'] = 'Имя атрибута';
+$_lang['m.attributes_value_label'] = 'Значение атрибута';
+$_lang['m.attributes_preview'] = 'Предпросмотр script tag (только текст)';
+$_lang['m.attributes_preview_invalid'] = 'Для предпросмотра укажите корректный URL скрипта и атрибуты.';
+$_lang['m.attributes_count'] = 'Допускается не более 20 атрибутов на сервис.';
+$_lang['m.attributes_name'] = 'Укажите имя data-* в нижнем регистре (a–z, 0–9, подчёркивание или дефис), до 64 байт. После data- нужна буква или цифра.';
+$_lang['m.attributes_duplicate'] = 'Имена атрибутов не должны повторяться.';
+$_lang['m.attributes_value'] = 'Значение должно быть строкой UTF-8 до 2048 байт без управляющих символов. Пустая строка разрешена.';
+$_lang['m.attributes_object'] = 'Атрибуты должны быть JSON-объектом.';
+$_lang['m.attributes_registry_size'] = 'Размер registry сервисов превышает 32768 байт.';

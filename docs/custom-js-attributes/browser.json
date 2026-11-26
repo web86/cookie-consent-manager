@@ -1,0 +1,58 @@
+{
+  "product": "cookieconsentmanager",
+  "tests": 10,
+  "assertions": 85,
+  "failed": 0,
+  "results": [
+    {
+      "name": "legacy-path-only",
+      "result": "PASS",
+      "assertions": 7
+    },
+    {
+      "name": "empty-object",
+      "result": "PASS",
+      "assertions": 7
+    },
+    {
+      "name": "one-key",
+      "result": "PASS",
+      "assertions": 7
+    },
+    {
+      "name": "html-escape-size-expansion",
+      "result": "PASS",
+      "assertions": 7
+    },
+    {
+      "name": "multiple-unicode-html",
+      "result": "PASS",
+      "assertions": 7
+    },
+    {
+      "name": "public-validation-and-fingerprint-compatibility",
+      "result": "PASS",
+      "assertions": 11
+    },
+    {
+      "name": "consent-change-reorder-remove-and-unrelated-category",
+      "result": "PASS",
+      "assertions": 18
+    },
+    {
+      "name": "legacy-startup-and-stored-refusal",
+      "result": "PASS",
+      "assertions": 4
+    },
+    {
+      "name": "runtime-url-attribute-conflict-and-no-partial-load",
+      "result": "PASS",
+      "assertions": 5
+    },
+    {
+      "name": "malformed-public-registry-fails-before-any-service",
+      "result": "PASS",
+      "assertions": 12
+    }
+  ]
+}
