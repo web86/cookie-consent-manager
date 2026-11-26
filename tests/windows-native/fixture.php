@@ -12,9 +12,11 @@ if($task==='relocate'){
  check(is_file($site.'core/config/config.inc.php'),'Native CMS setup did not create config');
  $old=$site.'core/';$core=$work.'/private/core/';check(rename(rtrim($old,'/'),rtrim($core,'/')),'Relocate core');
  if(is_dir($site.'assets'))check(rename($site.'assets',$work.'/external-assets'),'Relocate assets');else mkdir($work.'/external-assets');
- foreach([$site.'config.core.php',$site.'manager/config.core.php',$site.'connectors/config.core.php',$core.'config/config.inc.php'] as $file)if(is_file($file)){
-  $bytes=file_get_contents($file);$bytes=str_replace([$old,$site.'assets/','/assets/'],[$core,$work.'/external-assets/','/files/'],$bytes);file_put_contents($file,$bytes);
- }
+ foreach([$site.'config.core.php',$site.'manager/config.core.php',$site.'connectors/config.core.php'] as $file)file_put_contents($file,"<?php\ndefine('MODX_CORE_PATH', ".var_export($core,true).");\ndefine('MODX_CONFIG_KEY', 'config');\n");
+ $file=$core.'config/config.inc.php';$bytes=file_get_contents($file);
+ $paths=['core_path'=>$core,'assets_path'=>$work.'/external-assets/','assets_url'=>'/files/','base_path'=>$site,'connectors_path'=>$site.'connectors/','manager_path'=>$site.'manager/','processors_path'=>$core.($major===3?'src/Revolution/Processors/':'model/modx/processors/')];
+ foreach($paths as $name=>$value)$bytes=preg_replace_callback('~(\\$modx_'.preg_quote($name,'~').'\\s*=)[^;]*;~',static fn($m)=>$m[1].' '.var_export($value,true).';',$bytes);
+ file_put_contents($file,$bytes);
  if($major===3)file_put_contents($core.'config/config.inc.php',"\n\$config_options['load_deprecated_global_class_aliases']=false;\n",FILE_APPEND);
  echo "Relocated core/assets outside public_html\n";exit;
 }
