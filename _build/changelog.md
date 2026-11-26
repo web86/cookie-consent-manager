@@ -1,8 +1,12 @@
-# Unreleased — Custom JS HTML attributes
+# 1.0.9-pl1 — Windows paths and Custom JS HTML attributes
 
 RU: Custom JS поддерживает необязательные data-* атрибуты, редактор строк и безопасный текстовый предпросмотр. Сервер и публичный runtime проверяют имена, строки UTF-8, лимиты и дубликаты. Непустые атрибуты участвуют в fingerprint и существующей модели повторного согласия; старые конфигурации сохраняют идентичность. Руководство содержит пример Ahrefs и предупреждение о публичности значений.
 
 EN: Custom JS supports optional data-* attributes, a row editor and a safe text preview. Server and public runtime validate names, UTF-8 strings, limits and duplicates. Nonempty attributes participate in fingerprints and existing category reconsent; legacy configurations retain their identity. The guide includes an Ahrefs example and a public-value privacy notice.
+
+RU: Объединены исправления Windows-путей: безопасная работа с дисками и разделителями, проверка владения и containment, atomic writes и сохранение пользовательских файлов. В Windows известна нестабильность JIT 1235 в native lifecycle MODX/xPDO; причина не установлена. Для проверяемого режима оставьте OPcache включённым, JIT выключенным (`opcache.jit=disable`, `opcache.jit_buffer_size=0`). Компонент не изменяет PHP INI автоматически.
+
+EN: Merged the Windows filesystem fixes: drive/separator handling, ownership and containment checks, atomic writes and preservation of customer files. Windows JIT 1235 remains unstable in the native MODX/xPDO lifecycle; the cause is not established. The supported test configuration keeps OPcache ON and JIT OFF (`opcache.jit=disable`, `opcache.jit_buffer_size=0`). The component does not change PHP INI automatically.
 
 # 1.0.8-pl7 — исправления modstore / modstore corrections
 

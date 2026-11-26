@@ -1,7 +1,7 @@
 from pathlib import Path
 import os,json,re,shutil
 base=Path(os.environ['CC_MATRIX_ROOT']);out=base/'results';out.mkdir(exist_ok=True)
-result={'requested_php':os.environ['CC_REQUESTED_PHP'],'mode':os.environ['CC_NATIVE_CACHE_MODE'],'http_exit':int(os.environ.get('CC_HTTP_EXIT','999')),'cli_exit':int(os.environ.get('CC_CLI_EXIT','999')),'source_sha':os.environ['GITHUB_SHA'],'packages':'beta128 -> beta129','scenarios':{}}
+result={'requested_php':os.environ['CC_REQUESTED_PHP'],'mode':os.environ['CC_NATIVE_CACHE_MODE'],'http_exit':int(os.environ.get('CC_HTTP_EXIT','999')),'cli_exit':int(os.environ.get('CC_CLI_EXIT','999')),'source_sha':os.environ['GITHUB_SHA'],'packages':'beta128 -> 1.0.9-pl1' if os.environ.get('CC_NATIVE_RELEASE_MODE')=='1' else 'beta128 -> beta129','scenarios':{}}
 for scenario in ['http','cli','control']:
  work=base/scenario;info={'status':'PASS' if int(os.environ.get('CC_'+scenario.upper()+'_EXIT','999'))==0 else 'FAIL'}
  configFile=work/'private/config.json';secret=json.loads(configFile.read_text()).get('password','') if configFile.exists() else ''

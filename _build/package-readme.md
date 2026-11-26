@@ -136,6 +136,10 @@ document.addEventListener('DOMContentLoaded', function () {
 }
 ```
 
+### Windows: OPcache и JIT
+
+Известное ограничение: JIT 1235 может вызывать сбои native lifecycle пакетов MODX/xPDO в Windows. Причина не установлена. Оставьте OPcache включённым и JIT выключенным (opcache.jit=disable, opcache.jit_buffer_size=0), перезапустите обслуживающий PHP-процесс и проверьте его фактическую конфигурацию. Компонент не меняет PHP INI автоматически. OSPanel, IIS/FastCGI, PHP ZTS и настоящие UNC shares не входят в существующую Windows acceptance-матрицу.
+
 ---
 
 ## EN — Instructions and guide
@@ -273,3 +277,7 @@ Do not reuse a Custom JS URL across services. If the shared runtime already requ
   }
 }
 ```
+
+### Windows: OPcache and JIT
+
+Known limitation: JIT 1235 can fail in the native MODX/xPDO package lifecycle on Windows. Its root cause is not established. Keep OPcache ON and JIT OFF (opcache.jit=disable, opcache.jit_buffer_size=0), restart the serving PHP process and verify its effective configuration. The component does not change PHP INI automatically. OSPanel, IIS/FastCGI, PHP ZTS and real UNC shares are not covered by the existing Windows acceptance matrix.

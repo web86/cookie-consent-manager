@@ -48,10 +48,10 @@ if($task==='snapshot-uninstall'){
  $files[]=$js.'services/yandex.js';$hashes=[];foreach($files as $file)$hashes[$file]=hash_file('sha256',$file);file_put_contents($work.'/private/retained.json',json_encode($hashes));echo "Retained file snapshot created\n";exit;
 }
 if($task==='native-uninstall'){
- $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126')]);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
+ $p=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$config['product'].'-'.$config['candidate_version']]);check($p,'Test package unavailable');check($p->uninstall(),'Native CLI uninstall failed');echo json_encode(['result'=>'PASS','phase'=>'native CLI uninstall']);exit;
 }
 if($task==='cli-install'){
- $archive=(string)getenv('CC_NATIVE_TEST_ARCHIVE');$signature=$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126');
+ $archive=(string)getenv('CC_NATIVE_TEST_ARCHIVE');$signature=$config['product'].'-'.$config['candidate_version'];
  check(basename($archive)===$signature.'.transport.zip'&&is_file($archive),'Own candidate archive required');
  $expected=explode(' ',trim(file_get_contents($archive.'.sha256')))[0];check(hash_equals($expected,hash_file('sha256',$archive)),'Candidate hash');
  if(function_exists('cc_stage'))cc_stage('cli.package.install.before');
@@ -63,7 +63,7 @@ if($task==='cli-install'){
  echo json_encode(['result'=>'PASS','php'=>PHP_VERSION,'sapi'=>PHP_SAPI,'phase'=>'native CLI install and adapter build']);exit;
 }
 if($task==='cli-uninstall'){
- $signature=$config['product'].'-1.0.9-beta'.(getenv('CC_NATIVE_CANDIDATE_INDEX')?:'126');
+ $signature=$config['product'].'-'.$config['candidate_version'];
  $package=$modx->getObject(ccClass('modTransportPackage'),['signature'=>$signature]);check($package,'Test package');
  if(function_exists('cc_stage'))cc_stage('cli.package.uninstall.before');
  check($package->uninstall(),'Native CLI uninstall');
