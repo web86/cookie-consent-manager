@@ -115,6 +115,35 @@ document.addEventListener('DOMContentLoaded', function () {
 
 После AJAX-вставки template вызовите web86CookieConsent.mountEmbeds(root). Кнопка заглушки открывает настройки категории. Локальный poster загружается до выбора; внешний не загружается даже после согласия. aspectRatio задаёт пропорцию (16:9 по умолчанию, возможна 9:16), width — максимальную ширину в пикселях. height не отменяет адаптивную пропорцию. Для template используйте data-cc-poster, data-cc-aspect-ratio и data-cc-width; фиксированные width/height можно оставить на iframe.
 
+### Custom JS: дополнительные HTML-атрибуты
+
+Пример Ahrefs Web Analytics: в «Сервисах» создайте Custom JS, назначьте категорию Analytics («Аналитика»), укажите URL https://analytics.ahrefs.com/analytics.js. Под URL нажмите «Добавить атрибут»: имя data-key, значение — публичный ключ сайта из настроек Ahrefs. Включите сервис и сохраните настройки. Промежуточный JS-файл не нужен. В Strict скрипт ждёт согласия на назначенную категорию; Legacy сохраняет поведение своего режима.
+
+Можно добавлять несколько строк, например data-key, data-domain и data-mode. Редактор доступен при создании и изменении сервиса; строки можно удалять. Предпросмотр script tag показывает только текст и не загружает скрипт.
+
+Разрешены только имена по шаблону ^data-[a-z0-9][a-z0-9_-]*$ в нижнем регистре, не более 20 на сервис и до 64 байт на имя. Значения — только строки до 2048 байт UTF-8, включая пустую строку, без управляющих символов. Дубликаты, заглавные буквы, src, async, defer, type, on*, nonce, integrity, crossorigin, id, class, style и прочие атрибуты вне data-* запрещены. Общий registry ограничен 32768 байтами.
+
+Значения HTML-атрибутов доступны посетителям сайта в браузере. Они не предназначены для хранения приватных API-ключей, паролей или серверных токенов.
+
+Добавление, изменение и удаление атрибута меняет privacy fingerprint сервиса и запускает существующую проверку повторного согласия. Порядок атрибутов ничего не меняет. Отсутствие attributes и пустой объект эквивалентны: неизменённые старые сервисы сохраняют fingerprint и согласия. В рамках существующей модели согласия категория с изменённым сервисом может запросить новый выбор; другие категории не сбрасываются.
+
+Один URL Custom JS нельзя повторять в нескольких сервисах. Если общий runtime уже запросил тот же URL с другим набором атрибутов, он отклоняет конфликт без повторного исполнения. После изменения конфигурации перезагрузите страницу; отзыв согласия действует по прежним правилам и не отменяет уже выполненный JS.
+
+```json
+{
+  "path": "https://analytics.ahrefs.com/analytics.js",
+  "attributes": {
+    "data-key": "YOUR_AHREFS_KEY",
+    "data-domain": "example.com",
+    "data-mode": "production"
+  }
+}
+```
+
+### Windows: OPcache и JIT
+
+Известное ограничение: JIT 1235 может вызывать сбои native lifecycle пакетов MODX/xPDO в Windows. Причина не установлена. Оставьте OPcache включённым и JIT выключенным (opcache.jit=disable, opcache.jit_buffer_size=0), перезапустите обслуживающий PHP-процесс и проверьте его фактическую конфигурацию. Компонент не меняет PHP INI автоматически. OSPanel, IIS/FastCGI, PHP ZTS и настоящие UNC shares не входят в существующую Windows acceptance-матрицу.
+
 ---
 
 ## EN — Instructions and guide
@@ -231,3 +260,32 @@ document.addEventListener('DOMContentLoaded', function () {
 ```
 
 After inserting a template via AJAX call web86CookieConsent.mountEmbeds(root). The placeholder button opens category settings. A local poster loads before choice; an external poster is not fetched even after consent. aspectRatio sets the ratio (16:9 by default, also 9:16); width caps the pixel width. height does not override responsive sizing. For templates use data-cc-poster, data-cc-aspect-ratio and data-cc-width; fixed width/height may remain on the iframe.
+
+### Custom JS: additional HTML attributes
+
+Ahrefs Web Analytics example: create a Custom JS service in Services, choose Analytics, and set the script URL to https://analytics.ahrefs.com/analytics.js. Below the URL, click Add attribute: name data-key, value the public site key from Ahrefs settings. Enable the service and save. No intermediate JS file is needed. Strict waits for permission for the assigned category; Legacy keeps its existing mode policy.
+
+Add multiple rows, for example data-key, data-domain and data-mode. The editor is available when creating and editing a service; rows can be removed. The script tag preview displays text only and never loads the script.
+
+Names must match ^data-[a-z0-9][a-z0-9_-]*$ in lowercase, with at most 20 attributes per service and 64 bytes per name. Values must be UTF-8 strings of at most 2048 bytes, including empty strings, without control characters. Duplicates, uppercase names, src, async, defer, type, on*, nonce, integrity, crossorigin, id, class, style and any attributes outside data-* are forbidden. The complete registry is limited to 32768 bytes.
+
+HTML attribute values are visible to site visitors in their browser. They are not intended for private API keys, passwords or server tokens.
+
+Adding, changing or removing an attribute changes the service privacy fingerprint and uses the existing reconsent checks. Attribute order has no effect. Missing attributes and an empty object are equivalent: unchanged existing services retain their fingerprints and consents. Under the existing consent model, the category containing a changed service may need a new choice; other categories are retained.
+
+Do not reuse a Custom JS URL across services. If the shared runtime already requested that URL with different attributes, it rejects the conflict without executing it again. Reload the page after configuration changes; withdrawal follows the existing rules and cannot undo executed JavaScript.
+
+```json
+{
+  "path": "https://analytics.ahrefs.com/analytics.js",
+  "attributes": {
+    "data-key": "YOUR_AHREFS_KEY",
+    "data-domain": "example.com",
+    "data-mode": "production"
+  }
+}
+```
+
+### Windows: OPcache and JIT
+
+Known limitation: JIT 1235 can fail in the native MODX/xPDO package lifecycle on Windows. Its root cause is not established. Keep OPcache ON and JIT OFF (opcache.jit=disable, opcache.jit_buffer_size=0), restart the serving PHP process and verify its effective configuration. The component does not change PHP INI automatically. OSPanel, IIS/FastCGI, PHP ZTS and real UNC shares are not covered by the existing Windows acceptance matrix.

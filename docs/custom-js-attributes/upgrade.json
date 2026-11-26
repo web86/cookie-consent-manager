@@ -1,0 +1,13 @@
+{
+  "result": "PASS",
+  "previous": "/opt/cc-repo/dist/cookieconsentmanager3-1.0.8-pl7.transport.zip",
+  "candidate": "/opt/cc-case/evidence/final/cookieconsentmanager3-1.0.8-pl9.transport.zip",
+  "checks": [
+    "settings bytes preserved",
+    "origin custom fingerprints preserved",
+    "raw stored consent preserved",
+    "no reconsent banner",
+    "both permitted local scripts execute once",
+    "no external requests or browser errors"
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "product": "cookieconsentmanager3",
+  "installed": {
+    "result": "PASS",
+    "files": 233,
+    "php": "8.2.34",
+    "modx": "3.2.4-pl"
+  },
+  "assertions": 121,
+  "interceptedCoreRequests": [
+    "misc.modx.com"
+  ],
+  "failed": 0,
+  "checks": [
+    "native transport installation, exact payload and MODX-generated production bundle",
+    "authenticated API rejects malformed attributes, duplicates and other adapters atomically",
+    "Manager creation saves multiple attributes",
+    "Manager reload, edit, empty value and inert escaped preview",
+    "Manager blocks invalid duplicate rows and retains them for correction",
+    "native category versions: add, edit, remove, reorder, old consent, independent marketing and dedup",
+    "keyboard navigation, delete last attribute and reload"
+  ]
+}

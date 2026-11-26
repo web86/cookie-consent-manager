@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 require_once __DIR__.'/CookieConsentPrivatePath.php';
 require_once __DIR__.'/CookieConsentAuditFormat.php';
 /** No writes, indexes or PII copies. O(lines) scans and a bounded 50-record heap. */
@@ -9,11 +10,8 @@ final class CookieConsentAuditReader
     private const FIELDS=['schema','server_time','event_id','consent_id','ip','user_agent','event','stage','categories','policy_version','page','client_time','providers','provider'];
     private string $directory;
     public function __construct(string $directory) {
-        if($directory===''||$directory[0]!=='/'||str_contains($directory,"\0")||preg_match('~(?:^|/)\.\.?(/|$)~',$directory))throw new RuntimeException('logs_directory');
-        clearstatcache();
-        for($p=rtrim($directory,'/');$p!=='/'&&$p!=='';$p=dirname($p))if(is_link($p))throw new RuntimeException('logs_unsafe');
-        $real=realpath($directory);
-        if(!$real||$real!==rtrim($directory,'/')||!is_dir($real)||!is_readable($real))throw new RuntimeException('logs_directory');
+        if(!CookieConsentPath::canonical($directory)||!is_dir($directory)||!is_readable($directory))throw new RuntimeException('logs_directory');
+        $real=(string)realpath($directory);
         $this->directory=$real;
     }
     public static function filename(string $name): bool {return preg_match('/^[1-9][0-9]{3}-(?:0[1-9]|1[0-2])-cookie-consent\.log$/D',$name)===1;}
@@ -24,9 +22,7 @@ final class CookieConsentAuditReader
         return ['year'=>$year,'month'=>$month,'event'=>$action,'search'=>$search];
     }
     private function checkDirectory(): void {
-        clearstatcache(true);
-        for($p=$this->directory;$p!==''&&$p!=='/';$p=dirname($p))if(is_link($p))throw new RuntimeException('logs_unsafe');
-        if(realpath($this->directory)!==$this->directory)throw new RuntimeException('logs_unsafe');
+        if(!CookieConsentPath::canonical($this->directory))throw new RuntimeException('logs_unsafe');
     }
     private function open(string $name) {
         if(!self::filename($name))throw new InvalidArgumentException('logs_locator');

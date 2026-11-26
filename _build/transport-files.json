@@ -5,6 +5,7 @@
   "assets/components/cookieconsentmanager3/manager.css": "assets/components/cookieconsentmanager3/manager.css",
   "assets/components/cookieconsentmanager3/manager.js": "assets/components/cookieconsentmanager3/manager.js",
   "assets/components/cookieconsentmanager3/script-url.js": "assets/components/cookieconsentmanager3/js/cookie-consent/script-url.js",
+  "assets/components/cookieconsentmanager3/custom-js-config.js": "assets/components/cookieconsentmanager3/js/cookie-consent/custom-js-config.js",
   "assets/components/cookieconsentmanager3/css/cookie-consent.min.css": "assets/components/cookieconsentmanager3/css/cookie-consent.min.css",
   "assets/components/cookieconsentmanager3/js/cookie-consent/consent-manager.js": "assets/components/cookieconsentmanager3/js/cookie-consent/consent-manager.js",
   "assets/components/cookieconsentmanager3/js/cookie-consent/embeds.js": "assets/components/cookieconsentmanager3/js/cookie-consent/embeds.js",
@@ -14,6 +15,7 @@
   "assets/components/cookieconsentmanager3/js/cookie-consent/provider-registry.js": "assets/components/cookieconsentmanager3/js/cookie-consent/provider-registry.js",
   "assets/components/cookieconsentmanager3/js/cookie-consent/runtime.js": "assets/components/cookieconsentmanager3/js/cookie-consent/runtime.js",
   "assets/components/cookieconsentmanager3/js/cookie-consent/script-url.js": "assets/components/cookieconsentmanager3/js/cookie-consent/script-url.js",
+  "assets/components/cookieconsentmanager3/js/cookie-consent/custom-js-config.js": "assets/components/cookieconsentmanager3/js/cookie-consent/custom-js-config.js",
   "assets/components/cookieconsentmanager3/js/cookie-consent/service-loaders.js": "assets/components/cookieconsentmanager3/js/cookie-consent/service-loaders.js",
   "assets/components/cookieconsentmanager3/js/cookie-consent/service-runtime.js": "assets/components/cookieconsentmanager3/js/cookie-consent/service-runtime.js",
   "core/components/cookieconsentmanager3/adapters/services/custom-js.js": "assets/components/cookieconsentmanager3/js/cookie-consent/services/custom-js.js",
@@ -229,5 +231,6 @@
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Syntax/Token.php": "server/vendor/peast/lib/Peast/Syntax/Token.php",
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Syntax/Utils.php": "server/vendor/peast/lib/Peast/Syntax/Utils.php",
   "core/components/cookieconsentmanager3/vendor/peast/lib/Peast/Traverser.php": "server/vendor/peast/lib/Peast/Traverser.php",
-  "core/components/cookieconsentmanager3/legacy-files.json": "_build/legacy-files.json"
+  "core/components/cookieconsentmanager3/legacy-files.json": "_build/legacy-files.json",
+  "core/components/cookieconsentmanager3/src/CookieConsentPath.php": "server/src/CookieConsentPath.php"
 }

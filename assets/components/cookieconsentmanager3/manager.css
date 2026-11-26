@@ -95,3 +95,12 @@ body.ccm-manager #modx-content>.x-panel-bwrap{display:none!important}
 .ccm-page .ccm-log-table-region:focus-visible{outline:2px solid #3076b0;outline-offset:2px}
 .ccm-page #ccm-log-table th:nth-child(4){width:28%}
 @media(max-width:650px){.ccm-page #ccm-log-table{min-width:680px}}
+
+/* Custom JS data-* editor uses the CMP's native fields and buttons. */
+.ccm-custom-attributes{min-width:0;margin:16px 0;padding:14px;border:1px solid #d8e0e8;border-radius:6px}
+.ccm-custom-attributes legend{font-weight:600;padding:0 6px}
+.ccm-attribute-row{display:grid;grid-template-columns:minmax(120px,1fr) minmax(160px,2fr) auto;gap:10px;align-items:end;margin-bottom:10px}
+.ccm-attribute-row .ccm-field{margin:0;min-width:0}
+.ccm-attribute-row button{margin-bottom:0}
+.ccm-script-preview{white-space:pre-wrap;overflow-wrap:anywhere;background:#f3f6f8;padding:12px;border-radius:4px;max-height:240px;overflow:auto}
+@media(max-width:760px){.ccm-attribute-row{grid-template-columns:1fr}.ccm-attribute-row button{justify-self:start}}

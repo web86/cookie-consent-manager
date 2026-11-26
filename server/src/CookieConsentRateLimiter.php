@@ -1,5 +1,6 @@
 <?php
 declare(strict_types=1);
+require_once __DIR__.'/CookieConsentPath.php';
 /** One bounded replay state and lock shared by IPs. Monthly audit files are never pruned. */
 final class CookieConsentRateLimiter
 {
@@ -9,6 +10,7 @@ final class CookieConsentRateLimiter
         $rateDir=$this->logDir.'/.rate';
         if (is_link($rateDir)) throw new RuntimeException('Symlink state rejected');
         if (!is_dir($rateDir) && !@mkdir($rateDir,0700) && !is_dir($rateDir)) throw new RuntimeException('Cannot create state directory');
+        if(!CookieConsentPath::canonical($rateDir))throw new RuntimeException('Unsafe state directory');
         $file=$rateDir.'/state.json';
         CookieConsentPrivatePath::file($file);
         $mask=umask(0077);

@@ -389,3 +389,20 @@ $_lang['m.build_help'] = 'After editing a built-in JS adapter, clear the MODX ca
 // Manager settings cards.
 $_lang['m.attention'] = 'Attention.';
 $_lang['m.guide_open'] = 'Instructions and guide';
+
+// Custom JS data-* attributes.
+$_lang['m.attributes_title'] = 'Additional HTML attributes';
+$_lang['m.attributes_help'] = 'Optional lowercase data-* attributes only: up to 20, names up to 64 bytes, string values up to 2048 UTF-8 bytes. Empty values are allowed. Control characters are forbidden.';
+$_lang['m.attributes_public'] = 'HTML attribute values are visible to site visitors in their browser. Do not store private API keys, passwords or server tokens here.';
+$_lang['m.attributes_add'] = 'Add attribute';
+$_lang['m.attributes_remove'] = 'Remove attribute';
+$_lang['m.attributes_name_label'] = 'Attribute name';
+$_lang['m.attributes_value_label'] = 'Attribute value';
+$_lang['m.attributes_preview'] = 'Script tag preview (text only)';
+$_lang['m.attributes_preview_invalid'] = 'Enter a valid script URL and attributes to see the preview.';
+$_lang['m.attributes_count'] = 'Use at most 20 attributes per service.';
+$_lang['m.attributes_name'] = 'Use lowercase data-* names (a–z, 0–9, underscore or hyphen), at most 64 bytes, starting with a letter or digit after data-.';
+$_lang['m.attributes_duplicate'] = 'Attribute names must be unique.';
+$_lang['m.attributes_value'] = 'Values must be valid UTF-8 strings of at most 2048 bytes without control characters. Empty strings are allowed.';
+$_lang['m.attributes_object'] = 'Attributes must be a JSON object.';
+$_lang['m.attributes_registry_size'] = 'The service registry exceeds the 32768-byte limit.';
