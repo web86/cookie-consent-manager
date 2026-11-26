@@ -3,6 +3,7 @@
 declare(strict_types=1);
 if(PHP_SAPI!=='cli'){http_response_code(404);exit;}
 $root=dirname(__DIR__);
+require_once $root.'/server/src/CookieConsentPath.php';
 // Fail if build-time guide outputs no longer match the single RU/EN source.
 $guideManifest=json_decode(file_get_contents(__DIR__.'/user-guide-manifest.json'),true,8,JSON_THROW_ON_ERROR);
 if(hash_file('sha256',__DIR__.'/user-guide.json')!==$guideManifest['source'])throw new RuntimeException('Run npm run build:guide');
@@ -11,7 +12,7 @@ $guide=json_decode(file_get_contents(__DIR__.'/user-guide.json'),true,16,JSON_TH
 require_once $root.'/server/src/CookieConsentGuide.php';
 foreach($guide['languages'] as $language=>$document)if(CookieConsentGuide::forLanguage($language)!==$document)throw new RuntimeException('Run npm run build:guide');
 $site=$argv[1]??'';$out=$argv[2]??($root.'/.local/artifacts');$releaseIndex=isset($argv[3])?(int)$argv[3]:null;
-if($site===''||$site[0]!=='/'||!is_file($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
+if(!CookieConsentPath::canonical($site)||!CookieConsentPath::regular($site.'/index.php'))throw new RuntimeException('Usage: build.php /local/MODX-root /build/output [beta-index]');
 $metadata=json_decode(file_get_contents(__DIR__.'/package.json'),true,8,JSON_THROW_ON_ERROR);
 if($releaseIndex!==null)$metadata['release_index']=$releaseIndex;
 if(!in_array($metadata['release'],['','beta','pl'],true)||($metadata['release']===''&&$metadata['release_index']!==0)||($metadata['release']!==''&&($metadata['release_index']<1||$metadata['release_index']>999)))throw new RuntimeException('Release metadata');
