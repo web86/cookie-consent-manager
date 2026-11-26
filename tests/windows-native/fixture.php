@@ -25,7 +25,7 @@ $modx->setLogTarget('FILE');$modx->setLogLevel(2);
 $core=$work.'/private/core/';$assets=$work.'/external-assets/';$component=$core.'components/'.$config['product'].'/';$js=$assets.'components/'.$config['product'].'/js/cookie-consent/';
 if($task==='configure-cms'){
  foreach($modx->getCollection(ccClass('modSystemSetting'),['namespace'=>'core']) as $row){$v=$row->get('value');if(is_string($v)){$next=str_replace([$site.'core/',$site.'assets/','/assets/'],[$core,$assets,'/files/'],$v);if($next!==$v){$row->set('value',$next);check($row->save(),'CMS path save');}}}
- $language=$modx->getObject(ccClass('modSystemSetting'),['key'=>'manager_language']);$language->set('value','en');check($language->save(),'Manager language');
+ $language=$modx->getObject(ccClass('modSystemSetting'),['key'=>'manager_language'])?:$modx->newObject(ccClass('modSystemSetting'));$language->fromArray(['key'=>'manager_language','namespace'=>'core','xtype'=>'textfield','area'=>'language','value'=>'en'],'',true,true);check($language->save(),'Manager language');
  mkdir($work.'/private/logs',0700);
  $modx->cacheManager->refresh();echo json_encode(['modx'=>$config['modx'],'php'=>PHP_VERSION,'os'=>PHP_OS_FAMILY,'core'=>$modx->getOption('core_path'),'assets'=>$modx->getOption('assets_path')]);exit;
 }
