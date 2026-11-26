@@ -26,7 +26,7 @@ try{
  browser=await chromium.launch({channel:'chrome'});const context=await browser.newContext();await context.route('**/*',r=>new URL(r.request().url()).origin===origin?r.continue():r.abort());
  const page=await context.newPage();page.setDefaultTimeout(30000);await page.goto(origin+'/manager/');await page.locator('#modx-login-username').fill(config.username);await page.locator('#modx-login-password').fill(config.password);await page.locator('#modx-login-btn').click();await page.waitForFunction(()=>!!window.MODx?.siteId);record('native MODX Manager login');
  const token=await page.evaluate(()=>MODx.siteId);
- const native=async(action,form={})=>{const response=await context.request.post(origin+'/connectors/index.php',{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:180000});const data=await response.json();assert.equal(data.success,true,JSON.stringify(data));return data;};
+ const native=async(action,form={})=>{const response=await context.request.post(origin+'/connectors/index.php',{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:180000});const raw=await response.text();assert.ok(raw,action+' returned empty HTTP '+response.status());let data;try{data=JSON.parse(raw);}catch{throw Error(action+' returned invalid JSON HTTP '+response.status()+': '+raw.slice(0,500));}assert.equal(data.success,true,JSON.stringify(data));return data;};
  const connector='/files/components/'+config.product+'/connector.php';
  const api=async(action,form={})=>{const response=await context.request.post(origin+connector,{headers:{modAuth:token,Origin:origin,Referer:origin+'/manager/'},form:{action,HTTP_MODAUTH:token,...form},timeout:180000});const data=await response.json();assert.equal(data.success,true,JSON.stringify(data));return data.object;};
  const install=async(index)=>{
@@ -48,5 +48,5 @@ try{
  await page.locator('#ccm-tab-logs').click();await page.waitForFunction(()=>Number(document.querySelector('#ccm-log-total')?.textContent?.match(/\d+/)?.[0])>0);await page.screenshot({path:join(work,'evidence/manager-audit.png'),fullPage:true});record('Manager UI audit log reader');
  ctl('snapshot-uninstall');await native('workspace/packages/uninstall',{signature});const removed=JSON.parse(ctl('verify-uninstall'));assert.equal(removed.result,'PASS');record('native Package Manager uninstall',{retained:removed.checks});
  save('PASS');
-}catch(error){save('FAIL');console.error(error.stack);process.exitCode=1;}
+}catch(error){save('FAIL');console.error(error.stack);for(const file of [join(work,'private/php-8091.log'),join(work,'private/core/cache/logs/error.log')]){try{const diagnostic=readFileSync(file,'utf8').split('\n').filter(line=>/Fatal|Uncaught|Warning|ERROR|incomplete|uninstall|Adapter build/.test(line)&&!line.includes('HTTP_MODAUTH')).slice(-25).join('\n').replaceAll(config.password,'[REDACTED]');console.error(diagnostic);}catch{}}process.exitCode=1;}
 finally{if(browser)await browser.close();if(proxy)await new Promise(done=>proxy.close(done));for(const child of children)child.kill();}
